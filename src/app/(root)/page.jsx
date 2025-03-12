@@ -10,8 +10,9 @@ export default function Home() {
       <p className="text-2xl text-center">
         AI-Powered Course Management System
       </p>
-      <TopInstructors></TopInstructors>
-      <BecomeInstructor></BecomeInstructor>
+      <TopInstructors />
+
+      <BecomeInstructor />
     </div>
   );
 }

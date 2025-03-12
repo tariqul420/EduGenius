@@ -13,7 +13,9 @@ export default function Instructors() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-          <InstructorCard instructor={instructors[0]} />
+          {instructors.map((instructor, idx) => (
+            <InstructorCard key={idx} instructor={instructor} />
+          ))}
         </div>
       </div>
     </section>

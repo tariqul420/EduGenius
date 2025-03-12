@@ -18,7 +18,7 @@ const BecomeInstructor = () => {
           width={500}
           height={500}
           alt="become an instructor"
-        ></Image>
+        />
       </div>
     </div>
   );
