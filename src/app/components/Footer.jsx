@@ -43,7 +43,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-
       {/* Bottom Section */}
       <div className="mt-32 flex items-center justify-between">
         <div>
@@ -72,6 +71,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex justify-between items-center gap-52">
+          {/* Different types of links */}
           <div className="flex flex-col">
             <h2 className="font-bold mb-3">Useful Links</h2>
             <Link className="cursor-pointer mb-1" href="/aboutUs">
