@@ -1,4 +1,5 @@
 import InstructorCard from "@/app/components/shared/InstructorCard";
+import LoadMore from "@/app/components/shared/LoadMore";
 import { instructors } from "@/constant";
 
 export default function Instructors() {
@@ -17,6 +18,7 @@ export default function Instructors() {
             <InstructorCard key={idx} instructor={instructor} />
           ))}
         </div>
+        <LoadMore />
       </div>
     </section>
   );
