@@ -1,3 +1,11 @@
-export default function Loading() {
-  return <div>Loading</div>;
-}
+import { FaSpinner } from "react-icons/fa";
+
+const Loading = () => {
+    return (
+        <div className="h-screen flex justify-center items-center bg-gray-100">
+            <FaSpinner className="text-4xl text-green animate-spin" />
+        </div>
+    );
+};
+
+export default Loading;
