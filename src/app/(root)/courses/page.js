@@ -78,14 +78,13 @@ const Courses = () => {
           {/* Filter Courses =============== */}
           <div className="filter-bar flex flex-col md:flex-row py-4 justify-between items-left md:items-center px-4 shadow-md border border-slate-100 rounded min-h-[60px] my-3">
             <div className="left-content mt-5 md:mt-0 order-2 md:order-1 text-2xl flex gap-4 items-center">
-            <Sheet>
+            <Sheet width='200px'>
                 <SheetTrigger>
                   <RiEqualizerLine className="block lg:hidden" />
                 </SheetTrigger>
-                <SheetContent side="left">
+                <SheetContent side="left" className="w-[300px] sm:w-[540px]">
                   <SheetHeader>
                     <SheetTitle>Filter Options Of Courses</SheetTitle>
-                    <SheetClose><div className="text-2xl block sm:hidden mt-5 ml-auto max-w-[300px]"><RxCross2 /></div></SheetClose>
                   </SheetHeader>
                   <div className="courses-filter rounded shadow-md px-4 py-1.5 block lg:hidden">
                     <div className="category-filter">
