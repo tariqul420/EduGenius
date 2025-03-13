@@ -7,12 +7,10 @@ import BecomeInstructor from './components/BecomeInstructor'
 export default function Home() {
   return (
     <div className=''>
-     
       <TopInstructors />
-
-<BecomeInstructor />
-      <TotalCourse></TotalCourse>
-      <CourseSubjects></CourseSubjects>
+      <BecomeInstructor />
+      <TotalCourse />
+      <CourseSubjects />
     </div>
   )
 }

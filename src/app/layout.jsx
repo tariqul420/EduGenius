@@ -63,7 +63,6 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${jost.variable} antialiased`}>
         <Navbar />
-        
         {children}
         <Footer />
       </body>
