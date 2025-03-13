@@ -1,5 +1,5 @@
-import InstructorCard from "@/app/components/shared/InstructorCard";
-import LoadMore from "@/app/components/shared/LoadMore";
+import InstructorCard from "@/components/shared/InstructorCard";
+import LoadMore from "@/components/shared/LoadMore";
 import { instructors } from "@/constant";
 
 export default function Instructors() {
