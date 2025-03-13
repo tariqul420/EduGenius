@@ -2,7 +2,7 @@ import React from "react";
 
 const CourseSubjects = () => {
   return (
-    <>
+    <div className="my-8">
       <div className=" text-center py-4 ">
         <h1 className="text-4xl  font-bold">Course By Subjects</h1>
         <p className=" text-gray-600">
@@ -40,7 +40,7 @@ const CourseSubjects = () => {
           <p className="uppercase">Geomatry</p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
