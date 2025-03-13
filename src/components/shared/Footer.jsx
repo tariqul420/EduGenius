@@ -13,21 +13,21 @@ const Footer = () => {
     <footer className="bg-gradient-to-r from-[#264D3F] to-dark-green text-white py-12">
       <div className="container lg:max-w-6xl m-auto">
         {/* Top Section */}
-        <div className="flex">
+        <div className="flex flex-col lg:flex-row px-5 lg:px-0">
           {/* EduGenius & Description */}
-          <div className="w-1/2">
-            <div className="flex items-center gap-2 text-3xl">
+          <div className="lg:w-1/2">
+            <div className="flex items-center lg:justify-start justify-center gap-2 text-3xl">
               <RiGraduationCapFill className="text-green" />
               <h2 className="font-bold text-xl">EduGenius</h2>
             </div>
-            <p className="w-[70%]">
+            <p className="lg:w-[70%] text-center lg:text-left lg:mt-0 mt-2">
               We are a forward-thinking software company dedicated to crafting
               digital experiences that seamlessly blend creativity with
               cutting-edge technology.
             </p>
           </div>
           {/* Subscribe Input Field */}
-          <div className="w-1/2">
+          <div className="lg:w-1/2 lg:mt-0 mt-10">
             <p className="mb-1 text-sm font-semibold">
               Subscribe Now To Get Special Features!
             </p>
@@ -44,8 +44,8 @@ const Footer = () => {
           </div>
         </div>
         {/* Bottom Section */}
-        <div className="mt-32 flex items-center justify-between">
-          <div>
+        <div className="lg:mt-32 mt-14 flex items-start flex-col md:flex-row lg:justify-between md:gap-8 px-5 lg:p-0">
+          <div className="">
             {/* Social Icons */}
             <div className="flex items-center gap-2 text-4xl">
               <FaFacebook className="bg-[#536961] hover:bg-green p-2 rounded-full"></FaFacebook>
@@ -55,10 +55,10 @@ const Footer = () => {
               <FaYoutube className="bg-[#536961] hover:bg-green p-2 rounded-full"></FaYoutube>
             </div>
 
-            <h3 className="font-bold mt-5">Download App</h3>
+            <h3 className="font-bold mb-5 mt-5">Download App</h3>
 
             {/* Download app  */}
-            <div className="mt-5">
+            <div className="mb-10">
               <h3>Download our apps in play store and app store</h3>
               <div className="flex gap-5 mt-3">
                 <Link href="https://play.google.com/store">
@@ -70,7 +70,7 @@ const Footer = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-between items-center gap-52">
+          <div className="flex justify-between items-center lg:flex-row lg:gap-32 gap-7">
             {/* Different types of links */}
             <div className="flex flex-col">
               <h2 className="font-bold mb-3">Useful Links</h2>

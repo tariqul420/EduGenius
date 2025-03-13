@@ -1,8 +1,20 @@
 "use client";
 import React, { useState } from "react";
-import { RiLayout4Fill, RiLayoutGridFill } from "react-icons/ri";
+import {
+  RiEqualizerLine,
+  RiLayout4Fill,
+  RiLayoutGridFill,
+} from "react-icons/ri";
 import { IoSearchOutline } from "react-icons/io5";
 import Image from "next/image";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 // Sample JSON data with image URLs and description
 const coursesData = [
@@ -10,7 +22,7 @@ const coursesData = [
     id: 1,
     name: "Course 1",
     description: "Description of Course 1",
-    image: "/course-1.jpeg",
+    image: "/course-1.webp",
   },
   {
     id: 2,
@@ -58,15 +70,80 @@ const coursesData = [
 
 const Courses = () => {
   const [isGridCol, setIsGridCol] = useState(false);
-  console.log(isGridCol);
-
   return (
     <>
       <section className="py-5">
         <div className="container px-2 md:px-5 mx-auto">
           {/* Filter Courses =============== */}
-          <div className="filter-bar flex flex-col sm:flex-row py-4 justify-between items-center px-4 shadow-md border border-slate-100 rounded min-h-[60px] my-3">
-            <div className="left-content text-2xl flex gap-4 items-center">
+          <div className="filter-bar flex flex-col md:flex-row py-4 justify-between items-left md:items-center px-2 md:px-4 shadow-md border border-slate-100 rounded min-h-[60px] my-3">
+            <div className="left-content mt-5 md:mt-0 order-2 md:order-1 text-2xl flex gap-4 items-center">
+            <Sheet width='200px'>
+                <SheetTrigger>
+                  <RiEqualizerLine className="block lg:hidden" />
+                </SheetTrigger>
+                <SheetContent side="left" className="w-[300px] sm:w-[540px]">
+                  <SheetHeader>
+                    <SheetTitle>Filter Options Of Courses</SheetTitle>
+                  </SheetHeader>
+                  <div className="courses-filter rounded shadow-md px-4 py-1.5 block lg:hidden">
+                    <div className="category-filter">
+                      <h2 className="text-2xl">All Categories</h2>
+                      <ul>
+                        <li>
+                          <input id="web-design" type="checkbox" />
+                          <label htmlFor="web-design"> Web Design</label>
+                        </li>
+                        <li>
+                          <input id="web-development" type="checkbox" />
+                          <label htmlFor="web-development">
+                            {" "}
+                            Web Development
+                          </label>
+                        </li>
+                        <li>
+                          <input id="flutter" type="checkbox" />
+                          <label htmlFor="flutter"> Flutter</label>
+                        </li>
+                      </ul>
+                    </div>
+                    <hr />
+                    <br />
+                    <div className="price-filter">
+                      <h2 className="text-2xl">Price</h2>
+                      <ul>
+                        <li>
+                          <input id="paid" type="checkbox" />
+                          <label htmlFor="paid"> Paid</label>
+                        </li>
+                        <li>
+                          <input id="free" type="checkbox" />
+                          <label htmlFor="free"> Free</label>
+                        </li>
+                      </ul>
+                    </div>
+                    <hr />
+                    <br />
+                    <div className="level-filter">
+                      <h2 className="text-2xl">Level</h2>
+                      <ul>
+                        <li>
+                          <input id="beginner" type="checkbox" />
+                          <label htmlFor="beginner"> Beginner</label>
+                        </li>
+                        <li>
+                          <input id="intermediate" type="checkbox" />
+                          <label htmlFor="intermediate"> Intermediate</label>
+                        </li>
+                        <li>
+                          <input id="advanced" type="checkbox" />
+                          <label htmlFor="advanced"> Advanced</label>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </SheetContent>
+              </Sheet>
+
               <button
                 onClick={() => setIsGridCol(false)}
                 className="cursor-pointer hidden sm:block"
@@ -79,12 +156,13 @@ const Courses = () => {
               >
                 <RiLayout4Fill />
               </button>
+
               <p className="text-base text-gray-600">Showing 9 Of 9 Results</p>
             </div>
-            <div className="right-content mt-3 sm:mt-0 flex items-center gap-5">
+            <div className="right-content order-1 md:order-2 flex items-center gap-1.5 md:gap-5">
               <div className="filter-course text-gray-500 border border-gray-400 px-1.5">
                 <select
-                  className="px-2 py-1 border-none outline-none"
+                  className="px-0 md:px-2 py-1 border-none outline-none"
                   name="filter-course"
                   id="filter-course"
                 >
@@ -99,10 +177,11 @@ const Courses = () => {
                   </option>
                 </select>
               </div>
-              <div className="search-bar flex items-center gap-1 px-2 py-1 border border-gray-400">
+              <div className="search-ba flex items-center gap-1 px-2 py-1 border border-gray-400">
                 <input
+                  
                   type="text"
-                  className="outline-none"
+                  className="outline-none max-w-[150px] sm:w-fit"
                   placeholder="Search"
                 />
                 <div className="icon">
@@ -151,7 +230,8 @@ const Courses = () => {
                 </div>
               ))}
             </div>
-            <div className="courses-filter rounded shadow-md p-1.5 hidden lg:block col-span-4">
+            {/* Content Filter Section ======================= */}
+            <div className="courses-filter rounded shadow-md px-4 py-1.5 hidden lg:block col-span-4">
               <p className="text-2xl text-center font-medium mb-10">
                 Filter Options Of Courses
               </p>
@@ -159,40 +239,50 @@ const Courses = () => {
                 <h2 className="text-2xl">All Categories</h2>
                 <ul>
                   <li>
-                    <input id="web-design" type="checkbox" /> <label htmlFor='web-design'>Web Design</label>
+                    <input id="web-design" type="checkbox" />{" "}
+                    <label htmlFor="web-design">Web Design</label>
                   </li>
                   <li>
-                    <input id="web-development" type="checkbox" /> <label htmlFor='web-development'>Web Development</label>
+                    <input id="web-development" type="checkbox" />{" "}
+                    <label htmlFor="web-development">Web Development</label>
                   </li>
                   <li>
-                    <input id="flutter" type="checkbox" /> <label htmlFor='flutter'>Flutter</label>
+                    <input id="flutter" type="checkbox" />{" "}
+                    <label htmlFor="flutter">Flutter</label>
                   </li>
                 </ul>
               </div>
-              <hr /><br />
+              <hr />
+              <br />
               <div className="price-filter">
                 <h2 className="text-2xl">Price</h2>
                 <ul>
                   <li>
-                    <input id="paid" type="checkbox" /> <label htmlFor='paid'>Paid</label>
+                    <input id="paid" type="checkbox" />{" "}
+                    <label htmlFor="paid">Paid</label>
                   </li>
                   <li>
-                    <input id="free" className="text-2xl" type="checkbox" /> <label htmlFor='free'>Free</label>
+                    <input id="free" className="text-2xl" type="checkbox" />{" "}
+                    <label htmlFor="free">Free</label>
                   </li>
                 </ul>
               </div>
-              <hr /><br />
+              <hr />
+              <br />
               <div className="level-filter">
                 <h2 className="text-2xl">Level</h2>
                 <ul>
                   <li>
-                    <input id="beginner" type="checkbox" /> <label htmlFor='beginner'>Beginner</label>
+                    <input id="beginner" type="checkbox" />{" "}
+                    <label htmlFor="beginner">Beginner</label>
                   </li>
                   <li>
-                    <input id="intermediate" type="checkbox" /> <label htmlFor='intermediate'>Intermediate</label>
+                    <input id="intermediate" type="checkbox" />{" "}
+                    <label htmlFor="intermediate">Intermediate</label>
                   </li>
                   <li>
-                    <input id="advanced" type="checkbox" /> <label htmlFor='advanced'>Advanced</label>
+                    <input id="advanced" type="checkbox" />{" "}
+                    <label htmlFor="advanced">Advanced</label>
                   </li>
                 </ul>
               </div>
