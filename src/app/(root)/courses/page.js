@@ -75,7 +75,7 @@ const Courses = () => {
       <section className="py-5">
         <div className="container px-2 md:px-5 mx-auto">
           {/* Filter Courses =============== */}
-          <div className="filter-bar flex flex-col md:flex-row py-4 justify-between items-left md:items-center px-4 shadow-md border border-slate-100 rounded min-h-[60px] my-3">
+          <div className="filter-bar flex flex-col md:flex-row py-4 justify-between items-left md:items-center px-2 md:px-4 shadow-md border border-slate-100 rounded min-h-[60px] my-3">
             <div className="left-content mt-5 md:mt-0 order-2 md:order-1 text-2xl flex gap-4 items-center">
             <Sheet width='200px'>
                 <SheetTrigger>
@@ -159,10 +159,10 @@ const Courses = () => {
 
               <p className="text-base text-gray-600">Showing 9 Of 9 Results</p>
             </div>
-            <div className="right-content order-1 md:order-2 flex items-center gap-5">
+            <div className="right-content order-1 md:order-2 flex items-center gap-1.5 md:gap-5">
               <div className="filter-course text-gray-500 border border-gray-400 px-1.5">
                 <select
-                  className="px-2 py-1 border-none outline-none"
+                  className="px-0 md:px-2 py-1 border-none outline-none"
                   name="filter-course"
                   id="filter-course"
                 >
@@ -177,10 +177,11 @@ const Courses = () => {
                   </option>
                 </select>
               </div>
-              <div className="search-bar flex items-center gap-1 px-2 py-1 border border-gray-400">
+              <div className="search-ba flex items-center gap-1 px-2 py-1 border border-gray-400">
                 <input
+                  
                   type="text"
-                  className="outline-none"
+                  className="outline-none max-w-[150px] sm:w-fit"
                   placeholder="Search"
                 />
                 <div className="icon">
