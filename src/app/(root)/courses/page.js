@@ -5,13 +5,13 @@ import {
   RiLayout4Fill,
   RiLayoutGridFill,
 } from "react-icons/ri";
+import { RxCross2 } from "react-icons/rx";
 import { IoSearchOutline } from "react-icons/io5";
 import Image from "next/image";
 import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -76,17 +76,17 @@ const Courses = () => {
       <section className="py-5">
         <div className="container px-2 md:px-5 mx-auto">
           {/* Filter Courses =============== */}
-          <div className="filter-bar flex flex-col sm:flex-row py-4 justify-between items-center px-4 shadow-md border border-slate-100 rounded min-h-[60px] my-3">
-            <div className="left-content text-2xl flex gap-4 items-center">
-              <Sheet>
+          <div className="filter-bar flex flex-col md:flex-row py-4 justify-between items-left md:items-center px-4 shadow-md border border-slate-100 rounded min-h-[60px] my-3">
+            <div className="left-content mt-5 md:mt-0 order-2 md:order-1 text-2xl flex gap-4 items-center">
+            <Sheet width='200px'>
                 <SheetTrigger>
                   <RiEqualizerLine className="block lg:hidden" />
                 </SheetTrigger>
-                <SheetContent side="left">
+                <SheetContent side="left" className="w-[300px] sm:w-[540px]">
                   <SheetHeader>
                     <SheetTitle>Filter Options Of Courses</SheetTitle>
                   </SheetHeader>
-                  <div className="courses-filter rounded shadow-md p-1.5 block lg:hidden">
+                  <div className="courses-filter rounded shadow-md px-4 py-1.5 block lg:hidden">
                     <div className="category-filter">
                       <h2 className="text-2xl">All Categories</h2>
                       <ul>
@@ -160,7 +160,7 @@ const Courses = () => {
 
               <p className="text-base text-gray-600">Showing 9 Of 9 Results</p>
             </div>
-            <div className="right-content mt-3 sm:mt-0 flex items-center gap-5">
+            <div className="right-content order-1 md:order-2 flex items-center gap-5">
               <div className="filter-course text-gray-500 border border-gray-400 px-1.5">
                 <select
                   className="px-2 py-1 border-none outline-none"
@@ -231,7 +231,7 @@ const Courses = () => {
               ))}
             </div>
             {/* Content Filter Section ======================= */}
-            <div className="courses-filter rounded shadow-md p-1.5 hidden lg:block col-span-4">
+            <div className="courses-filter rounded shadow-md px-4 py-1.5 hidden lg:block col-span-4">
               <p className="text-2xl text-center font-medium mb-10">
                 Filter Options Of Courses
               </p>
