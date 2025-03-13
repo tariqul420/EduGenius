@@ -58,8 +58,6 @@ const coursesData = [
 
 const Courses = () => {
   const [isGridCol, setIsGridCol] = useState(false);
-  console.log(isGridCol);
-
   return (
     <>
       <section className="py-5">
