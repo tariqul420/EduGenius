@@ -179,8 +179,9 @@ const Courses = () => {
               </div>
               <div className="search-ba flex items-center gap-1 px-2 py-1 border border-gray-400">
                 <input
+                  
                   type="text"
-                  className="outline-none"
+                  className="outline-none max-w-[150px] sm:w-fit"
                   placeholder="Search"
                 />
                 <div className="icon">
