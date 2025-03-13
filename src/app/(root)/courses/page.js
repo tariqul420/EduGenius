@@ -5,7 +5,6 @@ import {
   RiLayout4Fill,
   RiLayoutGridFill,
 } from "react-icons/ri";
-import { RxCross2 } from "react-icons/rx";
 import { IoSearchOutline } from "react-icons/io5";
 import Image from "next/image";
 import {
@@ -23,7 +22,7 @@ const coursesData = [
     id: 1,
     name: "Course 1",
     description: "Description of Course 1",
-    image: "/course-1.jpeg",
+    image: "/course-1.webp",
   },
   {
     id: 2,

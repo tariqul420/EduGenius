@@ -1,24 +1,30 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Get input values directly from the form
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    console.log('Email:', email);
+    console.log('Password:', password);
+  };
 
   return (
     <div className="flex min-h-screen px-2 md:px-5 items-center justify-center bg-gray-100">
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">Sign In</h2>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
               className="w-full p-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               required
             />
@@ -27,8 +33,7 @@ const LoginPage = () => {
             <label className="block text-sm font-medium text-gray-700">Password</label>
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
               className="w-full p-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               required
             />

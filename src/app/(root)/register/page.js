@@ -1,24 +1,31 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 
 const SignUp = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Get form values from event object
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    console.log('Name:', name);
+    console.log('Email:', email);
+    console.log('Password:', password);
+  };
 
   return (
-    <div className="flex min-h-screen px-2 md:px-5   items-center justify-center bg-gray-100">
+    <div className="flex min-h-screen px-2 md:px-5 items-center justify-center bg-gray-100">
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm font-medium text-gray-700">Name</label>
             <input
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              name="name"
               className="w-full p-2 border rounded-lg outline-none"
               required
             />
@@ -27,8 +34,7 @@ const SignUp = () => {
             <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
               className="w-full p-2 border rounded-lg outline-none"
               required
             />
@@ -37,8 +43,7 @@ const SignUp = () => {
             <label className="block text-sm font-medium text-gray-700">Password</label>
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
               className="w-full p-2 border rounded-lg outline-none"
               required
             />
