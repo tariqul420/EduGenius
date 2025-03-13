@@ -1,6 +1,14 @@
 "use client";
 
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import {
+    Sheet,
+    SheetClose,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CiUser } from "react-icons/ci";
@@ -10,9 +18,15 @@ import { RiGraduationCapFill } from "react-icons/ri";
 function Navbar() {
     const pathname = usePathname();
 
-    const isActive = (path) => {
-        return pathname === path;
-    };
+    // Function to check if a link is active
+    const isActive = (path) => pathname === path;
+
+    // Navigation links data
+    const navLinks = [
+        { href: "/", label: "Home" },
+        { href: "/courses", label: "Courses" },
+        { href: "/instructors", label: "Instructors" },
+    ];
 
     return (
         <nav className="bg-gradient-to-r from-[#264D3F] to-dark-green text-white p-4">
@@ -25,38 +39,21 @@ function Navbar() {
 
                 {/* Right Side */}
                 <div className="flex items-center space-x-6">
-                    {/* Navigation Links for larger screens */}
                     <ul className="hidden lg:flex space-x-6">
-                        <li>
-                            <Link
-                                href="/"
-                                className={`hover:text-gray-300 ${isActive("/") ? "text-green font-bold" : ""
-                                    }`}
-                            >
-                                Home
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="/courses"
-                                className={`hover:text-gray-300 ${isActive("/courses") ? "text-green font-bold" : ""
-                                    }`}
-                            >
-                                Courses
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="/instructors"
-                                className={`hover:text-gray-300 ${isActive("/instructors") ? "text-green font-bold" : ""
-                                    }`}
-                            >
-                                Instructors
-                            </Link>
-                        </li>
+                        {navLinks.map((link) => (
+                            <li key={link.href}>
+                                <Link
+                                    href={link.href}
+                                    className={`hover:text-gray-300 transition-colors ${isActive(link.href) ? "text-green font-bold" : ""
+                                        }`}
+                                >
+                                    {link.label}
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
 
-                    {/* Login Button */}
+                    {/* Login Button for larger screens */}
                     <Link
                         href="/login"
                         className="hidden lg:flex px-4 py-2 rounded-lg bg-green hover:bg-white hover:text-gray-800 transition duration-300 items-center"
@@ -65,31 +62,47 @@ function Navbar() {
                         Login
                     </Link>
 
-                    {/* Sheet for smaller screens */}
+                    {/* Mobile Menu (Sheet) */}
                     <Sheet>
-                        <SheetTrigger className="cursor-pointer" asChild>
+                        <SheetTrigger
+                            className="cursor-pointer lg:hidden"
+                            aria-label="Open menu"
+                        >
                             <HiMenuAlt3 size={24} />
                         </SheetTrigger>
-                        <SheetContent>
+                        <SheetContent side="left" className="bg-[#264D3F] text-white px-4">
                             <SheetHeader>
-                                <SheetTitle>Edit profile</SheetTitle>
-                                <SheetDescription>
-                                    Make changes to your profile here. Click save when you're done.
+                                <SheetTitle className="text-2xl font-bold text-green">EduGenius</SheetTitle>
+                                <SheetDescription className="text-gray-300">
+                                    Navigate through the site
                                 </SheetDescription>
                             </SheetHeader>
-                            <div className="grid gap-4 py-4">
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    Hello World
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    Hello World
-                                </div>
+
+                            {/* Mobile Navigation Links */}
+                            <div className="flex flex-col space-y-4 px-4">
+                                {navLinks.map((link) => (
+                                    <SheetClose asChild key={link.href}>
+                                        <Link
+                                            href={link.href}
+                                            className={`hover:text-gray-300 transition-colors ${isActive(link.href) ? "text-green font-bold" : ""
+                                                }`}
+                                        >
+                                            {link.label}
+                                        </Link>
+                                    </SheetClose>
+                                ))}
                             </div>
-                            <SheetFooter>
-                                <SheetClose asChild>
-                                    Hello World
-                                </SheetClose>
-                            </SheetFooter>
+
+                            {/* Mobile Login Button */}
+                            <SheetClose asChild>
+                                <Link
+                                    href="/login"
+                                    className="mt-6 py-2 rounded-lg bg-green hover:bg-white hover:text-gray-800 transition duration-300 flex items-center px-4"
+                                >
+                                    <CiUser className="mr-2" />
+                                    Login
+                                </Link>
+                            </SheetClose>
                         </SheetContent>
                     </Sheet>
                 </div>

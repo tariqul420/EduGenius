@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const BecomeInstructor = () => {
   return (
-    <div className="flex items-center justify-between bg-[#f8f8f8] px-40">
+    <div className="flex items-center justify-between bg-[#f8f8f8] px-40 py-12">
       <div>
         <h1 className="font-bold text-2xl">Become an Instructor</h1>
         <p className="text-gray-500 mb-6 text-sm">
