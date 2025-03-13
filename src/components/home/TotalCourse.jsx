@@ -1,11 +1,10 @@
-import React from "react";
+import { FaUserGraduate } from "react-icons/fa";
 import { IoPeopleSharp } from "react-icons/io5";
 import { MdMenuBook, MdOutlineSentimentSatisfiedAlt } from "react-icons/md";
-import { FaUserGraduate } from "react-icons/fa";
 const TotalCourse = () => {
   return (
     <div className="bg-dark-green">
-      <div className="   my-4 p-12 max-w-10/12 py-4 mx-auto   items-center   grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-8 ">
+      <div className="container mx-auto lg:max-w-6xl my-4 p-12 max-w-10/12 py-4 items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 ">
         <div className="text-center   items-center   ">
           <MdMenuBook className="mx-auto text-8xl text-green"></MdMenuBook>
           <h6 className="text-white">Total Course</h6>
