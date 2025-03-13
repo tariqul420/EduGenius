@@ -19,7 +19,7 @@ export default function InstructorCard({ instructor }) {
         <h2 className="text-xl font-semibold mt-4">{instructor.name}</h2>
         <p className="text-gray-600">{instructor.title}</p>
         <div className="flex justify-between items-center">
-          <button className="bg-green-500 text-white py-2 px-4 rounded mt-4">
+          <button className="bg-green text-white py-2 px-4 rounded mt-4">
             Details
           </button>
 

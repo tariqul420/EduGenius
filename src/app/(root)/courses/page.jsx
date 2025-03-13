@@ -219,7 +219,7 @@ const Courses = () => {
                     <h3 className="text-lg font-semibold">{course.name}</h3>
                     <p className="text-sm">{course.description}</p>
                     <button
-                      className="mt-2 px-4 py-2 bg-green-800 cursor-pointer text-white rounded"
+                      className="mt-2 px-4 py-2 bg-green cursor-pointer text-white rounded"
                       onClick={() =>
                         alert(`Redirecting to details page for ${course.name}`)
                       }
