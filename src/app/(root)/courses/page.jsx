@@ -13,8 +13,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Checkbox } from "@/components/ui/checkbox";
 import CourseCard from "@/components/shared/CourseCard";
+import FilterItem from "./FilterItem";
 
 // Sample JSON data with image URLs, description, and rating
 const coursesData = [
@@ -26,8 +26,8 @@ const coursesData = [
     category: "Web Development",
     instructor: "John Doe",
     detailButton: "View Details",
-    postDate: "2025-03-14", 
-    rating: 9.2, 
+    postDate: "2025-03-14",
+    rating: 9.2,
   },
   {
     id: 2,
@@ -110,7 +110,7 @@ const coursesData = [
 
 const Courses = () => {
   const [isGridCol, setIsGridCol] = useState(false);
-  const [query, setQuery] = useState(""); 
+  const [query, setQuery] = useState("");
   const [selectCategory, setSelectCategory] = useState("latest"); // Default to 'latest'
 
   // Sort courses by selected criteria (rating or postDate)
@@ -152,67 +152,9 @@ const Courses = () => {
                     <SheetTitle>Filter Options Of Courses</SheetTitle>
                   </SheetHeader>
                   <div className="courses-filter rounded shadow-md px-4 py-1.5 block lg:hidden">
-                    <div className="category-filter">
-                      <h2 className="text-2xl">All Categories</h2>
-                      <ul>
-                        <li className="flex gap-1.5 items-center">
-                          <Checkbox id="webDesign" />
-                          <label htmlFor="webDesign">
-                            Accept terms and conditions
-                          </label>
-                        </li>
-                        <li className="flex gap-1.5 items-center">
-                          <Checkbox id="webDevelopment" />
-                          <label htmlFor="webDevelopment">
-                            {" "}
-                            Web Development
-                          </label>
-                        </li>
-                        <li className="flex gap-1.5 items-center">
-                          <Checkbox id="flutter" />
-                          <label htmlFor="flutter"> Flutter</label>
-                        </li>
-                        <li>
-                          <input id="flutter" type="checkbox" />
-                          <label htmlFor="flutter"> Flutter</label>
-                        </li>
-                      </ul>
-                    </div>
-                    <hr />
-                    <br />
-                    <div className="price-filter">
-                      <h2 className="text-2xl">Price</h2>
-                      <ul>
-                        <li>
-                          <input id="paid" type="checkbox" />
-                          <label htmlFor="paid"> Paid</label>
-                        </li>
-                        <li>
-                          <input id="free" type="checkbox" />
-                          <label htmlFor="free"> Free</label>
-                        </li>
-                      </ul>
-                    </div>
-                    <hr />
-                    <br />
-                    <div className="level-filter">
-                      <h2 className="text-2xl">Level</h2>
-                      <ul>
-                        <li>
-                          <input id="beginner" type="checkbox" />
-                          <label htmlFor="beginner"> Beginner</label>
-                        </li>
-                        <li>
-                          <input id="intermediate" type="checkbox" />
-                          <label htmlFor="intermediate"> Intermediate</label>
-                        </li>
-                        <li>
-                          <input id="advanced" type="checkbox" />
-                          <label htmlFor="advanced"> Advanced</label>
-                        </li>
-                      </ul>
-                    </div>
+                  <FilterItem/>
                   </div>
+                  
                 </SheetContent>
               </Sheet>
 
@@ -277,15 +219,13 @@ const Courses = () => {
               {/* CourseCard ========================= */}
               {filteredCourses.map((course) => (
                 <div
-                key={course.id}
-                className={`course-item col-span-2 sm:col-span-1 min-h-[200px] shadow-md rounded ${
-                  isGridCol ? "flex items-center" : ""
-                }`}
-              >
-                <CourseCard
-                  course={course}
-                ></CourseCard>
-              </div>
+                  key={course.id}
+                  className={`course-item col-span-2 sm:col-span-1 min-h-[200px] shadow-md rounded ${
+                    isGridCol ? "flex items-center" : ""
+                  }`}
+                >
+                  <CourseCard course={course}></CourseCard>
+                </div>
               ))}
             </div>
 
@@ -296,57 +236,7 @@ const Courses = () => {
               </p>
               {/* Add filter options here */}
               <div className="courses-filter rounded shadow-md px-4 py-1.5 hidden lg:block">
-                <div className="category-filter">
-                  <h2 className="text-2xl">All Categories</h2>
-                  <ul>
-                    <li>
-                      <input id="web-design" type="checkbox" />
-                      <label htmlFor="web-design"> Web Design</label>
-                    </li>
-                    <li>
-                      <input id="web-development" type="checkbox" />
-                      <label htmlFor="web-development"> Web Development</label>
-                    </li>
-                    <li>
-                      <input id="flutter" type="checkbox" />
-                      <label htmlFor="flutter"> Flutter</label>
-                    </li>
-                  </ul>
-                </div>
-                <hr />
-                <br />
-                <div className="price-filter">
-                  <h2 className="text-2xl">Price</h2>
-                  <ul>
-                    <li>
-                      <input id="paid" type="checkbox" />
-                      <label htmlFor="paid"> Paid</label>
-                    </li>
-                    <li>
-                      <input id="free" type="checkbox" />
-                      <label htmlFor="free"> Free</label>
-                    </li>
-                  </ul>
-                </div>
-                <hr />
-                <br />
-                <div className="level-filter">
-                  <h2 className="text-2xl">Level</h2>
-                  <ul>
-                    <li>
-                      <input id="beginner" type="checkbox" />
-                      <label htmlFor="beginner"> Beginner</label>
-                    </li>
-                    <li>
-                      <input id="intermediate" type="checkbox" />
-                      <label htmlFor="intermediate"> Intermediate</label>
-                    </li>
-                    <li>
-                      <input id="advanced" type="checkbox" />
-                      <label htmlFor="advanced"> Advanced</label>
-                    </li>
-                  </ul>
-                </div>
+                <FilterItem/>
               </div>
             </div>
           </div>
