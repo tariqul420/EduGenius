@@ -28,7 +28,7 @@ export default function TopInstructors() {
     },
   ];
   return (
-    <div className="bg-[#264D3F] flex flex-col justify-center items-center py-12">
+    <section className="bg-[#264D3F] flex flex-col justify-center items-center py-12">
       <h1 className="text-2xl font-bold text-white">Top Rated Instructor</h1>
       <p className="text-base text-white">Top Rated Instructor</p>
       <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 justify-between items-center gap-10 text-white mt-5">
@@ -40,6 +40,6 @@ export default function TopInstructors() {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
