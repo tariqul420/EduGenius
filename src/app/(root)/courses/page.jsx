@@ -9,14 +9,14 @@ import { IoSearchOutline } from "react-icons/io5";
 import Image from "next/image";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Checkbox } from "@/components/ui/checkbox";
 
-// Sample JSON data with image URLs and description
+// Sample JSON data with image URLs, description, and rating
 const coursesData = [
   {
     id: 1,
@@ -26,7 +26,8 @@ const coursesData = [
     category: "Web Development",
     instructor: "John Doe",
     detailButton: "View Details",
-    postDate: "2025-03-14",
+    postDate: "2025-03-14", 
+    rating: 9.2, 
   },
   {
     id: 2,
@@ -37,6 +38,7 @@ const coursesData = [
     instructor: "Jane Smith",
     detailButton: "View Details",
     postDate: "2025-03-13",
+    rating: 8.5,
   },
   {
     id: 3,
@@ -47,6 +49,7 @@ const coursesData = [
     instructor: "Emily Johnson",
     detailButton: "View Details",
     postDate: "2025-03-12",
+    rating: 7.8,
   },
   {
     id: 4,
@@ -57,6 +60,7 @@ const coursesData = [
     instructor: "Michael Brown",
     detailButton: "View Details",
     postDate: "2025-03-11",
+    rating: 9.5,
   },
   {
     id: 5,
@@ -67,6 +71,7 @@ const coursesData = [
     instructor: "Sarah Lee",
     detailButton: "View Details",
     postDate: "2025-03-10",
+    rating: 8.9,
   },
   {
     id: 6,
@@ -77,6 +82,7 @@ const coursesData = [
     instructor: "David Wilson",
     detailButton: "View Details",
     postDate: "2025-03-09",
+    rating: 7.5,
   },
   {
     id: 7,
@@ -87,6 +93,7 @@ const coursesData = [
     instructor: "Sophia Martinez",
     detailButton: "View Details",
     postDate: "2025-03-08",
+    rating: 8.3,
   },
   {
     id: 8,
@@ -96,27 +103,35 @@ const coursesData = [
     category: "Business Management",
     instructor: "Daniel Anderson",
     detailButton: "View Details",
-    postDate: "2025-03-07",
+    postDate: "2025-03-07", // oldest
+    rating: 7.0,
   },
 ];
 
 const Courses = () => {
   const [isGridCol, setIsGridCol] = useState(false);
   const [query, setQuery] = useState("");
-  const [selectCategory,setSelectCategory] = useState('latest')
+  const [selectCategory, setSelectCategory] = useState("latest"); // Default to 'latest'
 
+  // Sort courses by selected criteria (rating or postDate)
   const sortedCourses = [...coursesData].sort((a, b) => {
     if (selectCategory === "oldest") {
-      return new Date(a.postDate) - new Date(b.postDate);
+      return new Date(a.postDate) - new Date(b.postDate); // ascending (oldest first)
     }
-    return new Date(b.postDate) - new Date(a.postDate); 
+    if (selectCategory === "latest") {
+      return new Date(b.postDate) - new Date(a.postDate); // descending (latest first)
+    }
+    if (selectCategory === "top-rated") {
+      return b.rating - a.rating; // descending (top-rated first)
+    }
+
+    return new Date(b.postDate) - new Date(a.postDate); // default to latest
   });
 
   // Filter courses by category
   const filteredCourses = sortedCourses.filter((course) =>
     course.category.toLowerCase().includes(query.toLowerCase())
   );
-  
 
   return (
     <>
@@ -129,7 +144,10 @@ const Courses = () => {
                 <SheetTrigger>
                   <RiEqualizerLine className="block lg:hidden" />
                 </SheetTrigger>
-                <SheetContent side="left" className="w-[300px] z-50 sm:w-[540px]">
+                <SheetContent
+                  side="left"
+                  className="w-[300px] z-50 sm:w-[540px]"
+                >
                   <SheetHeader>
                     <SheetTitle>Filter Options Of Courses</SheetTitle>
                   </SheetHeader>
@@ -137,16 +155,22 @@ const Courses = () => {
                     <div className="category-filter">
                       <h2 className="text-2xl">All Categories</h2>
                       <ul>
-                        <li>
-                          <input id="web-design" type="checkbox" />
-                          <label htmlFor="web-design"> Web Design</label>
+                        <li className="flex gap-1.5 items-center">
+                          <Checkbox id="webDesign" />
+                          <label htmlFor="webDesign">
+                            Accept terms and conditions
+                          </label>
                         </li>
-                        <li>
-                          <input id="web-development" type="checkbox" />
-                          <label htmlFor="web-development">
+                        <li className="flex gap-1.5 items-center">
+                          <Checkbox id="webDevelopment" />
+                          <label htmlFor="webDevelopment">
                             {" "}
                             Web Development
                           </label>
+                        </li>
+                        <li className="flex gap-1.5 items-center">
+                          <Checkbox id="flutter" />
+                          <label htmlFor="flutter"> Flutter</label>
                         </li>
                         <li>
                           <input id="flutter" type="checkbox" />
@@ -214,8 +238,9 @@ const Courses = () => {
                 <select
                   className="px-0 md:px-2 py-1 border-none outline-none"
                   name="filter-course"
-                  onChange={(e)=>setSelectCategory(e.target.value)}
                   id="filter-course"
+                  onChange={(e) => setSelectCategory(e.target.value)}
+                  value={selectCategory}
                 >
                   <option className="border-none" value="latest">
                     Latest
@@ -249,7 +274,7 @@ const Courses = () => {
                 isGridCol ? "sm:grid-cols-1" : "grid-cols-2"
               }`}
             >
-              {/* Mapping through the filtered data to render course items */}
+              {/* Mapping through the filtered and sorted data */}
               {filteredCourses.map((course) => (
                 <div
                   key={course.id}
@@ -269,6 +294,9 @@ const Courses = () => {
                   <div className="course-content p-3">
                     <h3 className="text-lg font-semibold">{course.name}</h3>
                     <p className="text-sm">{course.description}</p>
+                    <p className="text-sm text-gray-500">
+                      Rating: {course.rating} / 10
+                    </p>
                     <button
                       className="mt-2 px-4 py-2 bg-green cursor-pointer text-white rounded"
                       onClick={() =>
@@ -288,6 +316,59 @@ const Courses = () => {
                 Filter Options Of Courses
               </p>
               {/* Add filter options here */}
+              <div className="courses-filter rounded shadow-md px-4 py-1.5 hidden lg:block">
+                <div className="category-filter">
+                  <h2 className="text-2xl">All Categories</h2>
+                  <ul>
+                    <li>
+                      <input id="web-design" type="checkbox" />
+                      <label htmlFor="web-design"> Web Design</label>
+                    </li>
+                    <li>
+                      <input id="web-development" type="checkbox" />
+                      <label htmlFor="web-development"> Web Development</label>
+                    </li>
+                    <li>
+                      <input id="flutter" type="checkbox" />
+                      <label htmlFor="flutter"> Flutter</label>
+                    </li>
+                  </ul>
+                </div>
+                <hr />
+                <br />
+                <div className="price-filter">
+                  <h2 className="text-2xl">Price</h2>
+                  <ul>
+                    <li>
+                      <input id="paid" type="checkbox" />
+                      <label htmlFor="paid"> Paid</label>
+                    </li>
+                    <li>
+                      <input id="free" type="checkbox" />
+                      <label htmlFor="free"> Free</label>
+                    </li>
+                  </ul>
+                </div>
+                <hr />
+                <br />
+                <div className="level-filter">
+                  <h2 className="text-2xl">Level</h2>
+                  <ul>
+                    <li>
+                      <input id="beginner" type="checkbox" />
+                      <label htmlFor="beginner"> Beginner</label>
+                    </li>
+                    <li>
+                      <input id="intermediate" type="checkbox" />
+                      <label htmlFor="intermediate"> Intermediate</label>
+                    </li>
+                    <li>
+                      <input id="advanced" type="checkbox" />
+                      <label htmlFor="advanced"> Advanced</label>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
