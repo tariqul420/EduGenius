@@ -60,3 +60,43 @@ export const instructors = [
     },
   },
 ];
+
+export const courses = [
+  {
+    course_category: "Web Development",
+    course_img: "https://i.ibb.co/4wqLRJwh/pexels-luis-gomes-166706-546819.png",
+    rating: 4.5,
+    course_title: "Mastering React for Beginners",
+    lessons: 12,
+    enrollment_number: 1500,
+    price: 29.99,
+  },
+  {
+    course_category: "Finance & Accounting",
+    course_img: "https://i.ibb.co/gMhMY883/pexels-pixabay-128867.png",
+    rating: 4.7,
+    course_title: "Financial Analysis & Budgeting",
+    lessons: 10,
+    enrollment_number: 1200,
+    price: 19.99,
+  },
+  {
+    course_category: "Flutter",
+    course_img: "https://i.ibb.co/hJvc6TC7/Flutter-feature-1.png",
+    rating: 4.3,
+    course_title: "Flutter Mobile App Development",
+    lessons: 15,
+    enrollment_number: 1800,
+    price: 24.99,
+  },
+  {
+    course_category: "Web Design",
+    course_img:
+      "https://i.ibb.co/jkLRbq31/pexels-picjumbo-com-55570-196645.png",
+    rating: 4.8,
+    course_title: "UI/UX Fundamentals & Web Design",
+    lessons: 8,
+    enrollment_number: 900,
+    price: 14.99,
+  },
+];
