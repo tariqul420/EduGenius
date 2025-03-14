@@ -87,6 +87,7 @@ const OurAchieve = () => {
             className="rounded-b-[20px] relative z-10  w-full h-auto object-cover" src="/achievement2.jpeg " alt="" />
           </div>
           <div>
+           
             <img className=" object-cover" src="dot-pattern.svg" alt="" />
           </div>
           </div>
