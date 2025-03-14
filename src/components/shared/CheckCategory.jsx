@@ -12,8 +12,6 @@ const CheckCategory = ({ id, label, keyCategory }) => {
   const handleCheckBox = (checked) => {
     let newUrl = "";
     setCheckBox(checked)
-    console.log("Checked State:", checked);
-
     if (checked) {
       newUrl = formUrlQuery({
         params: searchParams.toString(),
