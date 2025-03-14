@@ -6,7 +6,6 @@ import {
   RiLayoutGridFill,
 } from "react-icons/ri";
 import { IoSearchOutline } from "react-icons/io5";
-import Image from "next/image";
 import {
   Sheet,
   SheetContent,
@@ -15,6 +14,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
+import CourseCard from "@/components/shared/CourseCard";
 
 // Sample JSON data with image URLs, description, and rating
 const coursesData = [
@@ -110,7 +110,7 @@ const coursesData = [
 
 const Courses = () => {
   const [isGridCol, setIsGridCol] = useState(false);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(""); 
   const [selectCategory, setSelectCategory] = useState("latest"); // Default to 'latest'
 
   // Sort courses by selected criteria (rating or postDate)
@@ -274,39 +274,18 @@ const Courses = () => {
                 isGridCol ? "sm:grid-cols-1" : "grid-cols-2"
               }`}
             >
-              {/* Mapping through the filtered and sorted data */}
+              {/* CourseCard ========================= */}
               {filteredCourses.map((course) => (
                 <div
-                  key={course.id}
-                  className={`course-item col-span-2 sm:col-span-1 min-h-[200px] shadow-md rounded ${
-                    isGridCol ? "flex items-center" : ""
-                  }`}
-                >
-                  <div className="course-image">
-                    <Image
-                      src={course.image}
-                      alt={course.name}
-                      width="100"
-                      height="100"
-                      className="w-full h-48 max-w-[300px] mx-auto object-cover rounded-t"
-                    />
-                  </div>
-                  <div className="course-content p-3">
-                    <h3 className="text-lg font-semibold">{course.name}</h3>
-                    <p className="text-sm">{course.description}</p>
-                    <p className="text-sm text-gray-500">
-                      Rating: {course.rating} / 10
-                    </p>
-                    <button
-                      className="mt-2 px-4 py-2 bg-green cursor-pointer text-white rounded"
-                      onClick={() =>
-                        alert(`Redirecting to details page for ${course.name}`)
-                      }
-                    >
-                      View Details
-                    </button>
-                  </div>
-                </div>
+                key={course.id}
+                className={`course-item col-span-2 sm:col-span-1 min-h-[200px] shadow-md rounded ${
+                  isGridCol ? "flex items-center" : ""
+                }`}
+              >
+                <CourseCard
+                  course={course}
+                ></CourseCard>
+              </div>
               ))}
             </div>
 
