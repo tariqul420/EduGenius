@@ -31,7 +31,7 @@ function Navbar() {
     ];
 
     return (
-        <nav className="bg-gradient-to-r sticky top-0 z-[1000] from-[#264D3F] to-dark-green text-white p-4">
+        <nav className="bg-gradient-to-r sticky top-0 z-[20] from-[#264D3F] to-dark-green text-white p-4">
             <div className="container lg:max-w-6xl mx-auto flex items-center justify-between">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2 text-3xl">

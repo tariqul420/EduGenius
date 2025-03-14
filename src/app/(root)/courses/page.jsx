@@ -81,7 +81,7 @@ const Courses = () => {
                 <SheetTrigger>
                   <RiEqualizerLine className="block lg:hidden" />
                 </SheetTrigger>
-                <SheetContent side="left" className="w-[300px] sm:w-[540px]">
+                <SheetContent side="left" className="w-[300px] z-50 sm:w-[540px]">
                   <SheetHeader>
                     <SheetTitle>Filter Options Of Courses</SheetTitle>
                   </SheetHeader>
