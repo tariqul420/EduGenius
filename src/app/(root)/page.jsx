@@ -11,7 +11,8 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       <HeroSection />
-      <CategoryCards /> <TotalCourse />
+      <CategoryCards />
+      <TotalCourse />
       <CourseSubjects />
       <TopInstructors />
       <OurAchieve />

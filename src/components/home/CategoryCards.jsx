@@ -27,7 +27,7 @@ const CategoryCards = () => {
   const updateCategory = (selectedCategory) => {
     const newParams = new URLSearchParams(searchParams.toString());
     if (selectedCategory === "All Courses") {
-      newParams.delete("category"); // Remove category from URL
+      newParams.delete("category");
     } else {
       newParams.set("category", selectedCategory);
     }
@@ -41,37 +41,34 @@ const CategoryCards = () => {
       : courses.filter((course) => course.course_category === category);
 
   return (
-    <section className="p-5 container mx-auto lg:max-w-screen-6xl">
-      <h1 className="text-center font-bold text-2xl">Our Top Courses</h1>
+    <section className="p-5 container mx-auto lg:max-w-6xl mt-20">
+      <h1 className="text-center font-bold text-3xl">Our Top Courses</h1>
       <p className="text-center text-sm">
         We make learning convenient, affordable, and fun!
       </p>
 
       {/* Category Buttons */}
-      <div className="flex flex-wrap justify-center my-4">
+      <div className="flex flex-wrap justify-center my-6">
         {categories.map((cat, index) => (
-          <div>
-            <div
-              key={index}
-              onClick={() => updateCategory(cat)}
-              className={`px-4 py-4 text-sm font-semibold cursor-pointer transition ${
-                category === cat
-                  ? "bg-green text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+          <div
+            key={index}
+            onClick={() => updateCategory(cat)}
+            className={`px-4 py-4 text-sm font-semibold cursor-pointer transition ${category === cat
+              ? "bg-green text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
-            >
-              {cat}
-            </div>
+          >
+            {cat}
           </div>
         ))}
       </div>
 
       {/* Course Cards */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
-        {filteredCourses.length > 0 ? (
-          filteredCourses.map((course, index) => (
+        {filteredCourses?.length > 0 ? (
+          filteredCourses?.map((course, index) => (
             <div key={index} className="max-w-sm shadow-lg bg-white relative">
-              <div className="absolute bg-green-600 text-white text-xs font-semibold px-3 py-1 top-3 left-3">
+              <div className="absolute bg-green text-white text-xs font-semibold px-3 py-1 top-3 left-3">
                 {course.course_category}
               </div>
 
@@ -104,10 +101,10 @@ const CategoryCards = () => {
                 </div>
 
                 <div className="mt-4 flex items-center justify-between bg-[#f8f8f8] p-4">
-                  <span className="text-green-600 text-xl font-bold">
+                  <span className="text-gree text-xl font-bold">
                     ${course.price.toFixed(2)}
                   </span>
-                  <button className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-green-700 transition">
+                  <button className="bg-green text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-green-700 transition">
                     Details
                   </button>
                 </div>
