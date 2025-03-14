@@ -9,8 +9,10 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Suspense } from "react";
 import { CiUser } from "react-icons/ci";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { RiGraduationCapFill } from "react-icons/ri";
@@ -29,7 +31,7 @@ function Navbar() {
     ];
 
     return (
-        <nav className="bg-gradient-to-r from-[#264D3F] to-dark-green text-white p-4">
+        <nav className="bg-gradient-to-r sticky top-0 z-[20] from-[#264D3F] to-dark-green text-white p-4">
             <div className="container lg:max-w-6xl mx-auto flex items-center justify-between">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2 text-3xl">
@@ -45,8 +47,7 @@ function Navbar() {
                                 <Link
                                     href={link.href}
                                     className={`hover:text-gray-300 transition-colors ${isActive(link.href) ? "text-green font-bold" : ""
-                                        }`}
-                                >
+                                        }`}>
                                     {link.label}
                                 </Link>
                             </li>
@@ -54,25 +55,34 @@ function Navbar() {
                     </ul>
 
                     {/* Login Button for larger screens */}
-                    <Link
-                        href="/login"
-                        className="hidden lg:flex px-4 py-2 rounded-lg bg-green hover:bg-white hover:text-gray-800 transition duration-300 items-center"
-                    >
-                        <CiUser className="mr-2" />
-                        Login
-                    </Link>
+                    <SignedOut>
+                        <Link
+                            href="/sign-in"
+                            className="hidden lg:flex px-4 py-2 rounded-lg bg-green hover:bg-white hover:text-gray-800 transition duration-300 items-center">
+                            <CiUser className="mr-2" />
+                            Login
+                        </Link>
+                    </SignedOut>
+
+                    <SignedIn>
+                        <Suspense
+                            fallback={<div className="h-10 w-10 rounded-full">loading</div>}>
+                            <UserButton afterSignOutUrl="/" />
+                        </Suspense>
+                    </SignedIn>
 
                     {/* Mobile Menu (Sheet) */}
                     <Sheet>
                         <SheetTrigger
                             className="cursor-pointer lg:hidden"
-                            aria-label="Open menu"
-                        >
+                            aria-label="Open menu">
                             <HiMenuAlt3 size={24} />
                         </SheetTrigger>
                         <SheetContent side="left" className="bg-[#264D3F] text-white px-4">
                             <SheetHeader>
-                                <SheetTitle className="text-2xl font-bold text-green">EduGenius</SheetTitle>
+                                <SheetTitle className="text-2xl font-bold text-green">
+                                    EduGenius
+                                </SheetTitle>
                                 <SheetDescription className="text-gray-300">
                                     Navigate through the site
                                 </SheetDescription>
@@ -85,8 +95,7 @@ function Navbar() {
                                         <Link
                                             href={link.href}
                                             className={`hover:text-gray-300 transition-colors ${isActive(link.href) ? "text-green font-bold" : ""
-                                                }`}
-                                        >
+                                                }`}>
                                             {link.label}
                                         </Link>
                                     </SheetClose>
@@ -94,15 +103,13 @@ function Navbar() {
                             </div>
 
                             {/* Mobile Login Button */}
-                            <SheetClose asChild>
-                                <Link
-                                    href="/login"
-                                    className="mt-6 py-2 rounded-lg bg-green hover:bg-white hover:text-gray-800 transition duration-300 flex items-center px-4"
-                                >
-                                    <CiUser className="mr-2" />
-                                    Login
-                                </Link>
-                            </SheetClose>
+
+                            <Link
+                                href="/sign-in"
+                                className="mt-6 py-2 rounded-lg bg-green hover:bg-white hover:text-gray-800 transition duration-300 flex items-center px-4">
+                                <CiUser className="mr-2" />
+                                Login
+                            </Link>
                         </SheetContent>
                     </Sheet>
                 </div>

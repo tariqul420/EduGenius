@@ -1,8 +1,8 @@
+import { ClerkProvider } from "@clerk/nextjs";
 import { Jost } from "next/font/google";
-import "./globals.css";
-import Navbar from "../components/shared/Navbar";
 import Footer from "../components/shared/Footer";
-
+import Navbar from "../components/shared/Navbar";
+import "./globals.css";
 
 const jost = Jost({
   subsets: ["latin"],
@@ -60,12 +60,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={`${jost.variable} antialiased`}>
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${jost.variable} antialiased`}>
+          <Navbar />
+          {children}
+          <Footer />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
