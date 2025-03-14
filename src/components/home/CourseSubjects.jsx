@@ -1,7 +1,6 @@
-import Image from "next/image"; // Import Next.js Image component
+import Image from "next/image";
 
 const CourseSubjects = () => {
-  // Array of subjects for cleaner code
   const subjects = [
     { name: "Social Science", image: "/social-science.png" },
     { name: "Chemistry", image: "/chemistry110.png" },
@@ -23,7 +22,7 @@ const CourseSubjects = () => {
       </div>
 
       {/* Subjects Grid */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {subjects.map((subject, index) => (
           <div
             key={index}

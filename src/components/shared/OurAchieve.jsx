@@ -3,7 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 const OurAchieve = () => {
   return (
-    <div className="w-10/12   mx-auto my-12">
+    <div className="container mx-auto lg:max-w-6xl mt-20">
       <div className=" text-center lg:text-start">
         <h1 className=" text-4xl">Our Achievement</h1>
         <p className=" text-gray-500">
