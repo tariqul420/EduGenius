@@ -13,8 +13,17 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 import CourseCard from "@/components/shared/CourseCard";
 import FilterItem from "./FilterItem";
+
 
 // Sample JSON data with image URLs, description, and rating
 const coursesData = [
@@ -146,7 +155,7 @@ const Courses = () => {
                 </SheetTrigger>
                 <SheetContent
                   side="left"
-                  className="w-[300px] z-50 sm:w-[540px]"
+                  className="w-[300px] z-50 sm:w-[540px] block lg:hidden"
                 >
                   <SheetHeader>
                     <SheetTitle>Filter Options Of Courses</SheetTitle>
@@ -176,26 +185,20 @@ const Courses = () => {
               </p>
             </div>
             <div className="right-content order-1 md:order-2 flex items-center gap-1.5 md:gap-5">
-              <div className="filter-course text-gray-500 border border-gray-400 px-1.5">
-                <select
-                  className="px-0 md:px-2 py-1 border-none outline-none"
-                  name="filter-course"
-                  id="filter-course"
-                  onChange={(e) => setSelectCategory(e.target.value)}
-                  value={selectCategory}
-                >
-                  <option className="border-none" value="latest">
-                    Latest
-                  </option>
-                  <option className="border-none" value="top-rated">
-                    Top Rated
-                  </option>
-                  <option className="border-none" value="oldest">
-                    Oldest
-                  </option>
-                </select>
+              <div className="filter-course text-gray-500 px-1.5">
+                 <Select onValueChange={(value) => setSelectCategory(value)} value={selectCategory}>
+                <SelectTrigger className="w-[180px] border rounded border-gray-300">
+                  <SelectValue placeholder="Filter Course" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="latest">Latest</SelectItem>
+                  <SelectItem value="top-rated">Top Rated</SelectItem>
+                  <SelectItem value="oldest">Oldest</SelectItem>
+                </SelectContent>
+              </Select>
+
               </div>
-              <div className="search-ba flex items-center gap-1 px-2 py-1 border border-gray-400">
+              <div className="search-ba flex items-center gap-1 px-2 py-1 rounded border border-gray-4300">
                 <input
                   type="text"
                   className="outline-none max-w-[150px] sm:w-fit"
