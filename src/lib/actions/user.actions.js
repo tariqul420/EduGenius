@@ -1,10 +1,11 @@
 "use server";
-import Category from "@/models/Category";
-import Transaction from "@/models/Transaction";
+
 import User from "@/models/User";
+import dbConnect from "../dbConnect";
 
 export async function createUser(user) {
   try {
+    await dbConnect();
     const newUser = new User(user);
     return await newUser.save();
   } catch (error) {
@@ -14,6 +15,7 @@ export async function createUser(user) {
 
 export async function updateUser(clerkId, user) {
   try {
+    await dbConnect();
     return await User.findOneAndUpdate({ clerkId }, user, { new: true });
   } catch (error) {
     console.log(error);
@@ -22,6 +24,7 @@ export async function updateUser(clerkId, user) {
 
 export async function deleteUser(clerkId) {
   try {
+    await dbConnect();
     // Find user to delete
     const user = await User.findOne({ clerkId });
 
@@ -30,8 +33,8 @@ export async function deleteUser(clerkId) {
     }
 
     // Unlink relationships
-    await Category.deleteMany({ userId: user._id });
-    await Transaction.deleteMany({ userId: user._id });
+    // await Category.deleteMany({ userId: user._id });
+    // await Transaction.deleteMany({ userId: user._id });
     await User.deleteOne({ _id: user._id });
   } catch (error) {
     console.log(error);
