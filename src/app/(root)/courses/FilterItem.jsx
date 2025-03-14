@@ -1,5 +1,8 @@
-import React from "react";
+import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
+import CheckCategory from "@/components/shared/CheckCategory";
 
 const FilterItem = () => {
   return (
@@ -8,16 +11,13 @@ const FilterItem = () => {
           <h2 className="text-2xl">All Categories</h2>
           <ul>
             <li className="flex gap-1.5 items-center">
-              <Checkbox id="webDesign" />
-              <label htmlFor="webDesign">Accept terms and conditions</label>
+              <CheckCategory id='webDesign' label='Web Design' keyCategory='category' />
             </li>
             <li className="flex gap-1.5 items-center">
-              <Checkbox id="webDevelopment" />
-              <label htmlFor="webDevelopment"> Web Development</label>
+            <CheckCategory id='webDevelopment' label='Web Development' keyCategory='category' />
             </li>
             <li className="flex gap-1.5 items-center">
-              <Checkbox id="flutte" />
-              <label htmlFor="flutte"> Flutter</label>
+            <CheckCategory id='flutte' label='Flutter' keyCategory='category' />
             </li>
           </ul>
         </div>
@@ -27,12 +27,10 @@ const FilterItem = () => {
           <h2 className="text-2xl">Price</h2>
           <ul>
             <li className="flex gap-1.5 items-center">
-              <Checkbox id="paids" />
-              <label htmlFor="paids"> Paid</label>
+            <CheckCategory id='paid' label='Paid' keyCategory='priceCondition' />
             </li>
             <li className="flex gap-1.5 items-center">
-              <Checkbox id="frees" />
-              <label htmlFor="frees"> Free</label>
+            <CheckCategory id='free' label='Free' keyCategory='priceCondition' />
             </li>
           </ul>
         </div>
@@ -42,16 +40,13 @@ const FilterItem = () => {
           <h2 className="text-2xl">Level</h2>
           <ul>
             <li className="flex gap-1.5 items-center">
-              <Checkbox id="beginners" />
-              <label htmlFor="beginners"> Beginner</label>
+            <CheckCategory id='beginner' label='Beginner' keyCategory='level' />
             </li>
             <li className="flex gap-1.5 items-center">
-              <Checkbox id="intermediates" />
-              <label htmlFor="intermediates"> Intermediate</label>
+            <CheckCategory id='intermediate' label='Intermediate' keyCategory='level' />
             </li>
             <li className="flex gap-1.5 items-center">
-              <Checkbox id="advanceds" />
-              <label htmlFor="advanceds"> Advanced</label>
+            <CheckCategory id='advanced' label='Advanced' keyCategory='level' />
             </li>
           </ul>
         </div>
