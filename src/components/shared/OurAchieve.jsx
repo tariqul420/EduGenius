@@ -1,103 +1,94 @@
-"use client";
-import React from "react";
-import { motion } from "framer-motion";
-const OurAchieve = () => {
+import Image from 'next/image';
+
+const data = [
+  {
+    img: "https://faculty.spagreen.net/demo/public/frontend/img/icons/user-2.svg",
+    value: "9 +",
+    title: "Teacher"
+  },
+  {
+    img: "https://faculty.spagreen.net/demo/public/frontend/img/icons/live-streaming.svg",
+    value: "86 +",
+    title: "Video"
+  },
+  {
+    img: "https://faculty.spagreen.net/demo/public/frontend/img/icons/user-3.svg",
+    value: "357 +",
+    title: "Student"
+  },
+  {
+    img: "https://faculty.spagreen.net/demo/public/frontend/img/icons/rocket.svg",
+    value: "4,576,543 +",
+    title: "App User"
+  },
+];
+
+function OurAchieve() {
   return (
-    <div className="container mx-auto lg:max-w-6xl mt-20">
-      <div className=" text-center lg:text-start">
-        <h1 className=" text-4xl">Our Achievement</h1>
-        <p className=" text-gray-500">
-          Your achievement is considered as our achievement. Whatever you learn
-          from us, even if it’s a little – we will be proud to be a part of your
-          journey.
+    <div className='container m-auto lg:max-w-6xl flex flex-col lg:flex-row gap-8 mt-20 px-4'>
+      {/* Text Content */}
+      <div className='space-y-6 flex-1 text-center lg:text-left'>
+        <h2 className="font-bold text-3xl lg:text-4xl">Our Achievement</h2>
+        <p className="text-sm lg:text-base text-gray-600 max-w-lg mx-auto lg:mx-0">
+          Your achievement is considered as our achievement. Whatever you learn from us, even if it’s a little – we will be proud to be a part of your journey.
         </p>
-      </div>
-      <div className=" grid grid-cols-4 mt-8  ">
-        <div className=" md:col-span-2 col-span-4 ">
-          {/* left part */}
-          <div className=" space-y-8  mt-4 grid grid-cols-2">
-            <div className="space-y-4 lg:flex lg:space-x-4 items-center ">
-              <img
-                className="p-4 bg-white-400 border-2 border-green-300  rounded-full "
-                src="/teacher.svg"
-                alt=""
-              />
-              <div className="font-bold">
-                <h1>9 +</h1>
-                <p className="text-gray-500"> Teacher</p>
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 gap-y-12'>
+          {data?.map((item, index) => (
+            <div key={index} className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
+              <div className='relative h-16 w-16 rounded-lg overflow-hidden flex-shrink-0'>
+                <Image
+                  src={item?.img}
+                  alt={item?.title}
+                  fill
+                  className='object-contain p-2'
+                  placeholder='blur'
+                  blurDataURL={item?.img}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
+              <div>
+                <p className="text-lg md:text-xl font-bold text-gray-800">{item?.value}</p>
+                <h6 className="font-medium text-gray-600">{item?.title}</h6>
               </div>
             </div>
-            <div className="space-y-4 lg:flex lg:space-x-4 items-center">
-              <img
-                className="p-4 bg-white-400 border-2 border-green-300  rounded-full "
-                src="/live-streaming.svg"
-                alt=""
-              />
-              <div className=" font-bold">
-                <h1>90 +</h1>
-                <p className="text-gray-500"> Video</p>
-              </div>
-            </div>
-            <div className="space-y-4 lg:flex lg:space-x-4 items-center">
-              <img
-                className=" p-4 bg-white-400 border-2 border-green-300  rounded-full"
-                src="/student.svg"
-                alt=""
-              />
-              <div className="font-bold ">
-                <h1>345 +</h1>
-                <p className="text-gray-500"> students</p>
-              </div>
-            </div>
-            <div className="space-y-4 lg:flex lg:space-x-4 items-center">
-              <img
-                className="p-4 bg-white-400 border-2 border-green-300  rounded-full "
-                src="/rocket.svg"
-                alt=""
-              />
-              <div className="font-bold ">
-                <h1>9043534 +</h1>
-                <p className="text-gray-500"> App User</p>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
-        {/* right part */}
-        <div className=" md:col-span-2  col-span-4 flex relative overflow-hidden ">
-          {/* first img */}
-          <div className="">
-            <div className="">
-              <img className="" src="/dot-pattern (1).svg" alt="" />
-            </div>
-            <div className=" absolute">
-            <motion.img 
-            animate={{x:[50,100,50]}}
-            transition={{duration:5,repeat:Infinity}} className=" relative z-10 rounded-t-[20px] w-full h-auto object-cover" src="/achievemntimg1.png" alt="" />
-            </div>
-          </div>
-          {/* second img */}
-         
-          <div>
-          
-          <div className=" ">
-            <motion.img 
-            animate={{x:[80,30,80]}}
-            transition={{duration:5,repeat:Infinity}}
-            
-            className="rounded-b-[20px] relative z-10  w-full h-auto object-cover" src="/achievement2.jpeg " alt="" />
-          </div>
-          <div>
-           
-            <img className=" object-cover" src="dot-pattern.svg" alt="" />
-          </div>
-          </div>
+      </div>
+
+      {/* Image Grid */}
+      <div className='flex-1 w-full grid grid-cols-2 gap-4'>
+        <div className='relative h-48 sm:h-64 rounded-lg shadow-lg overflow-hidden'>
+          <Image
+            src="/images/achievement1.png"
+            alt="Achievement 1"
+            fill
+            className='object-cover'
+            placeholder='blur'
+            blurDataURL='/images/achievement1.png'
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        </div>
+
+        <div className='relative h-48 sm:h-64 rounded-lg shadow-lg overflow-hidden bg-[#333333] flex items-center justify-center'>
+        </div>
+
+        <div className='relative h-48 sm:h-64 rounded-lg shadow-lg overflow-hidden bg-green flex items-center justify-center'>
+        </div>
+
+        <div className='relative h-48 sm:h-64 rounded-lg shadow-lg overflow-hidden'>
+          <Image
+            src="/images/achievement2.jpeg"
+            alt="Achievement 2"
+            fill
+            className='object-cover'
+            placeholder='blur'
+            blurDataURL='/images/achievement2.jpeg'
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default OurAchieve;
-
-
-
