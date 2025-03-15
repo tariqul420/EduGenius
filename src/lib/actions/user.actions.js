@@ -9,7 +9,7 @@ export async function createUser(user) {
     const newUser = new User(user);
     return await newUser.save();
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 }
 
@@ -18,7 +18,7 @@ export async function updateUser(clerkId, user) {
     await dbConnect();
     return await User.findOneAndUpdate({ clerkId }, user, { new: true });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 }
 
@@ -37,6 +37,6 @@ export async function deleteUser(clerkId) {
     // await Transaction.deleteMany({ userId: user._id });
     await User.deleteOne({ _id: user._id });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 }

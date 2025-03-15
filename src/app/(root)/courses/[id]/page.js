@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -6,7 +5,7 @@ const CourseDetails = () => {
   const course = {
     id: 1,
     name: "This is Demo Details page",
-    image: "/course-1.webp", // Replace with an actual image URL
+    image: "/course-1.webp",
     description:
       "Learn full-stack web development with hands-on projects and expert guidance.",
     rating: 8.5,
