@@ -26,6 +26,7 @@ function Navbar() {
     // Navigation links data
     const navLinks = [
         { href: "/", label: "Home" },
+        { href: "/blog", label: "Blog" },
         { href: "/courses", label: "Courses" },
         { href: "/instructors", label: "Instructors" },
     ];
