@@ -1,6 +1,5 @@
 import CheckCategory from "@/components/shared/CheckCategory";
-import { FaRegUser, FaRegMessage } from "react-icons/fa6";
-import React from "react";
+import { Mail, User } from "lucide-react";
 import Link from "next/link";
 
 
@@ -107,7 +106,7 @@ const BlogDetails = () => {
                 <div className="p-4">
                   <div className=" flex justify-between">
                     <p className="text-sm text-gray-500">{blog.category}</p>
-                    <p className="text-sm bg-green-400 p-2 rounded-md">
+                    <p className="text-sm bg-green p-2 rounded-md">
                       {blog.date}
                     </p>
                   </div>
@@ -119,16 +118,16 @@ const BlogDetails = () => {
                 </div>
                 <div className="flex justify-between items-center px-4 pb-4">
                   <div className="flex items-center space-x-2 text-gray-500">
-                    <FaRegMessage />
+                    <Mail />
                     <p>1</p>
                   </div>
                   <div className="flex items-center space-x-2 text-gray-500">
-                    <FaRegUser />
+                    <User />
                     <p>{blog.instructor}</p>
                   </div>
                   <Link
                     href={`/blog/${blog.id}`}
-                    className="text-green-500 font-semibold hover:underline"
+                    className="text-green font-semibold hover:underline"
                   >
                     {blog.detailButton}
                   </Link>
