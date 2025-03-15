@@ -2,8 +2,7 @@ export const instructors = [
   {
     name: "kofras namroe",
     title: "Assistant Lecturer",
-    image:
-      "https://faculty.spagreen.net/demo/public/images/20231118073538image_280X239-user-451.jpg",
+    image: "https://i.ibb.co/9kngr6fK/instructor1.png",
     social: {
       facebook: "facebook_url",
       twitter: "twitter_url",
@@ -14,8 +13,7 @@ export const instructors = [
   {
     name: "Jane Doe",
     title: "Senior Lecturer",
-    image:
-      "https://faculty.spagreen.net/demo/public/images/20231118073538image_280X239-user-451.jpg",
+    image: "https://i.ibb.co/XrvnsQTt/instructor2.png",
     social: {
       facebook: "jane_facebook_url",
       twitter: "jane_twitter_url",
@@ -26,8 +24,7 @@ export const instructors = [
   {
     name: "John Smith",
     title: "Professor",
-    image:
-      "https://faculty.spagreen.net/demo/public/images/20231118073538image_280X239-user-451.jpg",
+    image: "https://i.ibb.co/zTxZ50Rw/instructor3.png",
     social: {
       facebook: "john_facebook_url",
       twitter: "john_twitter_url",
@@ -38,8 +35,7 @@ export const instructors = [
   {
     name: "Emily Johnson",
     title: "Lecturer",
-    image:
-      "https://faculty.spagreen.net/demo/public/images/20231118073538image_280X239-user-451.jpg",
+    image: "https://i.ibb.co/39fqxjNQ/instructor4.png",
     social: {
       facebook: "emily_facebook_url",
       twitter: "emily_twitter_url",
