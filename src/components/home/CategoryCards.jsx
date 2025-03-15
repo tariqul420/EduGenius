@@ -1,44 +1,46 @@
 "use client";
 
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import Image from "next/image";
-import { FaStar, FaFileAlt, FaUser } from "react-icons/fa";
 import { courses } from "@/constant";
+import Image from "next/image";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { FaFileAlt, FaStar, FaUser } from "react-icons/fa";
 
 const CategoryCards = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
-  const category = searchParams.get("category") || "All Courses";
+  const categorySlug = searchParams.get("category") || "all-courses";
 
   const categories = [
-    "All Courses",
-    "Web Development",
-    "Finance & Accounting",
-    "Flutter",
-    "Web Design",
-    "Cybersecurity",
-    "Marketing",
-    "Data Science",
-    "Business Management",
+    { name: "All Courses", slug: "all-courses" },
+    { name: "Web Development", slug: "web-development" },
+    { name: "Finance & Accounting", slug: "finance-accounting" },
+    { name: "Flutter", slug: "flutter" },
+    { name: "Web Design", slug: "web-design" },
+    { name: "Cybersecurity", slug: "cybersecurity" },
+    { name: "Marketing", slug: "marketing" },
+    { name: "Data Science", slug: "data-science" },
+    { name: "Business Management", slug: "business-management" },
   ];
 
   // Function to update category in URL
-  const updateCategory = (selectedCategory) => {
+  const updateCategory = (selectedCategorySlug) => {
     const newParams = new URLSearchParams(searchParams.toString());
-    if (selectedCategory === "All Courses") {
+    if (selectedCategorySlug === "all-courses") {
       newParams.delete("category");
     } else {
-      newParams.set("category", selectedCategory);
+      newParams.set("category", selectedCategorySlug);
     }
-    router.push(`${pathname}?${newParams.toString()}`);
+    router.push(`${pathname}?${newParams.toString()}`, { scroll: false });
   };
 
   // Filter courses based on selected category
   const filteredCourses =
-    category === "All Courses"
+    categorySlug === "all-courses"
       ? courses
-      : courses.filter((course) => course.course_category === category);
+      : courses.filter(
+          (course) => course.course_category_slug === categorySlug
+        );
 
   return (
     <section className="p-5 container mx-auto lg:max-w-6xl mt-20">
@@ -52,13 +54,13 @@ const CategoryCards = () => {
         {categories.map((cat, index) => (
           <div
             key={index}
-            onClick={() => updateCategory(cat)}
-            className={`px-4 py-4 text-sm font-semibold cursor-pointer transition ${category === cat
-              ? "bg-green text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
-          >
-            {cat}
+            onClick={() => updateCategory(cat.slug)}
+            className={`px-4 py-4 text-sm font-semibold cursor-pointer transition ${
+              categorySlug === cat.slug
+                ? "bg-green text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}>
+            {cat.name}
           </div>
         ))}
       </div>
