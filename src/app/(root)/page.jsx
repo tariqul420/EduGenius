@@ -5,7 +5,6 @@ import HeroSection from "@/components/home/HeroSection";
 import TopInstructors from "@/components/home/TopInstructors";
 import TotalCourse from "@/components/home/TotalCourse";
 import OurAchieve from "@/components/shared/OurAchieve";
-import Testimonial from "@/components/shared/Testimonial";
 
 export default function Home() {
   return (
@@ -17,7 +16,6 @@ export default function Home() {
       <TopInstructors />
       <OurAchieve />
       <BecomeInstructor />
-      <Testimonial />
     </div>
   );
 }

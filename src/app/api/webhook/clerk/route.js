@@ -1,5 +1,5 @@
 import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
-import { clerkClient } from "@clerk/nextjs";
+import { clerkClient } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { Webhook } from "svix";
@@ -44,7 +44,7 @@ export async function POST(req) {
       "svix-signature": svix_signature,
     });
   } catch (err) {
-    console.error("Error verifying webhook:", err);
+    // console.error("Error verifying webhook:", err);
     return new Response("Error occured", {
       status: 400,
     });
@@ -87,7 +87,7 @@ export async function POST(req) {
       photo: image_url,
     };
 
-    console.log(user);
+    // console.log(user);
 
     const updatedUser = await updateUser(id, user);
 
