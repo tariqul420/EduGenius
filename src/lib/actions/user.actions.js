@@ -40,3 +40,12 @@ export async function deleteUser(clerkId) {
     // console.log(error);
   }
 }
+
+// export async function getUserByClerkId() {
+//   try {
+//     await dbConnect();
+//     return await User.find({});
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
