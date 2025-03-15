@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 const moduleSchema = new mongoose.Schema(
   {
     title: { type: String, required: true }, // Module title

@@ -2,8 +2,7 @@ export const instructors = [
   {
     name: "kofras namroe",
     title: "Assistant Lecturer",
-    image:
-      "https://faculty.spagreen.net/demo/public/images/20231118073538image_280X239-user-451.jpg",
+    image: "https://i.ibb.co/9kngr6fK/instructor1.png",
     social: {
       facebook: "facebook_url",
       twitter: "twitter_url",
@@ -14,8 +13,7 @@ export const instructors = [
   {
     name: "Jane Doe",
     title: "Senior Lecturer",
-    image:
-      "https://faculty.spagreen.net/demo/public/images/20231118073538image_280X239-user-451.jpg",
+    image: "https://i.ibb.co/XrvnsQTt/instructor2.png",
     social: {
       facebook: "jane_facebook_url",
       twitter: "jane_twitter_url",
@@ -26,8 +24,7 @@ export const instructors = [
   {
     name: "John Smith",
     title: "Professor",
-    image:
-      "https://faculty.spagreen.net/demo/public/images/20231118073538image_280X239-user-451.jpg",
+    image: "https://i.ibb.co/zTxZ50Rw/instructor3.png",
     social: {
       facebook: "john_facebook_url",
       twitter: "john_twitter_url",
@@ -38,8 +35,7 @@ export const instructors = [
   {
     name: "Emily Johnson",
     title: "Lecturer",
-    image:
-      "https://faculty.spagreen.net/demo/public/images/20231118073538image_280X239-user-451.jpg",
+    image: "https://i.ibb.co/39fqxjNQ/instructor4.png",
     social: {
       facebook: "emily_facebook_url",
       twitter: "emily_twitter_url",
@@ -64,6 +60,7 @@ export const instructors = [
 export const courses = [
   {
     course_category: "Web Development",
+    course_category_slug: "web-development",
     course_img: "https://i.ibb.co/4wqLRJwh/pexels-luis-gomes-166706-546819.png",
     rating: 4.5,
     course_title: "Mastering React for Beginners",
@@ -73,6 +70,7 @@ export const courses = [
   },
   {
     course_category: "Finance & Accounting",
+    course_category_slug: "finance-accounting",
     course_img: "https://i.ibb.co/gMhMY883/pexels-pixabay-128867.png",
     rating: 4.7,
     course_title: "Financial Analysis & Budgeting",
@@ -82,6 +80,7 @@ export const courses = [
   },
   {
     course_category: "Flutter",
+    course_category_slug: "flutter",
     course_img: "https://i.ibb.co/hJvc6TC7/Flutter-feature-1.png",
     rating: 4.3,
     course_title: "Flutter Mobile App Development",
@@ -91,6 +90,7 @@ export const courses = [
   },
   {
     course_category: "Web Design",
+    course_category_slug: "web-design",
     course_img:
       "https://i.ibb.co/jkLRbq31/pexels-picjumbo-com-55570-196645.png",
     rating: 4.8,

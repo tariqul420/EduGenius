@@ -1,11 +1,11 @@
 "use client";
-import React, { useState } from "react";
 import {
-  RiEqualizerLine,
-  RiLayout4Fill,
-  RiLayoutGridFill,
-} from "react-icons/ri";
-import { IoSearchOutline } from "react-icons/io5";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Sheet,
   SheetContent,
@@ -13,8 +13,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
+
 import CourseCard from "@/components/shared/CourseCard";
+import { LayoutGrid, LayoutList, Search, TableOfContents } from "lucide-react";
+import FilterItem from "./FilterItem";
+
 
 // Sample JSON data with image URLs, description, and rating
 const coursesData = [
@@ -26,8 +30,8 @@ const coursesData = [
     category: "Web Development",
     instructor: "John Doe",
     detailButton: "View Details",
-    postDate: "2025-03-14", 
-    rating: 9.2, 
+    postDate: "2025-03-14",
+    rating: 9.2,
   },
   {
     id: 2,
@@ -110,7 +114,7 @@ const coursesData = [
 
 const Courses = () => {
   const [isGridCol, setIsGridCol] = useState(false);
-  const [query, setQuery] = useState(""); 
+  const [query, setQuery] = useState("");
   const [selectCategory, setSelectCategory] = useState("latest"); // Default to 'latest'
 
   // Sort courses by selected criteria (rating or postDate)
@@ -142,77 +146,19 @@ const Courses = () => {
             <div className="left-content mt-5 md:mt-0 order-2 md:order-1 text-2xl flex gap-4 items-center">
               <Sheet width="200px">
                 <SheetTrigger>
-                  <RiEqualizerLine className="block lg:hidden" />
+                  <TableOfContents className="block lg:hidden" />
                 </SheetTrigger>
                 <SheetContent
                   side="left"
-                  className="w-[300px] z-50 sm:w-[540px]"
+                  className="w-[300px] z-50 sm:w-[540px] block lg:hidden"
                 >
                   <SheetHeader>
                     <SheetTitle>Filter Options Of Courses</SheetTitle>
                   </SheetHeader>
                   <div className="courses-filter rounded shadow-md px-4 py-1.5 block lg:hidden">
-                    <div className="category-filter">
-                      <h2 className="text-2xl">All Categories</h2>
-                      <ul>
-                        <li className="flex gap-1.5 items-center">
-                          <Checkbox id="webDesign" />
-                          <label htmlFor="webDesign">
-                            Accept terms and conditions
-                          </label>
-                        </li>
-                        <li className="flex gap-1.5 items-center">
-                          <Checkbox id="webDevelopment" />
-                          <label htmlFor="webDevelopment">
-                            {" "}
-                            Web Development
-                          </label>
-                        </li>
-                        <li className="flex gap-1.5 items-center">
-                          <Checkbox id="flutter" />
-                          <label htmlFor="flutter"> Flutter</label>
-                        </li>
-                        <li>
-                          <input id="flutter" type="checkbox" />
-                          <label htmlFor="flutter"> Flutter</label>
-                        </li>
-                      </ul>
-                    </div>
-                    <hr />
-                    <br />
-                    <div className="price-filter">
-                      <h2 className="text-2xl">Price</h2>
-                      <ul>
-                        <li>
-                          <input id="paid" type="checkbox" />
-                          <label htmlFor="paid"> Paid</label>
-                        </li>
-                        <li>
-                          <input id="free" type="checkbox" />
-                          <label htmlFor="free"> Free</label>
-                        </li>
-                      </ul>
-                    </div>
-                    <hr />
-                    <br />
-                    <div className="level-filter">
-                      <h2 className="text-2xl">Level</h2>
-                      <ul>
-                        <li>
-                          <input id="beginner" type="checkbox" />
-                          <label htmlFor="beginner"> Beginner</label>
-                        </li>
-                        <li>
-                          <input id="intermediate" type="checkbox" />
-                          <label htmlFor="intermediate"> Intermediate</label>
-                        </li>
-                        <li>
-                          <input id="advanced" type="checkbox" />
-                          <label htmlFor="advanced"> Advanced</label>
-                        </li>
-                      </ul>
-                    </div>
+                    <FilterItem />
                   </div>
+
                 </SheetContent>
               </Sheet>
 
@@ -220,13 +166,13 @@ const Courses = () => {
                 onClick={() => setIsGridCol(false)}
                 className="cursor-pointer hidden sm:block"
               >
-                <RiLayoutGridFill />
+                <LayoutGrid />
               </button>
               <button
                 onClick={() => setIsGridCol(true)}
                 className="cursor-pointer hidden sm:block"
               >
-                <RiLayout4Fill />
+                <LayoutList />
               </button>
 
               <p className="text-base text-gray-600">
@@ -234,26 +180,20 @@ const Courses = () => {
               </p>
             </div>
             <div className="right-content order-1 md:order-2 flex items-center gap-1.5 md:gap-5">
-              <div className="filter-course text-gray-500 border border-gray-400 px-1.5">
-                <select
-                  className="px-0 md:px-2 py-1 border-none outline-none"
-                  name="filter-course"
-                  id="filter-course"
-                  onChange={(e) => setSelectCategory(e.target.value)}
-                  value={selectCategory}
-                >
-                  <option className="border-none" value="latest">
-                    Latest
-                  </option>
-                  <option className="border-none" value="top-rated">
-                    Top Rated
-                  </option>
-                  <option className="border-none" value="oldest">
-                    Oldest
-                  </option>
-                </select>
+              <div className="filter-course text-gray-500 px-1.5">
+                <Select onValueChange={(value) => setSelectCategory(value)} value={selectCategory}>
+                  <SelectTrigger className="w-[180px] border rounded border-gray-300">
+                    <SelectValue placeholder="Filter Course" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="latest">Latest</SelectItem>
+                    <SelectItem value="top-rated">Top Rated</SelectItem>
+                    <SelectItem value="oldest">Oldest</SelectItem>
+                  </SelectContent>
+                </Select>
+
               </div>
-              <div className="search-ba flex items-center gap-1 px-2 py-1 border border-gray-400">
+              <div className="search-ba flex items-center gap-1 px-2 py-1 rounded border border-gray-4300">
                 <input
                   type="text"
                   className="outline-none max-w-[150px] sm:w-fit"
@@ -261,7 +201,7 @@ const Courses = () => {
                   onChange={(e) => setQuery(e.target.value)}
                 />
                 <div className="icon">
-                  <IoSearchOutline />
+                  <Search />
                 </div>
               </div>
             </div>
@@ -270,22 +210,18 @@ const Courses = () => {
           {/* Courses Content Section =============== */}
           <div className="courses-content mt-6 md:mt-8 grid gap-5 grid-cols-12">
             <div
-              className={`courses gap-5 grid col-span-12 lg:col-span-8 ${
-                isGridCol ? "sm:grid-cols-1" : "grid-cols-2"
-              }`}
+              className={`courses gap-5 grid col-span-12 lg:col-span-8 ${isGridCol ? "sm:grid-cols-1" : "grid-cols-2"
+                }`}
             >
               {/* CourseCard ========================= */}
               {filteredCourses.map((course) => (
                 <div
-                key={course.id}
-                className={`course-item col-span-2 sm:col-span-1 min-h-[200px] shadow-md rounded ${
-                  isGridCol ? "flex items-center" : ""
-                }`}
-              >
-                <CourseCard
-                  course={course}
-                ></CourseCard>
-              </div>
+                  key={course.id}
+                  className={`course-item col-span-2 sm:col-span-1 min-h-[200px] shadow-md rounded ${isGridCol ? "flex items-center" : ""
+                    }`}
+                >
+                  <CourseCard course={course}></CourseCard>
+                </div>
               ))}
             </div>
 
@@ -296,57 +232,7 @@ const Courses = () => {
               </p>
               {/* Add filter options here */}
               <div className="courses-filter rounded shadow-md px-4 py-1.5 hidden lg:block">
-                <div className="category-filter">
-                  <h2 className="text-2xl">All Categories</h2>
-                  <ul>
-                    <li>
-                      <input id="web-design" type="checkbox" />
-                      <label htmlFor="web-design"> Web Design</label>
-                    </li>
-                    <li>
-                      <input id="web-development" type="checkbox" />
-                      <label htmlFor="web-development"> Web Development</label>
-                    </li>
-                    <li>
-                      <input id="flutter" type="checkbox" />
-                      <label htmlFor="flutter"> Flutter</label>
-                    </li>
-                  </ul>
-                </div>
-                <hr />
-                <br />
-                <div className="price-filter">
-                  <h2 className="text-2xl">Price</h2>
-                  <ul>
-                    <li>
-                      <input id="paid" type="checkbox" />
-                      <label htmlFor="paid"> Paid</label>
-                    </li>
-                    <li>
-                      <input id="free" type="checkbox" />
-                      <label htmlFor="free"> Free</label>
-                    </li>
-                  </ul>
-                </div>
-                <hr />
-                <br />
-                <div className="level-filter">
-                  <h2 className="text-2xl">Level</h2>
-                  <ul>
-                    <li>
-                      <input id="beginner" type="checkbox" />
-                      <label htmlFor="beginner"> Beginner</label>
-                    </li>
-                    <li>
-                      <input id="intermediate" type="checkbox" />
-                      <label htmlFor="intermediate"> Intermediate</label>
-                    </li>
-                    <li>
-                      <input id="advanced" type="checkbox" />
-                      <label htmlFor="advanced"> Advanced</label>
-                    </li>
-                  </ul>
-                </div>
+                <FilterItem />
               </div>
             </div>
           </div>

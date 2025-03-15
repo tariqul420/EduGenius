@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { formUrlQuery } from "@/lib/utils";
+import { MoveRight } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function LoadMore() {
@@ -22,7 +23,7 @@ export default function LoadMore() {
   return (
     <div className="flex justify-center mt-8">
       <Button className="bg-green" onClick={handleLoadMore}>
-        Load More
+        <span>Load More</span> <MoveRight />
       </Button>
     </div>
   );

@@ -1,5 +1,4 @@
-import React from 'react';
-import { FaArrowRight } from 'react-icons/fa';
+import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 
 function HeroSection() {
@@ -17,7 +16,7 @@ function HeroSection() {
                     </p>
                     <div className='flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start'>
                         <button className='px-6 py-3 border border-green bg-green rounded-md hover:bg-white hover:text-black hover:border-white flex items-center gap-2 cursor-pointer'>
-                            Start Learning <FaArrowRight />
+                            Start Learning <ArrowRight />
                         </button>
                         <button className='px-6 py-3 border border-green rounded-md hover:bg-white hover:text-black hover:border-white cursor-pointer'>
                             Get Started
