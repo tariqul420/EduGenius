@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@/components/shared/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Jost } from "next/font/google";
 import Footer from "../components/shared/Footer";
@@ -61,11 +62,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
         <body className={`${jost.variable} antialiased`}>
-          <Navbar />
-          {children}
-          <Footer />
+          <ThemeProvider attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange>
+            <Navbar />
+            {children}
+            <Footer />
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

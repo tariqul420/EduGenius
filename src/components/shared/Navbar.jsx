@@ -1,5 +1,6 @@
 "use client";
 
+import ThemeBtn from "@/components/shared/ThemeBtn";
 import {
     Sheet,
     SheetClose,
@@ -62,6 +63,8 @@ function Navbar() {
                             Login
                         </Link>
                     </SignedOut>
+
+                    <ThemeBtn />
 
                     <SignedIn>
                         <Suspense
