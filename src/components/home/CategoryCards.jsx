@@ -1,6 +1,7 @@
 "use client";
 
 import { courses } from "@/constant";
+import { File, Star, UserRound } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -97,7 +98,7 @@ const CategoryCards = () => {
                     <File /> <span>{course.lessons} Lessons</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <UserRound />{" "}
+                    <UserRound />
                     <span>{course.enrollment_number} Enrolled</span>
                   </div>
                 </div>
