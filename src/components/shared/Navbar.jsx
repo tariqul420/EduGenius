@@ -76,7 +76,7 @@ function Navbar() {
                             aria-label="Open menu">
                             <Menu size={24} />
                         </SheetTrigger>
-                        <SheetContent side="left" className="bg-[#264D3F] text-white px-4">
+                        <SheetContent side="left" className="bg-[#264D3F] text-white px-4 border-none">
                             <SheetHeader>
                                 <SheetTitle className="text-2xl font-bold text-green">
                                     EduGenius
