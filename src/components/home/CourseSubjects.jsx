@@ -1,14 +1,15 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const CourseSubjects = () => {
   const subjects = [
-    { name: "Social Science", image: "/social-science.png" },
-    { name: "Chemistry", image: "/chemistry110.png" },
-    { name: "Economy", image: "/economy.png" },
-    { name: "Arts", image: "/arts.png" },
-    { name: "General Knowledge", image: "/general-knowledge.png" },
-    { name: "Higher Math", image: "/higher-math.png" },
-    { name: "Geometry", image: "/geometry.png" },
+    { name: "Social Science", image: "/images/social-science.png" },
+    { name: "Chemistry", image: "/images/chemistry.png" },
+    { name: "Economy", image: "/images/economy.png" },
+    { name: "Arts", image: "/images/arts.png" },
+    { name: "General Knowledge", image: "/images/general-knowledge.png" },
+    { name: "Higher Math", image: "/images/higher-math.png" },
+    { name: "Geometry", image: "/images/geometry.png" },
   ];
 
   return (
@@ -23,15 +24,18 @@ const CourseSubjects = () => {
 
       {/* Subjects Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {subjects.map((subject, index) => (
-          <div
+        {subjects?.map((subject, index) => (
+          <Link
+          href={`/subject/${subject?.name}`}
             key={index}
             className="flex flex-col items-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 hover:scale-105 transform cursor-pointer"
+            role="button"
+            aria-label={`Explore ${subject?.name} courses`}
           >
             <div className="relative w-16 h-16 mb-4">
               <Image
-                src={subject.image}
-                alt={subject.name}
+                src={subject?.image}
+                alt={`${subject?.name} icon`}
                 layout="fill"
                 objectFit="contain"
                 className="rounded-md"
@@ -40,7 +44,7 @@ const CourseSubjects = () => {
             <p className="text-lg font-semibold text-gray-800 uppercase">
               {subject.name}
             </p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
