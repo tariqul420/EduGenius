@@ -1,25 +1,23 @@
-import { HiOutlineUsers } from "react-icons/hi2";
-import { IoBookOutline, IoCartOutline } from "react-icons/io5";
-import { MdOutlineSentimentSatisfied } from "react-icons/md";
+import { BookOpenText, ShoppingCart, Smile, Users } from "lucide-react";
 
 const data = [
   {
-    icon: <IoBookOutline className="mx-auto text-6xl md:text-8xl text-green" />,
+    icon: <BookOpenText size={100} className="mx-auto text-6xl md:text-8xl text-green" />,
     feature: "Total Course",
     value: "22 +"
   },
   {
-    icon: <HiOutlineUsers className="mx-auto text-6xl md:text-8xl text-green" />,
+    icon: <Users size={100} className="mx-auto text-6xl md:text-8xl text-green" />,
     feature: "Instructors",
     value: "9 +"
   },
   {
-    icon: <IoCartOutline className="mx-auto text-6xl md:text-8xl text-green" />,
+    icon: <ShoppingCart size={100} className="mx-auto text-6xl md:text-8xl text-green" />,
     feature: "Learners",
     value: "357 +"
   },
   {
-    icon: <MdOutlineSentimentSatisfied className="mx-auto text-6xl md:text-8xl text-green" />,
+    icon: <Smile size={100} className="mx-auto text-6xl md:text-8xl text-green" />,
     feature: "Satisfied",
     value: "2.35 %"
   },

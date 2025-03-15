@@ -1,11 +1,11 @@
 "use client";
-import React, { useState } from "react";
 import {
-  RiEqualizerLine,
-  RiLayout4Fill,
-  RiLayoutGridFill,
-} from "react-icons/ri";
-import { IoSearchOutline } from "react-icons/io5";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Sheet,
   SheetContent,
@@ -13,15 +13,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { useState } from "react";
 
 import CourseCard from "@/components/shared/CourseCard";
+import { LayoutGrid, LayoutList, Search, TableOfContents } from "lucide-react";
 import FilterItem from "./FilterItem";
 
 
@@ -151,7 +146,7 @@ const Courses = () => {
             <div className="left-content mt-5 md:mt-0 order-2 md:order-1 text-2xl flex gap-4 items-center">
               <Sheet width="200px">
                 <SheetTrigger>
-                  <RiEqualizerLine className="block lg:hidden" />
+                  <TableOfContents className="block lg:hidden" />
                 </SheetTrigger>
                 <SheetContent
                   side="left"
@@ -161,9 +156,9 @@ const Courses = () => {
                     <SheetTitle>Filter Options Of Courses</SheetTitle>
                   </SheetHeader>
                   <div className="courses-filter rounded shadow-md px-4 py-1.5 block lg:hidden">
-                  <FilterItem/>
+                    <FilterItem />
                   </div>
-                  
+
                 </SheetContent>
               </Sheet>
 
@@ -171,13 +166,13 @@ const Courses = () => {
                 onClick={() => setIsGridCol(false)}
                 className="cursor-pointer hidden sm:block"
               >
-                <RiLayoutGridFill />
+                <LayoutGrid />
               </button>
               <button
                 onClick={() => setIsGridCol(true)}
                 className="cursor-pointer hidden sm:block"
               >
-                <RiLayout4Fill />
+                <LayoutList />
               </button>
 
               <p className="text-base text-gray-600">
@@ -186,16 +181,16 @@ const Courses = () => {
             </div>
             <div className="right-content order-1 md:order-2 flex items-center gap-1.5 md:gap-5">
               <div className="filter-course text-gray-500 px-1.5">
-                 <Select onValueChange={(value) => setSelectCategory(value)} value={selectCategory}>
-                <SelectTrigger className="w-[180px] border rounded border-gray-300">
-                  <SelectValue placeholder="Filter Course" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="latest">Latest</SelectItem>
-                  <SelectItem value="top-rated">Top Rated</SelectItem>
-                  <SelectItem value="oldest">Oldest</SelectItem>
-                </SelectContent>
-              </Select>
+                <Select onValueChange={(value) => setSelectCategory(value)} value={selectCategory}>
+                  <SelectTrigger className="w-[180px] border rounded border-gray-300">
+                    <SelectValue placeholder="Filter Course" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="latest">Latest</SelectItem>
+                    <SelectItem value="top-rated">Top Rated</SelectItem>
+                    <SelectItem value="oldest">Oldest</SelectItem>
+                  </SelectContent>
+                </Select>
 
               </div>
               <div className="search-ba flex items-center gap-1 px-2 py-1 rounded border border-gray-4300">
@@ -206,7 +201,7 @@ const Courses = () => {
                   onChange={(e) => setQuery(e.target.value)}
                 />
                 <div className="icon">
-                  <IoSearchOutline />
+                  <Search />
                 </div>
               </div>
             </div>
@@ -215,17 +210,15 @@ const Courses = () => {
           {/* Courses Content Section =============== */}
           <div className="courses-content mt-6 md:mt-8 grid gap-5 grid-cols-12">
             <div
-              className={`courses gap-5 grid col-span-12 lg:col-span-8 ${
-                isGridCol ? "sm:grid-cols-1" : "grid-cols-2"
-              }`}
+              className={`courses gap-5 grid col-span-12 lg:col-span-8 ${isGridCol ? "sm:grid-cols-1" : "grid-cols-2"
+                }`}
             >
               {/* CourseCard ========================= */}
               {filteredCourses.map((course) => (
                 <div
                   key={course.id}
-                  className={`course-item col-span-2 sm:col-span-1 min-h-[200px] shadow-md rounded ${
-                    isGridCol ? "flex items-center" : ""
-                  }`}
+                  className={`course-item col-span-2 sm:col-span-1 min-h-[200px] shadow-md rounded ${isGridCol ? "flex items-center" : ""
+                    }`}
                 >
                   <CourseCard course={course}></CourseCard>
                 </div>
@@ -239,7 +232,7 @@ const Courses = () => {
               </p>
               {/* Add filter options here */}
               <div className="courses-filter rounded shadow-md px-4 py-1.5 hidden lg:block">
-                <FilterItem/>
+                <FilterItem />
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
 # EduGenius - AI-Powered Course Management System
 
-🚀 **Live Demo:** [EduGenius on Vercel](https://edu-genius.vercel.app/)
+🚀 **Live Demo:** [EduGenius](https://edu-genius.vercel.app/)
 
 ---
 

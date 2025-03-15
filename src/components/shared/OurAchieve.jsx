@@ -32,7 +32,7 @@ function OurAchieve() {
         <p className="text-sm lg:text-base text-gray-600 max-w-lg mx-auto lg:mx-0">
           Your achievement is considered as our achievement. Whatever you learn from us, even if it’s a little – we will be proud to be a part of your journey.
         </p>
-        <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 gap-y-12'>
+        <div className='grid grid-cols-2 sm:grid-cols-2 gap-6 lg:gap-8 gap-y-12'>
           {data?.map((item, index) => (
             <div key={index} className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
               <div className='relative h-16 w-16 rounded-lg overflow-hidden flex-shrink-0'>

@@ -1,10 +1,5 @@
+import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 import Image from "next/image";
-import {
-  TiSocialFacebook,
-  TiSocialInstagram,
-  TiSocialLinkedin,
-  TiSocialTwitter,
-} from "react-icons/ti";
 
 export default function InstructorCard({ instructor }) {
   return (
@@ -25,16 +20,16 @@ export default function InstructorCard({ instructor }) {
 
           <div className="flex justify-center items-center space-x-4 px-4">
             <a href={instructor.social.facebook}>
-              <TiSocialFacebook className="text-2xl text-green" />
+              <Facebook className="text-2xl text-green" />
             </a>
             <a href={instructor.social.twitter}>
-              <TiSocialTwitter className="text-2xl text-green" />
+              <Twitter className="text-2xl text-green" />
             </a>
             <a href={instructor.social.linkedin}>
-              <TiSocialLinkedin className="text-2xl text-green" />
+              <Linkedin className="text-2xl text-green" />
             </a>
             <a href={instructor.social.instagram}>
-              <TiSocialInstagram className="text-2xl text-green" />
+              <Instagram className="text-2xl text-green" />
             </a>
           </div>
         </div>

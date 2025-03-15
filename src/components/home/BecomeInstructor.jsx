@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const BecomeInstructor = () => {
   return (
-    <section className="bg-[#f8f8f8] py-12 px-10">
+    <section className="bg-[#f8f8f8] py-12 px-10 mt-10">
       <div className="flex flex-col md:flex-row items-center justify-between container mx-auto lg:max-w-6xl">
         <div>
           <h1 className="font-bold lg:text-2xl text-xl lg:text-left text-center">

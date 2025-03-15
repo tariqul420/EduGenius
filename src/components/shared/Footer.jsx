@@ -1,13 +1,6 @@
 "use client";
+import { Facebook, GraduationCap, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 import Link from "next/link";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaLinkedin,
-  FaTwitter,
-  FaYoutube,
-} from "react-icons/fa";
-import { RiGraduationCapFill } from "react-icons/ri";
 const Footer = () => {
   return (
     <footer className="bg-gradient-to-r from-[#264D3F] to-dark-green text-white py-12">
@@ -17,7 +10,7 @@ const Footer = () => {
           {/* EduGenius & Description */}
           <div className="lg:w-1/2">
             <div className="flex items-center lg:justify-start justify-center gap-2 text-3xl">
-              <RiGraduationCapFill className="text-green" />
+              <GraduationCap className="text-green" />
               <h2 className="font-bold text-xl">EduGenius</h2>
             </div>
             <p className="lg:w-[70%] text-center lg:text-left lg:mt-0 mt-2">
@@ -48,11 +41,11 @@ const Footer = () => {
           <div className="">
             {/* Social Icons */}
             <div className="flex items-center gap-2 text-4xl">
-              <FaFacebook className="bg-[#536961] hover:bg-green p-2 rounded-full"></FaFacebook>
-              <FaTwitter className="bg-[#536961] hover:bg-green p-2 rounded-full"></FaTwitter>
-              <FaLinkedin className="bg-[#536961] hover:bg-green p-2 rounded-full"></FaLinkedin>
-              <FaInstagram className="bg-[#536961] hover:bg-green p-2 rounded-full"></FaInstagram>
-              <FaYoutube className="bg-[#536961] hover:bg-green p-2 rounded-full"></FaYoutube>
+              <Facebook size={35} className="bg-[#536961] hover:bg-green p-2 rounded-full cursor-pointer" />
+              <Twitter size={35} className="bg-[#536961] hover:bg-green p-2 rounded-full cursor-pointer" />
+              <Linkedin size={35} className="bg-[#536961] hover:bg-green p-2 rounded-full cursor-pointer" />
+              <Instagram size={35} className="bg-[#536961] hover:bg-green p-2 rounded-full cursor-pointer" />
+              <Youtube size={35} className="bg-[#536961] hover:bg-green p-2 rounded-full cursor-pointer" />
             </div>
 
             <h3 className="font-bold mb-5 mt-5">Download App</h3>
