@@ -1,9 +1,9 @@
 "use client";
 
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import Image from "next/image";
-import { FaStar, FaFileAlt, FaUser } from "react-icons/fa";
 import { courses } from "@/constant";
+import { File, Star, UserRound } from "lucide-react";
+import Image from "next/image";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const CategoryCards = () => {
   const searchParams = useSearchParams();
@@ -82,7 +82,7 @@ const CategoryCards = () => {
               <div>
                 <div className="absolute right-6 -mt-9">
                   <div className="bg-black text-white text-xs px-3 py-2 flex items-center gap-1">
-                    <FaStar className="text-yellow-400" />
+                    <Star className="text-yellow-400" />
                     <span>{course.rating.toFixed(1)}</span>
                   </div>
                 </div>
@@ -93,10 +93,10 @@ const CategoryCards = () => {
 
                 <div className="flex items-center text-gray-600 text-sm gap-4 mt-4 px-4">
                   <div className="flex items-center gap-1">
-                    <FaFileAlt /> <span>{course.lessons} Lessons</span>
+                    <File /> <span>{course.lessons} Lessons</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <FaUser /> <span>{course.enrollment_number} Enrolled</span>
+                    <UserRound /> <span>{course.enrollment_number} Enrolled</span>
                   </div>
                 </div>
 
