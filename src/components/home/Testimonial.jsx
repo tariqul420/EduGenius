@@ -40,14 +40,13 @@ function Testimonial() {
                     spaceBetween={30}
                     pagination={true}
                     modules={[Pagination]}
-                    module={true}
                     className="mySwiper"
                     breakpoints={{
                         768: {
                             slidesPerView: 1,
                         },
                         1024: {
-                            slidesPerView: 2,
+                            slidesPerView: 1,
                         },
                     }}
                 >
