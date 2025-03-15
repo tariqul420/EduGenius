@@ -9,5 +9,9 @@ export default clerkMiddleware({
 });
 
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: [
+    "/((?!.+\\.[\\w]+$|_next|api/webhook/clerk).*)",
+    "/",
+    "/(api|trpc)(.*)",
+  ],
 };
