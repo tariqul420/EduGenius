@@ -19,7 +19,7 @@ const eslintConfig = [
     },
     rules: {
       "react/react-in-jsx-scope": "off",
-      "no-console": "warn",
+      "no-console": ["warn", { allow: ["error"] }],
     },
   },
 ];
