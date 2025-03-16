@@ -179,7 +179,7 @@ const Courses = () => {
                 Showing {filteredCourses.length} Of {coursesData.length} Results
               </p>
             </div>
-            <div className="right-content order-1 md:order-2 flex flex-col sm:flex-row sm:items-center gap-1.5 md:gap-5">
+            <div className="right-content order-1 md:order-2 flex sm:items-center gap-1.5 md:gap-5">
               <div className="filter-course text-gray-500">
                 <Select onValueChange={(value) => setSelectCategory(value)} value={selectCategory}>
                   <SelectTrigger className="w-[130px] sm:w-[150px] border rounded border-gray-300">
@@ -193,7 +193,7 @@ const Courses = () => {
                 </Select>
 
               </div>
-              <div className="search-ba w-[250px] flex justify-between items-center gap-1 px-2 py-1 rounded border border-gray-4300">
+              <div className="search-ba w-[190px] sm:w-[250px] flex justify-between items-center gap-1 px-2 py-1 rounded border border-gray-4300">
                 <input
                   type="text"
                   className="outline-none"
@@ -217,7 +217,7 @@ const Courses = () => {
               {filteredCourses.map((course) => (
                 <div
                   key={course.id}
-                  className={`course-item col-span-2 sm:col-span-1 min-h-[200px] shadow-md dark:bg-black-light rounded ${isGridCol ? "flex items-center" : ""
+                  className={`course-item col-span-2 sm:col-span-1 min-h-[200px] shadow-md rounded ${isGridCol ? "flex items-center" : ""
                     }`}
                 >
                   <CourseCard course={course}></CourseCard>
