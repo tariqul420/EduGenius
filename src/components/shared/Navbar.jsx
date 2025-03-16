@@ -54,6 +54,8 @@ function Navbar() {
                         ))}
                     </ul>
 
+                    <ThemeBtn />
+
                     {/* Login Button for larger screens */}
                     <SignedOut>
                         <Link
@@ -63,8 +65,6 @@ function Navbar() {
                             Login
                         </Link>
                     </SignedOut>
-
-                    <ThemeBtn />
 
                     <SignedIn>
                         <Suspense

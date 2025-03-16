@@ -63,7 +63,7 @@ export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
-        <body className={`${jost.variable} antialiased`}>
+        <body className={`${jost.variable} antialiased dark:bg-black-dark dark:text-white`}>
           <ThemeProvider attribute="class"
             defaultTheme="system"
             enableSystem

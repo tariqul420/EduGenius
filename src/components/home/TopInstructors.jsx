@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Heading from "@/components/shared/Heading"
 
 const data = [
   {
@@ -29,19 +30,16 @@ const data = [
 
 export default function TopInstructors() {
   return (
-    <section className="bg-dark-green flex flex-col justify-center items-center py-12 mt-20">
+    <section className="bg-dark-green dark:bg-black-dark flex flex-col justify-center items-center py-12 mt-20">
       {/* Heading */}
-      <h1 className="text-3xl font-bold text-white">Top Rated Instructors</h1>
-      <p className="text-base text-white mt-2">
-        Learn from the best in the industry.
-      </p>
+      <Heading title={`Top Rated Instructors`} subTitle={`Learn from the best in the industry.`} />
 
       {/* Instructors Grid */}
       <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-6 mt-10 container mx-auto px-4 sm:px-6 lg:px-8">
         {data.map((item) => (
           <div
             key={item.id}
-            className="p-6 bg-white group rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex flex-col items-center hover:bg-green hover:-translate-y-2 cursor-pointer"
+            className="p-6 bg-white dark:bg-black-light group rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex flex-col items-center hover:bg-green hover:-translate-y-2 cursor-pointer"
           >
             {/* Image Container */}
             <div className="relative w-48 h-48 overflow-hidden">
@@ -55,10 +53,10 @@ export default function TopInstructors() {
             </div>
 
             {/* Instructor Details */}
-            <h3 className="text-center text-lg mt-4 font-semibold text-gray-800 group-hover:text-white">
+            <h3 className="text-center text-lg mt-4 font-semibold text-gray-800 group-hover:text-white dark:text-white">
               {item.name}
             </h3>
-            <p className="text-center text-base text-gray-600 group-hover:text-gray-200">
+            <p className="text-center text-base text-gray-600 group-hover:text-gray-200 dark:text-gray-100">
               {item.designation}
             </p>
           </div>
