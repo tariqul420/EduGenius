@@ -1,13 +1,16 @@
-"use client";
 import CheckCategory from "@/components/shared/CheckCategory";
-import { Mail, Search, User } from "lucide-react";
+import { Mail, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import FeaturedBlog from "./FeaturedBlog";
-import { useState } from "react";
 
-const BlogDetails = () => {
-  //  const [query, setQuery] = useState("");
+import React from 'react';
+
+const FeaturedBlog = () => {
+   
+
+
+
+
   const blogData = [
     {
       id: 1,
@@ -35,7 +38,7 @@ const BlogDetails = () => {
     },
     {
       id: 6,
-      name: "Blog 5",
+      name: "Blog 6",
       title: "The Future of Web Development: Trends to Watch in 2025",
       description:
         "Web development is constantly evolving, and 2025 is set to bring groundbreaking changes. From AI-powered design to low-code development platforms...",
@@ -83,70 +86,46 @@ const BlogDetails = () => {
     },
   ];
 
-
-
-  // Filter courses by category
-  // const filteredCourses = sortedCourses.filter((course) =>
-  //   course.category.toLowerCase().includes(query.toLowerCase())
-  // );
   return (
-    <div className="container mx-auto px-4 py-6 lg:max-w-6xl">
+    <div className="container lg:max-w-6xl mx-auto my-12 bg-gray-100 rounded-md px-4 py-6">
       {/* Header */}
-      <div className="mb-8 items-center text-center flex justify-between">
-        <div>
-        
-          <h1 className="text-2xl lg:text-4xl font-semibold">All Posts</h1>
-        </div>
-        <div>
-          <p className="text-green-600 ">
-            Showing {blogData.length} results
-          </p>
-        </div>
-        <div className="search-ba border-gray-4300 flex items-center gap-1 rounded border px-2 py-1">
-          <input
-            type="text"
-            className="max-w-[150px] outline-none sm:w-fit"
-            placeholder="Search by Category"
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <div className="icon">
-            <Search />
-          </div>
-        </div>
+      <div className=" text-center  md:flex  items-center mb-8">
+        <h1 className="text-3xl font-semibold">Featured Blog</h1>
+      
       </div>
-      <hr className="mb-8 border-t-2 border-gray-500" />
+      <hr className="border-t-2 border-gray-500 mb-8" />
       {/* Main Content */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+      <div className="  grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Blog Posts Section */}
-        <div className="md:col-span-3">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div className="md:col-span-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-6">
             {blogData.map((blog) => (
               <div
                 key={blog.id}
-                className="transform cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                className="bg-white rounded-lg overflow-hidden border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 transform cursor-pointer"
               >
                 <Image
                   src={blog.image}
                   alt={blog.name}
                   layout="responsive"
-                  width={16}
+                  width={16} 
                   height={9}
-                  className="h-80 w-full object-cover"
+                  className="w-full h-80 object-cover"
                 />
                 <div className="p-4">
-                  <div className="flex justify-between">
+                  <div className=" flex justify-between">
                     <p className="text-sm text-gray-500">{blog.category}</p>
-                    <p className="bg-green rounded-md p-2 text-sm">
+                    <p className="text-sm bg-green p-2 rounded-md">
                       {blog.date}
                     </p>
                   </div>
 
-                  <h2 className="mt-2 text-lg font-semibold">{blog.title}</h2>
-                  <p className="mt-2 text-gray-600">
+                  <h2 className="text-lg font-semibold mt-2">{blog.title}</h2>
+                  <p className="text-gray-600 mt-2">
                     {blog.description.slice(0, 100)}...
                   </p>
                 </div>
-                <div className="flex items-center justify-between px-4 pb-4">
+                <div className="flex justify-between items-center px-4 pb-4">
                   <div className="flex items-center space-x-2 text-gray-500">
                     <Mail />
                     <p>1</p>
@@ -157,7 +136,7 @@ const BlogDetails = () => {
                   </div>
                   <Link
                     href={`/blog/${blog.id}`}
-                    className="text-green font-semibold hover:underline"
+                    className="text-green uppercase font-semibold hover:underline"
                   >
                     {blog.detailButton}
                   </Link>
@@ -167,37 +146,11 @@ const BlogDetails = () => {
           </div>
         </div>
 
-        {/* Sidebar (Categories) */}
-        <div className="rounded-lg p-6 md:col-span-1">
-          <h2 className="mb-4 text-2xl font-semibold">All Categories</h2>
-          <ul className="space-y-3">
-            <li className="flex items-center gap-2">
-              <CheckCategory
-                id="webDesign"
-                label="Web Design"
-                keyCategory="category"
-              />
-            </li>
-            <li className="flex items-center gap-2">
-              <CheckCategory
-                id="webDevelopment"
-                label="Web Development"
-                keyCategory="category"
-              />
-            </li>
-            <li className="flex items-center gap-2">
-              <CheckCategory
-                id="flutter"
-                label="Flutter"
-                keyCategory="category"
-              />
-            </li>
-          </ul>
-        </div>
+      
       </div>
-      <FeaturedBlog></FeaturedBlog>
+     
     </div>
   );
 };
 
-export default BlogDetails;
+export default FeaturedBlog;
