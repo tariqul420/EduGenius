@@ -1,5 +1,6 @@
 "use client";
 
+import Heading from "@/components/shared/Heading";
 import { courses } from "@/constant";
 import { File, Star, UserRound } from "lucide-react";
 import Image from "next/image";
@@ -39,15 +40,12 @@ const CategoryCards = () => {
     categorySlug === "all-courses"
       ? courses
       : courses.filter(
-          (course) => course.course_category_slug === categorySlug
-        );
+        (course) => course.course_category_slug === categorySlug
+      );
 
   return (
     <section className="p-5 container mx-auto lg:max-w-6xl mt-20">
-      <h1 className="text-center font-bold text-3xl">Our Top Courses</h1>
-      <p className="text-center text-sm">
-        We make learning convenient, affordable, and fun!
-      </p>
+      <Heading title={`Our Top Courses`} subTitle={`We make learning convenient, affordable, and fun!`} />
 
       {/* Category Buttons */}
       <div className="flex flex-wrap justify-center my-6">
@@ -55,11 +53,10 @@ const CategoryCards = () => {
           <div
             key={index}
             onClick={() => updateCategory(cat.slug)}
-            className={`px-4 py-4 text-sm font-semibold cursor-pointer transition ${
-              categorySlug === cat.slug
-                ? "bg-green text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}>
+            className={`px-4 py-4 text-sm font-semibold cursor-pointer transition ${categorySlug === cat.slug
+              ? "bg-green text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-black-light dark:text-white dark:hover:bg-black/10"
+              }`}>
             {cat.name}
           </div>
         ))}
@@ -69,7 +66,7 @@ const CategoryCards = () => {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
         {filteredCourses?.length > 0 ? (
           filteredCourses?.map((course, index) => (
-            <div key={index} className="max-w-sm shadow-lg bg-white relative">
+            <div key={index} className="max-w-sm shadow-lg bg-white dark:bg-black-light relative">
               <div className="absolute bg-green text-white text-xs font-semibold px-3 py-1 top-3 left-3">
                 {course.course_category}
               </div>
@@ -93,17 +90,17 @@ const CategoryCards = () => {
                   {course.course_title}
                 </h2>
 
-                <div className="flex items-center text-gray-600 text-sm gap-4 mt-4 px-4">
-                  <div className="flex items-center gap-1">
+                <div className="flex items-center text-gray-600 dark:text-gray-200 text-sm gap-4 mt-4 px-4">
+                  <p className="flex items-center gap-1">
                     <File /> <span>{course.lessons} Lessons</span>
-                  </div>
-                  <div className="flex items-center gap-1">
+                  </p>
+                  <p className="flex items-center gap-1">
                     <UserRound />
                     <span>{course.enrollment_number} Enrolled</span>
-                  </div>
+                  </p>
                 </div>
 
-                <div className="mt-4 flex items-center justify-between bg-[#f8f8f8] p-4">
+                <div className="mt-4 flex items-center justify-between p-4">
                   <span className="text-gree text-xl font-bold">
                     ${course.price.toFixed(2)}
                   </span>

@@ -38,7 +38,9 @@ function Testimonial() {
                 <Swiper
                     slidesPerView={1}
                     spaceBetween={30}
-                    pagination={true}
+                    pagination={{
+                        clickable: true,
+                    }}
                     modules={[Pagination]}
                     className="mySwiper"
                     breakpoints={{
@@ -52,9 +54,9 @@ function Testimonial() {
                 >
                     {users?.map((user, idx) => (
                         <SwiperSlide key={idx} className="py-8">
-                            <div className="p-8 bg-gray-50 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex flex-col md:flex-row gap-8 items-center justify-between cursor-pointer w-full">
+                            <div className="p-8 dark:bg-black-light rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex flex-col md:flex-row gap-8 items-center justify-between cursor-pointer w-full">
                                 {/* Image Container */}
-                                <div className="relative w-48 h-48 overflow-hidden rounded-full ring-4 ring-green-500">
+                                <div className="relative w-48 h-48 overflow-hidden rounded-full ring-4 ring-green">
                                     <Image
                                         src={user.image}
                                         alt={user.name}
@@ -71,10 +73,10 @@ function Testimonial() {
 
                                 {/* User Details */}
                                 <div className="flex-1 text-center md:text-left">
-                                    <p className="text-lg text-gray-600 mt-2 italic">
+                                    <p className="text-lg text-gray-600 dark:text-gray-200 mt-2 italic">
                                         &quot;{user.review}&quot;
                                     </p>
-                                    <h3 className="text-xl font-semibold text-gray-800 mt-4">
+                                    <h3 className="text-xl font-semibold mt-4">
                                         {user.name}
                                     </h3>
                                 </div>

@@ -8,7 +8,7 @@ function InsightsCard({ insights }) {
   return (
     <Link
       href={`/demo/1`}
-      className="bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-all duration-300 hover:-translate-y-2">
+      className="bg-white dark:bg-black-light rounded-lg overflow-hidden shadow hover:shadow-md transition-all duration-300 hover:-translate-y-2">
       <div className="course-image relative">
         <Image
           src={image}

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Heading from "@/components/shared/Heading"
 
 const data = [
   {
@@ -29,10 +30,10 @@ function OurAchieve() {
       {/* Text Content */}
       <div className='space-y-6 flex-1 text-center lg:text-left'>
         <h2 className="font-bold text-3xl lg:text-4xl">Our Achievement</h2>
-        <p className="text-sm lg:text-base text-gray-600 max-w-lg mx-auto lg:mx-0">
+        <p className="text-sm lg:text-base text-gray-600 dark:text-gray-200 max-w-lg mx-auto lg:mx-0">
           Your achievement is considered as our achievement. Whatever you learn from us, even if it’s a little – we will be proud to be a part of your journey.
         </p>
-        <div className='grid grid-cols-2 sm:grid-cols-2 gap-6 lg:gap-8 gap-y-12'>
+        <div className='grid grid-cols-2 gap-6 lg:gap-8'>
           {data?.map((item, index) => (
             <div key={index} className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
               <div className='relative h-16 w-16 rounded-lg overflow-hidden flex-shrink-0'>
@@ -47,8 +48,8 @@ function OurAchieve() {
                 />
               </div>
               <div>
-                <p className="text-lg md:text-xl font-bold text-gray-800">{item?.value}</p>
-                <h6 className="font-medium text-gray-600">{item?.title}</h6>
+                <p className="text-lg md:text-xl font-bold">{item?.value}</p>
+                <h6 className="font-medium text-gray-600 dark:text-gray-200">{item?.title}</h6>
               </div>
             </div>
           ))}
@@ -69,10 +70,10 @@ function OurAchieve() {
           />
         </div>
 
-        <div className='relative h-48 sm:h-64 rounded-lg shadow-lg overflow-hidden bg-[#333333] flex items-center justify-center'>
+        <div className='relative h-48 sm:h-64 rounded-lg shadow-lg overflow-hidden bg-[#333333] dark:bg-black-light flex items-center justify-center'>
         </div>
 
-        <div className='relative h-48 sm:h-64 rounded-lg shadow-lg overflow-hidden bg-green flex items-center justify-center'>
+        <div className='relative h-48 sm:h-64 rounded-lg shadow-lg overflow-hidden bg-green dark:bg-black-light flex items-center justify-center'>
         </div>
 
         <div className='relative h-48 sm:h-64 rounded-lg shadow-lg overflow-hidden'>

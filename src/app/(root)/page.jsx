@@ -1,5 +1,5 @@
 import BecomeInstructor from "@/components/home/BecomeInstructor";
-import CategoryCards from "@/components/home/CategoryCards";
+import CategoryCards from "@/components/home/TopCourses";
 import CourseSubjects from "@/components/home/CourseSubjects";
 import HeroSection from "@/components/home/HeroSection";
 import PopularInsights from "@/components/home/PopularInsights";

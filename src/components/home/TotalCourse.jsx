@@ -25,7 +25,7 @@ const data = [
 
 const TotalCourse = () => {
   return (
-    <section className="bg-dark-green mt-20">
+    <section className="bg-dark-green dark:bg-black-light mt-20">
       <div className="container mx-auto lg:max-w-6xl my-4 max-w-10/12 py-12 items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {data.map((item, index) => (
           <div key={index} className="items-center flex flex-col md:flex-row gap-4 text-center md:text-left">

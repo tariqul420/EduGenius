@@ -8,6 +8,8 @@
   --color-green: #25ab7c;
   --color-blue: #141f39;
   --color-dark-green: #08261c;
+  --color-black-dark: #09101a;
+  --color-black-light: #121b27;
 }
 
 body {
@@ -128,6 +130,7 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
