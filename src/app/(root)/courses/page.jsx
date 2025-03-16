@@ -140,7 +140,7 @@ const Courses = () => {
   return (
     <>
       <section className="py-5">
-        <div className="container px-2 md:px-5 mx-auto">
+        <div className="container px-2 md:px-5 lg:max-w-6xl mx-auto">
           {/* Filter Courses =============== */}
           <div className="filter-bar flex flex-col md:flex-row py-4 justify-between items-left md:items-center px-2 md:px-4 shadow-md border border-slate-100 rounded min-h-[60px] my-3">
             <div className="left-content mt-5 md:mt-0 order-2 md:order-1 text-2xl flex gap-4 items-center">
@@ -179,10 +179,10 @@ const Courses = () => {
                 Showing {filteredCourses.length} Of {coursesData.length} Results
               </p>
             </div>
-            <div className="right-content order-1 md:order-2 flex items-center gap-1.5 md:gap-5">
-              <div className="filter-course text-gray-500 px-1.5">
+            <div className="right-content order-1 md:order-2 flex sm:items-center gap-1.5 md:gap-5">
+              <div className="filter-course text-gray-500">
                 <Select onValueChange={(value) => setSelectCategory(value)} value={selectCategory}>
-                  <SelectTrigger className="w-[180px] border rounded border-gray-300">
+                  <SelectTrigger className="w-[130px] sm:w-[150px] border rounded border-gray-300">
                     <SelectValue placeholder="Filter Course" />
                   </SelectTrigger>
                   <SelectContent>
@@ -193,15 +193,15 @@ const Courses = () => {
                 </Select>
 
               </div>
-              <div className="search-ba flex items-center gap-1 px-2 py-1 rounded border border-gray-4300">
+              <div className="search-ba w-[190px] sm:w-[250px] flex justify-between items-center gap-1 px-2 py-1 rounded border border-gray-4300">
                 <input
                   type="text"
-                  className="outline-none max-w-[150px] sm:w-fit"
+                  className="outline-none"
                   placeholder="Search by Category"
                   onChange={(e) => setQuery(e.target.value)}
                 />
                 <div className="icon">
-                  <Search />
+                  <Search size='16' />
                 </div>
               </div>
             </div>

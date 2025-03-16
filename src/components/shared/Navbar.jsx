@@ -1,5 +1,6 @@
 "use client";
 
+import ThemeBtn from "@/components/shared/ThemeBtn";
 import {
     Sheet,
     SheetClose,
@@ -24,6 +25,7 @@ function Navbar() {
     // Navigation links data
     const navLinks = [
         { href: "/", label: "Home" },
+        { href: "/blog", label: "Blog" },
         { href: "/courses", label: "Courses" },
         { href: "/instructors", label: "Instructors" },
     ];
@@ -51,6 +53,8 @@ function Navbar() {
                             </li>
                         ))}
                     </ul>
+
+                    <ThemeBtn />
 
                     {/* Login Button for larger screens */}
                     <SignedOut>
