@@ -12,9 +12,11 @@ const userSchema = new mongoose.Schema(
       default: "student",
       required: true,
     }, // User role
+    phone: { type: String },
+    address: { type: String },
     profilePicture: { type: String }, // Clerk profile picture URL
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.models.User || mongoose.model("User", userSchema);

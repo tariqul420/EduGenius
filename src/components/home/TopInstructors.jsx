@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Heading from "@/components/shared/Heading"
 
 const data = [
   {
@@ -32,7 +31,10 @@ export default function TopInstructors() {
   return (
     <section className="bg-dark-green dark:bg-black-dark flex flex-col justify-center items-center py-12 mt-20">
       {/* Heading */}
-      <Heading title={`Top Rated Instructors`} subTitle={`Learn from the best in the industry.`} />
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-white">Top Rated Instructors</h1>
+        <p className="mt-2 text-lg text-gray-200">Learn from the best in the industry.</p>
+      </div>
 
       {/* Instructors Grid */}
       <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-6 mt-10 container mx-auto px-4 sm:px-6 lg:px-8">
