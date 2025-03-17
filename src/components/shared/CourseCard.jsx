@@ -34,8 +34,8 @@ const CourseCard = ({ course }) => {
         <h3 className="text-lg font-semibold">{course.name}</h3>
         {/* <p className="text-sm text-gray-500">Rating: {course.rating}</p> */}
         <div className="flex py-5 justify-between text-slate-600">
-          <div className="price flex gap-1.5 items-center"><FileText size={16} /> 9 Lessions</div>
-          <div className="enroll flex gap-1.5 items-center"><Users size={16} /> 2 Enrolled</div>
+          <div className="price flex gap-1.5 items-center dark:text-gray-300"><FileText size={16} /> 9 Lessions</div>
+          <div className="enroll flex gap-1.5 items-center dark:text-gray-300"><Users size={16} /> 2 Enrolled</div>
         </div>
         <div className="flex justify-between">
           <p className="text-green font-medium text-xl md:text-2xl">$23</p>
