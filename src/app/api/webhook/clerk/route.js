@@ -61,7 +61,7 @@ export async function POST(req) {
       const newUser = await createUser(user);
 
       if (newUser) {
-        await clerkClient.users.updateUserMetadata(id, {
+        await clerkClient.users.updateUser(id, {
           publicMetadata: {
             userId: newUser.id,
           },
@@ -70,6 +70,9 @@ export async function POST(req) {
 
       return NextResponse.json({ message: "OK", user: newUser });
     } catch (error) {
+      if (error.code === 11000) {
+        return new Response("Duplicate key error", { status: 400 });
+      }
       console.error("Error creating user:", error);
       return new Response("Error creating user", { status: 500 });
     }

@@ -2,8 +2,12 @@ import InstructorCard from "@/components/shared/InstructorCard";
 import LoadMore from "@/components/shared/LoadMore";
 import SlidePrViewSlider from "@/components/shared/SlidePerViewSlider";
 import { instructors } from "@/constant";
+import { getInstructors } from "@/lib/actions/instructor.action";
 
-export default function Instructors() {
+export default async function Instructors() {
+  const data = await getInstructors();
+  console.log(data);
+
   return (
     <>
       <section>
@@ -16,7 +20,7 @@ export default function Instructors() {
           </div>
 
           <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
-            {instructors.map((instructor, idx) => (
+            {instructors?.map((instructor, idx) => (
               <InstructorCard key={idx} instructor={instructor} />
             ))}
           </div>
