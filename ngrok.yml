@@ -3,6 +3,6 @@ tunnels:
   website:
     proto: http
     hostname: steady-quality-gopher.ngrok-free.app
-    addr: 192.168.0.103:3000
+    addr: 192.168.0.100:3000
     inspect: true
 version: 2
