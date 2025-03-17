@@ -175,7 +175,7 @@ const Courses = () => {
                 <LayoutList />
               </button>
 
-              <p className="text-base text-gray-600">
+              <p className="text-base text-gray-500">
                 Showing {filteredCourses.length} Of {coursesData.length} Results
               </p>
             </div>
@@ -193,7 +193,7 @@ const Courses = () => {
                 </Select>
 
               </div>
-              <div className="search-ba w-[190px] sm:w-[250px] flex justify-between items-center gap-1 px-2 py-1 rounded border border-gray-4300">
+              <div className="search-ba w-[190px] sm:w-[250px] flex justify-between items-center gap-1 px-2 py-1 rounded border border-gray-300">
                 <input
                   type="text"
                   className="outline-none"
@@ -217,7 +217,7 @@ const Courses = () => {
               {filteredCourses.map((course) => (
                 <div
                   key={course.id}
-                  className={`course-item col-span-2 sm:col-span-1 min-h-[200px] shadow-md rounded ${isGridCol ? "flex items-center" : ""
+                  className={`course-item dark:bg-black-light col-span-2 sm:col-span-1 min-h-[200px] shadow-md rounded ${isGridCol ? "flex items-center" : ""
                     }`}
                 >
                   <CourseCard course={course}></CourseCard>

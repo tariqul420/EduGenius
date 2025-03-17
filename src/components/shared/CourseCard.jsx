@@ -19,7 +19,7 @@ const CourseCard = ({ course }) => {
   const { id, rating, category } = course;
   return (
     <>
-      <div className="course-image relative dark:bg-black-light">
+      <div className="course-image relative">
         <p className="bg-green w-fit text-white absolute px-3 py-1.5 text-sm">{category}</p>
         <Image
           src={course.image}
