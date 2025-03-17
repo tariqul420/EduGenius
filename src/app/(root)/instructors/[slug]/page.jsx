@@ -1,3 +1,4 @@
+import InstructorTab from "@/components/shared/InstructorTab";
 import Rating from "@/components/shared/Rating";
 import { BookOpenText, UsersRound } from "lucide-react";
 import Image from "next/image";
@@ -7,21 +8,21 @@ export default function Instructor() {
   return (
     <section>
       <div className="container mx-auto py-8 max-sm:px-4 lg:max-w-6xl">
-        <div className="flex w-full overflow-hidden bg-white shadow-lg">
+        <div className="flex w-full flex-wrap bg-white shadow-lg">
           <Image
             src="https://i.ibb.co/9kngr6fK/instructor1.png"
             alt="aa"
             width={400}
             height={400}
           />
-          <div className="mt-4 space-y-2">
+          <div className="space-y-2 p-4">
             <h2 className="text-3xl font-bold">kofras namroe</h2>
             <p className="text-sm text-gray-500">Assistant Lecturer</p>
 
             <div className="mt-2">
               <Rating />
 
-              <div className="mt-4 flex gap-4">
+              <div className="mt-4 flex flex-wrap gap-4">
                 <div className="flex w-fit items-start justify-between gap-3 bg-green-100 px-8 py-3">
                   <UsersRound
                     strokeWidth={1}
@@ -61,6 +62,8 @@ export default function Instructor() {
             </div>
           </div>
         </div>
+
+        <InstructorTab />
       </div>
     </section>
   );
