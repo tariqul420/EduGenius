@@ -26,6 +26,7 @@
     "query-string": "^9.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-paginate": "^8.3.0",
     "svix": "^1.61.4",
     "swiper": "^11.2.5",
     "tailwind-merge": "^3.0.2",
