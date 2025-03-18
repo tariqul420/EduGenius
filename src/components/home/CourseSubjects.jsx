@@ -32,8 +32,8 @@ const CourseSubjects = () => {
               <Image
                 src={subject?.image}
                 alt={`${subject?.name} icon`}
-                layout="fill"
-                objectFit="contain"
+                fill
+                style={{ objectFit: 'contain' }}
                 className="rounded-md"
               />
             </div>

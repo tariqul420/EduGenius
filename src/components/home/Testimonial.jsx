@@ -60,8 +60,8 @@ function Testimonial() {
                                     <Image
                                         src={user.image}
                                         alt={user.name}
-                                        layout="fill"
-                                        objectFit="cover"
+                                        fill
+                                        style={{ objectFit: 'contain' }}
                                         className="rounded-full"
                                     />
                                 </div>
