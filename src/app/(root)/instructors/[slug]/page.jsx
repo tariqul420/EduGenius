@@ -1,23 +1,28 @@
 import InstructorTab from "@/components/shared/InstructorTab";
 import Rating from "@/components/shared/Rating";
+import { getInstructorBySlug } from "@/lib/actions/instructor.action";
 import { BookOpenText, UsersRound } from "lucide-react";
 import Image from "next/image";
 
-export default function Instructor() {
-  const userPreferences = [0.2, 0.3, 0.4];
+export default async function Instructor({ params }) {
+  const { slug } = await params;
+  const instructor = await getInstructorBySlug(slug);
+
   return (
     <section>
       <div className="container mx-auto py-8 max-sm:px-4 lg:max-w-6xl">
         <div className="flex w-full flex-wrap bg-white shadow-lg">
           <Image
-            src="https://i.ibb.co/9kngr6fK/instructor1.png"
-            alt="aa"
+            src={instructor?.profilePicture}
+            alt={instructor.firstName}
             width={400}
             height={400}
           />
           <div className="space-y-2 p-4">
-            <h2 className="text-3xl font-bold">kofras namroe</h2>
-            <p className="text-sm text-gray-500">Assistant Lecturer</p>
+            <h2 className="text-3xl font-bold">
+              {instructor.firstName} {instructor.lastName}
+            </h2>
+            <p className="text-sm text-gray-500">{instructor?.title || ""}</p>
 
             <div className="mt-2">
               <Rating />

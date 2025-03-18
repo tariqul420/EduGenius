@@ -1,8 +1,8 @@
-import { instructors } from "@/constant";
+import { getInstructorBySlug } from "@/lib/actions/instructor.action";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const instructor = instructors.find((inst) => inst.slug === slug);
+  const instructor = await getInstructorBySlug(slug);
 
   if (!instructor) {
     return {
@@ -12,8 +12,8 @@ export async function generateMetadata({ params }) {
   }
 
   return {
-    title: `${instructor.name} | Meet our instructors`,
-    description: `Learn more about ${instructor.name}, ${instructor.title}`,
+    title: `${instructor.firstName} ${instructor.lastName} | Meet our instructors`,
+    description: `Learn more about ${instructor.firstName} ${instructor.lastName}, ${instructor?.title || ""}`,
   };
 }
 
