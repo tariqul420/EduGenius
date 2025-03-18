@@ -76,4 +76,31 @@ courseSchema.pre("save", async function (next) {
   next();
 });
 
+// Post-save middleware to update the instructor's average rating
+courseSchema.post("save", async function () {
+  const Course = mongoose.model("Course");
+  const Instructor = mongoose.model("Instructor");
+
+  // Use aggregation to calculate the average rating of all courses by the instructor
+  const result = await Course.aggregate([
+    { $match: { instructor: this.instructor } }, // Match courses by instructor ID
+    { $unwind: "$ratings" }, // Deconstruct the ratings array
+    {
+      $group: {
+        _id: "$instructor",
+        averageRating: { $avg: "$ratings.rating" }, // Calculate the average rating
+      },
+    },
+  ]);
+
+  // Update the instructor's rating
+  if (result.length > 0) {
+    const averageRating = result[0].averageRating; // Round to 1 decimal place
+    await Instructor.findOneAndUpdate(
+      { instructorId: this.instructor },
+      { rating: averageRating },
+    );
+  }
+});
+
 export default mongoose.models.Course || mongoose.model("Course", courseSchema);
