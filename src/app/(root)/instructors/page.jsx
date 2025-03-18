@@ -10,7 +10,7 @@ export default async function Instructors({ searchParams }) {
   const instructorsResult = await getInstructors({
     role: "instructor",
     page: Number(page) || 1,
-    limit: 2,
+    limit: 4,
   });
   const instructors = instructorsResult?.users || [];
   const total = instructorsResult?.total || 0;
