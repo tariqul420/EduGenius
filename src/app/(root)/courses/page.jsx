@@ -141,7 +141,7 @@ const Courses = () => {
       <section className="py-5">
         <div className="container mx-auto px-2 md:px-5 lg:max-w-6xl">
           {/* Filter Courses =============== */}
-          <div className="filter-bar items-left my-3 flex min-h-[60px] flex-col justify-between rounded border border-slate-100 px-2 py-4 shadow-md md:flex-row md:items-center md:px-4">
+          <div className="filter-bar items-left my-3 flex min-h-[60px] flex-col justify-between rounded border border-slate-100 px-2 py-4 shadow-md md:flex-row md:items-center md:px-4 dark:border-slate-600">
             <div className="left-content order-2 mt-5 flex items-center gap-4 text-2xl md:order-1 md:mt-0">
               <Sheet width="200px">
                 <SheetTrigger>
@@ -183,7 +183,7 @@ const Courses = () => {
                   onValueChange={(value) => setSelectCategory(value)}
                   value={selectCategory}
                 >
-                  <SelectTrigger className="w-[130px] rounded border border-gray-300 sm:w-[150px]">
+                  <SelectTrigger className="w-[130px] rounded border border-gray-300 sm:w-[150px] dark:border-slate-600">
                     <SelectValue placeholder="Filter Course" />
                   </SelectTrigger>
                   <SelectContent>
@@ -193,7 +193,7 @@ const Courses = () => {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="search-ba flex w-[190px] items-center justify-between gap-1 rounded border border-gray-300 px-2 py-1 sm:w-[250px]">
+              <div className="search-ba flex w-[190px] items-center justify-between gap-1 rounded border border-gray-300 px-2 py-1 sm:w-[250px] dark:border-slate-600">
                 <input
                   type="text"
                   className="outline-none"
@@ -218,8 +218,8 @@ const Courses = () => {
               {filteredCourses.map((course) => (
                 <div
                   key={course.id}
-                  className={`course-item dark:bg-black-light col-span-2 min-h-[200px] rounded shadow-md sm:col-span-1 ${
-                    isGridCol ? "flex items-center" : ""
+                  className={`course-item dark:bg-black-light col-span-2 min-h-[200px] overflow-hidden shadow-md sm:col-span-1 ${
+                    isGridCol ? "flex gap-5 items-center rounded-tr-2xl rounded-br-2xl" : "rounded"
                   }`}
                 >
                   <CourseCard course={course}></CourseCard>
