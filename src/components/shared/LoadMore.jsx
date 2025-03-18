@@ -21,8 +21,11 @@ export default function LoadMore() {
   };
 
   return (
-    <div className="flex justify-center mt-8">
-      <Button className="bg-green" onClick={handleLoadMore}>
+    <div className="mt-8 flex justify-center">
+      <Button
+        className="bg-green text-white dark:hover:text-black"
+        onClick={handleLoadMore}
+      >
         <span>Load More</span> <MoveRight />
       </Button>
     </div>

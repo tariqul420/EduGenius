@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 
 export default function InstructorCard({ instructor }) {
   return (
-    <div className="flex cursor-pointer flex-wrap gap-4 rounded-lg p-4 shadow-md transition-all duration-300 hover:-translate-y-4">
+    <div className="flex cursor-pointer flex-wrap gap-4 rounded-lg p-4 shadow-md transition-all duration-300 hover:-translate-y-4 dark:shadow-white/5">
       <Image
         src={instructor.profilePicture}
         alt={instructor.firstName}
@@ -21,7 +21,7 @@ export default function InstructorCard({ instructor }) {
           <p className="text-gray-600">{instructor?.title}</p>
         </div>
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <Button className="bg-green mt-4 rounded px-4 py-2 text-white">
+          <Button className="bg-green mt-4 rounded px-4 py-2 text-white dark:hover:text-black">
             <Link href={`/instructors/${instructor?.slug}`}>Details</Link>
           </Button>
           {instructor?.social && (
