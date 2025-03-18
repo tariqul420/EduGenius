@@ -110,7 +110,4 @@ const DetailsLike = () => {
 };
 
 
-
-
-
 export default DetailsLike;

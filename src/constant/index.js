@@ -1,6 +1,7 @@
 export const instructors = [
   {
     name: "kofras namroe",
+    slug: "kofras-namroe",
     title: "Assistant Lecturer",
     image: "https://i.ibb.co/9kngr6fK/instructor1.png",
     social: {
@@ -12,6 +13,7 @@ export const instructors = [
   },
   {
     name: "Jane Doe",
+    slug: "jane-doe",
     title: "Senior Lecturer",
     image: "https://i.ibb.co/XrvnsQTt/instructor2.png",
     social: {
@@ -23,6 +25,7 @@ export const instructors = [
   },
   {
     name: "John Smith",
+    slug: "john-smith",
     title: "Professor",
     image: "https://i.ibb.co/zTxZ50Rw/instructor3.png",
     social: {
@@ -34,6 +37,7 @@ export const instructors = [
   },
   {
     name: "Emily Johnson",
+    slug: "emily-johnson",
     title: "Lecturer",
     image: "https://i.ibb.co/39fqxjNQ/instructor4.png",
     social: {
@@ -45,6 +49,7 @@ export const instructors = [
   },
   {
     name: "Michael Brown",
+    slug: "michael-brown",
     title: "Assistant Professor",
     image:
       "https://faculty.spagreen.net/demo/public/images/20231118073538image_280X239-user-451.jpg",

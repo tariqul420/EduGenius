@@ -1,3 +1,7 @@
+import CheckCategory from "@/components/shared/CheckCategory";
+import { Mail, User } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 "use client";
 import CheckCategory from "@/components/shared/CheckCategory";
@@ -56,6 +60,7 @@ const BlogDetails = () => {
         "User experience and interface design play a crucial role in modern web development...",
       image: "/blog4.png",
       category: "UI/UX Design",
+      date: "14 March 2025",
       instructor: "Isabella Johnson",
       date: "14 March 2025",
       detailButton: "Read More",
@@ -127,12 +132,11 @@ const BlogDetails = () => {
                 className="transform cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg"
               >
                 <Image
-                  src={blog.image}
-                  alt={blog.name}
-                  layout="responsive"
-                  width={16}
-                  height={9}
-                  className="h-80 w-full object-cover"
+                  src={blog?.image}
+                  alt={blog?.name}
+                  width={400}
+                  height={320}
+                  className="w-full h-80 object-cover"
                 />
                 <div className="p-4">
                   <div className="flex justify-between">

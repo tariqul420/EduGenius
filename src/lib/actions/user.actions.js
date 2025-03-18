@@ -13,10 +13,10 @@ export async function createUser(user) {
   }
 }
 
-export async function updateUser(clerkId, user) {
+export async function updateUser(clerkUserId, user) {
   try {
     await dbConnect();
-    return await User.findOneAndUpdate({ clerkUserId: clerkId }, user, {
+    return await User.findOneAndUpdate({ clerkUserId }, user, {
       new: true,
     });
   } catch (error) {
@@ -24,17 +24,10 @@ export async function updateUser(clerkId, user) {
   }
 }
 
-export async function deleteUser(clerkId) {
+export async function deleteUser(clerkUserId) {
   try {
     await dbConnect();
-    const user = await User.findOne({ clerkUserId: clerkId });
-
-    if (!user) {
-      console.error("Error deleting user:", error);
-    }
-
-    await User.deleteOne({ _id: user._id });
-    return user;
+    await User.deleteOne({ clerkUserId });
   } catch (error) {
     console.error("Error deleting user:", error);
   }

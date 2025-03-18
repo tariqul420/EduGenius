@@ -19,7 +19,6 @@ import CourseCard from "@/components/shared/CourseCard";
 import { LayoutGrid, LayoutList, Search, TableOfContents } from "lucide-react";
 import FilterItem from "./FilterItem";
 
-
 // Sample JSON data with image URLs, description, and rating
 const coursesData = [
   {
@@ -134,55 +133,57 @@ const Courses = () => {
 
   // Filter courses by category
   const filteredCourses = sortedCourses.filter((course) =>
-    course.category.toLowerCase().includes(query.toLowerCase())
+    course.category.toLowerCase().includes(query.toLowerCase()),
   );
 
   return (
     <>
       <section className="py-5">
-        <div className="container px-2 md:px-5 mx-auto">
+        <div className="container mx-auto px-2 md:px-5 lg:max-w-6xl">
           {/* Filter Courses =============== */}
-          <div className="filter-bar flex flex-col md:flex-row py-4 justify-between items-left md:items-center px-2 md:px-4 shadow-md border border-slate-100 rounded min-h-[60px] my-3">
-            <div className="left-content mt-5 md:mt-0 order-2 md:order-1 text-2xl flex gap-4 items-center">
+          <div className="filter-bar items-left my-3 flex min-h-[60px] flex-col justify-between rounded border border-slate-100 px-2 py-4 shadow-md md:flex-row md:items-center md:px-4 dark:border-slate-600">
+            <div className="left-content order-2 mt-5 flex items-center gap-4 text-2xl md:order-1 md:mt-0">
               <Sheet width="200px">
                 <SheetTrigger>
                   <TableOfContents className="block lg:hidden" />
                 </SheetTrigger>
                 <SheetContent
                   side="left"
-                  className="w-[300px] z-50 sm:w-[540px] block lg:hidden"
+                  className="z-50 block w-[300px] sm:w-[540px] lg:hidden"
                 >
                   <SheetHeader>
                     <SheetTitle>Filter Options Of Courses</SheetTitle>
                   </SheetHeader>
-                  <div className="courses-filter rounded shadow-md px-4 py-1.5 block lg:hidden">
+                  <div className="courses-filter block rounded px-4 py-1.5 shadow-md lg:hidden">
                     <FilterItem />
                   </div>
-
                 </SheetContent>
               </Sheet>
 
               <button
                 onClick={() => setIsGridCol(false)}
-                className="cursor-pointer hidden sm:block"
+                className="hidden cursor-pointer sm:block"
               >
                 <LayoutGrid />
               </button>
               <button
                 onClick={() => setIsGridCol(true)}
-                className="cursor-pointer hidden sm:block"
+                className="hidden cursor-pointer sm:block"
               >
                 <LayoutList />
               </button>
 
-              <p className="text-base text-gray-600">
+              <p className="text-base text-gray-500">
                 Showing {filteredCourses.length} Of {coursesData.length} Results
               </p>
             </div>
-            <div className="right-content order-1 md:order-2 flex items-center gap-1.5 md:gap-5">
-              <div className="filter-course text-gray-500 px-1.5">
-                <Select onValueChange={(value) => setSelectCategory(value)} value={selectCategory}>
-                  <SelectTrigger className="w-[180px] border rounded border-gray-300">
+            <div className="right-content order-1 flex gap-1.5 sm:items-center md:order-2 md:gap-5">
+              <div className="filter-course text-gray-500">
+                <Select
+                  onValueChange={(value) => setSelectCategory(value)}
+                  value={selectCategory}
+                >
+                  <SelectTrigger className="w-[130px] rounded border border-gray-300 sm:w-[150px] dark:border-slate-600">
                     <SelectValue placeholder="Filter Course" />
                   </SelectTrigger>
                   <SelectContent>
@@ -191,34 +192,35 @@ const Courses = () => {
                     <SelectItem value="oldest">Oldest</SelectItem>
                   </SelectContent>
                 </Select>
-
               </div>
-              <div className="search-ba flex items-center gap-1 px-2 py-1 rounded border border-gray-4300">
+              <div className="search-ba flex w-[190px] items-center justify-between gap-1 rounded border border-gray-300 px-2 py-1 sm:w-[250px] dark:border-slate-600">
                 <input
                   type="text"
-                  className="outline-none max-w-[150px] sm:w-fit"
+                  className="outline-none"
                   placeholder="Search by Category"
                   onChange={(e) => setQuery(e.target.value)}
                 />
                 <div className="icon">
-                  <Search />
+                  <Search size="16" />
                 </div>
               </div>
             </div>
           </div>
 
           {/* Courses Content Section =============== */}
-          <div className="courses-content mt-6 md:mt-8 grid gap-5 grid-cols-12">
+          <div className="courses-content mt-6 grid grid-cols-12 gap-5 md:mt-8">
             <div
-              className={`courses gap-5 grid col-span-12 lg:col-span-8 ${isGridCol ? "sm:grid-cols-1" : "grid-cols-2"
-                }`}
+              className={`courses col-span-12 grid gap-5 lg:col-span-8 ${
+                isGridCol ? "sm:grid-cols-1" : "grid-cols-2"
+              }`}
             >
               {/* CourseCard ========================= */}
               {filteredCourses.map((course) => (
                 <div
                   key={course.id}
-                  className={`course-item col-span-2 sm:col-span-1 min-h-[200px] shadow-md rounded ${isGridCol ? "flex items-center" : ""
-                    }`}
+                  className={`course-item dark:bg-black-light col-span-2 min-h-[200px] overflow-hidden shadow-md sm:col-span-1 ${
+                    isGridCol ? "flex gap-5 items-center rounded-tr-2xl rounded-br-2xl" : "rounded"
+                  }`}
                 >
                   <CourseCard course={course}></CourseCard>
                 </div>
@@ -226,12 +228,12 @@ const Courses = () => {
             </div>
 
             {/* Content Filter Section ======================= */}
-            <div className="courses-filter rounded shadow-md px-4 py-1.5 hidden lg:block col-span-4">
-              <p className="text-2xl text-center font-medium mb-10">
+            <div className="courses-filter col-span-4 hidden rounded px-4 py-1.5 shadow-md lg:block">
+              <p className="mb-10 text-center text-2xl font-medium">
                 Filter Options Of Courses
               </p>
               {/* Add filter options here */}
-              <div className="courses-filter rounded shadow-md px-4 py-1.5 hidden lg:block">
+              <div className="courses-filter hidden rounded px-4 py-1.5 shadow-md lg:block">
                 <FilterItem />
               </div>
             </div>

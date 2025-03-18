@@ -1,9 +1,28 @@
 import InstructorCard from "@/components/shared/InstructorCard";
 import LoadMore from "@/components/shared/LoadMore";
 import SlidePrViewSlider from "@/components/shared/SlidePerViewSlider";
-import { instructors } from "@/constant";
+import { getInstructors } from "@/lib/actions/instructor.action";
 
-export default function Instructors() {
+export default async function Instructors({ searchParams }) {
+  const { page } = await searchParams;
+
+  // Fetch instructors for the current page
+  const instructorsResult = await getInstructors({
+    role: "instructor",
+    page: Number(page) || 1,
+    limit: 4,
+  });
+  const instructors = instructorsResult?.users || [];
+  const total = instructorsResult?.total || 0;
+  const hasNextPage = instructorsResult?.hasNextPage || false;
+
+  const bestInstructorsResult = await getInstructors({
+    role: "instructor",
+    limit: 5,
+  });
+
+  const bestInstructors = bestInstructorsResult?.users || [];
+
   return (
     <>
       <section>
@@ -11,16 +30,18 @@ export default function Instructors() {
           <div className="flex items-center justify-between border-b pb-4">
             <h1 className="text-xl font-bold">Our All Instructor</h1>
             <p className="text-sm font-medium text-gray-500">
-              Showing 5 Of 9 Results
+              Showing {instructors.length} Of {total} Results
             </p>
           </div>
 
           <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
-            {instructors.map((instructor, idx) => (
-              <InstructorCard key={idx} instructor={instructor} />
-            ))}
+            {instructors &&
+              instructors.length > 0 &&
+              instructors.map((instructor, idx) => (
+                <InstructorCard key={idx} instructor={instructor} />
+              ))}
           </div>
-          <LoadMore />
+          {hasNextPage && <LoadMore />}
         </div>
       </section>
 
@@ -48,14 +69,16 @@ export default function Instructors() {
           <div className="flex items-center justify-between border-b pb-4">
             <h1 className="text-xl font-bold">Best Teacher of this Season</h1>
             <p className="text-sm font-medium text-gray-500">
-              Showing 5 Of 5 Results
+              Showing {bestInstructors.length} Of 5 Results
             </p>
           </div>
 
           <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
-            {instructors.map((instructor, idx) => (
-              <InstructorCard key={idx} instructor={instructor} />
-            ))}
+            {bestInstructors &&
+              bestInstructors.length > 0 &&
+              bestInstructors.map((instructor, idx) => (
+                <InstructorCard key={idx} instructor={instructor} />
+              ))}
           </div>
         </div>
       </section>
