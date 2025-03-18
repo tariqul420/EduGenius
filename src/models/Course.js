@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+import slugify from "slugify";
 
 const courseSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true }, // Course title
+    title: { type: String, required: true, unique: true }, // Course title
     description: { type: String, required: true }, // Course description
     instructor: {
       type: mongoose.Schema.Types.ObjectId,
@@ -28,6 +29,7 @@ const courseSchema = new mongoose.Schema(
     discount: { type: Number, default: 0 }, // Discount percentage
     price: { type: Number, required: true }, // Course price
     duration: { type: Number, default: 0 },
+    slug: { type: String, unique: true },
     ratings: [
       {
         userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
@@ -57,5 +59,21 @@ const courseSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+// Pre-save middleware to generate a unique slug
+courseSchema.pre("save", async function (next) {
+  if (this.isModified("title")) {
+    let slug = slugify(this.title, { lower: true, strict: true });
+    const existingCourse = await mongoose.models.Course.findOne({ slug });
+
+    if (existingCourse) {
+      const uniqueSuffix = Date.now().toString(36);
+      slug = `${slug}-${uniqueSuffix}`;
+    }
+
+    this.slug = slug;
+  }
+  next();
+});
 
 export default mongoose.models.Course || mongoose.model("Course", courseSchema);
