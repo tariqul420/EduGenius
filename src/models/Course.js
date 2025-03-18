@@ -103,4 +103,24 @@ courseSchema.post("save", async function () {
   }
 });
 
+// Middleware to add a student to the course and instructor when a course is purchased
+courseSchema.methods.addStudent = async function (studentId) {
+  const Instructor = mongoose.model("Instructor");
+
+  // Add the student to the course's students array if not already added
+  if (!this.students.includes(studentId)) {
+    this.students.push(studentId);
+    await this.save();
+  }
+
+  // Add the student to the instructor's students array if not already added
+  const instructor = await Instructor.findOne({
+    instructorId: this.instructor,
+  });
+  if (instructor && !instructor.students.includes(studentId)) {
+    instructor.students.push(studentId);
+    await instructor.save();
+  }
+};
+
 export default mongoose.models.Course || mongoose.model("Course", courseSchema);
