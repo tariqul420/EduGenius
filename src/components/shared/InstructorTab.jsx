@@ -5,10 +5,10 @@ import InstructorContactForm from "./InstructorContactForm";
 export default function InstructorTab() {
   return (
     <Tabs defaultValue="about" className="mt-8 w-full">
-      <TabsList className="w-full rounded-none bg-white py-6 shadow-lg">
+      <TabsList className="w-full rounded-none bg-white py-6 shadow-lg dark:bg-black">
         <TabsTrigger
           value="about"
-          className="data-[state=active]:bg-green rounded-none py-6 data-[state=active]:text-white"
+          className="data-[state=active]:bg-green rounded-none py-6 data-[state=active]:text-white dark:bg-black"
         >
           About
         </TabsTrigger>
