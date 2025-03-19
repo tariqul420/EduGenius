@@ -3,11 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 function InsightsCard({ insights }) {
-  const { title, image, name, date, desc, commentNum } = insights;
+  const { title, image, name, date, desc, commentNum, id } = insights;
 
   return (
     <Link
-      href={`/demo/1`}
+      href={`/blog/${id}`}
       className="bg-white dark:bg-black-light rounded-lg overflow-hidden shadow hover:shadow-md transition-all duration-300 hover:-translate-y-2">
       <div className="course-image relative">
         <Image

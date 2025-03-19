@@ -4,6 +4,7 @@ import InsightsCard from "./InsightsCard";
 const PopularInsights = () => {
     const data = [
         {
+            id: 1,
             image: "https://faculty.spagreen.net/demo/public/images/20230813190506image_406x240-418.png",
             date: "15 Mar 2025",
             title: "How to Use Behavioral Data to Master Your Marketing Strategy",
@@ -12,6 +13,7 @@ const PopularInsights = () => {
             name: "Mr John"
         },
         {
+            id: 2,
             image: "https://faculty.spagreen.net/demo/public/images/20230816071223image_406x240-211.png",
             date: "15 Mar 2025",
             title: "What’s New on Envato Elements? From Curated Collections to Suggested Music Tracks",
@@ -20,6 +22,7 @@ const PopularInsights = () => {
             name: "By Admin"
         },
         {
+            id: 3,
             image: "https://faculty.spagreen.net/demo/public/images/20230816071340image_406x240-67.png",
             date: "15 Mar 2025",
             title: "Mockup Trends for 2023: From Floating Objects to Social Media Moodboards",

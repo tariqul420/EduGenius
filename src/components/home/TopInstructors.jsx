@@ -1,6 +1,4 @@
-import Heading from "@/components/shared/Heading";
 import SlidePrViewSlider from "../shared/SlidePerViewSlider";
-
 
 export default function TopInstructors() {
   return (
