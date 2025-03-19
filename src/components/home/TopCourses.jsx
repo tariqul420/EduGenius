@@ -26,6 +26,17 @@ const TopCourses = async ({ category: slug }) => {
       $unwind: "$categoryDetails",
     },
     {
+      $addFields: {
+        averageRating: {
+          $cond: {
+            if: { $gt: [{ $size: "$ratings" }, 0] },
+            then: { $avg: "$ratings.rating" },
+            else: 0,
+          },
+        },
+      },
+    },
+    {
       $project: {
         _id: 1,
         title: 1,
@@ -33,6 +44,8 @@ const TopCourses = async ({ category: slug }) => {
         language: 1,
         level: 1,
         thumbnail: 1,
+        averageRating: 1,
+        slug: 1,
         category: "$categoryDetails.name",
       },
     },
