@@ -5,7 +5,7 @@ export const metadata = {
 };
 
 const Courses = ({ children }) => {
-  return <>{children}</>;
+  return <main>{children}</main>;
 };
 
 export default Courses;
