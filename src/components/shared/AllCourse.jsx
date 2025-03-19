@@ -19,226 +19,218 @@ import FilterItem from "@/app/(root)/courses/FilterItem";
 import CourseCard from "@/components/shared/CourseCard";
 import { LayoutGrid, LayoutList, Search, TableOfContents } from "lucide-react";
 
-// const coursesData = [
-//   {
-//     id: 1,
-//     name: "Course 1",
-//     description: "Learn the fundamentals of web development.",
-//     image: "/course-1.webp",
-//     category: "Web Development",
-//     instructor: "John Doe",
-//     detailButton: "View Details",
-//     postDate: "2025-03-14",
-//     rating: 9.2,
-//   },
-//   {
-//     id: 2,
-//     name: "Course 2",
-//     description: "An introduction to data science techniques.",
-//     image: "/course-2.jpg",
-//     category: "Data Science",
-//     instructor: "Jane Smith",
-//     detailButton: "View Details",
-//     postDate: "2025-03-13",
-//     rating: 8.5,
-//   },
-//   {
-//     id: 3,
-//     name: "Course 3",
-//     description: "Master the art of graphic design.",
-//     image: "/course-3.jpg",
-//     category: "Graphic Design",
-//     instructor: "Emily Johnson",
-//     detailButton: "View Details",
-//     postDate: "2025-03-12",
-//     rating: 7.8,
-//   },
-//   {
-//     id: 4,
-//     name: "Course 4",
-//     description: "Learn essential cybersecurity skills.",
-//     image: "/course-4.jpeg",
-//     category: "Cybersecurity",
-//     instructor: "Michael Brown",
-//     detailButton: "View Details",
-//     postDate: "2025-03-11",
-//     rating: 9.5,
-//   },
-//   {
-//     id: 5,
-//     name: "Course 5",
-//     description: "Introduction to machine learning models.",
-//     image: "/course-2.jpg",
-//     category: "Machine Learning",
-//     instructor: "Sarah Lee",
-//     detailButton: "View Details",
-//     postDate: "2025-03-10",
-//     rating: 8.9,
-//   },
-//   {
-//     id: 6,
-//     name: "Course 6",
-//     description: "Boost your marketing skills online.",
-//     image: "/course-3.jpg",
-//     category: "Digital Marketing",
-//     instructor: "David Wilson",
-//     detailButton: "View Details",
-//     postDate: "2025-03-09",
-//     rating: 7.5,
-//   },
-//   {
-//     id: 7,
-//     name: "Course 7",
-//     description: "Learn the basics of professional photography.",
-//     image: "/course-4.jpeg",
-//     category: "Photography",
-//     instructor: "Sophia Martinez",
-//     detailButton: "View Details",
-//     postDate: "2025-03-08",
-//     rating: 8.3,
-//   },
-//   {
-//     id: 8,
-//     name: "Course 8",
-//     description: "Essential business management principles.",
-//     image: "/course-1.jpeg",
-//     category: "Business Management",
-//     instructor: "Daniel Anderson",
-//     detailButton: "View Details",
-//     postDate: "2025-03-07", // oldest
-//     rating: 7.0,
-//   },
-// ];
-
-export default function AllCourse({checkQuery,coursesData}) {
+const coursesData = [
+  {
+    _id: "1",
+    title: "Machine Learning A-Z",
+    description: "Learn machine learning from scratch with hands-on projects.",
+    instructor: { name: "Sarah Lee" },
+    categorySlug: "machine-learning",
+    thumbnail: "https://faculty.spagreen.net/demo/public/images/20231111124240image_402x248-483.png",
+    language: "English",
+    level: "Advanced",
+    discount: 25,
+    price: 400,
+    duration: 60,
+    averageRating: 4.85,
+    students: 2,
+  },
+  {
+    _id: "2",
+    title: "Full-Stack Web Development",
+    description: "Master front-end and back-end web development.",
+    instructor: { name: "John Doe" },
+    categorySlug: "web-development",
+    thumbnail: "https://faculty.spagreen.net/demo/public/images/20231111124240image_402x248-483.png",
+    language: "English",
+    level: "Intermediate",
+    discount: 20,
+    price: 350,
+    duration: 75,
+    averageRating: 4.7,
+    students: 5,
+  },
+  {
+    _id: "3",
+    title: "Data Science Essentials",
+    description: "An introduction to data science techniques and tools.",
+    instructor: { name: "Jane Smith" },
+    categorySlug: "data-science",
+    thumbnail: "https://faculty.spagreen.net/demo/public/images/20231111124240image_402x248-483.png",
+    language: "English",
+    level: "Beginner",
+    discount: 30,
+    price: 300,
+    duration: 50,
+    averageRating: 4.6,
+    students: 3,
+  },
+  {
+    _id: "4",
+    title: "Graphic Design Mastery",
+    description: "Master the art of graphic design with industry tools.",
+    instructor: { name: "Emily Johnson" },
+    categorySlug: "graphic-design",
+    thumbnail: "https://faculty.spagreen.net/demo/public/images/20231111124240image_402x248-483.png",
+    language: "English",
+    level: "Intermediate",
+    discount: 15,
+    price: 250,
+    duration: 40,
+    averageRating: 4.3,
+    students: 4,
+  },
+  {
+    _id: "5",
+    title: "Cybersecurity Fundamentals",
+    description: "Learn essential cybersecurity skills and best practices.",
+    instructor: { name: "Michael Brown" },
+    categorySlug: "cybersecurity",
+    thumbnail: "https://faculty.spagreen.net/demo/public/images/20231111124240image_402x248-483.png",
+    language: "English",
+    level: "Advanced",
+    discount: 10,
+    price: 500,
+    duration: 80,
+    averageRating: 4.9,
+    students: 6,
+  },
+  {
+    _id: "6",
+    title: "Digital Marketing Strategy",
+    description: "Boost your marketing skills with modern digital strategies.",
+    instructor: { name: "David Wilson" },
+    categorySlug: "digital-marketing",
+    thumbnail: "https://faculty.spagreen.net/demo/public/images/20231111124240image_402x248-483.png",
+    language: "English",
+    level: "Beginner",
+    discount: 20,
+    price: 200,
+    duration: 30,
+    averageRating: 4.1,
+    students: 2,
+  },
+  {
+    _id: "7",
+    title: "Photography Basics",
+    description: "Learn the fundamentals of professional photography.",
+    instructor: { name: "Sophia Martinez" },
+    categorySlug: "photography",
+    thumbnail: "https://faculty.spagreen.net/demo/public/images/20231111124240image_402x248-483.png",
+    language: "English",
+    level: "Beginner",
+    discount: 25,
+    price: 180,
+    duration: 35,
+    averageRating: 4.2,
+    students: 3,
+  },
+  {
+    _id: "8",
+    title: "Business Management 101",
+    description: "Essential business management principles for success.",
+    instructor: { name: "Daniel Anderson" },
+    categorySlug: "business-management",
+    thumbnail: "https://faculty.spagreen.net/demo/public/images/20231111124240image_402x248-483.png",
+    language: "English",
+    level: "Intermediate",
+    discount: 18,
+    price: 320,
+    duration: 55,
+    averageRating: 4.4,
+    students: 5,
+  },
+];
+export default function AllCourse({ checkQuery }) {
   const [isGridCol, setIsGridCol] = useState(false);
   const [query, setQuery] = useState("");
-  const [selectCategory, setSelectCategory] = useState("latest"); // Default to 'latest'
+  const [selectCategory, setSelectCategory] = useState("latest");
 
-  // Sort courses by selected criteria (rating or postDate)
+  // Sorting logic
   const sortedCourses = [...coursesData].sort((a, b) => {
-    if (selectCategory === "oldest") {
-      return new Date(a.postDate) - new Date(b.postDate); // ascending (oldest first)
-    }
-    if (selectCategory === "latest") {
-      return new Date(b.postDate) - new Date(a.postDate); // descending (latest first)
-    }
     if (selectCategory === "top-rated") {
-      return b.rating - a.rating; // descending (top-rated first)
+      return b.averageRating - a.averageRating; // Sort by rating (high to low)
     }
-
-    return new Date(b.postDate) - new Date(a.postDate); // default to latest
+    return 0; // Default (no sorting applied)
   });
 
-  // Filter courses by category
+  // Filtering logic
   const filteredCourses = sortedCourses.filter((course) =>
-    course.category.toLowerCase().includes(query.toLowerCase()),
+    course.categorySlug.toLowerCase().includes(query.toLowerCase())
   );
 
   return (
-    <>
-      <section className="py-5">
-        <div className="container mx-auto px-2 md:px-5">
-          {/* Filter Courses =============== */}
-          <div className="filter-bar items-left my-3 flex min-h-[60px] flex-col justify-between rounded border border-slate-100 px-2 py-4 shadow-md md:flex-row md:items-center md:px-4">
-            <div className="left-content order-2 mt-5 flex items-center gap-4 text-2xl md:order-1 md:mt-0">
-              <Sheet width="200px">
-                <SheetTrigger>
-                  <TableOfContents className="block lg:hidden" />
-                </SheetTrigger>
-                <SheetContent
-                  side="left"
-                  className="z-50 block w-[300px] sm:w-[540px] lg:hidden"
-                >
-                  <SheetHeader>
-                    <SheetTitle>Filter Options Of Courses</SheetTitle>
-                  </SheetHeader>
-                  <div className="courses-filter block rounded px-4 py-1.5 shadow-md lg:hidden">
-                    <FilterItem />
-                  </div>
-                </SheetContent>
-              </Sheet>
-
-              <button
-                onClick={() => setIsGridCol(false)}
-                className="hidden cursor-pointer sm:block"
+    <section className="py-5">
+      <div className="container mx-auto px-2 md:px-5">
+        {/* Filter Bar */}
+        <div className="filter-bar flex flex-col md:flex-row items-left my-3 min-h-[60px] justify-between rounded border border-slate-100 px-2 py-4 shadow-md">
+          <div className="left-content order-2 mt-5 flex items-center gap-4 text-2xl md:order-1 md:mt-0">
+            <Sheet>
+              <SheetTrigger>
+                <TableOfContents className="block lg:hidden" />
+              </SheetTrigger>
+              <SheetContent
+                side="left"
+                className="z-50 block w-[300px] sm:w-[540px] lg:hidden"
               >
-                <LayoutGrid />
-              </button>
-              <button
-                onClick={() => setIsGridCol(true)}
-                className="hidden cursor-pointer sm:block"
-              >
-                <LayoutList />
-              </button>
+                <SheetHeader>
+                  <SheetTitle>Filter Options Of Courses</SheetTitle>
+                </SheetHeader>
+                <FilterItem />
+              </SheetContent>
+            </Sheet>
 
-              <p className="text-base text-gray-600">
-                Showing {filteredCourses.length} Of {coursesData.length} Results
-              </p>
-            </div>
-            <div className="right-content order-1 flex items-center gap-1.5 md:order-2 md:gap-5">
-              <div className="filter-course px-1.5 text-gray-500">
-                <Select
-                  onValueChange={(value) => setSelectCategory(value)}
-                  value={selectCategory}
-                >
-                  <SelectTrigger className="w-[180px] rounded border border-gray-300">
-                    <SelectValue placeholder="Filter Course" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="latest">Latest</SelectItem>
-                    <SelectItem value="top-rated">Top Rated</SelectItem>
-                    <SelectItem value="oldest">Oldest</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="search-ba border-gray-4300 flex items-center gap-1 rounded border px-2 py-1">
-                <input
-                  type="text"
-                  className="max-w-[150px] outline-none sm:w-fit"
-                  placeholder="Search by Category"
-                  onChange={(e) => setQuery(e.target.value)}
-                />
-                <div className="icon">
-                  <Search size='18' />
-                </div>
-              </div>
-            </div>
+            <button onClick={() => setIsGridCol(false)} className="hidden sm:block">
+              <LayoutGrid />
+            </button>
+            <button onClick={() => setIsGridCol(true)} className="hidden sm:block">
+              <LayoutList />
+            </button>
+
+            <p className="text-base text-gray-600">
+              Showing {filteredCourses.length} of {coursesData.length} Results
+            </p>
           </div>
 
-          {/* Courses Content Section =============== */}
-          <div className="courses-content mt-6 grid grid-cols-12 gap-5 md:mt-8">
-            <div
-              className={`courses col-span-12 grid gap-5 lg:col-span-8 ${
-                isGridCol ? "sm:grid-cols-1" : "grid-cols-2"
-              }`}
-            >
-              {/* CourseCard ========================= */}
-              {coursesData.map((course) => (
-                <div
-                  key={course._id}
-                  className={`course-item col-span-2 min-h-[200px] rounded shadow-md sm:col-span-1 ${
-                    isGridCol ? "flex items-center" : ""
-                  }`}
-                >
-                  <CourseCard course={course}></CourseCard>
-                </div>
-              ))}
+          <div className="right-content flex items-center gap-1.5 md:gap-5">
+            <div className="filter-course px-1.5 text-gray-500">
+              <Select onValueChange={setSelectCategory} value={selectCategory}>
+                <SelectTrigger className="w-[180px] rounded border border-gray-300">
+                  <SelectValue placeholder="Filter Course" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="latest">Latest</SelectItem>
+                  <SelectItem value="top-rated">Top Rated</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
-
-            {/* Content Filter Section ======================= */}
-            <div className="courses-filter col-span-4 hidden rounded px-4 py-1.5 shadow-md lg:block">
-              <p className="mb-10 text-center text-2xl font-medium">
-                Filter Options Of Courses
-              </p>
-              {/* Add filter options here */}
-              <div className="courses-filter hidden rounded px-4 py-1.5 shadow-md lg:block">
-                <FilterItem />
-              </div>
+            <div className="search-bar flex items-center gap-1 rounded border px-2 py-1 border-gray-300">
+              <input
+                type="text"
+                className="max-w-[150px] outline-none sm:w-fit"
+                placeholder="Search by Category"
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <Search size="18" />
             </div>
           </div>
         </div>
-      </section>
-    </>
+
+        {/* Courses Content Section */}
+        <div className="mt-6 grid grid-cols-12 gap-5 md:mt-8">
+          <div className={`courses col-span-12 grid gap-5 lg:col-span-8 ${isGridCol ? "grid-cols-1" : "grid-cols-2"}`}>
+            {filteredCourses.map((course) => (
+              <div key={course._id} className={`col-span-2 min-h-[200px] rounded shadow-md sm:col-span-1 ${isGridCol ? "flex gap-5" : "flex-col"}`}>
+                <CourseCard course={course} />
+              </div>
+            ))}
+          </div>
+
+          <div className="courses-filter col-span-4 hidden rounded px-4 py-1.5 shadow-md lg:block">
+            <FilterItem />
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

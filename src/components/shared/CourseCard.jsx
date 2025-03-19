@@ -4,12 +4,12 @@ import Link from "next/link";
 import React from "react";
 
 const CourseCard = ({ course }) => {
-  const { id, category, instructor, postDate } = course;
+  const { _id, categorySlug, instructor, postDate } = course;
   return (
     <>
       <div className="course-image relative">
         <p className="bg-green absolute w-fit px-3 py-1.5 text-sm text-white">
-          {category}
+          {categorySlug}
         </p>
         <Image
           src={course?.thumbnail}
@@ -24,7 +24,7 @@ const CourseCard = ({ course }) => {
       </div>
       <div className="course-content p-3">
         <h3 className="text-lg font-semibold">{course?.title}</h3>
-        <p className="text-sm text-gray-500">Instructor: {instructor}</p>
+        <p className="text-sm text-gray-500">Instructor: {instructor?.name}</p>
         <p className="text-sm text-gray-500">
           Posted on: {new Date(postDate).toLocaleDateString()}
         </p>
@@ -40,7 +40,7 @@ const CourseCard = ({ course }) => {
           <p className="text-green text-xl font-medium md:text-2xl">$23</p>
           <Link
             className="bg-green rounded px-5 py-1.5 text-sm text-white"
-            href={`/courses/${id}`}
+            href={`/courses/${_id}`}
           >
             Details
           </Link>
