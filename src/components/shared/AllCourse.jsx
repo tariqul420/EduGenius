@@ -19,98 +19,98 @@ import FilterItem from "@/app/(root)/courses/FilterItem";
 import CourseCard from "@/components/shared/CourseCard";
 import { LayoutGrid, LayoutList, Search, TableOfContents } from "lucide-react";
 
-const coursesData = [
-  {
-    id: 1,
-    name: "Course 1",
-    description: "Learn the fundamentals of web development.",
-    image: "/course-1.webp",
-    category: "Web Development",
-    instructor: "John Doe",
-    detailButton: "View Details",
-    postDate: "2025-03-14",
-    rating: 9.2,
-  },
-  {
-    id: 2,
-    name: "Course 2",
-    description: "An introduction to data science techniques.",
-    image: "/course-2.jpg",
-    category: "Data Science",
-    instructor: "Jane Smith",
-    detailButton: "View Details",
-    postDate: "2025-03-13",
-    rating: 8.5,
-  },
-  {
-    id: 3,
-    name: "Course 3",
-    description: "Master the art of graphic design.",
-    image: "/course-3.jpg",
-    category: "Graphic Design",
-    instructor: "Emily Johnson",
-    detailButton: "View Details",
-    postDate: "2025-03-12",
-    rating: 7.8,
-  },
-  {
-    id: 4,
-    name: "Course 4",
-    description: "Learn essential cybersecurity skills.",
-    image: "/course-4.jpeg",
-    category: "Cybersecurity",
-    instructor: "Michael Brown",
-    detailButton: "View Details",
-    postDate: "2025-03-11",
-    rating: 9.5,
-  },
-  {
-    id: 5,
-    name: "Course 5",
-    description: "Introduction to machine learning models.",
-    image: "/course-2.jpg",
-    category: "Machine Learning",
-    instructor: "Sarah Lee",
-    detailButton: "View Details",
-    postDate: "2025-03-10",
-    rating: 8.9,
-  },
-  {
-    id: 6,
-    name: "Course 6",
-    description: "Boost your marketing skills online.",
-    image: "/course-3.jpg",
-    category: "Digital Marketing",
-    instructor: "David Wilson",
-    detailButton: "View Details",
-    postDate: "2025-03-09",
-    rating: 7.5,
-  },
-  {
-    id: 7,
-    name: "Course 7",
-    description: "Learn the basics of professional photography.",
-    image: "/course-4.jpeg",
-    category: "Photography",
-    instructor: "Sophia Martinez",
-    detailButton: "View Details",
-    postDate: "2025-03-08",
-    rating: 8.3,
-  },
-  {
-    id: 8,
-    name: "Course 8",
-    description: "Essential business management principles.",
-    image: "/course-1.jpeg",
-    category: "Business Management",
-    instructor: "Daniel Anderson",
-    detailButton: "View Details",
-    postDate: "2025-03-07", // oldest
-    rating: 7.0,
-  },
-];
+// const coursesData = [
+//   {
+//     id: 1,
+//     name: "Course 1",
+//     description: "Learn the fundamentals of web development.",
+//     image: "/course-1.webp",
+//     category: "Web Development",
+//     instructor: "John Doe",
+//     detailButton: "View Details",
+//     postDate: "2025-03-14",
+//     rating: 9.2,
+//   },
+//   {
+//     id: 2,
+//     name: "Course 2",
+//     description: "An introduction to data science techniques.",
+//     image: "/course-2.jpg",
+//     category: "Data Science",
+//     instructor: "Jane Smith",
+//     detailButton: "View Details",
+//     postDate: "2025-03-13",
+//     rating: 8.5,
+//   },
+//   {
+//     id: 3,
+//     name: "Course 3",
+//     description: "Master the art of graphic design.",
+//     image: "/course-3.jpg",
+//     category: "Graphic Design",
+//     instructor: "Emily Johnson",
+//     detailButton: "View Details",
+//     postDate: "2025-03-12",
+//     rating: 7.8,
+//   },
+//   {
+//     id: 4,
+//     name: "Course 4",
+//     description: "Learn essential cybersecurity skills.",
+//     image: "/course-4.jpeg",
+//     category: "Cybersecurity",
+//     instructor: "Michael Brown",
+//     detailButton: "View Details",
+//     postDate: "2025-03-11",
+//     rating: 9.5,
+//   },
+//   {
+//     id: 5,
+//     name: "Course 5",
+//     description: "Introduction to machine learning models.",
+//     image: "/course-2.jpg",
+//     category: "Machine Learning",
+//     instructor: "Sarah Lee",
+//     detailButton: "View Details",
+//     postDate: "2025-03-10",
+//     rating: 8.9,
+//   },
+//   {
+//     id: 6,
+//     name: "Course 6",
+//     description: "Boost your marketing skills online.",
+//     image: "/course-3.jpg",
+//     category: "Digital Marketing",
+//     instructor: "David Wilson",
+//     detailButton: "View Details",
+//     postDate: "2025-03-09",
+//     rating: 7.5,
+//   },
+//   {
+//     id: 7,
+//     name: "Course 7",
+//     description: "Learn the basics of professional photography.",
+//     image: "/course-4.jpeg",
+//     category: "Photography",
+//     instructor: "Sophia Martinez",
+//     detailButton: "View Details",
+//     postDate: "2025-03-08",
+//     rating: 8.3,
+//   },
+//   {
+//     id: 8,
+//     name: "Course 8",
+//     description: "Essential business management principles.",
+//     image: "/course-1.jpeg",
+//     category: "Business Management",
+//     instructor: "Daniel Anderson",
+//     detailButton: "View Details",
+//     postDate: "2025-03-07", // oldest
+//     rating: 7.0,
+//   },
+// ];
 
-export default function AllCourse({checkQuery}) {
+export default function AllCourse({checkQuery,coursesData}) {
   const [isGridCol, setIsGridCol] = useState(false);
   const [query, setQuery] = useState("");
   const [selectCategory, setSelectCategory] = useState("latest"); // Default to 'latest'
@@ -214,9 +214,9 @@ export default function AllCourse({checkQuery}) {
               }`}
             >
               {/* CourseCard ========================= */}
-              {filteredCourses.map((course) => (
+              {coursesData.map((course) => (
                 <div
-                  key={course.id}
+                  key={course._id}
                   className={`course-item col-span-2 min-h-[200px] rounded shadow-md sm:col-span-1 ${
                     isGridCol ? "flex items-center" : ""
                   }`}
