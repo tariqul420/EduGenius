@@ -4,11 +4,11 @@ import Link from "next/link";
 
 const CourseCard = ({ course }) => {
 
-  const { id, category, price, language, level, thumbnail, title } = course || {};
+  const { _id, category, price, language, level, thumbnail, title } = course || {};
 
   return (
-    <div className="course-card rounded-lg border shadow-sm hover:shadow-md transition-shadow">
-      <div className="course-image relative">
+    <>
+       <div className="course-image relative">
         {/* Category Badge */}
         <p className="bg-green absolute top-0 left-0 w-fit px-3 py-1.5 text-sm text-white rounded z-[1]">
           {category}
@@ -19,11 +19,11 @@ const CourseCard = ({ course }) => {
           <Image
             src={thumbnail}
             alt={title}
-            fill
-            className="object-cover"
+            className="w-[300px] mx-auto"
             placeholder="blur"
             blurDataURL={thumbnail}
-            sizes="(max-width: 768px) 100vw, 50vw"
+            width={100}
+            height={100}
           />
         </div>
 
@@ -55,14 +55,14 @@ const CourseCard = ({ course }) => {
           <p className="text-green text-xl font-medium md:text-2xl">$ {price}</p>
           <Link
             className="bg-green rounded px-5 py-1.5 text-sm text-white hover:bg-green-600 transition-colors"
-            href={`/courses/${id}`}
+            href={`/courses/${_id}`}
             aria-label={`View details for ${title}`}
           >
             Details
           </Link>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

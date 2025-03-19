@@ -1,7 +1,3 @@
-import { useState } from "react";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/router";
 import CheckCategory from "@/components/shared/CheckCategory";
 
 const FilterItem = () => {
