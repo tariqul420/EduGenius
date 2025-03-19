@@ -10,7 +10,33 @@ const TopCourses = async ({ category: slug }) => {
 
   const query = categorySlug === "all-courses" ? {} : { categorySlug: categorySlug };
 
-  const courseCategory = await Course.find(query);
+  const courseCategory = await Course.aggregate([
+    {
+      $match: query,
+    },
+    {
+      $lookup: {
+        from: "categories",
+        localField: "category",
+        foreignField: "_id",
+        as: "categoryDetails",
+      },
+    },
+    {
+      $unwind: "$categoryDetails",
+    },
+    {
+      $project: {
+        _id: 1,
+        title: 1,
+        price: 1,
+        language: 1,
+        level: 1,
+        thumbnail: 1,
+        category: "$categoryDetails.name",
+      },
+    },
+  ]);
 
   return (
     <section className="p-5 container mx-auto lg:max-w-6xl mt-20">
@@ -25,7 +51,7 @@ const TopCourses = async ({ category: slug }) => {
           <div className="grid grid-cols-1 gap-4 mt-6 md:grid-cols-2 lg:grid-cols-3">
             {courseCategory.map((course, index) => (
               <div key={index} className="flex flex-col">
-                <CourseCard  course={course} />
+                <CourseCard course={course} />
               </div>
             ))}
           </div>

@@ -2,27 +2,7 @@ import { Gauge, Languages, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const CourseCard = ({ course, isLoading }) => {
-  if (isLoading) {
-    return (
-      <div className="course-card rounded-lg border shadow-sm hover:shadow-md transition-shadow animate-pulse">
-        <div className="course-image relative">
-          <div className="relative h-48 bg-gray-200"></div>
-        </div>
-        <div className="course-content p-3">
-          <div className="h-6 bg-gray-200 rounded w-3/4 mb-4"></div>
-          <div className="flex justify-between py-5">
-            <div className="h-4 bg-gray-200 rounded w-1/3"></div>
-            <div className="h-4 bg-gray-200 rounded w-1/3"></div>
-          </div>
-          <div className="flex justify-between">
-            <div className="h-6 bg-gray-200 rounded w-1/4"></div>
-            <div className="h-8 bg-gray-200 rounded w-1/4"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+const CourseCard = ({ course }) => {
 
   const { id, category, price, language, level, thumbnail, title } = course || {};
 
