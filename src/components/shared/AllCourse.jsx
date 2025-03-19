@@ -200,7 +200,7 @@ export default function AllCourse() {
                   onChange={(e) => setQuery(e.target.value)}
                 />
                 <div className="icon">
-                  <Search />
+                  <Search size='18' />
                 </div>
               </div>
             </div>
