@@ -56,7 +56,7 @@ const CourseDetails = () => {
         </Link>
       </div>
       <div className=" md:col-span-2 col-span-7">
-     <h1>You May Also Like</h1>
+     <h1 className=" text-center text-2xl">You May Also Like</h1>
      <DetailsLike></DetailsLike>
       </div>
 

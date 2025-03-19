@@ -76,4 +76,51 @@ courseSchema.pre("save", async function (next) {
   next();
 });
 
+// Post-save middleware to update the instructor's average rating
+courseSchema.post("save", async function () {
+  const Course = mongoose.model("Course");
+  const Instructor = mongoose.model("Instructor");
+
+  // Use aggregation to calculate the average rating of all courses by the instructor
+  const result = await Course.aggregate([
+    { $match: { instructor: this.instructor } }, // Match courses by instructor ID
+    { $unwind: "$ratings" }, // Deconstruct the ratings array
+    {
+      $group: {
+        _id: "$instructor",
+        averageRating: { $avg: "$ratings.rating" }, // Calculate the average rating
+      },
+    },
+  ]);
+
+  // Update the instructor's rating
+  if (result.length > 0) {
+    const averageRating = result[0].averageRating; // Round to 1 decimal place
+    await Instructor.findOneAndUpdate(
+      { instructorId: this.instructor },
+      { rating: averageRating },
+    );
+  }
+});
+
+// Middleware to add a student to the course and instructor when a course is purchased
+courseSchema.methods.addStudent = async function (studentId) {
+  const Instructor = mongoose.model("Instructor");
+
+  // Add the student to the course's students array if not already added
+  if (!this.students.includes(studentId)) {
+    this.students.push(studentId);
+    await this.save();
+  }
+
+  // Add the student to the instructor's students array if not already added
+  const instructor = await Instructor.findOne({
+    instructorId: this.instructor,
+  });
+  if (instructor && !instructor.students.includes(studentId)) {
+    instructor.students.push(studentId);
+    await instructor.save();
+  }
+};
+
 export default mongoose.models.Course || mongoose.model("Course", courseSchema);

@@ -1,13 +1,14 @@
-import CheckCategory from "@/components/shared/CheckCategory";
-import { Mail, User } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-
 "use client";
 import CheckCategory from "@/components/shared/CheckCategory";
 import { Mail, Search, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
+
+
+
+
+
 import FeaturedBlog from "./FeaturedBlog";
 import { useState } from "react";
 

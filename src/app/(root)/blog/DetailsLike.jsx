@@ -49,7 +49,7 @@ const DetailsLike = () => {
   ];
 
   return (
-    <div className="container mx-auto my-12 rounded-md px-4 py-6 lg:max-w-6xl">
+    <div className="container mx-auto  rounded-md px-4 py-6 lg:max-w-6xl">
       {/* Header */}
       
       <hr className="mb-8 border-t-2 border-gray-500" />
