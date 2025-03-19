@@ -110,7 +110,7 @@ const coursesData = [
   },
 ];
 
-export default function AllCourse() {
+export default function AllCourse({checkQuery}) {
   const [isGridCol, setIsGridCol] = useState(false);
   const [query, setQuery] = useState("");
   const [selectCategory, setSelectCategory] = useState("latest"); // Default to 'latest'
