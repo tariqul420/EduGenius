@@ -1,26 +1,18 @@
-// components/TopCourses.js
 import Heading from "@/components/shared/Heading";
 import dbConnect from "@/lib/dbConnect";
 import Course from "@/models/Course";
+import CourseCard from "../shared/CourseCard";
 import TopCoursesBtn from "./TopCoursesBtn";
 
-const TopCourses = async ({ searchParams }) => {
+const TopCourses = async ({ category: slug }) => {
   await dbConnect();
+  const categorySlug = slug || "all-courses";
 
-  // Debug: Log searchParams to verify its contents
-  console.log("searchParams:", searchParams);
+  const query = categorySlug === "all-courses" ? {} : { categorySlug: categorySlug };
 
-  // Decode the URL parameter to match the MongoDB value
-  const categorySlug = searchParams?.category ? decodeURIComponent(searchParams.category) : "All Courses";
-
-  // Debug: Log the decoded categorySlug
-  console.log("categorySlug:", categorySlug);
-
-  // Build the query based on the decoded category
-  const query = categorySlug === "All Courses" ? {} : { category: categorySlug };
-
-  // Fetch courses based on the query
   const courseCategory = await Course.find(query);
+
+  console.log(courseCategory)
 
   return (
     <section className="p-5 container mx-auto lg:max-w-6xl mt-20">
@@ -30,17 +22,23 @@ const TopCourses = async ({ searchParams }) => {
       <TopCoursesBtn />
 
       {/* Course Cards */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
-        {courseCategory?.length > 0 ? (
-          courseCategory?.map((course, index) => (
-            <p key={index}>Category: {course?.category}</p>
-          ))
+      {
+        courseCategory?.length > 0 ? (
+          <div className="grid grid-cols-1 gap-4 mt-6 md:grid-cols-2 lg:grid-cols-3">
+            {courseCategory.map((course, index) => (
+              <div key={index} className="flex flex-col">
+                <CourseCard  course={course} />
+              </div>
+            ))}
+          </div>
         ) : (
-          <p className="text-center text-gray-600 col-span-full">
-            No courses available for this category.
-          </p>
-        )}
-      </div>
+          <div className="flex items-center justify-center">
+            <p className="text-lg font-semibold text-gray-600 dark:text-gray-400">
+              No courses found in this category!
+            </p>
+          </div>
+        )
+      }
     </section>
   );
 };
