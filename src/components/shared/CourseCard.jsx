@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 const CourseCard = ({ course }) => {
-  const { id, rating, category, instructor, postDate } = course;
+  const { id, category, instructor, postDate } = course;
   return (
     <>
       <div className="course-image relative">
@@ -12,18 +12,18 @@ const CourseCard = ({ course }) => {
           {category}
         </p>
         <Image
-          src={course.image}
-          alt={course.name}
+          src={course?.thumbnail}
+          alt={course?.title}
           width="100"
           height="100"
           className="mx-auto h-48 w-full max-w-[300px] rounded-t object-cover"
         />
         <p className="absolute right-8 -bottom-2 flex w-fit items-center gap-1.5 rounded bg-black px-3 py-1 text-sm text-white">
-          <Star fill="yellow" size={16} className="text-orange-400" /> {rating}
+          <Star fill="yellow" size={16} className="text-orange-400" /> 4.5
         </p>
       </div>
       <div className="course-content p-3">
-        <h3 className="text-lg font-semibold">{course.name}</h3>
+        <h3 className="text-lg font-semibold">{course?.title}</h3>
         <p className="text-sm text-gray-500">Instructor: {instructor}</p>
         <p className="text-sm text-gray-500">
           Posted on: {new Date(postDate).toLocaleDateString()}

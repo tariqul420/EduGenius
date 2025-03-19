@@ -3,29 +3,29 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const categories = [
-    { category: "All Courses" },
-    { category: "Web Development" },
-    { category: "Finance & Accounting" },
-    { category: "Flutter" },
-    { category: "Web Design" },
-    { category: "Cybersecurity" },
-    { category: "Marketing" },
-    { category: "Data Science" },
-    { category: "Business Management" },
+    { category: "All Courses", slug: "all-courses" },
+    { category: "Web Development", slug: "web-development" },
+    { category: "Finance & Accounting", slug: "finance-accounting" },
+    { category: "Flutter", slug: "flutter" },
+    { category: "Web Design", slug: "web-design" },
+    { category: "Cybersecurity", slug: "cybersecurity" },
+    { category: "Marketing", slug: "marketing" },
+    { category: "Data Science", slug: "data-science" },
+    { category: "Business Management", slug: "business-management" },
 ];
 
 function TopCoursesBtn() {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const router = useRouter();
-    const categorySlug = searchParams.get("category") || "All Courses";
+    const categorySlug = searchParams.get("category") || "all-courses";
 
-    const updateCategory = (selectedCategory) => {
+    const updateCategory = (selectedCategorySlug) => {
         const newParams = new URLSearchParams(searchParams.toString());
-        if (selectedCategory === "All Courses") {
+        if (selectedCategorySlug === "all-courses") {
             newParams.delete("category");
         } else {
-            newParams.set("category", selectedCategory);
+            newParams.set("category", selectedCategorySlug);
         }
         router.push(`${pathname}?${newParams.toString()}`, { scroll: false });
     };
@@ -35,8 +35,8 @@ function TopCoursesBtn() {
             {categories.map((cat, index) => (
                 <button
                     key={index}
-                    onClick={() => updateCategory(cat.category)}
-                    className={`px-4 py-3 text-sm font-semibold cursor-pointer transition ${categorySlug === cat.category
+                    onClick={() => updateCategory(cat?.slug)}
+                    className={`px-4 py-3 text-sm font-semibold cursor-pointer transition ${categorySlug === cat?.slug
                         ? "bg-green text-white"
                         : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-black-light dark:text-white dark:hover:bg-black/10"
                         }`}
