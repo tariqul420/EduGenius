@@ -12,8 +12,6 @@ const TopCourses = async ({ category: slug }) => {
 
   const courseCategory = await Course.find(query);
 
-  console.log(courseCategory)
-
   return (
     <section className="p-5 container mx-auto lg:max-w-6xl mt-20">
       <Heading title={`Our Top Courses`} subTitle={`We make learning convenient, affordable, and fun!`} />
