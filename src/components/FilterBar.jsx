@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation"; 
 import {
   Sheet,
   SheetContent,
@@ -17,9 +18,31 @@ import {
   SelectValue,
 } from "./ui/select";
 import useProvider from "@/hooks/useProvider";
+import { formUrlQuery } from "@/lib/utils";
 
 const FilterBar = () => {
   const { setIsGridCol } = useProvider();
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
+    function onSelectCategory(sort) {
+      let newUrl = "";
+  
+      if (sort && sort !== "All") {
+        newUrl = formUrlQuery({
+          params: searchParams.toString(),
+          key: "sort",
+          value: sort,
+        });
+      } else {
+        newUrl = removeKeysFromQuery({
+          params: searchParams.toString(),
+          keysToRemove: ["sort"],
+        });
+      }
+  
+      router.push(newUrl, { scroll: false });
+    }
   return (
     <>
       <div className="filter-bar items-left my-3 flex min-h-[60px] flex-col justify-between rounded border border-slate-100 px-2 py-4 shadow-md md:flex-row">
@@ -58,7 +81,7 @@ const FilterBar = () => {
         </div>
         <div className="right-content order-1 md:order-2 flex flex-col items-start gap-3 sm:flex-row sm:items-center md:gap-5">
           <div className="filter-course text-gray-500">
-            <Select>
+            <Select onValueChange={(value) => onSelectCategory(value)}>
               <SelectTrigger className="w-[180px] rounded border border-gray-300">
                 <SelectValue placeholder="Filter Course" />
               </SelectTrigger>
