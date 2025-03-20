@@ -130,32 +130,34 @@ const BlogDetails = () => {
             {filteredBlogs.map((blog) => (
               <div
                 key={blog.id}
-                className="transform cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition duration-300 dark:bg-black-light"
               >
                 <Image
                   src={blog?.image}
                   alt={blog?.name}
                   width={400}
-                  height={320}
-                  className="w-full h-80 object-cover"
+                  height={200}
+                  className="w-full object-cover"
                 />
-                <div className="p-4">
+                <div className="p-4 space-y-2">
                   <div className="flex justify-between">
-                    <p className="text-sm text-gray-500">{blog.category}</p>
-                    <p className="bg-green rounded-md p-2 text-sm">{blog.date}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-300">{blog?.category}</p>
+                    <p className="text-sm bg-green p-2 rounded-md">
+                      {blog.date}
+                    </p>
                   </div>
 
-                  <h2 className="mt-2 text-lg font-semibold">{blog.title}</h2>
-                  <p className="mt-2 text-gray-600">
+                  <h2 className="text-lg font-semibold">{blog.title}</h2>
+                  <p className="text-gray-600 dark:text-gray-300">
                     {blog.description.slice(0, 100)}...
                   </p>
                 </div>
-                <div className="flex items-center justify-between px-4 pb-4">
-                  <div className="flex items-center space-x-2 text-gray-500">
+                <div className="flex justify-between items-center px-4 pb-4">
+                  <div className="flex items-center space-x-2 text-gray-500 dark:text-gray-300">
                     <Mail />
                     <p>1</p>
                   </div>
-                  <div className="flex items-center space-x-2 text-gray-500">
+                  <div className="flex items-center space-x-2 text-gray-500 dark:text-gray-300">
                     <User />
                     <p>{blog.instructor}</p>
                   </div>

@@ -11,7 +11,7 @@ export default async function Instructor({ params }) {
   return (
     <section>
       <div className="container mx-auto py-8 max-sm:px-4 lg:max-w-6xl">
-        <div className="flex w-full flex-wrap bg-white shadow-lg">
+        <div className="dark flex w-full flex-wrap bg-white shadow-lg dark:bg-black">
           <Image
             src={instructor?.profilePicture}
             alt={instructor.firstName}

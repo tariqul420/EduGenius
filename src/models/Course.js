@@ -17,7 +17,8 @@ const courseSchema = new mongoose.Schema(
         message: "Instructor must have the role of 'instructor'.",
       },
     }, // Instructor ID
-    category: { type: String, required: true }, // Course category (e.g., Programming, Design)
+    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" }, // Course category (e.g., Programming, Design)
+    categorySlug: { type: String, required: true }, // Category slug
     thumbnail: { type: String, required: true }, // Course thumbnail URL
     language: { type: String, required: true }, // Course language (e.g., English, Spanish)
     level: {
