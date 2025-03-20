@@ -6,7 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const CourseCard = ({  slug,
+const CourseCard = ({
+  slug,
   category,
   categorySlug,
   price,
@@ -37,14 +38,14 @@ const CourseCard = ({  slug,
               width={100}
               height={100}
             />
-             {/* Rating Badge */}
-           <p
-            className="flex absolute -bottom-1.5 right-0 w-fit items-center gap-1.5 rounded bg-black px-3 py-1 text-sm text-white"
-            aria-label={`Rating: 4.5 stars`}
-          >
-            <Star fill="yellow" size={16} className="text-orange-400" /> {averageRating}
-          </p>
-          </div>  
+            {/* Rating Badge */}
+            <p
+              className="flex absolute -bottom-1.5 right-0 w-fit items-center gap-1.5 rounded bg-black px-3 py-1 text-sm text-white"
+              aria-label={`Rating: 4.5 stars`}
+            >
+              <Star fill="yellow" size={16} className="text-orange-400" /> {averageRating}
+            </p>
+          </div>
         </div>
         {/* Course Content */}
         <div className="course-content p-3">
