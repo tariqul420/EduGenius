@@ -7,7 +7,6 @@ const CourseDetails = async ({ params }) => {
   const { slug } = await params;
 
   const course = await getCourseBySlug(slug)
-  console.log(course)
 
   // const course = {
   //   id: 1,

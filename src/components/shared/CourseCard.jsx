@@ -6,21 +6,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const CourseCard = ({ course }) => {
+const CourseCard = ({  slug,
+  category,
+  categorySlug,
+  price,
+  language,
+  level,
+  thumbnail,
+  title,
+  averageRating }) => {
   const { isGridCol } = useProvider();
   const pathname = usePathname();
-
-  const {
-    slug,
-    category,
-    categorySlug,
-    price,
-    language,
-    level,
-    thumbnail,
-    title,
-    averageRating,
-  } = course || {}; 
 
   return (
     <>
