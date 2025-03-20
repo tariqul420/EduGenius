@@ -46,7 +46,9 @@ const TopCourses = async ({ category: slug }) => {
         thumbnail: 1,
         averageRating: 1,
         slug: 1,
-        category: "$categoryDetails.name",
+        category: {
+          name: "$categoryDetails.name",
+        }
       },
     },
     { $limit: 6 },
