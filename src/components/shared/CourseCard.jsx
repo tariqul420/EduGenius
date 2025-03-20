@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const CourseCard = ({ course }) => {
 
-  const { _id, category, price, language, level, thumbnail, title } = course || {};
+  const { slug, category, price, language, level, thumbnail, title, averageRating } = course || {};
 
   return (
     <>
@@ -32,7 +32,7 @@ const CourseCard = ({ course }) => {
           className="absolute right-2 -bottom-2 flex w-fit items-center gap-1.5 rounded bg-black px-3 py-1 text-sm text-white"
           aria-label={`Rating: 4.5 stars`}
         >
-          <Star fill="yellow" size={16} className="text-orange-400" /> 4.5
+          <Star fill="yellow" size={16} className="text-orange-400" /> {averageRating}
         </p>
       </div>
 
@@ -55,7 +55,7 @@ const CourseCard = ({ course }) => {
           <p className="text-green text-xl font-medium md:text-2xl">$ {price}</p>
           <Link
             className="bg-green rounded px-5 py-1.5 text-sm text-white hover:bg-green-600 transition-colors"
-            href={`/courses/${_id}`}
+            href={`/courses/${slug}`}
             aria-label={`View details for ${title}`}
           >
             Details
