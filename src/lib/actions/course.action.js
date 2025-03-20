@@ -28,22 +28,29 @@ export async function getCourses({
       // Lookup instructor details
       {
         $lookup: {
-          from: "users", // Collection name for users
+          from: "users",
           localField: "instructor",
           foreignField: "_id",
           as: "instructorDetails",
         },
       },
-      // Unwind instructor details to make it a single object
+      {
+        $lookup: {
+          from: "categories",
+          localField: "category",
+          foreignField: "_id",
+          as: "categoryDetails",
+        },
+      },
       { $unwind: "$instructorDetails" },
-      // Calculate average rating from the ratings array
+      { $unwind: "$categoryDetails" },
       {
         $addFields: {
           averageRating: {
             $cond: {
-              if: { $gt: [{ $size: "$ratings" }, 0] }, // Check if ratings array is not empty
-              then: { $avg: "$ratings.rating" }, // Calculate average rating
-              else: 0, // Default to 0 if no ratings
+              if: { $gt: [{ $size: "$ratings" }, 0] },
+              then: { $avg: "$ratings.rating" },
+              else: 0,
             },
           },
         },
@@ -60,13 +67,20 @@ export async function getCourses({
           discount: 1,
           price: 1,
           duration: 1,
-          averageRating: 1, // Include the calculated average rating
-          students: { $size: "$students" }, // Count the number of students
+          slug: 1,
+          averageRating: 1,
+          students: { $size: "$students" },
           instructor: {
             _id: "$instructorDetails._id",
             name: "$instructorDetails.name",
             email: "$instructorDetails.email",
           },
+          category: {
+            _id: "$categoryDetails._id",
+            name: "$categoryDetails.name",
+            slug: "$categoryDetails.slug",
+            description: "$categoryDetails.description"
+          }
         },
       },
       // Pagination: Skip and limit
@@ -90,5 +104,82 @@ export async function getCourses({
     return { courses, total, hasNextPage };
   } catch (error) {
     console.error(error);
+  }
+}
+
+export async function getCourseBySlug(slug) {
+  try {
+    await dbConnect();
+
+    const courses = await Course.aggregate([
+      {
+        $match: { slug: slug }
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "instructor",
+          foreignField: "_id",
+          as: "instructorDetails",
+        },
+      },
+      {
+        $lookup: {
+          from: "categories",
+          localField: "category",
+          foreignField: "_id",
+          as: "categoryDetails",
+        },
+      },
+      { $unwind: "$instructorDetails" },
+      { $unwind: "$categoryDetails" },
+      {
+        $addFields: {
+          averageRating: {
+            $cond: {
+              if: { $gt: [{ $size: "$ratings" }, 0] },
+              then: { $avg: "$ratings.rating" },
+              else: 0,
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          title: 1,
+          description: 1,
+          thumbnail: 1,
+          language: 1,
+          level: 1,
+          discount: 1,
+          price: 1,
+          duration: 1,
+          averageRating: 1,
+          slug: 1,
+          students: { $size: "$students" },
+          instructor: {
+            _id: "$instructorDetails._id",
+            name: "$instructorDetails.name",
+            email: "$instructorDetails.email",
+          },
+          category: {
+            _id: "$categoryDetails._id",
+            name: "$categoryDetails.name",
+            slug: "$categoryDetails.slug",
+            description: "$categoryDetails.description"
+          }
+        },
+      },
+      { $limit: 1 }
+    ]);
+
+    if (courses.length === 0) {
+      return null; // Return null if no course is found
+    }
+
+    return courses[0];
+  } catch (error) {
+    console.error("Error getting Course by slug:", error);
+    throw error; // Rethrow the error for better error handling upstream
   }
 }

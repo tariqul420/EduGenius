@@ -1,17 +1,24 @@
+import { getCourseBySlug } from "@/lib/actions/course.action";
 import Image from "next/image";
 import Link from "next/link";
 
-const CourseDetails = () => {
-  const course = {
-    id: 1,
-    name: "This is Demo Details page",
-    image: "/course-1.webp",
-    description:
-      "Learn full-stack web development with hands-on projects and expert guidance.",
-    rating: 8.5,
-    instructor: "John Doe",
-    duration: "12 weeks",
-  };
+const CourseDetails = async ({ params }) => {
+
+  const { slug } = await params;
+
+  const course = await getCourseBySlug(slug)
+  console.log(course)
+
+  // const course = {
+  //   id: 1,
+  //   name: "This is Demo Details page",
+  //   image: "/course-1.webp",
+  //   description:
+  //     "Learn full-stack web development with hands-on projects and expert guidance.",
+  //   rating: 8.5,
+  //   instructor: "John Doe",
+  //   duration: "12 weeks",
+  // };
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -28,7 +35,7 @@ const CourseDetails = () => {
         <p className="text-sm text-gray-500 mt-1">Instructor: {course.instructor}</p>
         <p className="text-sm text-gray-500">Duration: {course.duration}</p>
         <p className="text-sm text-gray-500">Rating: {course.rating} / 10</p>
-        <Link 
+        <Link
           href='http://localhost:3000/courses'
           className="mt-5 inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
