@@ -70,8 +70,8 @@ export async function getCourses({
         },
       },
       // Pagination: Skip and limit
-
-      { $limit: limit * page },
+      { $skip: skip },
+      { $limit: limit },
     ]);
 
     // Count total documents matching the query
@@ -87,11 +87,7 @@ export async function getCourses({
 
     const hasNextPage = total > page * limit;
 
-    return {
-      courses,
-      total,
-      hasNextPage,
-    };
+    return { courses, total, hasNextPage };
   } catch (error) {
     console.error(error);
   }
