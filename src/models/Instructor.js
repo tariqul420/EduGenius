@@ -10,18 +10,14 @@ const instructorSchema = new mongoose.Schema(
       instagram: { type: String },
     },
 
-    ratings: [
-      {
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        rating: {
-          type: Number,
-          required: true,
-          min: [1, "Rating must be above 1.0"],
-          max: [5, "Rating must be below 5.0"],
-          set: (val) => Math.round(val * 10) / 10,
-        },
-      },
-    ],
+    rating: {
+      type: Number,
+      required: true,
+      min: [1, "Rating must be above 1.0"],
+      max: [5, "Rating must be below 5.0"],
+      set: (val) => Math.round(val * 10) / 10,
+    },
+
     students: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     courses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
   },

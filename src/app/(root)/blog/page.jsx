@@ -1,5 +1,6 @@
 import CheckCategory from "@/components/shared/CheckCategory";
 import { Mail, User } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 
@@ -61,6 +62,7 @@ const BlogDetails = () => {
         "User experience and interface design play a crucial role in modern web development...",
       image: "/blog4.png",
       category: "UI/UX Design",
+      date: "14 March 2025",
       instructor: "Isabella Johnson",
       detailButton: "Read More",
     },
@@ -96,32 +98,34 @@ const BlogDetails = () => {
             {blogData.map((blog) => (
               <div
                 key={blog.id}
-                className="bg-white shadow-md rounded-lg overflow-hidden border border-gray-200 hover:shadow-xl transition duration-300"
+                className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition duration-300 dark:bg-black-light"
               >
-                <img
-                  src={blog.image}
-                  alt={blog.name}
-                  className="w-full h-80 object-cover"
+                <Image
+                  src={blog?.image}
+                  alt={blog?.name}
+                  width={400}
+                  height={200}
+                  className="w-full object-cover"
                 />
-                <div className="p-4">
-                  <div className=" flex justify-between">
-                    <p className="text-sm text-gray-500">{blog.category}</p>
+                <div className="p-4 space-y-2">
+                  <div className="flex justify-between">
+                    <p className="text-sm text-gray-500 dark:text-gray-300">{blog?.category}</p>
                     <p className="text-sm bg-green p-2 rounded-md">
                       {blog.date}
                     </p>
                   </div>
 
-                  <h2 className="text-lg font-semibold mt-2">{blog.title}</h2>
-                  <p className="text-gray-600 mt-2">
+                  <h2 className="text-lg font-semibold">{blog.title}</h2>
+                  <p className="text-gray-600 dark:text-gray-300">
                     {blog.description.slice(0, 100)}...
                   </p>
                 </div>
                 <div className="flex justify-between items-center px-4 pb-4">
-                  <div className="flex items-center space-x-2 text-gray-500">
+                  <div className="flex items-center space-x-2 text-gray-500 dark:text-gray-300">
                     <Mail />
                     <p>1</p>
                   </div>
-                  <div className="flex items-center space-x-2 text-gray-500">
+                  <div className="flex items-center space-x-2 text-gray-500 dark:text-gray-300">
                     <User />
                     <p>{blog.instructor}</p>
                   </div>

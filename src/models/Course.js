@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+import slugify from "slugify";
 
 const courseSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true }, // Course title
+    title: { type: String, required: true, unique: true }, // Course title
     description: { type: String, required: true }, // Course description
     instructor: {
       type: mongoose.Schema.Types.ObjectId,
@@ -16,7 +17,8 @@ const courseSchema = new mongoose.Schema(
         message: "Instructor must have the role of 'instructor'.",
       },
     }, // Instructor ID
-    category: { type: String, required: true }, // Course category (e.g., Programming, Design)
+    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" }, // Course category (e.g., Programming, Design)
+    categorySlug: { type: String, required: true }, // Category slug
     thumbnail: { type: String, required: true }, // Course thumbnail URL
     language: { type: String, required: true }, // Course language (e.g., English, Spanish)
     level: {
@@ -28,6 +30,7 @@ const courseSchema = new mongoose.Schema(
     discount: { type: Number, default: 0 }, // Discount percentage
     price: { type: Number, required: true }, // Course price
     duration: { type: Number, default: 0 },
+    slug: { type: String, unique: true },
     ratings: [
       {
         userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
@@ -57,5 +60,68 @@ const courseSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+// Pre-save middleware to generate a unique slug
+courseSchema.pre("save", async function (next) {
+  if (this.isModified("title")) {
+    let slug = slugify(this.title, { lower: true, strict: true });
+    const existingCourse = await mongoose.models.Course.findOne({ slug });
+
+    if (existingCourse) {
+      const uniqueSuffix = Date.now().toString(36);
+      slug = `${slug}-${uniqueSuffix}`;
+    }
+
+    this.slug = slug;
+  }
+  next();
+});
+
+// Post-save middleware to update the instructor's average rating
+courseSchema.post("save", async function () {
+  const Course = mongoose.model("Course");
+  const Instructor = mongoose.model("Instructor");
+
+  // Use aggregation to calculate the average rating of all courses by the instructor
+  const result = await Course.aggregate([
+    { $match: { instructor: this.instructor } }, // Match courses by instructor ID
+    { $unwind: "$ratings" }, // Deconstruct the ratings array
+    {
+      $group: {
+        _id: "$instructor",
+        averageRating: { $avg: "$ratings.rating" }, // Calculate the average rating
+      },
+    },
+  ]);
+
+  // Update the instructor's rating
+  if (result.length > 0) {
+    const averageRating = result[0].averageRating; // Round to 1 decimal place
+    await Instructor.findOneAndUpdate(
+      { instructorId: this.instructor },
+      { rating: averageRating },
+    );
+  }
+});
+
+// Middleware to add a student to the course and instructor when a course is purchased
+courseSchema.methods.addStudent = async function (studentId) {
+  const Instructor = mongoose.model("Instructor");
+
+  // Add the student to the course's students array if not already added
+  if (!this.students.includes(studentId)) {
+    this.students.push(studentId);
+    await this.save();
+  }
+
+  // Add the student to the instructor's students array if not already added
+  const instructor = await Instructor.findOne({
+    instructorId: this.instructor,
+  });
+  if (instructor && !instructor.students.includes(studentId)) {
+    instructor.students.push(studentId);
+    await instructor.save();
+  }
+};
 
 export default mongoose.models.Course || mongoose.model("Course", courseSchema);

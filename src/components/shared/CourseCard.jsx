@@ -1,45 +1,77 @@
-import { FileText, Star, Users } from "lucide-react";
+'use client';
+
+import useProvider from "@/hooks/useProvider";
+import { Gauge, Languages, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { usePathname } from "next/navigation";
 
-// {
-//   id: 1,
-//   name: "Course 1",
-//   description: "Learn the fundamentals of web development.",
-//   image: "/course-1.webp",
-//   category: "Web Development",
-//   instructor: "John Doe",
-//   detailButton: "View Details",
-//   postDate: "2025-03-14", 
-//   rating: 9.2, 
-// },
+const CourseCard = ({
+  slug,
+  category,
+  categorySlug,
+  price,
+  language,
+  level,
+  thumbnail,
+  title,
+  averageRating }) => {
+  const { isGridCol } = useProvider();
+  const pathname = usePathname();
 
-const CourseCard = ({ course }) => {
-  const { id, rating, category } = course;
   return (
     <>
-      <div className="course-image relative dark:bg-black-light">
-        <p className="bg-green w-fit text-white absolute px-3 py-1.5 text-sm">{category}</p>
-        <Image
-          src={course.image}
-          alt={course.name}
-          width="100"
-          height="100"
-          className="w-full h-48 max-w-[300px] mx-auto object-cover rounded-t"
-        />
-        <p className="bg-black rounded w-fit flex items-center gap-1.5 text-white absolute right-8 -bottom-2 px-3 py-1 text-sm"><Star fill="yellow" size={16} className="text-orange-400" /> {rating}</p>
-      </div>
-      <div className="course-content p-3">
-        <h3 className="text-lg font-semibold">{course.name}</h3>
-        {/* <p className="text-sm text-gray-500">Rating: {course.rating}</p> */}
-        <div className="flex py-5 justify-between text-slate-600">
-          <div className="price flex gap-1.5 items-center"><FileText size={16} /> 9 Lessions</div>
-          <div className="enroll flex gap-1.5 items-center"><Users size={16} /> 2 Enrolled</div>
+      <div className={`course-image relative border-amber-500 border flex ${isGridCol && pathname === '/courses' ? 'flex-col sm:flex-row gap-5 items-center' : 'flex-col'}`}>
+        <div>
+          {/* Category Badge */}
+          <p className="bg-green absolute top-0 left-0 z-[1] w-fit rounded px-3 py-1.5 text-sm text-white">
+            {category || categorySlug}
+          </p>
+          {/* Course Thumbnail */}
+          <div className="relative w-fit mx-auto rounded-t-lg">
+            <Image
+              src={thumbnail}
+              alt={title}
+              className="mx-auto w-[300px] max-h-[200px]"
+              placeholder="blur"
+              blurDataURL={thumbnail}
+              width={100}
+              height={100}
+            />
+            {/* Rating Badge */}
+            <p
+              className="flex absolute -bottom-1.5 right-0 w-fit items-center gap-1.5 rounded bg-black px-3 py-1 text-sm text-white"
+              aria-label={`Rating: 4.5 stars`}
+            >
+              <Star fill="yellow" size={16} className="text-orange-400" /> {averageRating}
+            </p>
+          </div>
         </div>
-        <div className="flex justify-between">
-          <p className="text-green font-medium text-xl md:text-2xl">$23</p>
-          <Link className="bg-green text-white text-sm py-1.5 px-5 rounded" href={`/courses/${id}`}>Details</Link>
+        {/* Course Content */}
+        <div className="course-content p-3">
+          <h3 className="text-lg font-semibold">{title}</h3>
+          <div className="flex justify-between py-5 text-slate-600">
+            <div className="price flex items-center gap-1.5 dark:text-gray-300">
+              <Languages size={16} /> {language}
+            </div>
+            <div className="enroll flex items-center gap-1.5 dark:text-gray-300">
+              <Gauge size={16} /> {level}
+            </div>
+          </div>
+
+          {/* Price and Details Button */}
+          <div className="flex justify-between">
+            <p className="text-green text-xl font-medium md:text-2xl">
+              $ {price}
+            </p>
+            <Link
+              className="bg-green rounded px-5 py-1.5 text-sm text-white transition-colors hover:bg-green-600"
+              href={`/courses/${slug}`}
+              aria-label={`View details for ${title}`}
+            >
+              Details
+            </Link>
+          </div>
         </div>
       </div>
     </>
@@ -47,3 +79,4 @@ const CourseCard = ({ course }) => {
 };
 
 export default CourseCard;
+
