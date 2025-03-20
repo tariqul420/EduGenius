@@ -14,7 +14,7 @@ export default function AllCourse({children}) {
         <div className="mt-6 grid grid-cols-12 gap-5 md:mt-8">
         <div 
         className={`courses col-span-12 grid gap-5 lg:col-span-8 ${
-          isGridCol ? "grid-cols-1 gap-5" : "grid-cols-2"}`}>
+          isGridCol ? "grid-cols-1 gap-5" : "sm:grid-cols-2"}`}>
           {children}
         </div>
         <div className="courses-filter col-span-4 hidden rounded px-4 py-1.5 shadow-md lg:block">

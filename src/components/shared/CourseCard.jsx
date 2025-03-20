@@ -24,7 +24,7 @@ const CourseCard = ({ course }) => {
 
   return (
     <>
-      <div className={`course-image relative border-amber-500 border flex ${isGridCol && pathname === '/courses' ? 'flex-row gap-5 items-center' : 'flex-col'}`}>
+      <div className={`course-image relative border-amber-500 border flex ${isGridCol && pathname === '/courses' ? 'flex-col sm:flex-row gap-5 items-center' : 'flex-col'}`}>
         <div>
           {/* Category Badge */}
           <p className="bg-green absolute top-0 left-0 z-[1] w-fit rounded px-3 py-1.5 text-sm text-white">
