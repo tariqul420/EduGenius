@@ -7,15 +7,8 @@ export default async function Course({ searchParams }) {
   const { courses } = await getCourses();
   return (
     <AllCourse>
-      {courses &&
-        courses.length > 0 &&
-        courses.map((course) => (
-          <div
-            key={course._id}
-            className={`min-h-[200px] flex-col rounded shadow-md sm:col-span-1`}
-          >
-            <CourseCard  course={course} />
-          </div>
+      {courses?.map((course) => (
+          <CourseCard key={course._id}  course={course} />
         ))}
     </AllCourse>
   );

@@ -4,6 +4,7 @@ import { Jost } from "next/font/google";
 import Footer from "../components/shared/Footer";
 import Navbar from "../components/shared/Navbar";
 import "./globals.css";
+import ContextProvider from "@/provider/ContextProvider";
 
 const jost = Jost({
   subsets: ["latin"],
@@ -64,6 +65,7 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body className={`${jost.variable} antialiased dark:bg-black-dark dark:text-white`}>
+          <ContextProvider>
           <ThemeProvider attribute="class"
             defaultTheme="system"
             enableSystem
@@ -72,6 +74,7 @@ export default function RootLayout({ children }) {
             {children}
             <Footer />
           </ThemeProvider>
+          </ContextProvider>
         </body>
       </html>
     </ClerkProvider>
