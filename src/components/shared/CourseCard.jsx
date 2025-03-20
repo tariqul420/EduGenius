@@ -9,9 +9,9 @@ import { usePathname } from "next/navigation";
 const CourseCard = ({ course }) => {
   const { isGridCol } = useProvider();
   const pathname = usePathname();
-  
+
   const {
-    _id,
+    slug,
     category,
     price,
     language,
@@ -73,7 +73,7 @@ const CourseCard = ({ course }) => {
             </p>
             <Link
               className="bg-green rounded px-5 py-1.5 text-sm text-white transition-colors hover:bg-green-600"
-              href={`/courses/${_id}`}
+              href={`/courses/${slug}`}
               aria-label={`View details for ${title}`}
             >
               Details
