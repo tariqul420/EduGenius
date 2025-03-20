@@ -7,13 +7,10 @@ import TopCourses from "@/components/home/TopCourses";
 import TopInstructors from "@/components/home/TopInstructors";
 import TotalCourse from "@/components/home/TotalCourse";
 import OurAchieve from "@/components/shared/OurAchieve";
-import { getCategory } from "@/lib/actions/category.action";
 
 export default async function Home({ searchParams }) {
 
   const { category } = await searchParams;
-
-  const categoryData = await getCategory();
 
   return (
     <div className="flex flex-col">
