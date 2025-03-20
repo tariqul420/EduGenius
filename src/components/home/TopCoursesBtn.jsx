@@ -22,7 +22,7 @@ function TopCoursesBtn() {
                 if (!response.ok) throw new Error("Failed to fetch categories");
 
                 const data = await response.json();
-                setCategories((prev) => [...prev, ...data]);
+                setCategories([...data, { name: "All Courses", slug: "all-courses" },].reverse());
             } catch (error) {
                 console.error("Error fetching categories:", error);
             }
