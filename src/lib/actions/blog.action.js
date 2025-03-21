@@ -6,6 +6,7 @@ import dbConnect from "../dbConnect";
 
 export async function getBlogs({
   search,
+  sort,
   page = 1,
   limit = 5,
   categories = [],
@@ -34,18 +35,68 @@ export async function getBlogs({
         ],
       }),
       ...(categoryIds.length > 0 && {
-        category: { $in: categoryIds }, // Filter by category IDs
+        category: { $in: categoryIds },
       }),
     };
 
     // Fetch blogs and convert them to plain objects using .lean()
-    const blogs = await Blog.find(query)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .populate("author")
-      .populate("category", "name slug") // Populate category fields
-      .lean();
+    // const blogs = await Blog.find(query)
+    //   .sort({ createdAt: -1 })
+    //   .skip(skip)
+    //   .limit(limit)
+    //   .populate("author")
+    //   .populate("category", "name slug")
+    //   .lean();
+
+    const blogs = await Blog.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "author",
+          foreignField: "_id",
+          as: "authorDetails",
+        }
+      },
+      {
+        $unwind: "$authorDetails"
+      },
+      {
+        $project: {
+          _id: 1,
+          title: 1,
+          content: 1,
+          slug: 1,
+          thumbnail: 1,
+          createdAt: 1,
+          commentCount: { $size: "$comments" },
+          authorDetails: 1
+        }
+      },
+      {
+        $sort: sort === "popular" ? { commentCount: -1 } : { createdAt: -1 },
+      },
+      { $limit: limit },
+      { $skip: skip },
+      {
+        $project: {
+          _id: 1,
+          title: 1,
+          content: 1,
+          slug: 1,
+          comment: "$commentCount",
+          thumbnail: 1,
+          createdAt: 1,
+          user: {
+            _id: "$authorDetails._id",
+            firstName: "$authorDetails.firstName",
+            lastName: "$authorDetails.lastName"
+          }
+        }
+      }
+    ]);
 
     // Count total documents matching the search criteria
     const total = await Blog.countDocuments(query);
