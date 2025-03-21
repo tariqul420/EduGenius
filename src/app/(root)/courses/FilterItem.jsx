@@ -1,40 +1,22 @@
-"use client";
-
 import CheckCategory from "@/components/shared/CheckCategory";
-import { useEffect, useState } from "react";
 
-export function FilterItem() {
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch("/api/course-category");
-        if (!response.ok) throw new Error("Failed to fetch categories");
-
-        const data = await response.json();
-        setCategories(data);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-
-    fetchCategories();
-  }, []);
+export function FilterItem({ categories }) {
   return (
     <>
       <div className="category-filter">
         <h2 className="text-2xl">All Categories</h2>
         <ul>
-          {categories?.map((category) => (
-            <li key={category?._id} className="flex items-center gap-1.5">
-              <CheckCategory
-                id={category?.slug}
-                label={category?.name}
-                keyCategory={"category"}
-              />
-            </li>
-          ))}
+          {categories?.length > 0 ? (
+            
+              <li className="">
+                <CheckCategory
+                  data={JSON.parse(JSON.stringify(categories))}
+                  keyCategory="category"
+                />
+              </li>
+          ) : (
+            <p>No categories found.</p>
+          )}
         </ul>
       </div>
       <hr />
@@ -44,16 +26,8 @@ export function FilterItem() {
         <div className="flex flex-col gap-2">
           <CheckCategory
             data={[
-              {
-                _id: "paid",
-                name: "Paid",
-                slug: "paid",
-              },
-              {
-                _id: "free",
-                name: "Free",
-                slug: "free",
-              },
+              { _id: "paid", name: "Paid", slug: "paid" },
+              { _id: "free", name: "Free", slug: "free" },
             ]}
             keyCategory="priceCondition"
           />
@@ -66,17 +40,9 @@ export function FilterItem() {
         <div className="flex flex-col gap-2">
           <CheckCategory
             data={[
-              { _id: "beginner", name: "Beginner", slug: "beginner" },
-              {
-                _id: "intermediate",
-                name: "Intermediate",
-                slug: "intermediate",
-              },
-              {
-                _id: "advanced",
-                name: "Advanced",
-                slug: "advanced",
-              },
+              { _id: "beginner", name: "Beginner", slug: "Beginner" },
+              { _id: "intermediate", name: "Intermediate", slug: "Intermediate" },
+              { _id: "advanced", name: "Advanced", slug: "Advanced" },
             ]}
             keyCategory="level"
           />

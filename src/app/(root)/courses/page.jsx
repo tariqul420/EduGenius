@@ -1,8 +1,11 @@
 import AllCourse from "@/components/shared/AllCourse";
 import CourseCard from "@/components/shared/CourseCard";
+import { getCategory } from "@/lib/actions/category.action";
 import { getCourses } from "@/lib/actions/course.action";
 
 export default async function Course({ searchParams }) {
+  const categories = await getCategory()
+  console.log(categories)
   try {
     const { category } = await searchParams;
     const { level } = await searchParams;
@@ -14,7 +17,7 @@ export default async function Course({ searchParams }) {
     }
 
     return (
-      <AllCourse>
+      <AllCourse categories={categories}>
         {courses.map((course) => {
           // Convert ObjectId to string if needed
           course._id = course._id.toString();
