@@ -2,7 +2,6 @@ import InsightsCard from "@/components/home/InsightsCard";
 import CheckCategory from "@/components/shared/CheckCategory";
 import { getBlogs } from "@/lib/actions/blog.action";
 import { getCategory } from "@/lib/actions/category.action";
-import FeaturedBlog from "./FeaturedBlog";
 
 const BlogDetails = async ({ searchParams }) => {
   const { category } = await searchParams;
@@ -15,11 +14,7 @@ const BlogDetails = async ({ searchParams }) => {
   const blogs = data?.blogs || [];
   const total = data?.total || 0;
   const hasNextPage = data.hasNextPage || false;
-
- 
-  const filteredBlogs = blogData.filter((blog) =>
-    blog.category.toLowerCase().includes(query.toLowerCase())
-  );
+  const { blogs: featured } = await getBlogs({ sort: "popular", limit: 6 });
 
   return (
     <div className="container mx-auto px-4 py-6 lg:max-w-6xl">
@@ -53,33 +48,30 @@ const BlogDetails = async ({ searchParams }) => {
               keyCategory="category"
             />
           </div>
-          {/* 
-          <ul className="space-y-3">
-            <li className="flex items-center gap-2">
-              <CheckCategory
-                id="webDesign"
-                label="Web Design"
-                keyCategory="category"
-              />
-            </li>
-            <li className="flex items-center gap-2">
-              <CheckCategory
-                id="webDevelopment"
-                label="Web Development"
-                keyCategory="category"
-              />
-            </li>
-            <li className="flex items-center gap-2">
-              <CheckCategory
-                id="flutter"
-                label="Flutter"
-                keyCategory="category"
-              />
-            </li>
-          </ul> */}
         </div>
       </div>
-      <FeaturedBlog></FeaturedBlog>
+
+      {/* Featured Blog */}
+      <div className="container lg:max-w-6xl mx-auto my-12 rounded-md px-4 py-6">
+        {/* Header */}
+        <div className=" text-center  md:flex  items-center mb-8">
+          <h1 className="text-3xl font-semibold">Featured Blog</h1>
+
+        </div>
+        <hr className="border-t-2 border-gray-500 mb-8" />
+        {/* Main Content */}
+        <div className="  grid grid-cols-1 md:grid-cols-4 gap-6">
+          {/* Blog Posts Section */}
+          <section className="md:col-span-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-6">
+              {featured?.length > 0 &&
+                featured.map((blog) => (
+                  <InsightsCard key={blog?.slug} insights={blog} />
+                ))}
+            </div>
+          </section>
+        </div>
+      </div>
     </div>
   );
 };

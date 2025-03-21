@@ -57,34 +57,10 @@ export async function getCourses({
           },
         },
       },
+
       // Project specific fields
       {
         $project: {
-          // title: 1,
-          // description: 1,
-          // categorySlug: 1,
-          // thumbnail: 1,
-          // language: 1,
-          // level: 1,
-          // discount: 1,
-          // price: 1,
-          // duration: 1,
-          // slug: 1,
-          // averageRating: 1,
-          // students: { $size: "$students" },
-          // instructor: {
-          //   _id: "$instructorDetails._id",
-          //   name: "$instructorDetails.name",
-          //   email: "$instructorDetails.email",
-          // },
-          // category: {
-          //   _id: "$categoryDetails._id",
-          //   name: "$categoryDetails.name",
-          //   slug: "$categoryDetails.slug",
-          //   description: "$categoryDetails.description"
-          // },
-
-          // filter out unnecessary fields
           _id: 1,
           title: 1,
           price: 1,
