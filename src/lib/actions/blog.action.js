@@ -12,6 +12,7 @@ export async function getBlogs({
 } = {}) {
   try {
     await dbConnect();
+    // User;
 
     const skip = (page - 1) * limit;
 
@@ -42,7 +43,7 @@ export async function getBlogs({
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
-      .populate("author", "firstName lastName")
+      .populate("author")
       .populate("category", "name slug") // Populate category fields
       .lean();
 
