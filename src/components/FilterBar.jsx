@@ -20,7 +20,7 @@ import {
 import useProvider from "@/hooks/useProvider";
 import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 
-const FilterBar = ({courses}) => {
+const FilterBar = ({courses,total}) => {
   const { setIsGridCol } = useProvider();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -98,7 +98,7 @@ const FilterBar = ({courses}) => {
           >
             <LayoutList />
           </button>
-          <p className="text-sm">  Showing {courses.length} of {courses.length} Results </p>
+          <p className="text-sm">  Showing {courses.length} of {total} Results </p>
         </div>
         <div className="right-content order-1 flex flex-col items-start gap-3 sm:flex-row sm:items-center md:order-2 md:gap-5">
           <div className="filter-course text-gray-500">
