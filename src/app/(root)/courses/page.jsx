@@ -9,8 +9,9 @@ export default async function Course({ searchParams }) {
   const categories = await getCategory()
   const { category } = await searchParams;
   const { level } = await searchParams;
+  const { search } = await searchParams;
 
-  const { courses } = await getCourses({ categorySlug: category, level: level });
+  const { courses } = await getCourses({ categorySlug: category, level: level,search: search });
 
   return (
     <section className="py-5">
