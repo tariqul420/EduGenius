@@ -46,7 +46,6 @@ const FilterBar = () => {
     }, 500);
 
     return () => clearTimeout(delayDebounceFn);
-
   }, [searchQuery, searchParams, router]);
 
   function onSelectCategory(sort) {
@@ -70,7 +69,7 @@ const FilterBar = () => {
 
   return (
     <>
-      <div className="filter-bar container mx-auto lg:max-w-6xl items-left my-3 flex min-h-[60px] flex-col justify-between rounded border border-slate-100 px-2 py-4 shadow-md md:flex-row">
+      <div className="filter-bar items-left container mx-auto my-3 flex min-h-[60px] flex-col justify-between rounded border border-slate-100 px-2 py-4 shadow-md md:flex-row lg:max-w-6xl">
         <div className="left-content order-2 mt-5 flex items-center gap-4 text-2xl md:order-1 md:mt-0">
           <Sheet>
             <SheetTrigger>
@@ -118,7 +117,7 @@ const FilterBar = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="max-w-[150px] outline-none sm:w-fit"
+              className="min-w-[250px] outline-none sm:w-fit"
               placeholder="Search by Category"
             />
             <Search size="18" />
