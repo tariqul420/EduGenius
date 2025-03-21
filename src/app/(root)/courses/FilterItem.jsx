@@ -22,10 +22,6 @@ export function FilterItem() {
 
     fetchCategories();
   }, []);
-  // const courseCategory = await getCategory();
-
-  // console.log(courseCategory)
-
   return (
     <>
       <div className="category-filter">
@@ -59,13 +55,13 @@ export function FilterItem() {
         <h2 className="text-2xl">Level</h2>
         <ul>
           <li className="flex gap-1.5 items-center">
-            <CheckCategory id='beginner' label='Beginner' keyCategory='level' />
+            <CheckCategory id='Beginner' label='Beginner' keyCategory='level' />
           </li>
           <li className="flex gap-1.5 items-center">
-            <CheckCategory id='intermediate' label='Intermediate' keyCategory='level' />
+            <CheckCategory id='Intermediate' label='Intermediate' keyCategory='level' />
           </li>
           <li className="flex gap-1.5 items-center">
-            <CheckCategory id='advanced' label='Advanced' keyCategory='level' />
+            <CheckCategory id='Advanced' label='Advanced' keyCategory='level' />
           </li>
         </ul>
       </div>

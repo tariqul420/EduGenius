@@ -3,6 +3,7 @@ import dbConnect from "../dbConnect";
 
 export async function getCourses({
   categorySlug,
+  level,
   search,
   page = 1,
   limit = 5,
@@ -17,6 +18,7 @@ export async function getCourses({
       {
         $match: {
           ...(categorySlug && { categorySlug }),
+          ...(level && { level }),
           ...(search && {
             $or: [
               { title: { $regex: search, $options: "i" } },

@@ -5,8 +5,9 @@ import { getCourses } from "@/lib/actions/course.action";
 export default async function Course({ searchParams }) {
   try {
     const { category } = await searchParams;
+    const { level } = await searchParams;
 
-    const { courses } = await getCourses({ categorySlug: category });
+    const { courses } = await getCourses({ categorySlug: category , level: level});
 
     if (!courses || courses.length === 0) {
       return <div>No courses found.</div>;
