@@ -58,6 +58,7 @@ export async function getCourses({
           },
         },
       },
+
       // Project specific fields
       {
         $project: {
