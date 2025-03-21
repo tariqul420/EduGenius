@@ -20,7 +20,7 @@ import {
 import useProvider from "@/hooks/useProvider";
 import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 
-const FilterBar = () => {
+const FilterBar = ({courses}) => {
   const { setIsGridCol } = useProvider();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -69,7 +69,7 @@ const FilterBar = () => {
 
   return (
     <>
-      <div className="filter-bar items-left container mx-auto my-3 flex min-h-[60px] flex-col justify-between rounded border border-slate-100 dark:border-gray-800 px-2 py-4 shadow-md dark:shadow-slate-800 md:flex-row lg:max-w-6xl">
+      <div className="filter-bar items-left container mx-auto my-3 flex min-h-[60px] flex-col justify-between rounded border border-slate-100 dark:text-gray-400 dark:border-gray-800 px-2 py-4 shadow-md dark:shadow-slate-800 md:flex-row lg:max-w-6xl">
         <div className="left-content order-2 mt-5 flex items-center gap-4 text-2xl md:order-1 md:mt-0">
           <Sheet>
             <SheetTrigger>
@@ -88,16 +88,17 @@ const FilterBar = () => {
 
           <button
             onClick={() => setIsGridCol(false)}
-            className="hidden sm:block dark:text-gray-400"
+            className="hidden sm:block "
           >
             <LayoutGrid />
           </button>
           <button
             onClick={() => setIsGridCol(true)}
-            className="hidden sm:block dark:text-gray-400"
+            className="hidden sm:block "
           >
             <LayoutList />
           </button>
+          <p className="text-sm">  Showing {courses.length} of {courses.length} Results </p>
         </div>
         <div className="right-content order-1 flex flex-col items-start gap-3 sm:flex-row sm:items-center md:order-2 md:gap-5">
           <div className="filter-course text-gray-500">
@@ -120,7 +121,7 @@ const FilterBar = () => {
               className="outline-none w-full sm:min-w-[220px]"
               placeholder="Search by Category"
             />
-            <Search className="dark:text-gray-400" size="18" />
+            <Search size="18" />
           </div>
         </div>
       </div>

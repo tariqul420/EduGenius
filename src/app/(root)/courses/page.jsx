@@ -18,7 +18,7 @@ export default async function Course({ searchParams }) {
     <section className="py-5">
       <div className="container lg:max-w-6xl mx-auto px-2 md:px-5">
         {/* Filter Bar */}
-        <FilterBar />
+        <FilterBar courses={JSON.parse(JSON.stringify(courses))} />
         {/* Courses Content Section */}
         <div className="mt-6 grid grid-cols-12 gap-5 md:mt-8">
           <CoursesContent courses={JSON.parse(JSON.stringify(courses))} />
