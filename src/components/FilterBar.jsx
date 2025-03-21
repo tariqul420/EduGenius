@@ -70,7 +70,7 @@ const FilterBar = () => {
 
   return (
     <>
-      <div className="filter-bar items-left my-3 flex min-h-[60px] flex-col justify-between rounded border border-slate-100 px-2 py-4 shadow-md md:flex-row">
+      <div className="filter-bar container mx-auto lg:max-w-6xl items-left my-3 flex min-h-[60px] flex-col justify-between rounded border border-slate-100 px-2 py-4 shadow-md md:flex-row">
         <div className="left-content order-2 mt-5 flex items-center gap-4 text-2xl md:order-1 md:mt-0">
           <Sheet>
             <SheetTrigger>

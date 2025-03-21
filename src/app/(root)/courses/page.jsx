@@ -10,12 +10,13 @@ export default async function Course({ searchParams }) {
   const { category } = await searchParams;
   const { level } = await searchParams;
   const { search } = await searchParams;
+  const { sort } = await searchParams;
 
-  const { courses } = await getCourses({ categorySlug: category, level: level,search: search });
+  const { courses } = await getCourses({ categorySlug: category, level: level,search: search, sort: sort });
 
   return (
     <section className="py-5">
-      <div className="container mx-auto px-2 md:px-5">
+      <div className="container lg:max-w-6xl mx-auto px-2 md:px-5">
         {/* Filter Bar */}
         <FilterBar />
         {/* Courses Content Section */}

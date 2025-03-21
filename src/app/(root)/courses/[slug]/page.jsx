@@ -9,8 +9,8 @@ const CourseDetails = async ({ params }) => {
   const course = await getCourseBySlug(slug)
   const {thumbnail,category,duration,averageRating} = course;
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="container px-4 md:px-8 mx-auto bg-white shadow-md rounded-lg p-6 md:p-10 max-w-3xl">
+    <section className="min-h-screen flex items-center justify-center">
+      <div className="container px-4 md:px-8 mx-auto  shadow-md rounded-lg p-6 md:p-10 max-w-3xl">
         <Image
           src={thumbnail}
           alt={category?.name}
