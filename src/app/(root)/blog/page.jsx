@@ -1,14 +1,16 @@
 import InsightsCard from "@/components/home/InsightsCard";
 import CheckCategory from "@/components/shared/CheckCategory";
+import SearchInput from "@/components/shared/SearchInput";
 import { getBlogs } from "@/lib/actions/blog.action";
 import { getCategory } from "@/lib/actions/category.action";
 
 const BlogDetails = async ({ searchParams }) => {
   const { category } = await searchParams;
+  const { search } = await searchParams;
 
   const categoryParams = category || "";
 
-  const data = await getBlogs({ categories: categoryParams.split(",") });
+  const data = await getBlogs({ categories: categoryParams.split(","), search });
   const categories = await getCategory();
 
   const blogs = data?.blogs || [];
@@ -19,11 +21,14 @@ const BlogDetails = async ({ searchParams }) => {
   return (
     <div className="container mx-auto px-4 py-6 lg:max-w-6xl">
       {/* Header */}
-      <div className="mb-8 items-center text-center md:flex">
+      <div className="mb-8 items-center text-center justify-between md:flex max-sm:space-y-2">
         <h1 className="text-3xl font-semibold">All Posts</h1>
         <p className="text-gray-600 md:ml-80">
           Showing {blogs.length} results of {total}
         </p>
+        <div>
+          <SearchInput />
+        </div>
       </div>
       <hr className="mb-8 border-t-2 border-gray-500" />
       {/* Main Content */}
