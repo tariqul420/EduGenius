@@ -20,7 +20,7 @@ import {
 import useProvider from "@/hooks/useProvider";
 import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 
-const FilterBar = () => {
+const FilterBar = ({courses}) => {
   const { setIsGridCol } = useProvider();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -43,10 +43,9 @@ const FilterBar = () => {
         });
       }
       router.push(newUrl, { scroll: false });
-    }, 300);
+    }, 500);
 
     return () => clearTimeout(delayDebounceFn);
-
   }, [searchQuery, searchParams, router]);
 
   function onSelectCategory(sort) {
@@ -70,7 +69,7 @@ const FilterBar = () => {
 
   return (
     <>
-      <div className="filter-bar items-left my-3 flex min-h-[60px] flex-col justify-between rounded border border-slate-100 px-2 py-4 shadow-md md:flex-row">
+      <div className="filter-bar items-left container mx-auto my-3 flex min-h-[60px] flex-col justify-between rounded border border-slate-100 dark:text-gray-400 dark:border-gray-800 px-2 py-4 shadow-md dark:shadow-slate-800 md:flex-row lg:max-w-6xl">
         <div className="left-content order-2 mt-5 flex items-center gap-4 text-2xl md:order-1 md:mt-0">
           <Sheet>
             <SheetTrigger>
@@ -89,21 +88,22 @@ const FilterBar = () => {
 
           <button
             onClick={() => setIsGridCol(false)}
-            className="hidden sm:block"
+            className="hidden sm:block "
           >
             <LayoutGrid />
           </button>
           <button
             onClick={() => setIsGridCol(true)}
-            className="hidden sm:block"
+            className="hidden sm:block "
           >
             <LayoutList />
           </button>
+          <p className="text-sm">  Showing {courses.length} of {courses.length} Results </p>
         </div>
         <div className="right-content order-1 flex flex-col items-start gap-3 sm:flex-row sm:items-center md:order-2 md:gap-5">
           <div className="filter-course text-gray-500">
             <Select onValueChange={(value) => onSelectCategory(value)}>
-              <SelectTrigger className="w-[180px] rounded border border-gray-300">
+              <SelectTrigger className="w-[180px] rounded border border-gray-300 dark:border-gray-800">
                 <SelectValue placeholder="Filter Course" />
               </SelectTrigger>
               <SelectContent>
@@ -113,12 +113,12 @@ const FilterBar = () => {
               </SelectContent>
             </Select>
           </div>
-          <div className="search-bar flex items-center gap-1 rounded border border-gray-300 px-2 py-1">
+          <div className="search-bar flex items-center gap-1 rounded border border-gray-300 dark:border-gray-800 px-2 py-1">
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="max-w-[150px] outline-none sm:w-fit"
+              className="outline-none w-full sm:min-w-[220px]"
               placeholder="Search by Category"
             />
             <Search size="18" />
