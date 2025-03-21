@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
+import Category from "./Category";
+import Comments from "./Comments";
+import User from "./User";
 
 const blogSchema = new mongoose.Schema(
   {
@@ -19,9 +22,9 @@ const blogSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
-    author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: Comments }],
+    author: { type: mongoose.Schema.Types.ObjectId, ref: User },
+    category: { type: mongoose.Schema.Types.ObjectId, ref: Category },
   },
   { timestamps: true },
 );
