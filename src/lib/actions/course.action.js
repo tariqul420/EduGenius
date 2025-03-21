@@ -96,15 +96,7 @@ export async function getCourses({
     const courses = await Course.aggregate(pipeline);
 
     // Count total documents matching the query
-    const total = await Course.countDocuments({
-      ...(categorySlug && { categorySlug }),
-      ...(search && {
-        $or: [
-          { title: { $regex: search, $options: "i" } },
-          { level: { $regex: search, $options: "i" } },
-        ],
-      }),
-    });
+    const total = await Course.estimatedDocumentCount();
 
     const hasNextPage = total > page * limit;
 
@@ -187,6 +179,6 @@ export async function getCourseBySlug(slug) {
     return courses[0];
   } catch (error) {
     console.error("Error getting Course by slug:", error);
-    throw error; 
+    throw error;
   }
 }

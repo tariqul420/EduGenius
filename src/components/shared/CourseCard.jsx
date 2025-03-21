@@ -13,7 +13,7 @@ const CourseCard = ({ course }) => {
 
   return (
     <>
-      <div className={`course-image relative border-amber-500 border flex ${isGridCol && pathname === '/courses' ? 'flex-col sm:flex-row gap-5 items-center' : 'flex-col'}`}>
+      <div className={`course-image relative rounded-md shadow h-fit border flex ${isGridCol && pathname === '/courses' ? 'flex-col sm:flex-row gap-5 items-center' : 'flex-col'}`}>
         <div>
           {/* Category Badge */}
           <p className="bg-green absolute top-0 left-0 z-[1] w-fit rounded px-3 py-1.5 text-sm text-white">
@@ -24,7 +24,7 @@ const CourseCard = ({ course }) => {
             <Image
               src={thumbnail}
               alt={title}
-              className="mx-auto w-[300px] max-h-[200px]"
+              className="mx-auto object-cover rounded-t-md w-[400px] max-h-[200px]"
               blurDataURL={thumbnail}
               width={100}
               height={100}
