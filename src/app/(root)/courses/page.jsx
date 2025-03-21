@@ -10,11 +10,13 @@ export default async function Course({ searchParams }) {
     const { category } = await searchParams;
     const { level } = await searchParams;
     const { search } = await searchParams;
+    const { sort } = await searchParams;
 
     const { courses } = await getCourses({
       categorySlug: category,
       level,
       search,
+      sort,
     });
     return (
       <AllCourse categories={JSON.parse(JSON.stringify(categories))}>

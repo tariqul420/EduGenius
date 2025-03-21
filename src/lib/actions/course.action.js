@@ -4,6 +4,7 @@ import dbConnect from "../dbConnect";
 export async function getCourses({
   categorySlug,
   level,
+  sort,
   search,
   page = 1,
   limit = 5,

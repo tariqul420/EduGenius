@@ -1,4 +1,3 @@
-import CourseCard from "@/components/shared/CourseCard";
 import { getCourseBySlug } from "@/lib/actions/course.action";
 import Image from "next/image";
 import Link from "next/link";
