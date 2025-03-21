@@ -46,10 +46,12 @@ const TopCourses = async ({ category: slug }) => {
         thumbnail: 1,
         averageRating: 1,
         slug: 1,
-        category: "$categoryDetails.name",
+        category: {
+          name: "$categoryDetails.name",
+        }
       },
     },
-    { $limit: 6 }
+    { $limit: 6 },
   ]);
 
   return (
@@ -65,7 +67,15 @@ const TopCourses = async ({ category: slug }) => {
           <div className="grid grid-cols-1 gap-4 mt-6 md:grid-cols-2 lg:grid-cols-3">
             {courseCategory.map((course, index) => (
               <div key={index} className="flex flex-col">
-                <CourseCard course={course} />
+                <CourseCard
+                  title={course.title}
+                  category={course.category.name}
+                  thumbnail={course.thumbnail}
+                  language={course.language}
+                  level={course.level}
+                  price={course.price}
+                  averageRating={course.averageRating}
+                  slug={course.slug} />
               </div>
             ))}
           </div>

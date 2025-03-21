@@ -48,8 +48,8 @@ export default function SlidePrViewSlider() {
                 <Image
                   src={instructor.image}
                   alt={instructor.name}
-                  layout="fill"
-                  objectFit="cover"
+                  fill
+                  style={{ objectFit: "cover" }}
                   className="rounded-full"
                 />
               </div>
