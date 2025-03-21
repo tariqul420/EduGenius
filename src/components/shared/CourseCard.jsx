@@ -6,16 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const CourseCard = ({
-  slug,
-  category,
-  categorySlug,
-  price,
-  language,
-  level,
-  thumbnail,
-  title,
-  averageRating }) => {
+const CourseCard = ({ course }) => {
+  const { title, category, thumbnail, language, level, price, averageRating, slug } = course || {};
   const { isGridCol } = useProvider();
   const pathname = usePathname();
 
@@ -25,7 +17,7 @@ const CourseCard = ({
         <div>
           {/* Category Badge */}
           <p className="bg-green absolute top-0 left-0 z-[1] w-fit rounded px-3 py-1.5 text-sm text-white">
-            {category || categorySlug}
+            {category?.name || category?.slug}
           </p>
           {/* Course Thumbnail */}
           <div className="relative w-fit mx-auto rounded-t-lg">
@@ -33,7 +25,6 @@ const CourseCard = ({
               src={thumbnail}
               alt={title}
               className="mx-auto w-[300px] max-h-[200px]"
-              placeholder="blur"
               blurDataURL={thumbnail}
               width={100}
               height={100}

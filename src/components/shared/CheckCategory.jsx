@@ -1,22 +1,30 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-const CheckCategory = ({ id, label, keyCategory }) => {
-  const [checkBox,setCheckBox] = useState(false)
+const CheckCategory = ({ data = [], keyCategory }) => {
+  const [checkedItems, setCheckedItems] = useState([]);
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const handleCheckBox = (checked) => {
+  const handleCheckBox = (checked, value) => {
+    setCheckedItems((prev) => {
+      if (checked) {
+        return [...prev, value];
+      }
+      return prev.filter((item) => item !== value);
+    });
+  };
+
+  useEffect(() => {
     let newUrl = "";
-    setCheckBox(checked)
-    if (checked) {
+    if (checkedItems.length > 0) {
       newUrl = formUrlQuery({
         params: searchParams.toString(),
         key: keyCategory,
-        value: id,
+        value: checkedItems.join(","),
       });
     } else {
       newUrl = removeKeysFromQuery({
@@ -24,16 +32,23 @@ const CheckCategory = ({ id, label, keyCategory }) => {
         keysToRemove: [keyCategory],
       });
     }
-
     router.push(newUrl, { scroll: false });
-  };
+  }, [checkedItems, keyCategory, router, searchParams]);
 
   return (
     <>
-      <Checkbox checked={checkBox} onCheckedChange={handleCheckBox} id={id} />
-      <label htmlFor={id} className="text-lg">
-        {label}
-      </label>
+      {data.map((item) => (
+        <div key={item._id} className="flex items-center space-x-2">
+          <Checkbox
+            onCheckedChange={(checked) => handleCheckBox(checked, item.slug)} // Pass the value (slug) to the handler
+            id={item._id}
+            value={item.slug}
+          />
+          <label htmlFor={item._id} className="text-lg">
+            {item.name}
+          </label>
+        </div>
+      ))}
     </>
   );
 };
