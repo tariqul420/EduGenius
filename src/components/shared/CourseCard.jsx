@@ -25,7 +25,6 @@ const CourseCard = ({ course }) => {
               src={thumbnail}
               alt={title}
               className="mx-auto w-[300px] max-h-[200px]"
-              placeholder="blur"
               blurDataURL={thumbnail}
               width={100}
               height={100}
