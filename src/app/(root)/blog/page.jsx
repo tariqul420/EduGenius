@@ -17,9 +17,7 @@ const BlogDetails = async ({ searchParams }) => {
   const hasNextPage = data.hasNextPage || false;
 
  
-  const filteredBlogs = blogData.filter((blog) =>
-    blog.category.toLowerCase().includes(query.toLowerCase())
-  );
+ 
 
   return (
     <div className="container mx-auto px-4 py-6 lg:max-w-6xl">
@@ -53,30 +51,7 @@ const BlogDetails = async ({ searchParams }) => {
               keyCategory="category"
             />
           </div>
-          {/* 
-          <ul className="space-y-3">
-            <li className="flex items-center gap-2">
-              <CheckCategory
-                id="webDesign"
-                label="Web Design"
-                keyCategory="category"
-              />
-            </li>
-            <li className="flex items-center gap-2">
-              <CheckCategory
-                id="webDevelopment"
-                label="Web Development"
-                keyCategory="category"
-              />
-            </li>
-            <li className="flex items-center gap-2">
-              <CheckCategory
-                id="flutter"
-                label="Flutter"
-                keyCategory="category"
-              />
-            </li>
-          </ul> */}
+         
         </div>
       </div>
       <FeaturedBlog></FeaturedBlog>
