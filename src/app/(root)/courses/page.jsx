@@ -5,7 +5,6 @@ import { getCourses } from "@/lib/actions/course.action";
 
 export default async function Course({ searchParams }) {
   const categories = await getCategory()
-  console.log(categories)
   try {
     const { category } = await searchParams;
     const { level } = await searchParams;
