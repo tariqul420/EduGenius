@@ -1,7 +1,6 @@
 "use client"
 
 import CheckCategory from "@/components/shared/CheckCategory";
-import { getCategory } from "@/lib/actions/category.action";
 import { useEffect, useState } from "react";
 
 export function FilterItem() {
