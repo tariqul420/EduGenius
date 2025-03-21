@@ -4,7 +4,6 @@ import FilterBar from "../FilterBar";
 import useProvider from "@/hooks/useProvider";
 
 export default function AllCourse({children,categories}) {
-  console.log(categories)
   const { isGridCol } = useProvider();
   return (
     <section className="py-5">
