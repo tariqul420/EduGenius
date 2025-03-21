@@ -16,7 +16,7 @@ export default async function Course({ searchParams }) {
     }
 
     return (
-      <AllCourse categories={categories}>
+      <AllCourse categories={JSON.parse(JSON.stringify(categories))}>
         {courses.map((course) => {
           // Convert ObjectId to string if needed
           course._id = course._id.toString();
