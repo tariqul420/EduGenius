@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation"; 
+import React, { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Sheet,
   SheetContent,
@@ -18,35 +18,60 @@ import {
   SelectValue,
 } from "./ui/select";
 import useProvider from "@/hooks/useProvider";
-import { formUrlQuery } from "@/lib/utils";
+import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 
 const FilterBar = () => {
   const { setIsGridCol } = useProvider();
-    const router = useRouter();
-    const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
 
-    function onSelectCategory(sort) {
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
       let newUrl = "";
-  
-      if (sort && sort !== "All") {
+
+      if (searchQuery) {
         newUrl = formUrlQuery({
           params: searchParams.toString(),
-          key: "sort",
-          value: sort,
+          key: "search",
+          value: searchQuery,
         });
       } else {
         newUrl = removeKeysFromQuery({
           params: searchParams.toString(),
-          keysToRemove: ["sort"],
+          keysToRemove: ["search"],
         });
       }
-  
       router.push(newUrl, { scroll: false });
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
+
+  }, [searchQuery, searchParams, router]);
+
+  function onSelectCategory(sort) {
+    let newUrl = "";
+
+    if (sort && sort !== "All") {
+      newUrl = formUrlQuery({
+        params: searchParams.toString(),
+        key: "sort",
+        value: sort,
+      });
+    } else {
+      newUrl = removeKeysFromQuery({
+        params: searchParams.toString(),
+        keysToRemove: ["sort"],
+      });
     }
+
+    router.push(newUrl, { scroll: false });
+  }
+
   return (
     <>
       <div className="filter-bar items-left my-3 flex min-h-[60px] flex-col justify-between rounded border border-slate-100 px-2 py-4 shadow-md md:flex-row">
-        <div className="left-content order-2 md:order-1 mt-5 flex items-center gap-4 text-2xl md:mt-0">
+        <div className="left-content order-2 mt-5 flex items-center gap-4 text-2xl md:order-1 md:mt-0">
           <Sheet>
             <SheetTrigger>
               <TableOfContents className="block lg:hidden" />
@@ -74,12 +99,8 @@ const FilterBar = () => {
           >
             <LayoutList />
           </button>
-
-          {/* <p className="text-base text-gray-600">
-              Showing 8 of {coursesData.length} Results
-            </p> */}
         </div>
-        <div className="right-content order-1 md:order-2 flex flex-col items-start gap-3 sm:flex-row sm:items-center md:gap-5">
+        <div className="right-content order-1 flex flex-col items-start gap-3 sm:flex-row sm:items-center md:order-2 md:gap-5">
           <div className="filter-course text-gray-500">
             <Select onValueChange={(value) => onSelectCategory(value)}>
               <SelectTrigger className="w-[180px] rounded border border-gray-300">
@@ -95,6 +116,8 @@ const FilterBar = () => {
           <div className="search-bar flex items-center gap-1 rounded border border-gray-300 px-2 py-1">
             <input
               type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="max-w-[150px] outline-none sm:w-fit"
               placeholder="Search by Category"
             />
