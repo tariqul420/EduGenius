@@ -4,7 +4,7 @@ import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const CheckCategory = ({ data, keyCategory }) => {
+const CheckCategory = ({ data = [], keyCategory }) => {
   const [checkedItems, setCheckedItems] = useState([]);
   const router = useRouter();
   const searchParams = useSearchParams();
