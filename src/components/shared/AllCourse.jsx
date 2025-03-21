@@ -3,7 +3,7 @@ import FilterItem from "@/app/(root)/courses/FilterItem";
 import FilterBar from "../FilterBar";
 import useProvider from "@/hooks/useProvider";
 
-export default function AllCourse({children}) {
+export default function AllCourse({children,categories}) {
   const { isGridCol } = useProvider();
   return (
     <section className="py-5">
@@ -18,7 +18,7 @@ export default function AllCourse({children}) {
           {children}
         </div>
         <div className="courses-filter col-span-4 hidden rounded px-4 py-1.5 shadow-md lg:block">
-          <FilterItem />
+          <FilterItem categories={categories} />
         </div>
       </div>
       </div>

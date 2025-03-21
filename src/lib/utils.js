@@ -16,7 +16,7 @@ export function formUrlQuery({ params, key, value }) {
       url: window.location.pathname,
       query: currentUrl,
     },
-    { skipNull: true }
+    { skipNull: true },
   );
 }
 
@@ -32,6 +32,15 @@ export function removeKeysFromQuery({ params, keysToRemove }) {
       url: window.location.pathname,
       query: currentUrl,
     },
-    { skipNull: true }
+    { skipNull: true },
   );
+}
+
+export function formatDate(inputDate) {
+  const date = new Date(inputDate);
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = date.toLocaleString("en-US", { month: "short" }); // Get abbreviated month name
+  const year = date.getFullYear();
+
+  return `${day} ${month} ${year}`;
 }
