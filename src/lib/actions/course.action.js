@@ -7,13 +7,14 @@ export async function getCourses({
   search,
   page = 1,
   limit = 5,
+  sort,
 } = {}) {
   try {
     await dbConnect();
 
     const skip = (page - 1) * limit;
 
-    const courses = await Course.aggregate([
+    const pipeline = [
       // Match courses based on categorySlug or search query
       {
         $match: {
@@ -57,37 +58,14 @@ export async function getCourses({
           },
         },
       },
+
       // Project specific fields
       {
         $project: {
-          // title: 1,
-          // description: 1,
-          // categorySlug: 1,
-          // thumbnail: 1,
-          // language: 1,
-          // level: 1,
-          // discount: 1,
-          // price: 1,
-          // duration: 1,
-          // slug: 1,
-          // averageRating: 1,
-          // students: { $size: "$students" },
-          // instructor: {
-          //   _id: "$instructorDetails._id",
-          //   name: "$instructorDetails.name",
-          //   email: "$instructorDetails.email",
-          // },
-          // category: {
-          //   _id: "$categoryDetails._id",
-          //   name: "$categoryDetails.name",
-          //   slug: "$categoryDetails.slug",
-          //   description: "$categoryDetails.description"
-          // },
-
-          // filter out unnecessary fields
           _id: 1,
           title: 1,
           price: 1,
+          discount: 1,
           language: 1,
           level: 1,
           thumbnail: 1,
@@ -100,21 +78,26 @@ export async function getCourses({
           },
         },
       },
-      // Pagination: Skip and limit
-      { $skip: skip },
-      { $limit: limit },
-    ]);
+    ];
+
+    // Add sorting stage if sort is provided
+    if (sort) {
+      pipeline.push({
+        $sort: {
+          ...(sort === "top-rated" && { averageRating: -1 }), // Sort by highest rating
+          ...(sort === "latest" && { createdAt: -1 }), // Sort by latest
+          ...(sort === "oldest" && { createdAt: 1 }), // Sort by oldest
+        },
+      });
+    }
+
+    // Pagination: Skip and limit
+    pipeline.push({ $skip: skip }, { $limit: limit });
+
+    const courses = await Course.aggregate(pipeline);
 
     // Count total documents matching the query
-    const total = await Course.countDocuments({
-      ...(categorySlug && { categorySlug }),
-      ...(search && {
-        $or: [
-          { title: { $regex: search, $options: "i" } },
-          { level: { $regex: search, $options: "i" } },
-        ],
-      }),
-    });
+    const total = await Course.estimatedDocumentCount();
 
     const hasNextPage = total > page * limit;
 
@@ -197,6 +180,6 @@ export async function getCourseBySlug(slug) {
     return courses[0];
   } catch (error) {
     console.error("Error getting Course by slug:", error);
-    throw error; // Rethrow the error for better error handling upstream
+    throw error;
   }
 }

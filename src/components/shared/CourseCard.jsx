@@ -16,6 +16,7 @@ const CourseCard = ({ course }) => {
     price,
     averageRating,
     slug,
+    discount,
   } = course || {};
   const { isGridCol } = useProvider();
   const pathname = usePathname();
@@ -23,7 +24,7 @@ const CourseCard = ({ course }) => {
   return (
     <>
       <div
-        className={`course-image relative flex border border-amber-500 ${isGridCol && pathname === "/courses" ? "flex-col items-center gap-5 sm:flex-row" : "flex-col"}`}
+        className={`course-image relative flex h-fit rounded-md border shadow ${isGridCol && pathname === "/courses" ? "flex-col items-center gap-5 sm:flex-row" : "flex-col"}`}
       >
         <div>
           {/* Category Badge */}
@@ -35,9 +36,8 @@ const CourseCard = ({ course }) => {
             <Image
               src={thumbnail}
               alt={title}
-              className="mx-auto max-h-[200px] w-[300px]"
-              placeholder="blur"
-              blurDataURL={thumbnail || ""}
+              className="mx-auto max-h-[200px] w-[400px] rounded-t-md object-cover"
+              blurDataURL={thumbnail}
               width={100}
               height={100}
             />
@@ -65,9 +65,17 @@ const CourseCard = ({ course }) => {
 
           {/* Price and Details Button */}
           <div className="flex justify-between">
-            <p className="text-green text-xl font-medium md:text-2xl">
-              $ {price}
-            </p>
+            <div className="flex items-center gap-1.5 dark:text-gray-300">
+              <p className="font-medium md:text-2xl">
+                ${" "}
+                <span className="text-overline text-lg font-light text-red-500 line-through">
+                  {price}
+                </span>
+              </p>
+              <p className="text-green text-xl font-medium md:text-2xl">
+                {parseFloat(price) - parseFloat(discount)}
+              </p>
+            </div>
             <Link
               className="bg-green rounded px-5 py-1.5 text-sm text-white transition-colors hover:bg-green-600"
               href={`/courses/${slug}`}

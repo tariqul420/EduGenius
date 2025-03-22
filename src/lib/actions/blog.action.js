@@ -113,3 +113,20 @@ export async function getBlogs({
     return { blogs: [], total: 0, hasNextPage: false };
   }
 }
+
+export async function getBlogBySlug(slug) {
+  try {
+    await dbConnect();
+
+    const blog = await Blog.findOne({ slug: slug })
+      .populate("author")
+      .populate("category")
+      .populate("comments")
+      .lean();
+
+    return blog;
+  } catch (error) {
+    console.error("Failed to fetch blog:", error);
+    return null;
+  }
+}

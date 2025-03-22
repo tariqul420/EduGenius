@@ -9,14 +9,16 @@ export default async function Course({ searchParams }) {
   const categories = await getCategory()
   const { category } = await searchParams;
   const { level } = await searchParams;
+  const { search } = await searchParams;
+  const { sort } = await searchParams;
 
-  const { courses } = await getCourses({ categorySlug: category, level: level });
+  const { courses, total } = await getCourses({ categorySlug: category, level: level,search: search, sort: sort });
 
   return (
     <section className="py-5">
-      <div className="container mx-auto px-2 md:px-5">
+      <div className="container lg:max-w-6xl mx-auto px-2 md:px-5">
         {/* Filter Bar */}
-        <FilterBar />
+        <FilterBar total={total} courses={JSON.parse(JSON.stringify(courses))} />
         {/* Courses Content Section */}
         <div className="mt-6 grid grid-cols-12 gap-5 md:mt-8">
           <CoursesContent courses={JSON.parse(JSON.stringify(courses))} />
