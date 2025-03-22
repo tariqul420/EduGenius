@@ -40,7 +40,8 @@ const CheckCategory = ({ data = [], keyCategory }) => {
       {data.map((item) => (
         <div key={item._id} className="flex items-center space-x-2">
           <Checkbox
-            onCheckedChange={(checked) => handleCheckBox(checked, item.slug)} // Pass the value (slug) to the handler
+            className={`cursor-pointer`}
+            onCheckedChange={(checked) => handleCheckBox(checked, item?.slug)} // Pass the value (slug) to the handler
             id={item._id}
             value={item.slug}
           />
