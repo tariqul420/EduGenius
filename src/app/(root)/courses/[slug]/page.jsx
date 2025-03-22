@@ -70,7 +70,7 @@ const CourseDetails = async ({ params }) => {
           </span>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 gap-x-8 gap-y-4 text-base text-gray-700 sm:grid-cols-2 dark:text-gray-300">
+        <div className="mt-6 grid grid-cols-1 gap-x-8 gap-y-2 text-base text-gray-700 sm:grid-cols-2 dark:text-gray-300">
           <p className="flex items-center gap-2">
             <BookOpen size={18} className="text-green-500" />
             <span className="font-medium">Level:</span> {level}
