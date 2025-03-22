@@ -7,7 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const CourseCard = ({ course }) => {
-  const { title, category, thumbnail, language, level, price, averageRating, slug } = course || {};
+  const { title, category, thumbnail, language, level, price, averageRating, slug, discount } = course || {};
   const { isGridCol } = useProvider();
   const pathname = usePathname();
 
@@ -52,9 +52,14 @@ const CourseCard = ({ course }) => {
 
           {/* Price and Details Button */}
           <div className="flex justify-between">
-            <p className="text-green text-xl font-medium md:text-2xl">
-              $ {price}
-            </p>
+            <div className="flex items-center gap-1.5 dark:text-gray-300">
+              <p className="font-medium md:text-2xl">
+                $ <span className="text-overline font-light text-lg text-red-500 line-through">{price}</span>
+              </p>
+              <p className="text-green text-xl font-medium md:text-2xl">
+                {parseFloat(price) - parseFloat(discount)}
+              </p>
+            </div>
             <Link
               className="bg-green rounded px-5 py-1.5 text-sm text-white transition-colors hover:bg-green-600"
               href={`/courses/${slug}`}

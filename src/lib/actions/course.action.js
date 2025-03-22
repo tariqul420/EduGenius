@@ -65,6 +65,7 @@ export async function getCourses({
           _id: 1,
           title: 1,
           price: 1,
+          discount: 1,
           language: 1,
           level: 1,
           thumbnail: 1,
