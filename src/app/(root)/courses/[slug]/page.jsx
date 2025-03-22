@@ -1,42 +1,105 @@
 import { getCourseBySlug } from "@/lib/actions/course.action";
-import { RefreshCcw, Star, Users } from "lucide-react";
+import {
+  RefreshCcw,
+  Star,
+  Users,
+  Clock,
+  BookOpen,
+  Award,
+  Globe,
+  DollarSign,
+  Tag,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 const CourseDetails = async ({ params }) => {
-
   const { slug } = await params;
+  const course = await getCourseBySlug(slug);
+  const {
+    level,
+    discount,
+    price,
+    students,
+    thumbnail,
+    language,
+    description,
+    category,
+    duration,
+    averageRating,
+    instructor,
+  } = course;
 
-  const course = await getCourseBySlug(slug)
-  const {level,discount,price,students,thumbnail,language,description,category,duration,averageRating} = course;
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center">
-      <div className="container dark:bg-black-light/50 px-2.5 md:px-8 mx-auto shadow-md rounded-lg p-6 md:p-10 max-w-3xl">
+    <section className="flex min-h-screen flex-col items-center justify-center bg-gray-50 py-10 dark:bg-gray-900">
+      <div className="container mx-auto max-w-3xl rounded-lg bg-white p-6 px-2.5 shadow-md md:p-10 md:px-8 dark:bg-gray-800">
         <Image
           src={thumbnail}
           alt={category?.name}
           width={600}
           height={300}
-          className="w-full h-60 object-cover rounded"
+          className="h-60 w-full rounded object-cover"
         />
-        <h1 className="text-2xl font-bold mt-4">{category.name}</h1>
-        <p className="text-gray-700 text-lg mt-2">{description}</p>
-        <div className="flex gap-2 sm:gap-5 text-gray-500 mt-2">
-        <span><p className="flex items-center gap-1.5"><Star size={16} color="#ffd500" strokeWidth={1} fill="#ffd500" absoluteStrokeWidth /> {averageRating}</p></span>
-        <span><p className="flex items-center gap-1.5"><Users size={16} strokeWidth={1} absoluteStrokeWidth />{students}</p></span>
-        <span><p className="flex items-center gap-1.5"><RefreshCcw size={16} strokeWidth={1} absoluteStrokeWidth /> Last Updated Mar 26, 2025</p></span>
+        <h1 className="mt-4 text-2xl font-bold">{category.name}</h1>
+        <p className="mt-2 text-lg text-gray-700 dark:text-gray-300">
+          {description}
+        </p>
+        <div className="mt-2 flex gap-2 text-gray-500 dark:text-gray-400 sm:gap-5">
+          <span>
+            <p className="flex items-center gap-1.5">
+              <Star
+                size={16}
+                color="#ffd500"
+                strokeWidth={1}
+                fill="#ffd500"
+                absoluteStrokeWidth
+              />{" "}
+              {averageRating}
+            </p>
+          </span>
+          <span>
+            <p className="flex items-center gap-1.5">
+              <Users size={16} strokeWidth={1} absoluteStrokeWidth /> {students}
+            </p>
+          </span>
+          <span>
+            <p className="flex items-center gap-1.5">
+              <RefreshCcw size={16} strokeWidth={1} absoluteStrokeWidth /> Last
+              Updated Mar 26, 2025
+            </p>
+          </span>
         </div>
-        
-        <p className="text-sm text-gray-500 mt-1">Instructor: {course?.instructor.email}</p>
-        <p className="text-sm text-gray-500">Level: {level}</p>
-        <p className="text-sm text-gray-500">Price: {price}</p>
-        <p className="text-sm text-gray-500">Discount: {discount}</p>
-        
-        <p className="text-sm text-gray-500">Language: {language}</p>
-        <p className="text-sm text-gray-500">Duration: {duration}</p>
+
+        <div className="mt-6 grid grid-cols-1 gap-x-8 gap-y-4 text-base text-gray-700 sm:grid-cols-2 dark:text-gray-300">
+          <p className="flex items-center gap-2">
+            <BookOpen size={18} className="text-green-500" />
+            <span className="font-medium">Level:</span> {level}
+          </p>
+          <p className="flex items-center gap-2">
+            <Award size={18} className="text-blue-500" />
+            <span className="font-medium">Instructor:</span> {instructor?.email}
+          </p>
+          <p className="flex items-center gap-2">
+            <Globe size={18} className="text-purple-500" />
+            <span className="font-medium">Language:</span> {language}
+          </p>
+          <p className="flex items-center gap-2">
+            <Clock size={18} className="text-yellow-500" />
+            <span className="font-medium">Duration:</span> {duration}
+          </p>
+          <p className="flex items-center gap-2">
+            <DollarSign size={18} className="text-red-500" />
+            <span className="font-medium">Price:</span> {price}
+          </p>
+          <p className="flex items-center gap-2">
+            <Tag size={18} className="text-pink-500" />
+            <span className="font-medium">Discount:</span> {discount}
+          </p>
+        </div>
+
         <Link
-          href='http://localhost:3000/courses'
-          className="mt-5 inline-block px-4 py-1.5 bg-green text-white rounded"
+          href="http://localhost:3000/courses"
+          className="mt-5 inline-block rounded bg-green-500 px-4 py-1.5 text-white transition-colors hover:bg-green-600"
         >
           Go Back
         </Link>
