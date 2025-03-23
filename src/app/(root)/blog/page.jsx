@@ -4,7 +4,7 @@ import SearchInput from "@/components/shared/SearchInput";
 import { getBlogs } from "@/lib/actions/blog.action";
 import { getCategory } from "@/lib/actions/category.action";
 
-const BlogDetails = async ({ searchParams }) => {
+const BlogPage= async ({ searchParams }) => {
   const { category } = await searchParams;
   const { search } = await searchParams;
 
@@ -81,4 +81,4 @@ const BlogDetails = async ({ searchParams }) => {
   );
 };
 
-export default BlogDetails;
+export default BlogPage;

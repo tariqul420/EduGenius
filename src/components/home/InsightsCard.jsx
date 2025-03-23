@@ -1,19 +1,16 @@
 import { ArrowRight, Calendar, MessageCircleMore, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { format } from "date-fns"; // Import date-fns for date formatting
+import { format } from "date-fns";
 
 function InsightsCard({ insights }) {
-  const { title, thumbnail, content, comment, user, createdAt, slug } = insights || {};
+  const { slug, title, thumbnail, content, comment, user, createdAt } = insights || {};
 
   // Format the date using date-fns
   const formattedDate = createdAt ? format(new Date(createdAt), "MMMM dd, yyyy") : "";
 
   return (
-    <Link
-      href={`/blog/${slug}`}
-      className="bg-white dark:bg-black-light rounded-lg overflow-hidden shadow hover:shadow-md transition-all duration-300 hover:-translate-y-2 flex flex-col h-full"
-    >
+    <div className="bg-white dark:bg-black-light rounded-lg overflow-hidden shadow hover:shadow-md transition-all duration-300 hover:-translate-y-2 flex flex-col h-full">
       {/* Thumbnail Section */}
       <div className="course-image relative flex-shrink-0">
         <Image
@@ -53,14 +50,12 @@ function InsightsCard({ insights }) {
           </div>
 
           {/* Read More Button */}
-          <div className="flex items-center">
-            <span className="text-green flex gap-1 text-lg cursor-pointer">
-              Read More <ArrowRight />
-            </span>
-          </div>
+          <Link href={`/blog/${slug}`} className="text-green flex gap-1 text-lg cursor-pointer">
+            Read More <ArrowRight />
+          </Link>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 

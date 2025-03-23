@@ -1,5 +1,4 @@
 "use server";
-
 import Blog from "@/models/Blog";
 import Category from "@/models/Category";
 import dbConnect from "../dbConnect";
@@ -39,14 +38,7 @@ export async function getBlogs({
       }),
     };
 
-    // Fetch blogs and convert them to plain objects using .lean()
-    // const blogs = await Blog.find(query)
-    //   .sort({ createdAt: -1 })
-    //   .skip(skip)
-    //   .limit(limit)
-    //   .populate("author")
-    //   .populate("category", "name slug")
-    //   .lean();
+
 
     const blogs = await Blog.aggregate([
       {
@@ -113,3 +105,38 @@ export async function getBlogs({
     return { blogs: [], total: 0, hasNextPage: false };
   }
 }
+
+export async function getBlogBySlug(slug) {
+  try {
+    await dbConnect();
+
+    const blog = await Blog.findOne({ slug: slug })
+      .populate({
+        path: "author",
+        select: "_id firstName lastName email role profilePicture slug",
+      })
+      .populate({
+        path: "category",
+        select: "_id name",
+      })
+      .populate({
+        path: "comments",
+        populate: {
+          path: "user",
+          select: "_id firstName lastName email role profilePicture",
+        },
+        select: "_id comment createdAt user",
+      })
+      .lean();
+
+    if (blog) {
+      delete blog.updatedAt;
+    }
+
+    return blog;
+  } catch (error) {
+    console.error("Failed to fetch blog:", error);
+    return null;
+  }
+}
+
