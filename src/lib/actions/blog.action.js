@@ -38,14 +38,7 @@ export async function getBlogs({
       }),
     };
 
-    // Fetch blogs and convert them to plain objects using .lean()
-    // const blogs = await Blog.find(query)
-    //   .sort({ createdAt: -1 })
-    //   .skip(skip)
-    //   .limit(limit)
-    //   .populate("author")
-    //   .populate("category", "name slug")
-    //   .lean();
+  
 
     const blogs = await Blog.aggregate([
       {
@@ -112,6 +105,7 @@ export async function getBlogs({
     return { blogs: [], total: 0, hasNextPage: false };
   }
 }
+
 export async function getBlogBySlug(slug) {
   try {
     await dbConnect();
@@ -128,3 +122,4 @@ export async function getBlogBySlug(slug) {
     return null;
   }
 }
+
