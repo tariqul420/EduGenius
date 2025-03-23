@@ -1,61 +1,134 @@
 import { getBlogBySlug } from "@/lib/actions/blog.action";
-import { CalendarDays, User } from "lucide-react";
+import { CalendarDays, User, Clock, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const CourseDetails = async ({ params }) => {
-  const { slug } = await params;
+const BlogDetails = async ({ params }) => {
+  const { slug } = params;
   const blog = await getBlogBySlug(slug);
 
-  const course = {
-    id: 1,
-    name: "This is Demo Details page",
-    image: "/course-1.webp",
-    description:
-      "Learn full-stack web development with hands-on projects and expert guidance.",
-    rating: 8.5,
-    instructor: "John Doe",
-    duration: "12 weeks",
-  };
+  // If blog is not found, display a message
+  if (!blog) {
+    return (
+      <div className="flex items-center justify-center h-screen text-gray-500">
+        <h2 className="text-xl">Blog not found</h2>
+      </div>
+    );
+  }
+
+  const { title, content, thumbnail, createdAt, author, comments } = blog;
 
   return (
-    <div className="grid grid-cols-7  container mx-auto px-4 py-6 lg:max-w-6xl my-10   ">
-
-      <div className=" md:col-span-5 col-span-7  px-4 md:px-8 mx-auto  items-center rounded-lg p-6  max-w-3xl">
-        <div className="flex space-x-4 mb-4">
-          <CalendarDays />
-          <p className="text-sm flex text-gray-500">
-            {course.date} |<User></User>  By admin
-          </p>
-          <hr className="mb-8 border-t-2 border-gray-500" />
-        </div>
-        <Image
-          src={course.image}
-          alt={course.name}
-          width={800}
-          height={800}
-          className="w-full h-auto object-cover rounded"
-        />
-        <h1 className="text-3xl font-bold mt-4">{course.title}</h1>
-        <p className="text-gray-600 text-sm mt-1">{course.category}</p>
-        <p className="text-gray-700 mt-2">{course.description}</p>
-        <p className="text-sm text-gray-500 mt-2">
-          <strong>Instructor:</strong> {course.instructor}
-        </p>
-
-        <Link
-          href="/blog"
-          className="mt-5 inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-blue-700 transition"
-        >
-          Go Back
+    <div className="container mx-auto my-10 px-4 py-6 lg:max-w-4xl">
+      {/* Go Back Link */}
+      <div className="mb-6">
+        <Link href="/blog" className="text-blue-600 hover:text-blue-800">
+          &larr; Go Back to Blog
         </Link>
       </div>
-      <div className=" md:col-span-2 col-span-7">
-        <h1 className=" text-center text-2xl">You May Also Like</h1>
+
+      {/* Blog Title */}
+      <h1 className="text-4xl font-extrabold text-gray-900 mb-6">{title}</h1>
+
+      {/* Author, Published Date, and Reading Time */}
+      <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-8">
+        {/* Author */}
+        <div className="flex items-center gap-2">
+          <User size={18} className="text-gray-500" />
+          <Link
+            href={`/author/${author.slug}`}
+            className="font-semibold text-blue-600 hover:text-blue-800"
+          >
+            {author.firstName} {author.lastName}
+          </Link>
+        </div>
+
+        {/* Published Date */}
+        <div className="flex items-center gap-2">
+          <CalendarDays size={18} className="text-gray-500" />
+          <span>{new Date(createdAt).toLocaleDateString()}</span>
+        </div>
+
+        {/* Reading Time */}
+        <div className="flex items-center gap-2">
+          <Clock size={18} className="text-gray-500" />
+          <span>{Math.ceil(content.split(" ").length / 200)} min read</span>
+        </div>
+
+        {/* Comments Count */}
+        <div className="flex items-center gap-2">
+          <MessageCircle size={18} className="text-gray-500" />
+          <span>{comments.length} comments</span>
+        </div>
       </div>
 
+      {/* Thumbnail Image */}
+      <div className="w-full rounded-lg overflow-hidden shadow-lg mb-8">
+        <Image
+          src={thumbnail}
+          alt="Blog Thumbnail"
+          width={800}
+          height={400}
+          className="w-full h-auto object-cover"
+        />
+      </div>
+
+      {/* Blog Content */}
+      <div className="prose max-w-none text-gray-800 leading-relaxed mb-8">
+        <p>{content}</p>
+      </div>
+
+      {/* Author Info Section */}
+      <div className="mt-10 p-6 border-t border-gray-200 pt-6 flex items-center gap-4 bg-gray-50 rounded-lg">
+        <Image
+          src={author.profilePicture}
+          alt={author.firstName}
+          width={60}
+          height={60}
+          className="rounded-full border-2 border-white shadow-sm"
+        />
+        <div>
+          <h3 className="font-semibold text-lg">{author.firstName} {author.lastName}</h3>
+          <p className="text-gray-500">{author.email}</p>
+          <p className="text-sm text-gray-600 mt-1">
+            {author.role === "instructor" ? "Instructor" : "Guest Writer"}
+          </p>
+        </div>
+      </div>
+
+      {/* Comments Section */}
+      <div className="mt-10">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+          <MessageCircle size={24} className="text-gray-700" />
+          Comments ({comments.length})
+        </h2>
+        {comments.length > 0 ? (
+          comments.map((comment) => (
+            <div key={comment._id} className="mb-4 p-4 border rounded-lg shadow-sm bg-white">
+              <div className="flex items-center gap-2">
+                <Image
+                  src={comment.user.profilePicture}
+                  alt={comment.user.name}
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
+                <div>
+                  <h4 className="font-semibold text-gray-900">{comment.user.name}</h4>
+                  <p className="text-sm text-gray-500">
+                    {new Date(comment.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
+              <p className="mt-2 text-gray-700">{comment.text}</p>
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-500">No comments yet. Be the first to comment!</p>
+        )}
+      </div>
     </div>
   );
 };
 
-export default CourseDetails;
+export default BlogDetails;
