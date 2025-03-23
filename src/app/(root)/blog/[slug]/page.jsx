@@ -1,10 +1,11 @@
 import { getBlogBySlug } from "@/lib/actions/blog.action";
-import { CalendarDays, User, Clock, MessageCircle } from "lucide-react";
+import { format } from "date-fns";
+import { CalendarDays, User, Clock, MessageCircle, ChartColumnStacked } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 const BlogDetails = async ({ params }) => {
-  const { slug } = params;
+  const { slug } = await params;
   const blog = await getBlogBySlug(slug);
 
   // If blog is not found, display a message
@@ -16,13 +17,15 @@ const BlogDetails = async ({ params }) => {
     );
   }
 
-  const { title, content, thumbnail, createdAt, author, comments } = blog;
+  const { title, content, thumbnail, createdAt, author, comments, category } = blog || {};
+
+  const uploadDate = createdAt ? format(new Date(createdAt), "MMMM dd, yyyy") : "";
 
   return (
     <div className="container mx-auto my-10 px-4 py-6 lg:max-w-4xl">
       {/* Go Back Link */}
       <div className="mb-6">
-        <Link href="/blog" className="text-blue-600 hover:text-blue-800">
+        <Link href="/blog" className="text-green hover:text-green-700">
           &larr; Go Back to Blog
         </Link>
       </div>
@@ -30,35 +33,41 @@ const BlogDetails = async ({ params }) => {
       {/* Blog Title */}
       <h1 className="text-4xl font-extrabold text-gray-900 mb-6">{title}</h1>
 
-      {/* Author, Published Date, and Reading Time */}
+      {/* Author, Published Date, Reading Time and category */}
       <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-8">
         {/* Author */}
         <div className="flex items-center gap-2">
           <User size={18} className="text-gray-500" />
           <Link
-            href={`/author/${author.slug}`}
-            className="font-semibold text-blue-600 hover:text-blue-800"
+            href={`/instructors/${author?.slug}`}
+            className="font-semibold text-green hover:text-green-700"
           >
-            {author.firstName} {author.lastName}
+            {author?.firstName} {author?.lastName}
           </Link>
         </div>
 
         {/* Published Date */}
         <div className="flex items-center gap-2">
           <CalendarDays size={18} className="text-gray-500" />
-          <span>{new Date(createdAt).toLocaleDateString()}</span>
+          <span>{uploadDate}</span>
         </div>
 
         {/* Reading Time */}
         <div className="flex items-center gap-2">
           <Clock size={18} className="text-gray-500" />
-          <span>{Math.ceil(content.split(" ").length / 200)} min read</span>
+          <span>{Math?.ceil(content?.split(" ")?.length / 200)} min read</span>
         </div>
 
         {/* Comments Count */}
         <div className="flex items-center gap-2">
           <MessageCircle size={18} className="text-gray-500" />
-          <span>{comments.length} comments</span>
+          <span>{comments?.length} comments</span>
+        </div>
+
+        {/* category */}
+        <div className="flex items-center gap-2">
+          <ChartColumnStacked size={18} className="text-gray-500" />
+          <span>{category?.name}</span>
         </div>
       </div>
 
@@ -66,7 +75,7 @@ const BlogDetails = async ({ params }) => {
       <div className="w-full rounded-lg overflow-hidden shadow-lg mb-8">
         <Image
           src={thumbnail}
-          alt="Blog Thumbnail"
+          alt={title}
           width={800}
           height={400}
           className="w-full h-auto object-cover"
@@ -88,10 +97,10 @@ const BlogDetails = async ({ params }) => {
           className="rounded-full border-2 border-white shadow-sm"
         />
         <div>
-          <h3 className="font-semibold text-lg">{author.firstName} {author.lastName}</h3>
-          <p className="text-gray-500">{author.email}</p>
+          <h3 className="font-semibold text-lg">{author?.firstName} {author?.lastName}</h3>
+          <p className="text-gray-500">{author?.email}</p>
           <p className="text-sm text-gray-600 mt-1">
-            {author.role === "instructor" ? "Instructor" : "Guest Writer"}
+            {author?.role === "instructor" ? "Instructor" : "Guest Writer"}
           </p>
         </div>
       </div>
@@ -100,33 +109,40 @@ const BlogDetails = async ({ params }) => {
       <div className="mt-10">
         <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
           <MessageCircle size={24} className="text-gray-700" />
-          Comments ({comments.length})
+          Comments ({comments?.length || 0})
         </h2>
-        {comments.length > 0 ? (
-          comments.map((comment) => (
-            <div key={comment._id} className="mb-4 p-4 border rounded-lg shadow-sm bg-white">
-              <div className="flex items-center gap-2">
-                <Image
-                  src={comment.user.profilePicture}
-                  alt={comment.user.name}
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                />
-                <div>
-                  <h4 className="font-semibold text-gray-900">{comment.user.name}</h4>
-                  <p className="text-sm text-gray-500">
-                    {new Date(comment.createdAt).toLocaleDateString()}
-                  </p>
+        {comments?.length > 0 ? (
+          comments.map((comment) => {
+            const userCommentDate = comment?.createdAt
+              ? format(new Date(comment.createdAt), "MMMM dd, yyyy")
+              : "";
+
+            return (
+              <div key={comment?._id} className="mb-4 p-4 border rounded-lg shadow-sm bg-white">
+                <div className="flex items-center gap-2">
+                  <Image
+                    src={comment?.user?.profilePicture}
+                    alt={comment?.user?.firstName}
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                  />
+                  <div>
+                    <h4 className="font-semibold text-gray-900">
+                      {comment?.user?.firstName} {comment?.user?.lastName}
+                    </h4>
+                    <p className="text-sm text-gray-500">{userCommentDate}</p>
+                  </div>
                 </div>
+                <p className="mt-2 text-gray-700">{comment?.comment}</p>
               </div>
-              <p className="mt-2 text-gray-700">{comment.text}</p>
-            </div>
-          ))
+            );
+          })
         ) : (
           <p className="text-gray-500">No comments yet. Be the first to comment!</p>
         )}
       </div>
+
     </div>
   );
 };

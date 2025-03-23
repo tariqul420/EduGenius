@@ -38,7 +38,7 @@ export async function getBlogs({
       }),
     };
 
-  
+
 
     const blogs = await Blog.aggregate([
       {
@@ -111,10 +111,27 @@ export async function getBlogBySlug(slug) {
     await dbConnect();
 
     const blog = await Blog.findOne({ slug: slug })
-      .populate("author")
-      .populate("category")
-      .populate("comments")
+      .populate({
+        path: "author",
+        select: "_id firstName lastName email role profilePicture slug",
+      })
+      .populate({
+        path: "category",
+        select: "_id name",
+      })
+      .populate({
+        path: "comments",
+        populate: {
+          path: "user",
+          select: "_id firstName lastName email role profilePicture",
+        },
+        select: "_id comment createdAt user",
+      })
       .lean();
+
+    if (blog) {
+      delete blog.updatedAt;
+    }
 
     return blog;
   } catch (error) {
