@@ -1,5 +1,4 @@
 "use server";
-
 import Blog from "@/models/Blog";
 import Category from "@/models/Category";
 import dbConnect from "../dbConnect";
@@ -111,5 +110,71 @@ export async function getBlogs({
   } catch (error) {
     console.error("Failed to fetch blogs:", error);
     return { blogs: [], total: 0, hasNextPage: false };
+  }
+}
+export async function getBlogBySlug(slug) {
+  try {
+    await dbConnect();
+
+    const blogs = await Blog.aggregate([
+      {
+        $match: { slug: slug }
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "instructor",
+          foreignField: "_id",
+          as: "instructorDetails",
+        },
+      },
+      {
+        $lookup: {
+          from: "categories",
+          localField: "category",
+          foreignField: "_id",
+          as: "categoryDetails",
+        },
+      },
+      { $unwind: "$instructorDetails" },
+      { $unwind: "$categoryDetails" },
+     
+      {
+        $project: {
+          title: 1,
+          description: 1,
+          thumbnail: 1,
+          language: 1,
+          level: 1,
+          discount: 1,
+          price: 1,
+          duration: 1,
+          averageRating: 1,
+          slug: 1,
+          students: { $size: "$students" },
+          instructor: {
+            _id: "$instructorDetails._id",
+            name: "$instructorDetails.name",
+            email: "$instructorDetails.email",
+          },
+          category: {
+            _id: "$categoryDetails._id",
+            name: "$categoryDetails.name",
+            slug: "$categoryDetails.slug",
+            description: "$categoryDetails.description"
+          }
+        },
+      },
+      { $limit: 1 }
+    ]);
+
+    if (blogs.length === 0) {
+      return null; // Return null if no blog is found
+    }
+
+    return blogs[0]; // Return the first blog object
+  } catch (error) {
+    console.error("Error getting blog by slug:", error);
+    throw error;
   }
 }
