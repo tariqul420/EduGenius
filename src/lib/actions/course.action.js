@@ -65,6 +65,7 @@ export async function getCourses({
           _id: 1,
           title: 1,
           price: 1,
+          discount: 1,
           language: 1,
           level: 1,
           thumbnail: 1,
@@ -112,7 +113,7 @@ export async function getCourseBySlug(slug) {
 
     const courses = await Course.aggregate([
       {
-        $match: { slug: slug }
+        $match: { slug: slug },
       },
       {
         $lookup: {
@@ -165,11 +166,11 @@ export async function getCourseBySlug(slug) {
             _id: "$categoryDetails._id",
             name: "$categoryDetails.name",
             slug: "$categoryDetails.slug",
-            description: "$categoryDetails.description"
-          }
+            description: "$categoryDetails.description",
+          },
         },
       },
-      { $limit: 1 }
+      { $limit: 1 },
     ]);
 
     if (courses.length === 0) {

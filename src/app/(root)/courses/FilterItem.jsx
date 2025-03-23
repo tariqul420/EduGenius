@@ -7,13 +7,12 @@ export function FilterItem({ categories }) {
         <h2 className="text-2xl">All Categories</h2>
         <ul>
           {categories?.length > 0 ? (
-            
-              <li className="">
-                <CheckCategory
-                  data={JSON.parse(JSON.stringify(categories))}
-                  keyCategory="category"
-                />
-              </li>
+            <li className="">
+              <CheckCategory
+                data={JSON.parse(JSON.stringify(categories))}
+                keyCategory="category"
+              />
+            </li>
           ) : (
             <p>No categories found.</p>
           )}
