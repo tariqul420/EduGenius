@@ -98,7 +98,7 @@ const CourseDetails = async ({ params }) => {
         </div>
 
         <Link
-          href="http://localhost:3000/courses"
+          href={`${env.process.LOCALHOST_UR}/courses`}
           className="mt-5 inline-block rounded bg-green-500 px-4 py-1.5 text-white transition-colors hover:bg-green-600"
         >
           Go Back
