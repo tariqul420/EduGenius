@@ -28,11 +28,11 @@ export default async function Instructor({ params }) {
               <Rating />
 
               <div className="mt-4 flex flex-wrap gap-4">
-                <div className="flex w-fit items-start justify-between gap-3 bg-green-100 px-8 py-3">
+                <div className="flex w-fit items-start justify-between gap-3 bg-primary-100 px-8 py-3">
                   <UsersRound
                     strokeWidth={1}
                     size={30}
-                    className="text-green text-2xl"
+                    className="text-primary text-2xl"
                   />
                   <div>
                     <p className="text-lg font-bold">1000</p>
@@ -40,11 +40,11 @@ export default async function Instructor({ params }) {
                   </div>
                 </div>
 
-                <div className="flex w-fit items-start justify-between gap-3 bg-green-100 px-8 py-3">
+                <div className="flex w-fit items-start justify-between gap-3 bg-primary-100 px-8 py-3">
                   <BookOpenText
                     strokeWidth={1}
                     size={30}
-                    className="text-green text-2xl"
+                    className="text-primary text-2xl"
                   />
                   <div>
                     <p className="text-lg font-bold">1000</p>

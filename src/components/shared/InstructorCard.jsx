@@ -21,7 +21,7 @@ export default function InstructorCard({ instructor }) {
           <p className="text-gray-600">{instructor?.title}</p>
         </div>
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <Button className="bg-green mt-4 rounded px-4 py-2 text-white dark:hover:text-black">
+          <Button className="bg-primary mt-4 rounded px-4 py-2 text-white dark:hover:text-black">
             <Link href={`/instructors/${instructor?.slug}`}>Details</Link>
           </Button>
           {instructor?.social && (
@@ -30,7 +30,7 @@ export default function InstructorCard({ instructor }) {
                 <a href={instructor.social.facebook}>
                   <Facebook
                     size={18}
-                    className="text-green cursor-pointer transition-all duration-300 hover:-translate-y-1"
+                    className="text-primary cursor-pointer transition-all duration-300 hover:-translate-y-1"
                   />
                 </a>
               )}
@@ -38,7 +38,7 @@ export default function InstructorCard({ instructor }) {
                 <a href={instructor.social.twitter}>
                   <Twitter
                     size={18}
-                    className="text-green cursor-pointer transition-all duration-300 hover:-translate-y-1"
+                    className="text-primary cursor-pointer transition-all duration-300 hover:-translate-y-1"
                   />
                 </a>
               )}
@@ -46,7 +46,7 @@ export default function InstructorCard({ instructor }) {
                 <a href={instructor.social.linkedin}>
                   <Linkedin
                     size={18}
-                    className="text-green cursor-pointer transition-all duration-300 hover:-translate-y-1"
+                    className="text-primary cursor-pointer transition-all duration-300 hover:-translate-y-1"
                   />
                 </a>
               )}
@@ -54,7 +54,7 @@ export default function InstructorCard({ instructor }) {
                 <a href={instructor.social.instagram}>
                   <Instagram
                     size={18}
-                    className="text-green cursor-pointer transition-all duration-300 hover:-translate-y-1"
+                    className="text-primary cursor-pointer transition-all duration-300 hover:-translate-y-1"
                   />
                 </a>
               )}

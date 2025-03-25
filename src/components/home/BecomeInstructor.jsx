@@ -8,7 +8,7 @@ const BecomeInstructor = () => {
         <div>
           <Heading title={`Become an Instructor`} subTitle={`Here you can become an Instructor`} />
           <div className="flex justify-center items-center">
-            <button className="cursor-pointer px-6 py-3 bg-green text-white font-semibold hover:bg-zinc-700">
+            <button className="cursor-pointer px-6 py-3 bg-primary text-white font-semibold hover:bg-zinc-700">
               Become Instructor
             </button>
           </div>

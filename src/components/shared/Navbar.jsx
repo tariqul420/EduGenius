@@ -35,7 +35,7 @@ function Navbar() {
             <div className="container lg:max-w-6xl mx-auto flex items-center justify-between">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2 text-3xl">
-                    <GraduationCap className="text-green" />
+                    <GraduationCap className="text-primary" />
                     <h2 className="font-bold text-xl">EduGenius</h2>
                 </Link>
 
@@ -46,7 +46,7 @@ function Navbar() {
                             <li key={link.href}>
                                 <Link
                                     href={link.href}
-                                    className={`hover:text-gray-300 transition-colors ${isActive(link.href) ? "text-green font-bold" : ""
+                                    className={`hover:text-gray-300 transition-colors ${isActive(link.href) ? "text-primary font-bold" : ""
                                         }`}>
                                     {link.label}
                                 </Link>
@@ -60,7 +60,7 @@ function Navbar() {
                     <SignedOut>
                         <Link
                             href="/sign-in"
-                            className="hidden lg:flex px-4 py-2 rounded-lg bg-green hover:bg-white hover:text-gray-800 transition duration-300 items-center">
+                            className="hidden lg:flex px-4 py-2 rounded-lg bg-primary hover:bg-white hover:text-gray-800 transition duration-300 items-center">
                             <User className="mr-2" />
                             Login
                         </Link>
@@ -82,7 +82,7 @@ function Navbar() {
                         </SheetTrigger>
                         <SheetContent side="left" className="bg-[#264D3F] text-white px-4 border-none">
                             <SheetHeader>
-                                <SheetTitle className="text-2xl font-bold text-green">
+                                <SheetTitle className="text-2xl font-bold text-primary">
                                     EduGenius
                                 </SheetTitle>
                                 <SheetDescription className="text-gray-300">
@@ -96,7 +96,7 @@ function Navbar() {
                                     <SheetClose asChild key={link.href}>
                                         <Link
                                             href={link.href}
-                                            className={`hover:text-gray-300 transition-colors ${isActive(link.href) ? "text-green font-bold" : ""
+                                            className={`hover:text-gray-300 transition-colors ${isActive(link.href) ? "text-primary font-bold" : ""
                                                 }`}>
                                             {link.label}
                                         </Link>
@@ -108,7 +108,7 @@ function Navbar() {
 
                             <Link
                                 href="/sign-in"
-                                className="mt-6 py-2 rounded-lg bg-green hover:bg-white hover:text-gray-800 transition duration-300 flex items-center px-4">
+                                className="mt-6 py-2 rounded-lg bg-primary hover:bg-white hover:text-gray-800 transition duration-300 flex items-center px-4">
                                 <User className="mr-2" />
                                 Login
                             </Link>

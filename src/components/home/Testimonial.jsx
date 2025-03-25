@@ -67,7 +67,7 @@ function Testimonial() {
                                 </div>
 
                                 {/* Quote Icon */}
-                                <div className="text-green-500">
+                                <div className="text-primary-500">
                                     <Quote size={60} fill="#25ab7c" color="#25ab7c" />
                                 </div>
 

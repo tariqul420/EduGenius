@@ -2,22 +2,22 @@ import { BookOpenText, ShoppingCart, Smile, Users } from "lucide-react";
 
 const data = [
   {
-    icon: <BookOpenText size={100} className="mx-auto text-6xl md:text-8xl text-green" />,
+    icon: <BookOpenText size={100} className="mx-auto text-6xl md:text-8xl text-primary" />,
     feature: "Total Course",
     value: "22 +"
   },
   {
-    icon: <Users size={100} className="mx-auto text-6xl md:text-8xl text-green" />,
+    icon: <Users size={100} className="mx-auto text-6xl md:text-8xl text-primary" />,
     feature: "Instructors",
     value: "9 +"
   },
   {
-    icon: <ShoppingCart size={100} className="mx-auto text-6xl md:text-8xl text-green" />,
+    icon: <ShoppingCart size={100} className="mx-auto text-6xl md:text-8xl text-primary" />,
     feature: "Learners",
     value: "357 +"
   },
   {
-    icon: <Smile size={100} className="mx-auto text-6xl md:text-8xl text-green" />,
+    icon: <Smile size={100} className="mx-auto text-6xl md:text-8xl text-primary" />,
     feature: "Satisfied",
     value: "2.35 %"
   },

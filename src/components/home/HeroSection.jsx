@@ -9,13 +9,13 @@ function HeroSection() {
                 <div className='space-y-5 flex-1 text-center lg:text-left'>
                     <p className='text-xl md:text-2xl font-semibold'>#1 Platform for Online Learning</p>
                     <h2 className='text-4xl md:text-5xl lg:text-6xl font-bold'>
-                        Enroll & <span className='text-green'>grow up</span> your skills today!
+                        Enroll & <span className='text-primary'>grow up</span> your skills today!
                     </h2>
                     <p className='font-medium text-sm md:text-base'>
                         Explore new skills beyond the world of knowledge and get lost in freedom of creativity.
                     </p>
                     <div className='flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start'>
-                        <button className='px-6 py-3 border border-green bg-green rounded-md hover:bg-white hover:text-black hover:border-white flex items-center gap-2 cursor-pointer'>
+                        <button className='px-6 py-3 border border-green bg-primary rounded-md hover:bg-white hover:text-black hover:border-white flex items-center gap-2 cursor-pointer'>
                             Start Learning <ArrowRight />
                         </button>
                         <button className='px-6 py-3 border border-green rounded-md hover:bg-white hover:text-black hover:border-white cursor-pointer'>

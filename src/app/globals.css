@@ -5,12 +5,20 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-green: #25ab7c;
-  --color-blue: #141f39;
-  --color-dark-green: #08261c;
-  --color-black-dark: #09101a;
-  --color-black-light: #121b27;
+  --color-primary: #673DE5;
+  --color-secondary: #1F1346;
+  --color-light-bg: #FAFBFF;
+  --color-dark-bg: #1D1E20;
+  --color-dark-btn: #ed187b;
 }
+
+/* .bg-color {
+  background-primay: #673DE5;
+  background-secondary: #1F1346;
+  background-light-bg: #FAFBFF;
+  background-dark-bg: #1D1E20;
+  background-dark-btn: #ed187b;
+} */
 
 body {
   font-family: var(--font-jost);
