@@ -44,7 +44,7 @@ const CourseDetails = async ({ params }) => {
         <p className="mt-2 text-lg text-gray-700 dark:text-gray-300">
           {description}
         </p>
-        <div className="mt-2 flex gap-2 text-gray-500 dark:text-gray-400 sm:gap-5">
+        <div className="mt-2 flex gap-2 text-gray-500 sm:gap-5 dark:text-gray-400">
           <span>
             <p className="flex items-center gap-1.5">
               <Star
@@ -72,7 +72,7 @@ const CourseDetails = async ({ params }) => {
 
         <div className="mt-6 grid grid-cols-1 gap-x-8 gap-y-2 text-base text-gray-700 sm:grid-cols-2 dark:text-gray-300">
           <p className="flex items-center gap-2">
-            <BookOpen size={18} className="text-primary-500" />
+            <BookOpen size={18} className="text-main-500" />
             <span className="font-medium">Level:</span> {level}
           </p>
           <p className="flex items-center gap-2">
@@ -99,7 +99,7 @@ const CourseDetails = async ({ params }) => {
 
         <Link
           href={`/courses`}
-          className="mt-5 inline-block rounded bg-primaryy px-4 py-1.5 text-white transition-colors hover:bg-primary-600"
+          className="bg-main hover:bg-main mt-5 inline-block rounded px-4 py-1.5 text-white transition-colors"
         >
           Go Back
         </Link>

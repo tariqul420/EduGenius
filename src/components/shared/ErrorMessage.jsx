@@ -7,7 +7,7 @@ export default function ErrorMessage({ handleClick }) {
         <div className="relative">
           <div className="absolute">
             <div className="">
-              <h1 className="my-2 text-2xl font-bold text-primary">
+              <h1 className="text-main my-2 text-2xl font-bold">
                 Looks like you&apos;ve found the doorway to the great nothing
               </h1>
               <p className="my-2 text-gray-800">

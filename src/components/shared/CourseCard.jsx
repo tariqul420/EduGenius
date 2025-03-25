@@ -28,7 +28,7 @@ const CourseCard = ({ course }) => {
       >
         <div>
           {/* Category Badge */}
-          <p className="bg-primary absolute top-0 left-0 z-[1] w-fit rounded px-3 py-1.5 text-sm text-white">
+          <p className="bg-main absolute top-0 left-0 z-[1] w-fit rounded px-3 py-1.5 text-sm text-white">
             {category?.name || category?.slug}
           </p>
           {/* Course Thumbnail */}
@@ -72,12 +72,12 @@ const CourseCard = ({ course }) => {
                   {price}
                 </span>
               </p>
-              <p className="text-primary text-xl font-medium md:text-2xl">
+              <p className="text-main text-xl font-medium md:text-2xl">
                 {parseFloat(price) - parseFloat(discount)}
               </p>
             </div>
             <Link
-              className="bg-primary rounded px-5 py-1.5 text-sm text-white transition-colors hover:bg-primary-600"
+              className="bg-main hover:bg-main-600 rounded px-5 py-1.5 text-sm text-white transition-colors"
               href={`/courses/${slug}`}
               aria-label={`View details for ${title}`}
             >

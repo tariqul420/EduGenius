@@ -4,13 +4,16 @@ import Link from "next/link";
 import { format } from "date-fns";
 
 function InsightsCard({ insights }) {
-  const { slug, title, thumbnail, content, comment, user, createdAt } = insights || {};
+  const { slug, title, thumbnail, content, comment, user, createdAt } =
+    insights || {};
 
   // Format the date using date-fns
-  const formattedDate = createdAt ? format(new Date(createdAt), "MMMM dd, yyyy") : "";
+  const formattedDate = createdAt
+    ? format(new Date(createdAt), "MMMM dd, yyyy")
+    : "";
 
   return (
-    <div className="bg-white dark:bg-black-light rounded-lg overflow-hidden shadow hover:shadow-md transition-all duration-300 hover:-translate-y-2 flex flex-col h-full">
+    <div className="dark:bg-black-light flex h-full flex-col overflow-hidden rounded-lg bg-white shadow transition-all duration-300 hover:-translate-y-2 hover:shadow-md">
       {/* Thumbnail Section */}
       <div className="course-image relative flex-shrink-0">
         <Image
@@ -18,39 +21,44 @@ function InsightsCard({ insights }) {
           alt={title}
           width={300}
           height={200}
-          className="w-full h-48 object-cover"
+          className="h-48 w-full object-cover"
         />
         {/* Date Badge */}
-        <p className="bg-primary rounded w-fit flex items-center gap-1.5 text-white absolute left-4 -bottom-3 px-3 py-1 text-sm">
+        <p className="bg-main absolute -bottom-3 left-4 flex w-fit items-center gap-1.5 rounded px-3 py-1 text-sm text-white">
           <Calendar size={16} /> {formattedDate}
         </p>
       </div>
 
       {/* Content Section */}
-      <div className="course-content p-4 flex flex-col flex-grow">
+      <div className="course-content flex flex-grow flex-col p-4">
         {/* Title */}
-        <h3 className="text-xl font-semibold mb-2">{title?.slice(0, 30)} ...</h3>
+        <h3 className="mb-2 text-xl font-semibold">
+          {title?.slice(0, 30)} ...
+        </h3>
 
         {/* Content Preview */}
-        <p className="text-gray-600 dark:text-gray-300 mb-4 flex-grow">
+        <p className="mb-4 flex-grow text-gray-600 dark:text-gray-300">
           {content?.slice(0, 95)} ...
         </p>
 
         {/* Footer Section */}
-        <div className="flex justify-between items-center mt-auto">
+        <div className="mt-auto flex items-center justify-between">
           {/* Comments and Author */}
           <div className="flex items-center gap-3">
-            <p className="text-base flex items-center gap-1">
+            <p className="flex items-center gap-1 text-base">
               <MessageCircleMore size={20} /> {comment}
             </p>
             <p>|</p>
-            <p className="text-base flex items-center gap-1">
+            <p className="flex items-center gap-1 text-base">
               <User size={20} /> {user?.firstName} {user?.lastName}
             </p>
           </div>
 
           {/* Read More Button */}
-          <Link href={`/blog/${slug}`} className="text-primary flex gap-1 text-lg cursor-pointer">
+          <Link
+            href={`/blog/${slug}`}
+            className="text-main flex cursor-pointer gap-1 text-lg"
+          >
             Read More <ArrowRight />
           </Link>
         </div>

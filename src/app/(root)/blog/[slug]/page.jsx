@@ -1,6 +1,12 @@
 import { getBlogBySlug } from "@/lib/actions/blog.action";
 import { format } from "date-fns";
-import { CalendarDays, User, Clock, MessageCircle, ChartColumnStacked } from "lucide-react";
+import {
+  CalendarDays,
+  User,
+  Clock,
+  MessageCircle,
+  ChartColumnStacked,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -11,36 +17,39 @@ const BlogDetails = async ({ params }) => {
   // If blog is not found, display a message
   if (!blog) {
     return (
-      <div className="flex items-center justify-center h-screen text-gray-500">
+      <div className="flex h-screen items-center justify-center text-gray-500">
         <h2 className="text-xl">Blog not found</h2>
       </div>
     );
   }
 
-  const { title, content, thumbnail, createdAt, author, comments, category } = blog || {};
+  const { title, content, thumbnail, createdAt, author, comments, category } =
+    blog || {};
 
-  const uploadDate = createdAt ? format(new Date(createdAt), "MMMM dd, yyyy") : "";
+  const uploadDate = createdAt
+    ? format(new Date(createdAt), "MMMM dd, yyyy")
+    : "";
 
   return (
     <div className="container mx-auto my-10 px-4 py-6 lg:max-w-4xl">
       {/* Go Back Link */}
       <div className="mb-6">
-        <Link href="/blog" className="text-primary hover:text-primary-700">
+        <Link href="/blog" className="text-main hover:text-main-700">
           &larr; Go Back to Blog
         </Link>
       </div>
 
       {/* Blog Title */}
-      <h1 className="text-4xl font-extrabold text-gray-900 mb-6">{title}</h1>
+      <h1 className="mb-6 text-4xl font-extrabold text-gray-900">{title}</h1>
 
       {/* Author, Published Date, Reading Time and category */}
-      <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-8">
+      <div className="mb-8 flex flex-wrap items-center gap-4 text-gray-600">
         {/* Author */}
         <div className="flex items-center gap-2">
           <User size={18} className="text-gray-500" />
           <Link
             href={`/instructors/${author?.slug}`}
-            className="font-semibold text-primary hover:text-primary-700"
+            className="text-main hover:text-main-700 font-semibold"
           >
             {author?.firstName} {author?.lastName}
           </Link>
@@ -72,23 +81,23 @@ const BlogDetails = async ({ params }) => {
       </div>
 
       {/* Thumbnail Image */}
-      <div className="w-full rounded-lg overflow-hidden shadow-lg mb-8">
+      <div className="mb-8 w-full overflow-hidden rounded-lg shadow-lg">
         <Image
           src={thumbnail}
           alt={title}
           width={800}
           height={400}
-          className="w-full h-auto object-cover"
+          className="h-auto w-full object-cover"
         />
       </div>
 
       {/* Blog Content */}
-      <div className="prose max-w-none text-gray-800 leading-relaxed mb-8">
+      <div className="prose mb-8 max-w-none leading-relaxed text-gray-800">
         <p>{content}</p>
       </div>
 
       {/* Author Info Section */}
-      <div className="mt-10 p-6 border-t border-gray-200 pt-6 flex items-center gap-4 bg-gray-50 rounded-lg">
+      <div className="mt-10 flex items-center gap-4 rounded-lg border-t border-gray-200 bg-gray-50 p-6 pt-6">
         <Image
           src={author.profilePicture}
           alt={author.firstName}
@@ -97,9 +106,11 @@ const BlogDetails = async ({ params }) => {
           className="rounded-full border-2 border-white shadow-sm"
         />
         <div>
-          <h3 className="font-semibold text-lg">{author?.firstName} {author?.lastName}</h3>
+          <h3 className="text-lg font-semibold">
+            {author?.firstName} {author?.lastName}
+          </h3>
           <p className="text-gray-500">{author?.email}</p>
-          <p className="text-sm text-gray-600 mt-1">
+          <p className="mt-1 text-sm text-gray-600">
             {author?.role === "instructor" ? "Instructor" : "Guest Writer"}
           </p>
         </div>
@@ -107,7 +118,7 @@ const BlogDetails = async ({ params }) => {
 
       {/* Comments Section */}
       <div className="mt-10">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+        <h2 className="mb-6 flex items-center gap-2 text-2xl font-bold text-gray-900">
           <MessageCircle size={24} className="text-gray-700" />
           Comments ({comments?.length || 0})
         </h2>
@@ -118,7 +129,10 @@ const BlogDetails = async ({ params }) => {
               : "";
 
             return (
-              <div key={comment?._id} className="mb-4 p-4 border rounded-lg shadow-sm bg-white">
+              <div
+                key={comment?._id}
+                className="mb-4 rounded-lg border bg-white p-4 shadow-sm"
+              >
                 <div className="flex items-center gap-2">
                   <Image
                     src={comment?.user?.profilePicture}
@@ -139,10 +153,11 @@ const BlogDetails = async ({ params }) => {
             );
           })
         ) : (
-          <p className="text-gray-500">No comments yet. Be the first to comment!</p>
+          <p className="text-gray-500">
+            No comments yet. Be the first to comment!
+          </p>
         )}
       </div>
-
     </div>
   );
 };
