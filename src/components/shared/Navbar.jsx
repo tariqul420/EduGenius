@@ -11,7 +11,14 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { GraduationCap, LogIn, Menu, User } from "lucide-react";
+import {
+  AlignJustify,
+  GraduationCap,
+  LogIn,
+  Menu,
+  User,
+  X,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
@@ -67,18 +74,14 @@ function Navbar() {
           <ul className="hidden space-x-6 lg:flex">
             {navLinks.map((link) => (
               <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={`group relative px-1`}
-                >
+                <Link href={link.href} className={`group relative px-1`}>
                   {link.label}
                   {isActive(link.href) && (
                     <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-full rounded-full bg-white"></span>
                   )}
                   {!isActive(link.href) && (
-                    <span className="absolute w-0 origin-left group-hover:w-full duration-300 -bottom-0.5 left-0 h-[2.5px] rounded-full bg-white"></span>
+                    <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-0 origin-left rounded-full bg-white duration-300 group-hover:w-full"></span>
                   )}
-
                 </Link>
               </li>
             ))}
@@ -105,50 +108,56 @@ function Navbar() {
             </Suspense>
           </SignedIn>
 
-          {/* Mobile Menu (Sheet) */}
+          {/* Mobile Menu (Sheet)========================= */}
           <Sheet>
             <SheetTrigger
-              className="cursor-pointer lg:hidden"
+              className="text-dark-main hover:bg-light-bg cursor-pointer rounded bg-white px-1 py-1 lg:hidden dark:text-black"
               aria-label="Open menu"
             >
-              <Menu size={24} />
+              <AlignJustify />
             </SheetTrigger>
             <SheetContent
               side="left"
-              className="border-none bg-[#264D3F] px-4 text-white"
+              className="bg-light-bg dark:bg-dark-bg border-none px-2 text-white"
             >
-              <SheetHeader>
-                <SheetTitle className="text-main text-2xl font-bold">
-                  EduGenius
+              {/* Sheet Close Icon */}
+              <SheetClose asChild>
+                <button className="bg-light-bg hover:bg-medium-bg text-dark-main absolute top-3 right-2 z-10 cursor-pointer rounded border p-1 transition dark:text-black">
+                  <X className="h-5 w-5" />
+                </button>
+              </SheetClose>
+
+              {/* Sheet Header */}
+              <SheetHeader className="w-fit px-2">
+                <SheetTitle className="text-main  dark:text-light-bg text-2xl font-bold">
+                  <Link href="/">EduGenius</Link>
                 </SheetTitle>
-                <SheetDescription className="text-gray-300">
-                  Navigate through the site
-                </SheetDescription>
               </SheetHeader>
+              <hr />
 
               {/* Mobile Navigation Links */}
-              <div className="flex flex-col space-y-4 px-4">
+              <ul className="flex flex-col space-y-4 px-2">
                 {navLinks.map((link) => (
-                  <SheetClose asChild key={link.href}>
-                    <Link
-                      href={link.href}
-                      className={`transition-colors hover:text-gray-300 ${
-                        isActive(link.href) ? "text-main font-bold" : ""
-                      }`}
-                    >
+                  <li key={link.href}>
+                    <Link href={link.href} className={`group text-black dark:text-light-bg relative px-1`}>
                       {link.label}
+                      {isActive(link.href) && (
+                        <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-full rounded-full bg-black dark:bg-dark-btn"></span>
+                      )}
+                      {!isActive(link.href) && (
+                        <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-0 origin-left rounded-full bg-black dark:bg-dark-btn duration-300 group-hover:w-full"></span>
+                      )}
                     </Link>
-                  </SheetClose>
+                  </li>
                 ))}
-              </div>
+              </ul>
 
               {/* Mobile Login Button */}
-
               <Link
                 href="/sign-in"
-                className="bg-main mt-6 flex items-center rounded-lg px-4 py-2 transition duration-300 hover:bg-white hover:text-gray-800"
+                className="bg-main hover:bg-medium-bg mt-3 flex w-fit items-center rounded py-2 pr-6 pl-1.5 transition duration-200 hover:text-gray-800"
               >
-                <User className="mr-2" />
+                <LogIn className="mr-1.5" size={18} />
                 Login
               </Link>
             </SheetContent>
