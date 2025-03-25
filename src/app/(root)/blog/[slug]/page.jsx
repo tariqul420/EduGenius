@@ -1,13 +1,14 @@
 import { SendComment } from "@/components/shared/SendComment";
 import { getBlogBySlug } from "@/lib/actions/blog.action";
+import { auth } from '@clerk/nextjs/server';
 import { format } from "date-fns";
 import { CalendarDays, ChartColumnStacked, Clock, MessageCircle, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { clerkClient } from "@clerk/nextjs/server";
 
 const BlogDetails = async ({ params }) => {
   const { slug } = await params;
+  const { sessionClaims } = await auth()
   const blog = JSON.parse(JSON.stringify(await getBlogBySlug(slug)));
 
   // If blog is not found, display a message
@@ -121,41 +122,7 @@ const BlogDetails = async ({ params }) => {
         </h2>
 
         {/* Comments List */}
-        {comments?.length > 0 ? (
-          <div className="space-y-4">
-            {comments.map((comment) => {
-              const userCommentDate = format(new Date(comment.createdAt), "MMMM dd, yyyy");
 
-              return (
-                <div
-                  key={comment._id}
-                  className="mb-4 rounded-lg border bg-white p-4 shadow-sm"
-                >
-                  <div className="flex items-center gap-2">
-                    <Image
-                      src={comment.user?.profilePicture}
-                      alt={`${comment.user?.firstName} ${comment.user?.lastName}`}
-                      width={40}
-                      height={40}
-                      className="rounded-full"
-                    />
-                    <div>
-                      <h4 className="font-semibold text-gray-900">
-                        {comment.user?.firstName} {comment.user?.lastName}
-                      </h4>
-                      <p className="text-sm text-gray-500">{userCommentDate}</p>
-                    </div>
-                  </div>
-                  <p className="mt-2 text-gray-700">{comment.comment}</p>
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          <p className="text-gray-500">
-            No comments yet. Be the first to comment!
-          </p>
-        )}
 
         {/* Comment Form */}
         <SendComment blogId={blog?._id} />

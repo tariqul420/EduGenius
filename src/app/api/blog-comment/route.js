@@ -8,9 +8,12 @@ export async function POST(req) {
 
     try {
         const comment = await req.json();
-        const commentModify = { ...comment, blog: mongoose.ObjectId(comment?.blog) }
+        const commentModify = {
+            ...comment,
+            blog: new mongoose.Types.ObjectId(comment?.blog)
+        };
 
-        const newComment = new Comments(comment);
+        const newComment = new Comments(commentModify);
         await newComment.save();
 
         // Return the saved comment with success status
