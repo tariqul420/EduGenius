@@ -63,12 +63,11 @@ export async function getBlogs({
           slug: 1,
           thumbnail: 1,
           createdAt: 1,
-          commentCount: { $size: "$comments" },
           authorDetails: 1
         }
       },
       {
-        $sort: sort === "popular" ? { commentCount: -1 } : { createdAt: -1 },
+        $sort: sort === "popular" ? { createdAt: 1 } : { createdAt: -1 },
       },
       { $limit: limit },
       { $skip: skip },
@@ -78,7 +77,6 @@ export async function getBlogs({
           title: 1,
           content: 1,
           slug: 1,
-          comment: "$commentCount",
           thumbnail: 1,
           createdAt: 1,
           user: {
@@ -118,14 +116,6 @@ export async function getBlogBySlug(slug) {
       .populate({
         path: "category",
         select: "_id name",
-      })
-      .populate({
-        path: "comments",
-        populate: {
-          path: "user",
-          select: "_id firstName lastName email role profilePicture",
-        },
-        select: "_id comment createdAt user",
       })
       .lean();
 

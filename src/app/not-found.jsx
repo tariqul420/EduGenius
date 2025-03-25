@@ -2,8 +2,8 @@ import Link from "next/link";
 
 const NotFound = () => {
   return (
-    <div className="min-h-[calc(100vh-1px)] flex flex-col items-center justify-center bg-white shadow-2xl rounded-lg p-6">
-      <div className="text-center space-y-6">
+    <div className="flex min-h-[calc(100vh-1px)] flex-col items-center justify-center rounded-lg bg-white p-6 shadow-2xl">
+      <div className="space-y-6 text-center">
         {/* Error Icon */}
         <div className="text-8xl text-red-500 dark:text-red-400">
           <span role="img" aria-label="Error">
@@ -21,7 +21,8 @@ const NotFound = () => {
         {/* Back to Home Button */}
         <Link
           href={"/"}
-          className="mt-6 px-6 py-3 bg-green text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition-all focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:bg-green-600 dark:hover:bg-green-700">
+          className="bg-main hover:bg-main-600 dark:bg-main-600 dark:hover:bg-main-700 mt-6 rounded-lg px-6 py-3 font-semibold text-white shadow-md transition-all focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:outline-none"
+        >
           Back to Home
         </Link>
       </div>
