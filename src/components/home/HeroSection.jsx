@@ -39,7 +39,7 @@ function HeroSection() {
               src="/hero-image-1.jpg"
               alt="Hero Image"
               fill
-              className="object-cover"
+              className="object-cover rounded-lg"
             />
           </div>
 
@@ -49,7 +49,7 @@ function HeroSection() {
               src="/hero-image-2.jpeg"
               alt="Hero Image"
               fill
-              className="object-cover"
+              className="object-cover rounded-lg"
             />
           </div>
 
@@ -59,7 +59,7 @@ function HeroSection() {
               src="/hero-image-3.jpg"
               alt="Hero Image"
               fill
-              className="object-cover"
+              className="object-cover rounded-lg"
             />
           </div>
         </div>
