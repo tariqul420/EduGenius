@@ -14,10 +14,31 @@ import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { GraduationCap, Menu, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 function Navbar() {
     const pathname = usePathname();
+    const [showNavbar, setShowNavbar] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+
+    const handleScroll = () => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY) {
+            setShowNavbar(false);
+        } else {
+            setShowNavbar(true);
+        }
+        setLastScrollY(currentScrollY);
+    };
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [lastScrollY]);
 
     // Function to check if a link is active
     const isActive = (path) => pathname === path;
@@ -31,7 +52,7 @@ function Navbar() {
     ];
 
     return (
-        <nav className="bg-gradient-to-r sticky top-0 z-[20] from-[#264D3F] to-dark-green text-white p-4">
+        <nav className={`bg-primary sticky top-0 z-[20] text-white p-4 ${showNavbar ? "translate-y-0" : "-translate-y-full"} transition-transform duration-300`}>
             <div className="container lg:max-w-6xl mx-auto flex items-center justify-between">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2 text-3xl">
