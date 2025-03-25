@@ -32,3 +32,12 @@ export async function deleteUser(clerkUserId) {
     console.error("Error deleting user:", error);
   }
 }
+
+export async function getUser(clerkUserId) {
+  try {
+    await dbConnect();
+    await User.findOne({ clerkUserId });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+  }
+}

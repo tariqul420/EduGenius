@@ -1,18 +1,14 @@
+import { SendComment } from "@/components/shared/SendComment";
 import { getBlogBySlug } from "@/lib/actions/blog.action";
 import { format } from "date-fns";
-import {
-  CalendarDays,
-  User,
-  Clock,
-  MessageCircle,
-  ChartColumnStacked,
-} from "lucide-react";
+import { CalendarDays, ChartColumnStacked, Clock, MessageCircle, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { clerkClient } from "@clerk/nextjs/server";
 
 const BlogDetails = async ({ params }) => {
   const { slug } = await params;
-  const blog = await getBlogBySlug(slug);
+  const blog = JSON.parse(JSON.stringify(await getBlogBySlug(slug)));
 
   // If blog is not found, display a message
   if (!blog) {
@@ -23,12 +19,9 @@ const BlogDetails = async ({ params }) => {
     );
   }
 
-  const { title, content, thumbnail, createdAt, author, comments, category } =
-    blog || {};
+  const { title, content, thumbnail, createdAt, author, comments, category } = blog;
 
-  const uploadDate = createdAt
-    ? format(new Date(createdAt), "MMMM dd, yyyy")
-    : "";
+  const uploadDate = format(new Date(createdAt), "MMMM dd, yyyy");
 
   return (
     <div className="container mx-auto my-10 px-4 py-6 lg:max-w-4xl">
@@ -64,7 +57,7 @@ const BlogDetails = async ({ params }) => {
         {/* Reading Time */}
         <div className="flex items-center gap-2">
           <Clock size={18} className="text-gray-500" />
-          <span>{Math?.ceil(content?.split(" ")?.length / 200)} min read</span>
+          <span>{Math.ceil(content?.split(" ")?.length / 200)} min read</span>
         </div>
 
         {/* Comments Count */}
@@ -88,33 +81,37 @@ const BlogDetails = async ({ params }) => {
           width={800}
           height={400}
           className="h-auto w-full object-cover"
+          priority // Added for above-the-fold images
         />
       </div>
 
       {/* Blog Content */}
-      <div className="prose mb-8 max-w-none leading-relaxed text-gray-800">
-        <p>{content}</p>
-      </div>
+      <div
+        className="prose mb-8 max-w-none leading-relaxed text-gray-800"
+        dangerouslySetInnerHTML={{ __html: content }} // Changed to render HTML content properly
+      />
 
       {/* Author Info Section */}
-      <div className="mt-10 flex items-center gap-4 rounded-lg border-t border-gray-200 bg-gray-50 p-6 pt-6">
-        <Image
-          src={author.profilePicture}
-          alt={author.firstName}
-          width={60}
-          height={60}
-          className="rounded-full border-2 border-white shadow-sm"
-        />
-        <div>
-          <h3 className="text-lg font-semibold">
-            {author?.firstName} {author?.lastName}
-          </h3>
-          <p className="text-gray-500">{author?.email}</p>
-          <p className="mt-1 text-sm text-gray-600">
-            {author?.role === "instructor" ? "Instructor" : "Guest Writer"}
-          </p>
+      {author && (
+        <div className="mt-10 flex items-center gap-4 rounded-lg border-t border-gray-200 bg-gray-50 p-6 pt-6">
+          <Image
+            src={author.profilePicture}
+            alt={`${author.firstName} ${author.lastName}`}
+            width={60}
+            height={60}
+            className="rounded-full border-2 border-white shadow-sm"
+          />
+          <div>
+            <h3 className="text-lg font-semibold">
+              {author.firstName} {author.lastName}
+            </h3>
+            <p className="text-gray-500">{author.email}</p>
+            <p className="mt-1 text-sm text-gray-600">
+              {author.role === "instructor" ? "Instructor" : "Guest Writer"}
+            </p>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Comments Section */}
       <div className="mt-10">
@@ -122,41 +119,46 @@ const BlogDetails = async ({ params }) => {
           <MessageCircle size={24} className="text-gray-700" />
           Comments ({comments?.length || 0})
         </h2>
-        {comments?.length > 0 ? (
-          comments.map((comment) => {
-            const userCommentDate = comment?.createdAt
-              ? format(new Date(comment.createdAt), "MMMM dd, yyyy")
-              : "";
 
-            return (
-              <div
-                key={comment?._id}
-                className="mb-4 rounded-lg border bg-white p-4 shadow-sm"
-              >
-                <div className="flex items-center gap-2">
-                  <Image
-                    src={comment?.user?.profilePicture}
-                    alt={comment?.user?.firstName}
-                    width={40}
-                    height={40}
-                    className="rounded-full"
-                  />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">
-                      {comment?.user?.firstName} {comment?.user?.lastName}
-                    </h4>
-                    <p className="text-sm text-gray-500">{userCommentDate}</p>
+        {/* Comments List */}
+        {comments?.length > 0 ? (
+          <div className="space-y-4">
+            {comments.map((comment) => {
+              const userCommentDate = format(new Date(comment.createdAt), "MMMM dd, yyyy");
+
+              return (
+                <div
+                  key={comment._id}
+                  className="mb-4 rounded-lg border bg-white p-4 shadow-sm"
+                >
+                  <div className="flex items-center gap-2">
+                    <Image
+                      src={comment.user?.profilePicture}
+                      alt={`${comment.user?.firstName} ${comment.user?.lastName}`}
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
+                    <div>
+                      <h4 className="font-semibold text-gray-900">
+                        {comment.user?.firstName} {comment.user?.lastName}
+                      </h4>
+                      <p className="text-sm text-gray-500">{userCommentDate}</p>
+                    </div>
                   </div>
+                  <p className="mt-2 text-gray-700">{comment.comment}</p>
                 </div>
-                <p className="mt-2 text-gray-700">{comment?.comment}</p>
-              </div>
-            );
-          })
+              );
+            })}
+          </div>
         ) : (
           <p className="text-gray-500">
             No comments yet. Be the first to comment!
           </p>
         )}
+
+        {/* Comment Form */}
+        <SendComment blogId={blog?._id} />
       </div>
     </div>
   );
