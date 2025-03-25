@@ -21,9 +21,7 @@ const formSchema = z.object({
 })
 
 export function SendComment({ blogId }) {
-  console.log(blogId)
   const { user, isSignedIn } = useUser();
-  console.log(user)
 
   const form = useForm({
     resolver: zodResolver(formSchema),
