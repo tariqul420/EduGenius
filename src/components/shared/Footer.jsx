@@ -10,7 +10,7 @@ const Footer = () => {
           {/* EduGenius & Description */}
           <div className="lg:w-1/2">
             <div className="flex items-center lg:justify-start justify-center gap-2 text-3xl">
-              <GraduationCap className="text-green" />
+              <GraduationCap className="text-primary" />
               <h2 className="font-bold text-xl">EduGenius</h2>
             </div>
             <p className="lg:w-[70%] text-center lg:text-left lg:mt-0 mt-2">
@@ -30,7 +30,7 @@ const Footer = () => {
                 placeholder="Your Email"
                 className="w-full px-4 py-3 bg-transparent text-white placeholder-gray-300 outline-none"
               />
-              <button className="bg-green text-white font-semibold px-5 py-3 m-2 rounded-lg cursor-pointer">
+              <button className="bg-primary text-white font-semibold px-5 py-3 m-2 rounded-lg cursor-pointer">
                 Subscribe
               </button>
             </div>
@@ -41,11 +41,11 @@ const Footer = () => {
           <div className="">
             {/* Social Icons */}
             <div className="flex items-center gap-2 text-4xl">
-              <Facebook size={35} className="bg-[#536961] hover:bg-green p-2 rounded-full cursor-pointer" />
-              <Twitter size={35} className="bg-[#536961] hover:bg-green p-2 rounded-full cursor-pointer" />
-              <Linkedin size={35} className="bg-[#536961] hover:bg-green p-2 rounded-full cursor-pointer" />
-              <Instagram size={35} className="bg-[#536961] hover:bg-green p-2 rounded-full cursor-pointer" />
-              <Youtube size={35} className="bg-[#536961] hover:bg-green p-2 rounded-full cursor-pointer" />
+              <Facebook size={35} className="bg-[#536961] hover:bg-primary p-2 rounded-full cursor-pointer" />
+              <Twitter size={35} className="bg-[#536961] hover:bg-primary p-2 rounded-full cursor-pointer" />
+              <Linkedin size={35} className="bg-[#536961] hover:bg-primary p-2 rounded-full cursor-pointer" />
+              <Instagram size={35} className="bg-[#536961] hover:bg-primary p-2 rounded-full cursor-pointer" />
+              <Youtube size={35} className="bg-[#536961] hover:bg-primary p-2 rounded-full cursor-pointer" />
             </div>
 
             <h3 className="font-bold mb-5 mt-5">Download App</h3>

@@ -73,7 +73,7 @@ function OurAchieve() {
         <div className='relative h-48 sm:h-64 rounded-lg shadow-lg overflow-hidden bg-[#333333] dark:bg-black-light flex items-center justify-center'>
         </div>
 
-        <div className='relative h-48 sm:h-64 rounded-lg shadow-lg overflow-hidden bg-green dark:bg-black-light flex items-center justify-center'>
+        <div className='relative h-48 sm:h-64 rounded-lg shadow-lg overflow-hidden bg-primary dark:bg-black-light flex items-center justify-center'>
         </div>
 
         <div className='relative h-48 sm:h-64 rounded-lg shadow-lg overflow-hidden'>

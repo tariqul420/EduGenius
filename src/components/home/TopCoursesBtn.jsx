@@ -49,7 +49,7 @@ function TopCoursesBtn() {
                     key={index}
                     onClick={() => updateCategory(cat?.slug)}
                     className={`px-4 py-3 text-sm font-semibold cursor-pointer transition ${categorySlug === cat?.slug
-                        ? "bg-green text-white"
+                        ? "bg-primary text-white"
                         : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-black-light dark:text-white dark:hover:bg-black/10"
                         }`}
                 >

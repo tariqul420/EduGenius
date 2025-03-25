@@ -25,7 +25,7 @@ const BlogDetails = async ({ params }) => {
     <div className="container mx-auto my-10 px-4 py-6 lg:max-w-4xl">
       {/* Go Back Link */}
       <div className="mb-6">
-        <Link href="/blog" className="text-green hover:text-green-700">
+        <Link href="/blog" className="text-primary hover:text-primary-700">
           &larr; Go Back to Blog
         </Link>
       </div>
@@ -40,7 +40,7 @@ const BlogDetails = async ({ params }) => {
           <User size={18} className="text-gray-500" />
           <Link
             href={`/instructors/${author?.slug}`}
-            className="font-semibold text-green hover:text-green-700"
+            className="font-semibold text-primary hover:text-primary-700"
           >
             {author?.firstName} {author?.lastName}
           </Link>

@@ -42,7 +42,7 @@ export default function SlidePrViewSlider() {
         className="mySwiper">
         {instructors.map((instructor, idx) => (
           <SwiperSlide key={idx} className="py-8">
-            <div className="p-6 bg-white group rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex flex-col items-center hover:bg-green hover:-translate-y-2 cursor-pointer w-full">
+            <div className="p-6 bg-white group rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex flex-col items-center hover:bg-primary hover:-translate-y-2 cursor-pointer w-full">
               {/* Image Container */}
               <div className="relative w-48 h-48 overflow-hidden">
                 <Image

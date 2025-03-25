@@ -21,7 +21,7 @@ function InsightsCard({ insights }) {
           className="w-full h-48 object-cover"
         />
         {/* Date Badge */}
-        <p className="bg-green rounded w-fit flex items-center gap-1.5 text-white absolute left-4 -bottom-3 px-3 py-1 text-sm">
+        <p className="bg-primary rounded w-fit flex items-center gap-1.5 text-white absolute left-4 -bottom-3 px-3 py-1 text-sm">
           <Calendar size={16} /> {formattedDate}
         </p>
       </div>
@@ -50,7 +50,7 @@ function InsightsCard({ insights }) {
           </div>
 
           {/* Read More Button */}
-          <Link href={`/blog/${slug}`} className="text-green flex gap-1 text-lg cursor-pointer">
+          <Link href={`/blog/${slug}`} className="text-primary flex gap-1 text-lg cursor-pointer">
             Read More <ArrowRight />
           </Link>
         </div>
