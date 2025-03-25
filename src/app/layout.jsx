@@ -5,6 +5,7 @@ import Footer from "../components/shared/Footer";
 import Navbar from "../components/shared/Navbar";
 import "./globals.css";
 import ContextProvider from "@/provider/ContextProvider";
+import { Toaster } from "sonner";
 
 const jost = Jost({
   subsets: ["latin"],
@@ -66,14 +67,15 @@ export default function RootLayout({ children }) {
       <html lang="en" suppressHydrationWarning>
         <body className={`${jost.variable} antialiased dark:bg-black-dark dark:text-white`}>
           <ContextProvider>
-          <ThemeProvider attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange>
-            <Navbar />
-            {children}
-            <Footer />
-          </ThemeProvider>
+            <ThemeProvider attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange>
+              <Navbar />
+              {children}
+              <Footer />
+              <Toaster position="top-right" />
+            </ThemeProvider>
           </ContextProvider>
         </body>
       </html>

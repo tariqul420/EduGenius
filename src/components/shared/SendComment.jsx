@@ -5,9 +5,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Textarea } from "@/components/ui/textarea"
 import { useUser } from "@clerk/nextjs"
 import { zodResolver } from "@hookform/resolvers/zod"
+import axios from "axios"
 import { Loader2 } from "lucide-react"
 import Image from "next/image"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import { z } from "zod"
 
 const formSchema = z.object({
@@ -19,7 +21,10 @@ const formSchema = z.object({
 })
 
 export function SendComment({ blogId }) {
+  console.log(blogId)
   const { user, isSignedIn } = useUser();
+  console.log(user)
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,27 +44,17 @@ export function SendComment({ blogId }) {
 
     try {
       const comment = {
-        blogId,
+        blog: blogId,
         comment: values.comment,
-        userId: user.id,
-        userFirstName: user.firstName || "Anonymous",
-        userLastName: user.lastName || "",
-        userImageUrl: user.imageUrl || "https://cdn.pixabay.com/photo/2024/05/27/08/21/fantasy-8790369_960_720.jpg",
+        user: user.id,
       }
 
-      console.log(comment)
+      await axios.post(`/api/blog-comment`, comment)
 
-      toast({
-        title: "Comment posted!",
-        description: "Thanks for sharing your thoughts.",
-      })
+      toast.success("Comment posted!")
       form.reset()
     } catch (error) {
-      toast({
-        title: "Something went wrong",
-        description: error instanceof Error ? error.message : "Failed to post comment",
-        variant: "destructive",
-      })
+      toast.error("Something went wrong")
     }
   }
 

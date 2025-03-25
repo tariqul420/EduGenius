@@ -1,19 +1,14 @@
 import { SendComment } from "@/components/shared/SendComment";
 import { getBlogBySlug } from "@/lib/actions/blog.action";
 import { format } from "date-fns";
-import {
-  CalendarDays,
-  ChartColumnStacked,
-  Clock,
-  MessageCircle,
-  User,
-} from "lucide-react";
+import { CalendarDays, ChartColumnStacked, Clock, MessageCircle, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { clerkClient } from "@clerk/nextjs/server";
 
 const BlogDetails = async ({ params }) => {
   const { slug } = await params;
-  const blog = await getBlogBySlug(slug);
+  const blog = JSON.parse(JSON.stringify(await getBlogBySlug(slug)));
 
   // If blog is not found, display a message
   if (!blog) {
@@ -163,7 +158,7 @@ const BlogDetails = async ({ params }) => {
         )}
 
         {/* Comment Form */}
-        <SendComment />
+        <SendComment blogId={blog?._id} />
       </div>
     </div>
   );
