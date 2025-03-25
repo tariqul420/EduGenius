@@ -1,4 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
 const isProtectedRoute = createRouteMatcher(["/student(.*)"]);
 
@@ -16,16 +17,18 @@ export default clerkMiddleware(async (auth, req) => {
   // Get the user's role from sessionClaims
   const userRole = sessionClaims?.role;
 
-  console.log("User:", sessionClaims);
-
-  // Role-based access control
-  const pathname = req.nextUrl.pathname;
-
-  if (userRole === "admin" && pathname.startsWith("/admin")) {
-    return redirectToSignIn();
+  // Redirect students to the /student route
+  if (userRole === "student" && req.nextUrl.pathname !== "/student") {
+    return NextResponse.redirect(new URL("/student", req.nextUrl.origin));
   }
 
-  return;
+  // Restrict access to /admin for non-admin users
+  if (userRole !== "admin" && req.nextUrl.pathname.startsWith("/admin")) {
+    return NextResponse.redirect(new URL("/", req.nextUrl.origin)); // Redirect to a safe page
+  }
+
+  // Allow access if no restrictions apply
+  return NextResponse.next();
 });
 
 export const config = {

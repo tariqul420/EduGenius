@@ -10,7 +10,7 @@ export async function createUser(userData) {
 
     if (user) return user;
 
-    const newUser = new User(user);
+    const newUser = new User(userData);
     return await newUser.save();
   } catch (error) {
     console.error("Error creating user:", error);
