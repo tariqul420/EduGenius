@@ -62,13 +62,13 @@ function Navbar() {
 
   return (
     <nav
-      className={`from-dark-main to-main dark:from-dark-bg dark:to-dark-bg sticky top-0 z-[20] bg-gradient-to-r p-4 text-white ${showNavbar ? "translate-y-0" : "-translate-y-full"} transition-transform duration-300`}
+      className={`from-white to-white shadow-sm dark:from-dark-bg dark:to-dark-bg sticky top-0 z-[20] bg-gradient-to-r p-4 text-black dark:text-white ${showNavbar ? "translate-y-0" : "-translate-y-full"} transition-transform duration-300`}
     >
       <div className="container mx-auto flex items-center justify-between lg:max-w-6xl">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 text-3xl">
-          <GraduationCap className="text-white" />
-          <h2 className="text-xl font-bold">EduGenius</h2>
+          <GraduationCap size={26} className="text-main" />
+          <h2 className="text-2xl font-semibold">EduGenius</h2>
         </Link>
 
         {/* Right Side */}
@@ -79,10 +79,10 @@ function Navbar() {
                 <Link href={link.href} className={`group relative px-1`}>
                   {link.label}
                   {isActive(link.href) && (
-                    <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-full rounded-full bg-white"></span>
+                    <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-full rounded-full bg-black dark:bg-white"></span>
                   )}
                   {!isActive(link.href) && (
-                    <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-0 origin-left rounded-full bg-white duration-300 group-hover:w-full"></span>
+                    <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-0 origin-left rounded-full bg-black dark:bg-white duration-300 group-hover:w-full"></span>
                   )}
                 </Link>
               </li>
@@ -95,7 +95,7 @@ function Navbar() {
           <SignedOut>
             <Link
               href="/sign-in"
-              className="text-dark-main hover:bg-light-bg hidden items-center rounded bg-white px-3 py-[5px] transition duration-200 lg:flex dark:text-black"
+              className="text-dark-main border shadow hover:bg-light-bg hidden items-center rounded bg-white px-3 py-[5px] transition duration-200 lg:flex dark:text-black"
             >
               <LogIn className="mr-1.5" size={18} />
               Login
