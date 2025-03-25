@@ -1,5 +1,6 @@
 import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
-import { clerkClient } from "@clerk/nextjs/server";
+
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { Webhook } from "svix";
@@ -13,24 +14,31 @@ export async function POST(req) {
     );
   }
 
+  const { userId } = await auth();
+
+  // Create new Svix instance with secret
+  const wh = new Webhook(SIGNING_SECRET);
+
+  // Get headers
   const headerPayload = await headers();
   const svix_id = headerPayload.get("svix-id");
   const svix_timestamp = headerPayload.get("svix-timestamp");
   const svix_signature = headerPayload.get("svix-signature");
 
+  // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
     return new Response("Error: Missing Svix headers", {
       status: 400,
     });
   }
 
+  // Get body
   const payload = await req.json();
   const body = JSON.stringify(payload);
 
-  const wh = new Webhook(SIGNING_SECRET);
-
   let evt;
 
+  // Verify payload with headers
   try {
     evt = wh.verify(body, {
       "svix-id": svix_id,
@@ -44,6 +52,8 @@ export async function POST(req) {
     });
   }
 
+  // Do something with payload
+  // For this guide, log payload to console
   const eventType = evt.type;
 
   if (eventType === "user.created") {
@@ -59,13 +69,19 @@ export async function POST(req) {
 
     try {
       const newUser = await createUser(user);
+      const client = await clerkClient();
 
       if (newUser) {
-        await clerkClient.users.updateUser(id, {
-          publicMetadata: {
-            userId: newUser.id,
-          },
-        });
+        try {
+          const res = await client.users.updateUser(id, {
+            publicMetadata: {
+              userId: newUser.id,
+              role: newUser.role || "student",
+            },
+          });
+        } catch (error) {
+          console.error("Error updating Clerk user metadata:", error);
+        }
       }
 
       return NextResponse.json({ message: "OK", user: newUser });
