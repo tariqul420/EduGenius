@@ -8,19 +8,19 @@ export default function InstructorTab() {
       <TabsList className="w-full rounded-none bg-white py-6 shadow-lg dark:bg-black">
         <TabsTrigger
           value="about"
-          className="data-[state=active]:bg-primary rounded-none py-6 data-[state=active]:text-white dark:bg-black"
+          className="data-[state=active]:bg-main rounded-none py-6 data-[state=active]:text-white dark:bg-black"
         >
           About
         </TabsTrigger>
         <TabsTrigger
           value="course"
-          className="data-[state=active]:bg-primary rounded-none py-6 data-[state=active]:text-white"
+          className="data-[state=active]:bg-main rounded-none py-6 data-[state=active]:text-white"
         >
           Course
         </TabsTrigger>
         <TabsTrigger
           value="contact"
-          className="data-[state=active]:bg-primary rounded-none py-6 data-[state=active]:text-white"
+          className="data-[state=active]:bg-main rounded-none py-6 data-[state=active]:text-white"
         >
           Contact
         </TabsTrigger>
@@ -40,13 +40,13 @@ export default function InstructorTab() {
                 Get in touch with instructor
               </p>
               <p className="flex items-center gap-2">
-                <span className="bg-primary block w-fit rounded-sm p-2">
+                <span className="bg-main block w-fit rounded-sm p-2">
                   <Phone strokeWidth={2} size={14} className="text-white" />
                 </span>
                 <span className="text-sm text-gray-500">01256325412</span>
               </p>
               <p className="flex items-center gap-2">
-                <span className="bg-primary block w-fit rounded-sm p-2">
+                <span className="bg-main block w-fit rounded-sm p-2">
                   <Mail strokeWidth={2} size={14} className="text-white" />
                 </span>
                 <span className="text-sm text-gray-500">
@@ -54,7 +54,7 @@ export default function InstructorTab() {
                 </span>
               </p>
               <p className="flex items-center gap-2">
-                <span className="bg-primary block w-fit rounded-sm p-2">
+                <span className="bg-main block w-fit rounded-sm p-2">
                   <MapPin strokeWidth={2} size={16} className="text-white" />
                 </span>
                 <span className="text-sm text-gray-500">Mirpur,DOHS</span>

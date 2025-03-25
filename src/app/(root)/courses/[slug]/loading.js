@@ -1,11 +1,11 @@
 import { Loader } from "lucide-react";
 
 const Loading = () => {
-    return (
-        <div className="h-screen flex justify-center items-center bg-gray-100">
-            <Loader className="text-4xl text-primary animate-spin" />
-        </div>
-    );
+  return (
+    <div className="flex h-screen items-center justify-center bg-gray-100">
+      <Loader className="text-main animate-spin text-4xl" />
+    </div>
+  );
 };
 
 export default Loading;

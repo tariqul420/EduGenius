@@ -39,12 +39,13 @@ export default function SlidePrViewSlider() {
           },
         }}
         modules={[Pagination]}
-        className="mySwiper">
+        className="mySwiper"
+      >
         {instructors.map((instructor, idx) => (
           <SwiperSlide key={idx} className="py-8">
-            <div className="p-6 bg-white group rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex flex-col items-center hover:bg-primary hover:-translate-y-2 cursor-pointer w-full">
+            <div className="group hover:bg-main flex w-full cursor-pointer flex-col items-center rounded-lg bg-white p-6 shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
               {/* Image Container */}
-              <div className="relative w-48 h-48 overflow-hidden">
+              <div className="relative h-48 w-48 overflow-hidden">
                 <Image
                   src={instructor.image}
                   alt={instructor.name}
@@ -55,7 +56,7 @@ export default function SlidePrViewSlider() {
               </div>
 
               {/* Instructor Details */}
-              <h3 className="text-center text-lg mt-4 font-semibold text-gray-800 group-hover:text-white">
+              <h3 className="mt-4 text-center text-lg font-semibold text-gray-800 group-hover:text-white">
                 {instructor.name}
               </h3>
               <p className="text-center text-base text-gray-600 group-hover:text-gray-200">
