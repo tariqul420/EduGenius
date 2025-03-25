@@ -98,8 +98,8 @@ const CourseDetails = async ({ params }) => {
         </div>
 
         <Link
-          href={`${env.process.LOCALHOST_UR}/courses`}
-          className="mt-5 inline-block rounded bg-primary-500 px-4 py-1.5 text-white transition-colors hover:bg-primary-600"
+          href={`/courses`}
+          className="mt-5 inline-block rounded bg-primaryy px-4 py-1.5 text-white transition-colors hover:bg-primary-600"
         >
           Go Back
         </Link>
