@@ -90,7 +90,7 @@ function Navbar() {
           <SignedOut>
             <Link
               href="/sign-in"
-              className="text-dark-main hover:bg-light-bg hidden items-center rounded bg-white px-3 py-[4px] transition duration-200 lg:flex dark:text-black"
+              className="text-dark-main hover:bg-light-bg hidden items-center rounded bg-white px-3 py-[5px] transition duration-200 lg:flex dark:text-black"
             >
               <LogIn className="mr-1.5" size={18} />
               Login

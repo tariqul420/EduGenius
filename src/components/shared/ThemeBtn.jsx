@@ -18,7 +18,7 @@ export default function ModeToggle() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className="hover:bg-light-bg h-[30px] w-[30px] cursor-pointer rounded border-none bg-white py-1.5 ring-0 duration-200 outline-none"
+          className="hover:bg-light-bg h-[32px] w-[32px] cursor-pointer rounded border-none bg-white py-1.5 ring-0 duration-200 outline-none"
           size="icon"
         >
           <Sun className="text-dark-main h-[22px] w-[22px] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
