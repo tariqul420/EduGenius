@@ -3,9 +3,13 @@
 import User from "@/models/User";
 import dbConnect from "../dbConnect";
 
-export async function createUser(user) {
+export async function createUser(userData) {
   try {
     await dbConnect();
+    const user = await User.findOne({ clerkUserId: userData.clerkUserId });
+
+    if (user) return user;
+
     const newUser = new User(user);
     return await newUser.save();
   } catch (error) {
@@ -28,6 +32,15 @@ export async function deleteUser(clerkUserId) {
   try {
     await dbConnect();
     await User.deleteOne({ clerkUserId });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+  }
+}
+
+export async function getUser(clerkUserId) {
+  try {
+    await dbConnect();
+    await User.findOne({ clerkUserId });
   } catch (error) {
     console.error("Error deleting user:", error);
   }
