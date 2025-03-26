@@ -9,8 +9,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 const BlogDetails = async ({ params }) => {
-  const { slug } = params; // Removed unnecessary await
-  const { sessionClaims } = auth(); // Removed unnecessary await
+  const { slug } = await params;
+  const { sessionClaims } = await auth();
   const blog = JSON.parse(JSON.stringify(await getBlogBySlug(slug)));
   const { blogs: featuredBlog } = JSON.parse(JSON.stringify(await getBlogs({ sort: "popular", limit: 6 })));
   const comments = JSON.parse(JSON.stringify(await getCommentsByBlogId(blog?._id)));
@@ -115,12 +115,12 @@ const BlogDetails = async ({ params }) => {
                 </div>
                 <div className="text-center sm:text-left">
                   <h3 className="text-xl font-bold text-gray-900">
-                    {author.firstName} {author.lastName}
+                    {author?.firstName} {author?.lastName}
                   </h3>
                   <p className="text-gray-600 mt-1">
                     {author.role === "instructor" ? "Instructor" : "Guest Writer"}
                   </p>
-                  <p className="text-gray-500 mt-2">{author.bio || author.email}</p>
+                  <p className="text-gray-500 mt-2">{author?.bio || author?.email}</p>
                   <div className="mt-3 flex justify-center sm:justify-start gap-3">
                     {/* Social links can be added here */}
                   </div>
@@ -182,7 +182,7 @@ const BlogDetails = async ({ params }) => {
 
             {/* Comment Form Section */}
             <div className="mt-10">
-              <SendComment blogId={blog?._id} userId={sessionClaims?.userId} />
+              <SendComment blogId={blog?._id} userId={sessionClaims?.userId} slug={slug} />
             </div>
           </div>
         </div>
