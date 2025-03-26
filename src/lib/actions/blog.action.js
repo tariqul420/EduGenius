@@ -89,7 +89,7 @@ export async function getBlogs({
       { $limit: limit }
     ]);
 
-    const total = await Blog.countDocuments(query);
+    const total = await Blog.estimatedDocumentCount();
     const hasNextPage = total > limit * page;
 
     return {
