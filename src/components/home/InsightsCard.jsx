@@ -4,7 +4,7 @@ import Link from "next/link";
 import { format } from "date-fns";
 
 function InsightsCard({ insights }) {
-  const { slug, title, thumbnail, content, comment, user, createdAt } =
+  const { slug, title, thumbnail, content, commentCount, user, createdAt } =
     insights || {};
 
   // Format the date using date-fns
@@ -46,7 +46,7 @@ function InsightsCard({ insights }) {
           {/* Comments and Author */}
           <div className="flex items-center gap-3">
             <p className="flex items-center gap-1 text-base">
-              <MessageCircleMore size={20} /> {comment}
+              <MessageCircleMore size={20} /> {commentCount}
             </p>
             <p>|</p>
             <p className="flex items-center gap-1 text-base">
