@@ -3,12 +3,11 @@
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
+import { postComment } from "@/lib/actions/comment.action"
 import { useUser } from "@clerk/nextjs"
 import { zodResolver } from "@hookform/resolvers/zod"
-import axios from "axios"
 import { Loader2 } from "lucide-react"
 import Image from "next/image"
-import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -21,9 +20,8 @@ const formSchema = z.object({
   }),
 })
 
-export function SendComment({ blogId, userId }) {
+export function SendComment({ blogId, userId, slug }) {
   const { user, isSignedIn } = useUser();
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -33,32 +31,32 @@ export function SendComment({ blogId, userId }) {
   });
 
   const onSubmit = async (values) => {
-    if (!isSignedIn || !user || isSubmitting) return; // Prevent multiple submissions
-
-    setIsSubmitting(true);
-    form.reset({ comment: "" }); // Clear form immediately
+    if (!isSignedIn || !user) return;
+    form.reset({ comment: "" });
+    const toastId = toast.loading("Comment Posting...")
 
     try {
       const comment = {
         blog: blogId,
         user: userId,
         comment: values.comment,
+        path: `/blogs/${slug}`
       };
 
-      await axios.post(`/api/blog-comment`, comment);
+      await postComment(comment)
       toast.success("Comment posted!");
     } catch (error) {
       toast.error("Something went wrong");
       // Revert form value if error occurs
       form.setValue("comment", values.comment);
     } finally {
-      setIsSubmitting(false);
+      toast.dismiss(toastId)
     }
   };
 
   return (
     <div className="mt-12 p-6 bg-card rounded-lg border shadow-md">
-      <h3 className="mb-5 text-xl font-semibold text-primary">Join the Conversation</h3>
+      <h3 className="mb-5 text-xl font-semibold text-dark-bg dark:text-light-bg">Join the Conversation</h3>
       <div className="flex items-start gap-4">
         {user && (
           <div className="shrink-0">
@@ -75,11 +73,11 @@ export function SendComment({ blogId, userId }) {
 
         <div className="flex-1">
           {user ? (
-            <p className="mb-3 text-sm font-medium text-muted-foreground">
-              Commenting as <span className="text-primary">{user?.fullName}</span>
+            <p className="mb-3 text-sm font-medium text-dark-bg/50 dark:text-medium-bg">
+              Commenting as <span className="text-dark-bg dark:text-light-bg">{user?.fullName}</span>
             </p>
           ) : (
-            <p className="mb-3 text-sm font-medium text-muted-foreground">
+            <p className="mb-3 text-sm font-medium text-dark-bg dark:text-medium-bg">
               Sign in to leave a comment
             </p>
           )}
@@ -108,11 +106,11 @@ export function SendComment({ blogId, userId }) {
               <div className="flex justify-end">
                 <Button
                   type="submit"
-                  disabled={!isSignedIn || form.formState.isSubmitting || isSubmitting}
-                  className="w-full sm:w-auto bg-primary hover:bg-primary-dark text-white cursor-pointer"
+                  disabled={!isSignedIn || form.formState.isSubmitting}
+                  className="w-full sm:w-auto dark:bg-dark-bg text-white cursor-pointer"
                   size="lg"
                 >
-                  {form.formState.isSubmitting || isSubmitting ? (
+                  {form.formState.isSubmitting ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Posting...

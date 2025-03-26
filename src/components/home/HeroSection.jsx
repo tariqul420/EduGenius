@@ -3,7 +3,7 @@ import Image from "next/image";
 
 function HeroSection() {
   return (
-    <section className="bg-white dark:bg-black min-h-[550px]">
+    <section className="bg-gradient-to-t from-white to-white dark:from-black dark:to-dark-bg min-h-[550px]">
       <div className="container mx-auto flex flex-col items-center justify-between px-2 md:px-5 lg:max-w-6xl lg:flex-row md:gap-5 py-8 md:py-5">
         {/* Text Content */}
         <div className="text-center lg:text-left">
@@ -22,11 +22,11 @@ function HeroSection() {
             discovery, where creativity knows no bounds and new skills ignite
             endless possibilities.
           </p>
-          <div className="mt-5 flex items-center justify-center gap-4 sm:flex-row lg:justify-start">
-            <button className="border-green bg-main hover:bg-dark-main hover:text-medium-bg flex cursor-pointer items-center gap-2 rounded border px-6 py-2.5 text-white duration-200">
+          <div className="mt-5 mb-5 flex items-center justify-center gap-4 sm:flex-row lg:justify-start">
+            <button className="border-green bg-main hover:bg-dark-main hover:text-medium-bg flex cursor-pointer items-center gap-2 rounded border px-4 md:px-6 py-2.5 text-white duration-200">
               Start Learning <ArrowRight />
             </button>
-            <button className="bg-light-bg hover:bg-medium-bg cursor-pointer rounded border px-6 py-2.5 text-black duration-200">
+            <button className="bg-light-bg hover:bg-medium-bg cursor-pointer rounded border px-4 md:px-6 py-2.5 text-black duration-200">
               Get Started
             </button>
           </div>

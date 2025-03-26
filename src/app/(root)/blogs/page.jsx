@@ -4,7 +4,7 @@ import SearchInput from "@/components/shared/SearchInput";
 import { getBlogs } from "@/lib/actions/blog.action";
 import { getCategory } from "@/lib/actions/category.action";
 
-const BlogPage= async ({ searchParams }) => {
+const BlogPage = async ({ searchParams }) => {
   const { category } = await searchParams;
   const { search } = await searchParams;
 
@@ -23,14 +23,14 @@ const BlogPage= async ({ searchParams }) => {
       {/* Header */}
       <div className="mb-8 items-center text-center justify-between md:flex max-sm:space-y-2">
         <h1 className="text-3xl font-semibold">All Posts</h1>
-        <p className="text-gray-600 md:ml-80">
-          Showing {blogs.length} results of {total}
+        <p className="text-gray-600 md:ml-80 dark:text-medium-bg">
+          Showing {blogs?.length} results of {total}
         </p>
         <div>
           <SearchInput />
         </div>
       </div>
-      <hr className="mb-8 border-t-2 border-gray-500" />
+      <hr className="mb-8 border-t-1 border-gray-500" />
       {/* Main Content */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
         {/* Blog Posts Section */}
@@ -63,7 +63,7 @@ const BlogPage= async ({ searchParams }) => {
           <h1 className="text-3xl font-semibold">Featured Blog</h1>
 
         </div>
-        <hr className="border-t-2 border-gray-500 mb-8" />
+        <hr className="border-t-1 border-gray-500 mb-8" />
         {/* Main Content */}
         <div className="  grid grid-cols-1 md:grid-cols-4 gap-6">
           {/* Blog Posts Section */}

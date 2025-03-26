@@ -13,7 +13,7 @@ function InsightsCard({ insights }) {
     : "";
 
   return (
-    <div className="dark:bg-black-light flex h-full flex-col overflow-hidden rounded-lg bg-white shadow transition-all duration-300 hover:-translate-y-2 hover:shadow-md">
+    <div className="dark:bg-black-light flex h-full flex-col overflow-hidden rounded-lg bg-white dark:bg-dark-bg shadow transition-all duration-300 hover:-translate-y-2 hover:shadow-md border">
       {/* Thumbnail Section */}
       <div className="course-image relative flex-shrink-0">
         <Image
@@ -37,7 +37,7 @@ function InsightsCard({ insights }) {
         </h3>
 
         {/* Content Preview */}
-        <p className="mb-4 flex-grow text-gray-600 dark:text-gray-300">
+        <p className="mb-4 flex-grow text-gray-600  dark:text-medium-bg">
           {content?.slice(0, 95)} ...
         </p>
 
@@ -57,7 +57,7 @@ function InsightsCard({ insights }) {
           {/* Read More Button */}
           <Link
             href={`/blogs/${slug}`}
-            className="text-main flex cursor-pointer gap-1 text-lg"
+            className="text-main dark:text-dark-btn flex cursor-pointer gap-1 text-lg"
           >
             Read More <ArrowRight />
           </Link>

@@ -53,7 +53,7 @@ function TopCoursesBtn() {
           className={`cursor-pointer px-4 py-3 text-sm font-semibold transition ${
             categorySlug === cat?.slug
               ? "bg-main text-white"
-              : "dark:bg-black-light bg-gray-200 text-gray-700 hover:bg-gray-300 dark:text-white dark:hover:bg-black/10"
+              : "dark:bg-dark-bg bg-gray-200 text-gray-700 hover:bg-gray-300 dark:text-white dark:hover:bg-black/10"
           }`}
         >
           {cat.name}

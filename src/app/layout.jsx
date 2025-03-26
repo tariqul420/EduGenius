@@ -1,11 +1,9 @@
 import { ThemeProvider } from "@/components/shared/theme-provider";
+import ContextProvider from "@/provider/ContextProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Jost } from "next/font/google";
-import Footer from "../components/shared/Footer";
-import Navbar from "../components/shared/Navbar";
-import "./globals.css";
-import ContextProvider from "@/provider/ContextProvider";
 import { Toaster } from "sonner";
+import "./globals.css";
 
 const jost = Jost({
   subsets: ["latin"],
@@ -65,15 +63,18 @@ export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
-        <body className={`${jost.variable} antialiased dark:bg-black-dark dark:text-white`}>
+        <body
+          className={`${jost.variable} dark:bg-black-dark antialiased dark:text-white`}
+        >
           <ContextProvider>
-            <ThemeProvider attribute="class"
+            <ThemeProvider
+              attribute="class"
               defaultTheme="system"
               enableSystem
-              disableTransitionOnChange>
-              <Navbar />
+              disableTransitionOnChange
+            >
               {children}
-              <Footer />
+
               <Toaster position="top-right" />
             </ThemeProvider>
           </ContextProvider>

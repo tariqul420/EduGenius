@@ -13,7 +13,7 @@ const publicRoutes = [
   "/courses(.*)",
   "/instructors(.*)",
   "/sign-in(.*)",
-  "/sign-up(.*)"
+  "/sign-up(.*)",
 ];
 
 export default clerkMiddleware(async (auth, req) => {
@@ -21,12 +21,7 @@ export default clerkMiddleware(async (auth, req) => {
   const { pathname } = req.nextUrl;
 
   // Skip all API routes
-  if (pathname.startsWith('/api')) {
-    return NextResponse.next();
-  }
-
-  // Skip middleware for public routes
-  if (publicRoutes.some(route => pathname.match(new RegExp(`^${route}$`)))) {
+  if (pathname.startsWith("/api")) {
     return NextResponse.next();
   }
 
@@ -38,24 +33,29 @@ export default clerkMiddleware(async (auth, req) => {
   const userRole = sessionClaims?.role;
 
   // Role-based routing
-  if (userRole === "student") {
-    if (!pathname.startsWith("/student")) {
-      return NextResponse.redirect(new URL("/student", req.url));
+  if (pathname.startsWith("/student")) {
+    if (userRole !== "student") {
+      return NextResponse.redirect(new URL(`${userRole}`, req.url));
     }
     return NextResponse.next();
   }
 
   if (pathname.startsWith("/admin")) {
     if (userRole !== "admin") {
-      return NextResponse.redirect(new URL("/", req.url));
+      return NextResponse.redirect(new URL(`${userRole}`, req.url));
     }
     return NextResponse.next();
   }
 
   if (pathname.startsWith("/instructor")) {
     if (userRole !== "instructor") {
-      return NextResponse.redirect(new URL("/", req.url));
+      return NextResponse.redirect(new URL(`${userRole}`, req.url));
     }
+    return NextResponse.next();
+  }
+
+  // Skip middleware for public routes
+  if (publicRoutes.some((route) => pathname.match(new RegExp(`^${route}$`)))) {
     return NextResponse.next();
   }
 
@@ -64,8 +64,5 @@ export default clerkMiddleware(async (auth, req) => {
 });
 
 export const config = {
-  matcher: [
-    "/((?!_next|[^?]*\\.(?:[^/]+$)).*)",
-    "/(api|trpc)(.*)",
-  ],
+  matcher: ["/((?!_next|[^?]*\\.(?:[^/]+$)).*)", "/(api|trpc)(.*)"],
 };
