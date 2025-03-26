@@ -56,7 +56,7 @@ function InsightsCard({ insights }) {
 
           {/* Read More Button */}
           <Link
-            href={`/blog/${slug}`}
+            href={`/blogs/${slug}`}
             className="text-main flex cursor-pointer gap-1 text-lg"
           >
             Read More <ArrowRight />
