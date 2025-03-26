@@ -10,7 +10,7 @@ import {
 import Link from "next/link";
 const Footer = () => {
   return (
-    <footer className="dark:to-dark-bg border-t  dark:from-dark-bg text-black bg-gradient-to-r py-12 dark:text-white">
+    <footer className="dark:to-dark-bg border-t  dark:from-dark-bg text-black bg-gradient-to-r py-5 md:py-10 dark:text-light-bg">
       <div className="container m-auto lg:max-w-6xl">
         {/* Top Section */}
         <div className="flex flex-col px-5 lg:flex-row lg:px-0">
@@ -18,9 +18,9 @@ const Footer = () => {
           <div className="lg:w-1/2">
             <div className="flex items-center justify-center gap-2 text-3xl lg:justify-start">
               <GraduationCap className="text-main" />
-              <h2 className="text-xl font-bold">EduGenius</h2>
+              <h2 className="text-2xl font-medium">EduGenius</h2>
             </div>
-            <p className="mt-2 text-center lg:mt-0 lg:w-[70%] lg:text-left">
+            <p className="mt-2 text-center lg:mt-0 lg:pr-36 lg:text-left">
               We are a forward-thinking software company dedicated to crafting
               digital experiences that seamlessly blend creativity with
               cutting-edge technology.
@@ -28,45 +28,45 @@ const Footer = () => {
           </div>
           {/* Subscribe Input Field */}
           <div className="mt-10 lg:mt-0 lg:w-1/2">
-            <p className="mb-1 text-sm font-semibold">
+            <p className="mb-1 md:text-lg">
               Subscribe Now To Get Special Features!
             </p>
-            <div className="flex w-full items-center overflow-hidden rounded-lg border border-gray-400">
+            <div className="flex w-full items-center overflow-hidden rounded-md border">
               <input
                 type="email"
                 placeholder="Your Email"
-                className="w-full bg-transparent px-4 py-3 text-white placeholder-gray-300 outline-none"
+                className="w-full bg-transparent px-2 outline-none"
               />
-              <button className="bg-main m-2 cursor-pointer rounded-lg px-5 py-3 font-semibold text-white">
+              <button className="bg-main cursor-pointer rounded-tr-md px-5 py-3 text-white">
                 Subscribe
               </button>
             </div>
           </div>
         </div>
         {/* Bottom Section */}
-        <div className="flex flex-col items-start px-5 md:flex-row md:gap-8 mt-5 lg:justify-between lg:p-0">
+        <div className="flex flex-col items-start px-5 md:flex-row md:gap-8 mt-10 lg:justify-between lg:p-0">
           <div className="">
             {/* Social Icons */}
-            <div className="flex items-center gap-2 text-4xl">
+            <div className="flex items-center gap-3 text-4xl">
               <Facebook
                 size={35}
-                className="hover:bg-main cursor-pointer rounded-full shadow bg-light-bg p-2"
+                className="dark:text-dark-bg text-main border cursor-pointer rounded shadow bg-light-bg  dark:bg-white  p-1.5"
               />
               <Twitter
                 size={35}
-                className="hover:bg-main cursor-pointer rounded-full shadow bg-light-bg p-2"
+                className="dark:text-dark-bg text-main border cursor-pointer rounded shadow bg-light-bg  dark:bg-white  p-1.5"
               />
               <Linkedin
                 size={35}
-                className="hover:bg-main cursor-pointer rounded-full shadow bg-light-bg p-2"
+                className="dark:text-dark-bg text-main border cursor-pointer rounded shadow bg-light-bg  dark:bg-white  p-1.5"
               />
               <Instagram
                 size={35}
-                className="hover:bg-main cursor-pointer rounded-full shadow bg-light-bg p-2"
+                className="dark:text-dark-bg text-main border cursor-pointer rounded shadow bg-light-bg  dark:bg-white  p-1.5"
               />
               <Youtube
                 size={35}
-                className="hover:bg-main cursor-pointer rounded-full shadow bg-light-bg p-2"
+                className="dark:text-dark-bg text-main border cursor-pointer rounded shadow bg-light-bg  dark:bg-white  p-1.5"
               />
             </div>
 
@@ -88,7 +88,7 @@ const Footer = () => {
           <div className="flex items-center justify-between gap-7 lg:flex-row lg:gap-32">
             {/* Different types of links */}
             <div className="flex flex-col">
-              <h2 className="mb-3 font-bold">Useful Links</h2>
+              <h2 className="mb-3 text-lg md:text-xl font-medium">Useful Links</h2>
               <Link className="mb-1 cursor-pointer" href="/aboutUs">
                 About Us
               </Link>
@@ -100,7 +100,7 @@ const Footer = () => {
               </Link>
             </div>
             <div className="flex flex-col">
-              <h2 className="mb-3 font-bold">Resources</h2>
+              <h2 className="mb-3 text-lg md:text-xl font-medium">Resources</h2>
               <Link className="mb-1 cursor-pointer" href="/contactUs">
                 Contact Us
               </Link>
@@ -112,7 +112,7 @@ const Footer = () => {
               </Link>
             </div>
             <div className="flex flex-col">
-              <h2 className="mb-3 font-bold">Quick Links</h2>
+              <h2 className="mb-3 text-lg md:text-xl font-medium">Quick Links</h2>
               <Link className="mb-1 cursor-pointer" href="/store">
                 Book Store
               </Link>
@@ -125,10 +125,10 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <hr className="mt-5 text-gray-500" />
+        <hr/>
         {/* copyright section */}
-        <p className="mt-8 text-center">
-          Copyright @ 2025 All Rights Reserved to <Link className="text-dark-main dark:text-dark-bg" href='/'>EduGenius</Link>
+        <p className="mt-5 text-center">
+          Copyright @ 2025 All Rights Reserved to <Link className="text-dark-main dark:text-light-bg" href='/'>EduGenius</Link>
         </p>
       </div>
     </footer>
