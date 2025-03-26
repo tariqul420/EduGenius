@@ -37,12 +37,14 @@ export default clerkMiddleware(async (auth, req) => {
     if (userRole !== "student") {
       return NextResponse.redirect(new URL(`${userRole}`, req.url));
     }
+    return NextResponse.next();
   }
 
   if (pathname.startsWith("/admin")) {
     if (userRole !== "admin") {
       return NextResponse.redirect(new URL(`${userRole}`, req.url));
     }
+    return NextResponse.next();
   }
 
   if (pathname.startsWith("/instructor")) {
