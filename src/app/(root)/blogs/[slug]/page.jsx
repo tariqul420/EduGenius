@@ -27,7 +27,7 @@ const BlogDetails = async ({ params }) => {
   const uploadDate = format(new Date(createdAt), "MMMM dd, yyyy");
 
   return (
-    <div className="container mx-auto px-4 py-8 lg:max-w-7xl">
+    <div className="container mx-auto px-4 py-8 lg:max-w-7xl dark:text-light-bg">
       {/* Go Back Link with better styling */}
       <div className="mb-8">
         <Link
@@ -44,7 +44,7 @@ const BlogDetails = async ({ params }) => {
         <div className="lg:w-2/3">
           {/* Blog Header Section */}
           <div className="mb-10">
-            <h1 className="mb-6 text-4xl font-bold text-gray-900 leading-tight">{title}</h1>
+            <h1 className="mb-6 text-4xl font-bold leading-tight text-primary">{title}</h1>
 
             {/* Author and Metadata */}
             <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-8">
@@ -94,7 +94,7 @@ const BlogDetails = async ({ params }) => {
 
           {/* Blog Content with improved typography */}
           <div
-            className="prose prose-lg max-w-none mb-12 text-gray-700"
+            className="prose prose-lg max-w-none mb-12 text-gray-700 dark:text-white"
             dangerouslySetInnerHTML={{ __html: content }}
           >
             {/* Your content will be rendered here */}
@@ -146,7 +146,7 @@ const BlogDetails = async ({ params }) => {
                   return (
                     <div
                       key={comment._id}
-                      className="p-5 rounded-lg bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200"
+                      className="p-5 rounded-lg bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200 dark:bg-dark-bg"
                     >
                       <div className="flex items-start gap-4">
                         <Image
@@ -164,7 +164,7 @@ const BlogDetails = async ({ params }) => {
                             <span className="text-xs text-gray-500">•</span>
                             <p className="text-sm text-gray-500">{userCommentDate}</p>
                           </div>
-                          <p className="mt-2 text-gray-700">{comment.comment}</p>
+                          <p className="mt-2 text-gray-700 dark:text-light-bg">{comment.comment}</p>
                         </div>
                       </div>
                     </div>
