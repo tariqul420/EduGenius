@@ -20,6 +20,11 @@ export default clerkMiddleware(async (auth, req) => {
   const { userId, redirectToSignIn, sessionClaims } = await auth();
   const { pathname } = req.nextUrl;
 
+  // Skip all API routes
+  if (pathname.startsWith('/api')) {
+    return NextResponse.next();
+  }
+
   // Skip middleware for public routes
   if (publicRoutes.some(route => pathname.match(new RegExp(`^${route}$`)))) {
     return NextResponse.next();

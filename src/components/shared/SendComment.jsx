@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
 import { Loader2 } from "lucide-react"
 import Image from "next/image"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -20,41 +21,40 @@ const formSchema = z.object({
   }),
 })
 
-export function SendComment({ blogId }) {
+export function SendComment({ blogId, userId }) {
   const { user, isSignedIn } = useUser();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       comment: "",
     },
-  })
+  });
 
   const onSubmit = async (values) => {
-    if (!isSignedIn || !user) {
-      toast({
-        title: "Authentication required",
-        description: "Please sign in to leave a comment",
-        variant: "destructive",
-      })
-      return
-    }
+    if (!isSignedIn || !user || isSubmitting) return; // Prevent multiple submissions
+
+    setIsSubmitting(true);
+    form.reset({ comment: "" }); // Clear form immediately
 
     try {
       const comment = {
         blog: blogId,
+        user: userId,
         comment: values.comment,
-        user: user.id,
-      }
+      };
 
-      await axios.post(`/api/blog-comment`, comment)
-
-      toast.success("Comment posted!")
-      form.reset()
+      await axios.post(`/api/blog-comment`, comment);
+      toast.success("Comment posted!");
     } catch (error) {
-      toast.error("Something went wrong")
+      toast.error("Something went wrong");
+      // Revert form value if error occurs
+      form.setValue("comment", values.comment);
+    } finally {
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <div className="mt-12 p-6 bg-card rounded-lg border shadow-md">
@@ -108,11 +108,11 @@ export function SendComment({ blogId }) {
               <div className="flex justify-end">
                 <Button
                   type="submit"
-                  disabled={form.formState.isSubmitting || !isSignedIn}
+                  disabled={!isSignedIn || form.formState.isSubmitting || isSubmitting}
                   className="w-full sm:w-auto bg-primary hover:bg-primary-dark text-white cursor-pointer"
                   size="lg"
                 >
-                  {form.formState.isSubmitting ? (
+                  {form.formState.isSubmitting || isSubmitting ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Posting...
