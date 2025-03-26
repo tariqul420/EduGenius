@@ -1,41 +1,71 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-const isProtectedRoute = createRouteMatcher(["/student(.*)"]);
+const isProtectedRoute = createRouteMatcher([
+  "/student(.*)",
+  "/instructor(.*)",
+  "/admin(.*)",
+]);
+
+const publicRoutes = [
+  "/",
+  "/blogs(.*)",
+  "/courses(.*)",
+  "/instructors(.*)",
+  "/sign-in(.*)",
+  "/sign-up(.*)"
+];
 
 export default clerkMiddleware(async (auth, req) => {
   const { userId, redirectToSignIn, sessionClaims } = await auth();
+  const { pathname } = req.nextUrl;
 
-  if (!userId && isProtectedRoute(req)) {
-    // Add custom logic to run before redirecting
-
-    return redirectToSignIn();
+  // Skip all API routes
+  if (pathname.startsWith('/api')) {
+    return NextResponse.next();
   }
 
-  // Add custom logic to run after signing in
+  // Skip middleware for public routes
+  if (publicRoutes.some(route => pathname.match(new RegExp(`^${route}$`)))) {
+    return NextResponse.next();
+  }
 
-  // Get the user's role from sessionClaims
+  // Handle protected routes
+  if (!userId && isProtectedRoute(req)) {
+    return redirectToSignIn({ returnBackUrl: req.url });
+  }
+
   const userRole = sessionClaims?.role;
 
-  // Redirect students to the /student route
-  if (userRole === "student" && req.nextUrl.pathname !== "/student") {
-    return NextResponse.redirect(new URL("/student", req.nextUrl.origin));
+  // Role-based routing
+  if (userRole === "student") {
+    if (!pathname.startsWith("/student")) {
+      return NextResponse.redirect(new URL("/student", req.url));
+    }
+    return NextResponse.next();
   }
 
-  // Restrict access to /admin for non-admin users
-  if (userRole !== "admin" && req.nextUrl.pathname.startsWith("/admin")) {
-    return NextResponse.redirect(new URL("/", req.nextUrl.origin)); // Redirect to a safe page
+  if (pathname.startsWith("/admin")) {
+    if (userRole !== "admin") {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+    return NextResponse.next();
   }
 
-  // Allow access if no restrictions apply
+  if (pathname.startsWith("/instructor")) {
+    if (userRole !== "instructor") {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+    return NextResponse.next();
+  }
+
+  // Default allow for other authenticated users
   return NextResponse.next();
 });
 
 export const config = {
   matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-    // Always run for API routes
+    "/((?!_next|[^?]*\\.(?:[^/]+$)).*)",
     "/(api|trpc)(.*)",
   ],
 };

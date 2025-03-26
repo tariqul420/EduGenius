@@ -12,11 +12,9 @@ export async function getBlogs({
 } = {}) {
   try {
     await dbConnect();
-    // User;
-
     const skip = (page - 1) * limit;
 
-    // Fetch category IDs based on slugs
+    // Fetch category IDs
     let categoryIds = [];
     if (categories.length > 0) {
       const categoryDocs = await Category.find({ slug: { $in: categories } })
@@ -25,7 +23,7 @@ export async function getBlogs({
       categoryIds = categoryDocs.map((category) => category._id);
     }
 
-    // Build the query object
+    // Build the query
     const query = {
       ...(search && {
         $or: [
@@ -37,8 +35,6 @@ export async function getBlogs({
         category: { $in: categoryIds },
       }),
     };
-
-
 
     const blogs = await Blog.aggregate([
       {
@@ -53,24 +49,19 @@ export async function getBlogs({
         }
       },
       {
-        $unwind: "$authorDetails"
-      },
-      {
-        $project: {
-          _id: 1,
-          title: 1,
-          content: 1,
-          slug: 1,
-          thumbnail: 1,
-          createdAt: 1,
-          authorDetails: 1
+        $lookup: {
+          from: "comments",
+          localField: "_id",
+          foreignField: "blog",
+          as: "comments",
         }
       },
       {
-        $sort: sort === "popular" ? { createdAt: 1 } : { createdAt: -1 },
+        $addFields: {
+          commentCount: { $size: "$comments" },
+          authorDetails: { $arrayElemAt: ["$authorDetails", 0] }
+        }
       },
-      { $limit: limit },
-      { $skip: skip },
       {
         $project: {
           _id: 1,
@@ -79,18 +70,26 @@ export async function getBlogs({
           slug: 1,
           thumbnail: 1,
           createdAt: 1,
+          updatedAt: 1,
+          category: 1,
+          commentCount: 1,
           user: {
             _id: "$authorDetails._id",
             firstName: "$authorDetails.firstName",
             lastName: "$authorDetails.lastName"
           }
         }
-      }
+      },
+      {
+        $sort: sort === "popular"
+          ? { commentCount: -1, createdAt: -1 }
+          : { createdAt: -1 }
+      },
+      { $skip: skip },
+      { $limit: limit }
     ]);
 
-    // Count total documents matching the search criteria
     const total = await Blog.countDocuments(query);
-
     const hasNextPage = total > limit * page;
 
     return {

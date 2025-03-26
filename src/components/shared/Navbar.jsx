@@ -5,24 +5,20 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
+  SheetTrigger
 } from "@/components/ui/sheet";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
 import {
   AlignJustify,
   GraduationCap,
   LogIn,
-  Menu,
-  User,
-  X,
+  X
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
-import { useUser } from "@clerk/nextjs";
 
 function Navbar() {
   const { isSignedIn } = useUser();
@@ -55,7 +51,7 @@ function Navbar() {
   // Navigation links data
   const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/blog", label: "Blog" },
+    { href: "/blogs", label: "Blog" },
     { href: "/courses", label: "Courses" },
     { href: "/instructors", label: "Instructors" },
   ];
