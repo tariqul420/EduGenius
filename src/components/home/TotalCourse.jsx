@@ -44,7 +44,7 @@ const TotalCourse = () => {
         {data.map((item, index) => (
           <div
             key={index}
-            className="flex flex-col items-center gap-4 text-center md:flex-row md:text-left"
+            className="flex bg-light-bg dark:bg-dark-bg px-2 py-3 flex-col items-center gap-2.5 rounded-md text-center md:flex-row md:text-left"
           >
             <div>{item.icon}</div>
             <div>
