@@ -3,7 +3,7 @@ import Image from "next/image";
 
 function HeroSection() {
   return (
-    <section className="bg-white dark:bg-black min-h-[550px]">
+    <section className="bg-gradient-to-t from-white to-white dark:from-black dark:to-dark-bg min-h-[550px]">
       <div className="container mx-auto flex flex-col items-center justify-between px-2 md:px-5 lg:max-w-6xl lg:flex-row md:gap-5 py-8 md:py-5">
         {/* Text Content */}
         <div className="text-center lg:text-left">
