@@ -11,10 +11,5 @@ const commentSchema = new mongoose.Schema(
   },
 );
 
-// commentSchema.post("save", async function (next) {
-//   await Blog.findByIdAndUpdate(this.blog, { $push: { comments: this._id } });
-//   next();
-// });
-
 export default mongoose.models.Comment ||
   mongoose.model("Comment", commentSchema);
