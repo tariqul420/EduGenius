@@ -5,7 +5,7 @@ const data = [
     icon: (
       <BookOpenText
         size={100}
-        className="text-main mx-auto text-6xl md:text-8xl"
+        className="text-main mx-auto text-6xl"
       />
     ),
     feature: "Total Course",
@@ -13,7 +13,7 @@ const data = [
   },
   {
     icon: (
-      <Users size={100} className="text-main mx-auto text-6xl md:text-8xl" />
+      <Users size={100} className="text-main mx-auto text-6xl" />
     ),
     feature: "Instructors",
     value: "9 +",
@@ -22,7 +22,7 @@ const data = [
     icon: (
       <ShoppingCart
         size={100}
-        className="text-main mx-auto text-6xl md:text-8xl"
+        className="text-main mx-auto text-6xl"
       />
     ),
     feature: "Learners",
@@ -30,7 +30,7 @@ const data = [
   },
   {
     icon: (
-      <Smile size={100} className="text-main mx-auto text-6xl md:text-8xl" />
+      <Smile size={100} className="text-main mx-auto text-6xl" />
     ),
     feature: "Satisfied",
     value: "2.35 %",
@@ -48,10 +48,10 @@ const TotalCourse = () => {
           >
             <div>{item.icon}</div>
             <div>
-              <h6 className="text-xl font-medium text-white md:text-2xl">
+              <h6 className="text-xl font-medium text-black dark:text-light-bg md:text-2xl">
                 {item.feature}
               </h6>
-              <p className="text-3xl font-bold text-white md:text-4xl">
+              <p className="text-3xl font-bold text-black dark:text-light-bg md:text-4xl">
                 {item.value}
               </p>
             </div>

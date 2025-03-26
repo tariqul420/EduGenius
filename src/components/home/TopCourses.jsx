@@ -3,21 +3,26 @@ import CourseCard from "../shared/CourseCard";
 import TopCoursesBtn from "./TopCoursesBtn";
 
 const TopCourses = async ({ courses }) => {
-
   return (
-    <section className="p-5 container mx-auto lg:max-w-6xl mt-20">
-      <Heading title={`Our Top Courses`} subTitle={`We make learning convenient, affordable, and fun!`} />
+    <section className="dark:bg-black py-5 md:py-8">
+      <div className="container mx-auto px-5 lg:max-w-6xl">
+        <Heading
+          title={`Our Top Courses`}
+          subTitle={`We make learning convenient, affordable, and fun!`}
+        />
 
-      {/* Category Buttons */}
-      <TopCoursesBtn />
+        {/* Category Buttons */}
+        <TopCoursesBtn />
 
-      {/* Course Cards */}
-      {
-        courses?.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 mt-6 md:grid-cols-2 lg:grid-cols-3">
+        {/* Course Cards */}
+        {courses?.length > 0 ? (
+          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {courses.map((course, index) => (
               <div key={index} className="flex flex-col">
-                <CourseCard key={index} course={JSON.parse(JSON.stringify(course))} />
+                <CourseCard
+                  key={index}
+                  course={JSON.parse(JSON.stringify(course))}
+                />
               </div>
             ))}
           </div>
@@ -27,8 +32,8 @@ const TopCourses = async ({ courses }) => {
               No courses found in this category!
             </p>
           </div>
-        )
-      }
+        )}
+      </div>
     </section>
   );
 };
