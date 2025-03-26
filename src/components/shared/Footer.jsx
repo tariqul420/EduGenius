@@ -10,7 +10,7 @@ import {
 import Link from "next/link";
 const Footer = () => {
   return (
-    <footer className="to-dark-green bg-gradient-to-r from-[#264D3F] py-12 text-white">
+    <footer className="dark:to-dark-bg border-t  dark:from-dark-bg text-black bg-gradient-to-r py-12 dark:text-white">
       <div className="container m-auto lg:max-w-6xl">
         {/* Top Section */}
         <div className="flex flex-col px-5 lg:flex-row lg:px-0">
@@ -44,29 +44,29 @@ const Footer = () => {
           </div>
         </div>
         {/* Bottom Section */}
-        <div className="mt-14 flex flex-col items-start px-5 md:flex-row md:gap-8 lg:mt-32 lg:justify-between lg:p-0">
+        <div className="flex flex-col items-start px-5 md:flex-row md:gap-8 mt-5 lg:justify-between lg:p-0">
           <div className="">
             {/* Social Icons */}
             <div className="flex items-center gap-2 text-4xl">
               <Facebook
                 size={35}
-                className="hover:bg-main cursor-pointer rounded-full bg-[#536961] p-2"
+                className="hover:bg-main cursor-pointer rounded-full shadow bg-light-bg p-2"
               />
               <Twitter
                 size={35}
-                className="hover:bg-main cursor-pointer rounded-full bg-[#536961] p-2"
+                className="hover:bg-main cursor-pointer rounded-full shadow bg-light-bg p-2"
               />
               <Linkedin
                 size={35}
-                className="hover:bg-main cursor-pointer rounded-full bg-[#536961] p-2"
+                className="hover:bg-main cursor-pointer rounded-full shadow bg-light-bg p-2"
               />
               <Instagram
                 size={35}
-                className="hover:bg-main cursor-pointer rounded-full bg-[#536961] p-2"
+                className="hover:bg-main cursor-pointer rounded-full shadow bg-light-bg p-2"
               />
               <Youtube
                 size={35}
-                className="hover:bg-main cursor-pointer rounded-full bg-[#536961] p-2"
+                className="hover:bg-main cursor-pointer rounded-full shadow bg-light-bg p-2"
               />
             </div>
 
@@ -125,10 +125,10 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <hr className="mt-16 text-gray-500" />
+        <hr className="mt-5 text-gray-500" />
         {/* copyright section */}
         <p className="mt-8 text-center">
-          Copyright @ 2025 All Rights Reserved to EduGenius
+          Copyright @ 2025 All Rights Reserved to <Link className="text-dark-main dark:text-dark-bg" href='/'>EduGenius</Link>
         </p>
       </div>
     </footer>
