@@ -17,7 +17,7 @@ const BlogDetails = async ({ params }) => {
 
   if (!blog) {
     return (
-      <div className="flex h-screen items-center justify-center text-gray-500">
+      <div className="flex h-screen items-center justify-center text-gray-500 dark:text-light-bg">
         <h2 className="text-xl">Blog not found</h2>
       </div>
     );
@@ -44,12 +44,12 @@ const BlogDetails = async ({ params }) => {
         <div className="lg:w-2/3">
           {/* Blog Header Section */}
           <div className="mb-10">
-            <h1 className="mb-6 text-4xl font-bold leading-tight text-primary">{title}</h1>
+            <h1 className="mb-6 text-4xl font-bold leading-tight dark:text-light-bg">{title}</h1>
 
             {/* Author and Metadata */}
-            <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-8">
+            <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-8 dark:text-medium-bg">
               <div className="flex items-center gap-2">
-                <User size={18} className="text-gray-500" />
+                <User size={18} />
                 <Link
                   href={`/instructors/${author?.slug}`}
                   className="text-main hover:text-main-700 font-medium hover:underline"
@@ -59,22 +59,22 @@ const BlogDetails = async ({ params }) => {
               </div>
 
               <div className="flex items-center gap-2">
-                <CalendarDays size={18} className="text-gray-500" />
+                <CalendarDays size={18} />
                 <span>{uploadDate}</span>
               </div>
 
               <div className="flex items-center gap-2">
-                <Clock size={18} className="text-gray-500" />
+                <Clock size={18} />
                 <span>{Math.ceil(content?.split(" ")?.length / 200)} min read</span>
               </div>
 
               <div className="flex items-center gap-2">
-                <MessageCircle size={18} className="text-gray-500" />
+                <MessageCircle size={18} />
                 <span>{comments?.length} comments</span>
               </div>
 
               <div className="flex items-center gap-2">
-                <ChartColumnStacked size={18} className="text-gray-500" />
+                <ChartColumnStacked size={18} />
                 <span>{category?.name}</span>
               </div>
             </div>
@@ -94,7 +94,7 @@ const BlogDetails = async ({ params }) => {
 
           {/* Blog Content with improved typography */}
           <div
-            className="prose prose-lg max-w-none mb-12 text-gray-700 dark:text-white"
+            className="prose prose-lg max-w-none mb-12 text-gray-700 dark:text-medium-bg"
             dangerouslySetInnerHTML={{ __html: content }}
           >
             {/* Your content will be rendered here */}
@@ -102,7 +102,7 @@ const BlogDetails = async ({ params }) => {
 
           {/* Author Info Section with better design */}
           {author && (
-            <div className="mt-12 p-6 rounded-xl bg-gradient-to-r from-gray-50 to-gray-100 border border-gray-200">
+            <div className="mt-12 p-4 rounded-xl bg-white dark:bg-dark-bg border">
               <div className="flex flex-col sm:flex-row items-center gap-6">
                 <div className="flex-shrink-0">
                   <Image
@@ -110,17 +110,17 @@ const BlogDetails = async ({ params }) => {
                     alt={`${author.firstName} ${author.lastName}`}
                     width={80}
                     height={80}
-                    className="rounded-full border-4 border-white shadow-md"
+                    className="rounded-full border-4 shadow-md object-cover"
                   />
                 </div>
-                <div className="text-center sm:text-left">
-                  <h3 className="text-xl font-bold text-gray-900">
+                <div className="text-center sm:text-left space-y-1">
+                  <h3 className="text-xl font-bold text-dark-bg dark:text-light-bg">
                     {author?.firstName} {author?.lastName}
                   </h3>
-                  <p className="text-gray-600 mt-1">
+                  <p className="text-gray-600 dark:text-medium-bg">
                     {author.role === "instructor" ? "Instructor" : "Guest Writer"}
                   </p>
-                  <p className="text-gray-500 mt-2">{author?.bio || author?.email}</p>
+                  <p className="text-gray-600 dark:text-medium-bg">{author?.bio || author?.email}</p>
                   <div className="mt-3 flex justify-center sm:justify-start gap-3">
                     {/* Social links can be added here */}
                   </div>
@@ -132,8 +132,8 @@ const BlogDetails = async ({ params }) => {
           {/* Comments Section with enhanced UI */}
           <div className="mt-14">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                <MessageCircle size={24} className="text-main" />
+              <h2 className="text-2xl font-bold text-dark-bg dark:text-light-bg flex items-center gap-2">
+                <MessageCircle size={24} className="text-main dark:text-dark-btn" />
                 Comments ({comments?.length || 0})
               </h2>
             </div>
@@ -146,7 +146,7 @@ const BlogDetails = async ({ params }) => {
                   return (
                     <div
                       key={comment._id}
-                      className="p-5 rounded-lg bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200 dark:bg-dark-bg"
+                      className="p-5 rounded-lg bg-white border shadow hover:shadow-md transition-shadow duration-200 dark:bg-dark-bg"
                     >
                       <div className="flex items-start gap-4">
                         <Image
@@ -158,7 +158,7 @@ const BlogDetails = async ({ params }) => {
                         />
                         <div>
                           <div className="flex flex-wrap items-center gap-2">
-                            <h4 className="font-semibold text-gray-900">
+                            <h4 className="font-semibold text-dark-bg dark:text-light-bg">
                               {comment.user?.firstName} {comment.user?.lastName}
                             </h4>
                             <span className="text-xs text-gray-500">•</span>
