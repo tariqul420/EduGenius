@@ -127,7 +127,7 @@ function Navbar() {
 
               {/* Sheet Header */}
               <SheetHeader className="w-fit px-2">
-                <SheetTitle className="text-main dark:text-light-bg text-2xl font-bold">
+                <SheetTitle className="text-main dark:text-light-bg text-2xl font-medium">
                   <Link href="/">EduGenius</Link>
                 </SheetTitle>
               </SheetHeader>
