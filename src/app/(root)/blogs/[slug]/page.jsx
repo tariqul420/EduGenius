@@ -32,7 +32,7 @@ const BlogDetails = async ({ params }) => {
       <div className="mb-8">
         <Link
           href="/blogs"
-          className="inline-flex items-center text-main hover:text-main-700 transition-colors duration-200"
+          className="inline-flex items-center text-light-bg hover:text-main-700 transition-colors duration-200"
         >
           <ArrowLeft />
           Back to Blog
@@ -52,7 +52,7 @@ const BlogDetails = async ({ params }) => {
                 <User size={18} />
                 <Link
                   href={`/instructors/${author?.slug}`}
-                  className="text-main hover:text-main-700 font-medium hover:underline"
+                  className="text-main dark:text-dark-btn hover:text-main-700 font-medium hover:underline"
                 >
                   {author?.firstName} {author?.lastName}
                 </Link>
@@ -161,8 +161,8 @@ const BlogDetails = async ({ params }) => {
                             <h4 className="font-semibold text-dark-bg dark:text-light-bg">
                               {comment.user?.firstName} {comment.user?.lastName}
                             </h4>
-                            <span className="text-xs text-gray-500">•</span>
-                            <p className="text-sm text-gray-500">{userCommentDate}</p>
+                            <span className="text-xs text-dark-bg dark:text-light-bg">•</span>
+                            <p className="text-sm text-dark-bg dark:text-medium-bg">{userCommentDate}</p>
                           </div>
                           <p className="mt-2 text-gray-700 dark:text-light-bg">{comment.comment}</p>
                         </div>
@@ -172,9 +172,9 @@ const BlogDetails = async ({ params }) => {
                 })}
               </div>
             ) : (
-              <div className="text-center py-8 border-2 border-dashed border-gray-200 rounded-lg">
+              <div className="text-center py-8 border-2 border-dashed rounded-lg">
                 <MessageCircle size={48} className="mx-auto text-gray-300 mb-3" />
-                <p className="text-gray-500">
+                <p className="text-dark-bg dark:text-light-bg">
                   No comments yet. Be the first to share your thoughts!
                 </p>
               </div>
@@ -191,8 +191,8 @@ const BlogDetails = async ({ params }) => {
         <div className="lg:w-1/3 mt-10 lg:mt-0">
           <div className="sticky top-6 space-y-8">
             {/* Featured Blogs Section */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-              <h2 className="text-xl font-bold text-gray-900 mb-6 pb-2 border-b border-gray-200">
+            <div className="dark:bg-dark-bg/50 q bg-light-bg p-6 rounded-xl shadow-sm border">
+              <h2 className="text-xl font-bold text-dark-bg dark:text-light-bg mb-6 pb-2 border-b">
                 Popular Blogs
               </h2>
               <div className="space-y-5">

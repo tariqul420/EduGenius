@@ -56,7 +56,7 @@ export function SendComment({ blogId, userId, slug }) {
 
   return (
     <div className="mt-12 p-6 bg-card rounded-lg border shadow-md">
-      <h3 className="mb-5 text-xl font-semibold text-primary">Join the Conversation</h3>
+      <h3 className="mb-5 text-xl font-semibold text-dark-bg dark:text-light-bg">Join the Conversation</h3>
       <div className="flex items-start gap-4">
         {user && (
           <div className="shrink-0">
@@ -73,11 +73,11 @@ export function SendComment({ blogId, userId, slug }) {
 
         <div className="flex-1">
           {user ? (
-            <p className="mb-3 text-sm font-medium text-muted-foreground">
-              Commenting as <span className="text-primary">{user?.fullName}</span>
+            <p className="mb-3 text-sm font-medium text-dark-bg/50 dark:text-medium-bg">
+              Commenting as <span className="text-dark-bg dark:text-light-bg">{user?.fullName}</span>
             </p>
           ) : (
-            <p className="mb-3 text-sm font-medium text-muted-foreground">
+            <p className="mb-3 text-sm font-medium text-dark-bg dark:text-medium-bg">
               Sign in to leave a comment
             </p>
           )}
@@ -107,7 +107,7 @@ export function SendComment({ blogId, userId, slug }) {
                 <Button
                   type="submit"
                   disabled={!isSignedIn || form.formState.isSubmitting}
-                  className="w-full sm:w-auto bg-primary hover:bg-primary-dark text-white cursor-pointer"
+                  className="w-full sm:w-auto dark:bg-dark-bg text-white cursor-pointer"
                   size="lg"
                 >
                   {form.formState.isSubmitting ? (
