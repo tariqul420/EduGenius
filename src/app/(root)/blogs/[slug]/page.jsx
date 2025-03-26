@@ -125,7 +125,7 @@ const BlogDetails = async ({ params }) => {
 
 
         {/* Comment Form */}
-        <SendComment blogId={blog?._id} />
+        <SendComment blogId={blog?._id} userId={sessionClaims?.userId} />
       </div>
     </div>
   );
