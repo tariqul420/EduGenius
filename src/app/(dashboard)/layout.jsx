@@ -1,4 +1,5 @@
 import { AppSidebar } from "@/components/dashboard/instructor/AppSidebar";
+import Notification from "@/components/shared/Notification";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { admins, instructors, students } from "@/constant";
 import { auth } from "@clerk/nextjs/server";
@@ -18,7 +19,11 @@ export default async function Layout({ children }) {
       {role === "student" && <AppSidebar menu={students} />}
       {role === "admin" && <AppSidebar menu={admins} />}
       <main>
-        <SidebarTrigger />
+        <nav className="dark:from-dark-bg dark:to-dark-bg sticky top-0 z-[20] flex items-center justify-between gap-4 bg-gradient-to-r from-white to-white p-4 text-black shadow-sm dark:text-white">
+          <SidebarTrigger className="cursor-pointer" />
+          <Notification />
+        </nav>
+
         {children}
       </main>
     </SidebarProvider>
