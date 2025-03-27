@@ -1,5 +1,6 @@
 import InsightsCard from "@/components/home/InsightsCard";
 import CheckCategory from "@/components/shared/CheckCategory";
+import LoadMore from "@/components/shared/LoadMore";
 import NoResult from "@/components/shared/NoResult";
 import SearchInput from "@/components/shared/SearchInput";
 import { getBlogs } from "@/lib/actions/blog.action";
@@ -19,7 +20,7 @@ const BlogPage = async ({ searchParams }) => {
 
   const blogs = data?.blogs || [];
   const total = data?.total || 0;
-  const hasNextPage = data.hasNextPage || false;
+  const hasNextPage = data?.hasNextPage || false;
   const { blogs: featured } = await getBlogs({ sort: "popular", limit: 6 });
 
   return (
@@ -44,6 +45,7 @@ const BlogPage = async ({ searchParams }) => {
               {blogs.map((blog) => (
                 <InsightsCard key={blog?.slug} insights={blog} />
               ))}
+              {hasNextPage && <LoadMore />}
             </div>
           ) : (
             <NoResult />

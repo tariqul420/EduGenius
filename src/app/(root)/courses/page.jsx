@@ -11,7 +11,11 @@ export default async function Course({ searchParams }) {
   const { search } = await searchParams;
   const { sort } = await searchParams;
 
-  const { courses, total } = await getCourses({
+  const {
+    courses,
+    total,
+    hasNextPage = false,
+  } = await getCourses({
     categorySlug: category,
     level: level,
     search: search,
@@ -25,7 +29,7 @@ export default async function Course({ searchParams }) {
         <FilterBar total={total} courses={courses} />
         {/* Courses Content Section */}
         <div className="mt-6 grid grid-cols-12 gap-5 md:mt-8">
-          <CoursesContent courses={courses} />
+          <CoursesContent courses={courses} hasNextPage={hasNextPage} />
           <div className="courses-filter col-span-4 hidden rounded px-4 py-1.5 shadow-md lg:block">
             <FilterItem categories={categories} />
           </div>
