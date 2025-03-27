@@ -5,12 +5,12 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-main: #673DE5;
+  --color-main: #673de5;
   --color-dark-main: #4f24d0;
-  --color-sub-main: #1F1346;
+  --color-sub-main: #1f1346;
   --color-light-bg: #f5f7ff;
   --color-medium-bg: #cbd5e1;
-  --color-dark-bg: #1D1E20;
+  --color-dark-bg: #1d1e20;
   --color-dark-btn: #ed187b;
 }
 
