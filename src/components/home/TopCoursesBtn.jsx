@@ -45,7 +45,7 @@ function TopCoursesBtn() {
   };
 
   return (
-    <div className="my-6 flex flex-wrap justify-center">
+    <div className="my-6 flex gap-4 flex-wrap md:justify-center">
       {categories.map((cat, index) => (
         <button
           key={index}
