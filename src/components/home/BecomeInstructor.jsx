@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Heading from "@/components/shared/Heading";
+import Image from "next/image";
 
 const BecomeInstructor = () => {
   return (
