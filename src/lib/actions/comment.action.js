@@ -45,3 +45,35 @@ export async function getCommentsByBlogId(blogId) {
     return [];
   }
 }
+
+export async function deleteCommentById(commentId, userId, path) {
+  try {
+    await dbConnect();
+    // Validate blogId
+    if (!mongoose.Types.ObjectId.isValid(commentId)) return;
+
+    // Convert string ID to ObjectId
+    const commentObjectId = new mongoose.Types.ObjectId(commentId);
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+
+    const result = await Comments.findOneAndDelete({
+      _id: commentObjectId,
+      user: userObjectId,
+    });
+
+    if (!result) {
+      return {
+        delete: false,
+        status: 400,
+        error: "Comment not found or not authorized",
+      };
+    }
+
+    revalidatePath(path);
+
+    return { delete: true };
+  } catch (error) {
+    console.error("Delete error:", error);
+    return { delete: false, error: "Server error" };
+  }
+}

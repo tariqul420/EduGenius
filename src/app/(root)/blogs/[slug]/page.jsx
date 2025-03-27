@@ -1,4 +1,5 @@
 import InsightsCard from "@/components/home/InsightsCard";
+import CommentCard from "@/components/shared/CommentCard";
 import { SendComment } from "@/components/shared/SendComment";
 import { getBlogBySlug, getBlogs } from "@/lib/actions/blog.action";
 import { getCommentsByBlogId } from "@/lib/actions/comment.action";
@@ -39,7 +40,7 @@ const BlogDetails = async ({ params }) => {
       <div className="mb-8">
         <Link
           href="/blogs"
-          className="text-light-bg hover:text-main-700 inline-flex items-center transition-colors duration-200"
+          className="dark:text-light-bg hover:text-main-700 inline-flex items-center transition-colors duration-200"
         >
           <ArrowLeft />
           Back to Blog
@@ -158,45 +159,14 @@ const BlogDetails = async ({ params }) => {
 
             {comments?.length > 0 ? (
               <div className="space-y-6">
-                {comments.map((comment) => {
-                  const userCommentDate = format(
-                    new Date(comment.createdAt),
-                    "MMMM dd, yyyy",
-                  );
-
-                  return (
-                    <div
-                      key={comment._id}
-                      className="dark:bg-dark-bg rounded-lg border bg-white p-5 shadow transition-shadow duration-200 hover:shadow-md"
-                    >
-                      <div className="flex items-start gap-4">
-                        <Image
-                          src={comment.user?.profilePicture}
-                          alt={`${comment.user?.firstName} ${comment.user?.lastName}`}
-                          width={48}
-                          height={48}
-                          className="flex-shrink-0 rounded-full"
-                        />
-                        <div>
-                          <div className="flex flex-wrap items-center gap-2">
-                            <h4 className="text-dark-bg dark:text-light-bg font-semibold">
-                              {comment.user?.firstName} {comment.user?.lastName}
-                            </h4>
-                            <span className="text-dark-bg dark:text-light-bg text-xs">
-                              •
-                            </span>
-                            <p className="text-dark-bg dark:text-medium-bg text-sm">
-                              {userCommentDate}
-                            </p>
-                          </div>
-                          <p className="dark:text-light-bg mt-2 text-gray-700">
-                            {comment.comment}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                {comments.map((comment) => (
+                  <div
+                    key={comment._id}
+                    className="dark:bg-dark-bg relative rounded-lg border bg-white p-5 shadow transition-shadow duration-200 hover:shadow-md"
+                  >
+                    <CommentCard comment={comment} path={`/blogs/${slug}`} />
+                  </div>
+                ))}
               </div>
             ) : (
               <div className="rounded-lg border-2 border-dashed py-8 text-center">
