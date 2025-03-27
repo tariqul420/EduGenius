@@ -49,7 +49,7 @@ export function SendComment({ blogId, userId, slug }) {
       const comment = {
         blog: blogId,
         user: userId,
-        comment: values.comment,
+        comment: values.comment.trim(),
         path: `/blogs/${slug}`,
       };
 

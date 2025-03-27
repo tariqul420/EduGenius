@@ -49,8 +49,18 @@ export async function getCommentsByBlogId(blogId) {
 export async function deleteCommentById(commentId, userId, path) {
   try {
     await dbConnect();
-    // Validate blogId
-    if (!mongoose.Types.ObjectId.isValid(commentId)) return;
+
+    // Validate IDs
+    if (
+      !mongoose.Types.ObjectId.isValid(commentId) ||
+      !mongoose.Types.ObjectId.isValid(userId)
+    ) {
+      return {
+        success: false,
+        status: 400,
+        error: "Invalid ID format",
+      };
+    }
 
     // Convert string ID to ObjectId
     const commentObjectId = new mongoose.Types.ObjectId(commentId);
@@ -87,15 +97,6 @@ export async function updateCommentById(
   try {
     await dbConnect();
 
-    // Validate input
-    if (!commentId || !userId || !updatedComment?.trim()) {
-      return {
-        success: false,
-        status: 400,
-        error: "Missing required fields",
-      };
-    }
-
     // Validate IDs
     if (
       !mongoose.Types.ObjectId.isValid(commentId) ||
@@ -121,12 +122,8 @@ export async function updateCommentById(
         $set: {
           comment: updatedComment.trim(),
           updatedAt: new Date(),
-          wasEdited: true, // Flag to indicate comment was edited
+          wasEdited: true,
         },
-      },
-      {
-        new: true,
-        runValidators: true,
       },
     );
 
