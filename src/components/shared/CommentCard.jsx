@@ -1,5 +1,16 @@
 "use client";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { deleteCommentById } from "@/lib/actions/comment.action";
 import { useUser } from "@clerk/nextjs";
 import { format } from "date-fns";
@@ -43,11 +54,6 @@ export default function CommentCard({ comment, path }) {
       menuButtonRef.current.focus();
     }
   }, [activeMenu, comment?._id]);
-
-  const handleUpdateComment = (commentId) => {
-    // Handle update logic
-    setActiveMenu(null);
-  };
 
   const handleDeleteComment = async (commentId, userId) => {
     try {
@@ -112,15 +118,35 @@ export default function CommentCard({ comment, path }) {
               aria-labelledby="options-menu"
             >
               <div className="py-1">
-                <button
-                  onClick={() => handleUpdateComment(comment._id)}
-                  className="flex w-full items-center px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 focus:bg-gray-100 focus:outline-none dark:text-gray-200 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
-                  role="menuitem"
-                  tabIndex={0}
-                >
-                  <Edit className="mr-2 h-4 w-4" />
-                  Update comment
-                </button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <button
+                      className="flex w-full items-center px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 focus:bg-gray-100 focus:outline-none dark:text-gray-200 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+                      role="menuitem"
+                      tabIndex={0}
+                    >
+                      <Edit className="mr-2 h-4 w-4" />
+                      Update comment
+                    </button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete your account and remove your data from our
+                        servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction>Continue</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+
                 <button
                   onClick={() =>
                     handleDeleteComment(comment._id, comment.user._id)
