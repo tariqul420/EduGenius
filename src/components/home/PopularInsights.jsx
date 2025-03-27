@@ -4,7 +4,7 @@ import InsightsCard from "./InsightsCard";
 const PopularInsights = async ({ blogs }) => {
 
     return (
-        <div className="mt-20 container mx-auto lg:max-w-6xl">
+        <div className="mt-20 container mx-auto px-2 md:px-5 lg:max-w-6xl">
             {/* Heading Section */}
             <Heading title={`Popular Insights`} subTitle={`Discover insights through the latest analysis to enhance your knowledge from our expert contributors.`} />
 
