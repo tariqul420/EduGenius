@@ -1,12 +1,14 @@
 "use client";
 
+import { deleteCommentById } from "@/lib/actions/comment.action";
 import { useUser } from "@clerk/nextjs";
 import { format } from "date-fns";
 import { Edit, MoreVertical, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { toast } from "sonner";
 
-export default function CommentCard({ comment }) {
+export default function CommentCard({ comment, path }) {
   const { user, isSignedIn } = useUser();
   const [activeMenu, setActiveMenu] = useState(null);
   const userCommentDate = format(new Date(comment?.createdAt), "MMMM dd, yyyy");
@@ -18,10 +20,21 @@ export default function CommentCard({ comment }) {
     setActiveMenu(null);
   };
 
-  const handleDeleteComment = (commentId, userId) => {
-    // Handle delete logic
+  const handleDeleteComment = async (commentId, userId) => {
+    try {
+      // Call API to delete comment
+      await deleteCommentById(commentId, userId, path);
 
-    setActiveMenu(null);
+      // Show success feedback
+      toast.success("Comment deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete comment:", error);
+
+      // Show error feedback
+      toast.error(error?.response?.data?.message || "Failed to delete comment");
+    } finally {
+      setActiveMenu(null);
+    }
   };
 
   return (
@@ -75,7 +88,9 @@ export default function CommentCard({ comment }) {
                 </button>
                 <button
                   disabled={!isSignedIn || clerkEmail !== comment?.user?.email}
-                  onClick={() => handleDeleteComment(comment._id)}
+                  onClick={() =>
+                    handleDeleteComment(comment._id, comment.user._id)
+                  }
                   className="flex w-full cursor-pointer items-center px-4 py-2 text-sm text-red-600 transition-colors hover:bg-gray-100 dark:text-red-400 dark:hover:bg-gray-700"
                 >
                   <Trash2 className="mr-2 h-4 w-4" />

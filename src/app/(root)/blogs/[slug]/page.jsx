@@ -164,7 +164,7 @@ const BlogDetails = async ({ params }) => {
                     key={comment._id}
                     className="dark:bg-dark-bg relative rounded-lg border bg-white p-5 shadow transition-shadow duration-200 hover:shadow-md"
                   >
-                    <CommentCard comment={comment} />
+                    <CommentCard comment={comment} path={`/blogs/${slug}`} />
                   </div>
                 ))}
               </div>

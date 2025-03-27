@@ -46,7 +46,7 @@ export async function getCommentsByBlogId(blogId) {
   }
 }
 
-export async function deleteCommentById(commentId, userId) {
+export async function deleteCommentById(commentId, userId, path) {
   try {
     await dbConnect();
     // Validate blogId
@@ -69,9 +69,11 @@ export async function deleteCommentById(commentId, userId) {
       };
     }
 
-    return res.status(200).json({ delete: true });
+    revalidatePath(path);
+
+    return { delete: true };
   } catch (error) {
     console.error("Delete error:", error);
-    return res.status(500).json({ delete: false, error: "Server error" });
+    return { delete: false, error: "Server error" };
   }
 }

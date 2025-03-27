@@ -14,7 +14,7 @@ const jost = Jost({
 export const metadata = {
   title: "EduGenius | AI-Powered Course Management System",
   description:
-    "EduGenius is an advanced AI-powered course management system designed to personalize learning, track progress, and recommend optimized learning paths. Enhance your educational journey with EduGenius.",
+    "EduGenius is an advanced AI-powered course management system...",
   keywords: [
     "EduGenius",
     "AI-Powered Course Management",
@@ -24,17 +24,17 @@ export const metadata = {
     "Course Management",
     "Learning Path Optimization",
   ],
-  authors: [{ name: "Sinister Syntax", url: "https://edugenius.verce.app" }],
+  authors: [{ name: "Sinister Syntax", url: "https://edugenius.vercel.app" }],
   creator: "Sinister Syntax",
+  metadataBase: new URL("https://edugenius.vercel.app"),
   openGraph: {
     title: "EduGenius | AI-Powered Course Management System",
-    description:
-      "Revolutionize your learning experience with EduGenius - the AI-powered course management system that adapts to your progress and preferences.",
+    description: "Revolutionize your learning experience with EduGenius...",
     url: "https://edugenius.vercel.app",
     siteName: "EduGenius",
     images: [
       {
-        url: "https://edugenius.com/og-image.jpg",
+        url: "/og-image.jpg", // Now relative to metadataBase
         width: 1200,
         height: 630,
         alt: "EduGenius - AI-Powered Course Management",
@@ -48,15 +48,30 @@ export const metadata = {
     site: "@EduGenius",
     creator: "@SinisterSyntax",
     title: "EduGenius | AI-Powered Course Management",
-    description:
-      "Discover a smarter way to manage and personalize your learning experience with EduGenius.",
-    images: ["https://edugenius.com/twitter-image.jpg"],
+    description: "Discover a smarter way to manage and personalize...",
+    images: ["/twitter-image.jpg"], // Now relative to metadataBase
   },
   icons: {
     icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
     apple: "/apple-touch-icon.png",
+    other: [
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        url: "/favicon-32x32.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        url: "/favicon-16x16.png",
+      },
+    ],
   },
   manifest: "/site.webmanifest",
+  themeColor: "#000000",
 };
 
 export default function RootLayout({ children }) {
