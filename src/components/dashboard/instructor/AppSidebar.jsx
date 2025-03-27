@@ -1,6 +1,5 @@
 import { GraduationCap } from "lucide-react";
 
-import ModeToggle from "@/components/shared/ThemeBtn";
 import {
   Sidebar,
   SidebarContent,
@@ -13,7 +12,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export function AppSidebar({ menu = [] }) {
   return (
@@ -44,7 +45,20 @@ export function AppSidebar({ menu = [] }) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <ModeToggle />
+        <SignedIn>
+          <Suspense
+            fallback={<div className="h-10 w-10 rounded-full">loading</div>}
+          >
+            <UserButton
+              showName={true}
+              appearance={{
+                elements: {
+                  userButtonBox: "flex !flex-row-reverse items-center gap-2", // Flexbox for horizontal alignment
+                },
+              }}
+            />
+          </Suspense>
+        </SignedIn>
       </SidebarFooter>
     </Sidebar>
   );
