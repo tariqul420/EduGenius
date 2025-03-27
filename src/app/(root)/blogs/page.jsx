@@ -54,10 +54,7 @@ const BlogPage = async ({ searchParams }) => {
         <div className="rounded-lg p-6 md:col-span-1">
           <h2 className="mb-4 text-2xl font-semibold">All Categories</h2>
           <div className="flex flex-col gap-5">
-            <CheckCategory
-              data={JSON.parse(JSON.stringify(categories))}
-              keyCategory="category"
-            />
+            <CheckCategory data={categories} keyCategory="category" />
           </div>
         </div>
       </div>

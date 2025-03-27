@@ -22,15 +22,12 @@ export default async function Course({ searchParams }) {
     <section className="py-5">
       <div className="container mx-auto px-2 md:px-5 lg:max-w-6xl">
         {/* Filter Bar */}
-        <FilterBar
-          total={total}
-          courses={JSON.parse(JSON.stringify(courses))}
-        />
+        <FilterBar total={total} courses={courses} />
         {/* Courses Content Section */}
         <div className="mt-6 grid grid-cols-12 gap-5 md:mt-8">
-          <CoursesContent courses={JSON.parse(JSON.stringify(courses))} />
+          <CoursesContent courses={courses} />
           <div className="courses-filter col-span-4 hidden rounded px-4 py-1.5 shadow-md lg:block">
-            <FilterItem categories={JSON.parse(JSON.stringify(categories))} />
+            <FilterItem categories={categories} />
           </div>
         </div>
       </div>

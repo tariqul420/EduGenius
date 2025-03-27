@@ -8,10 +8,7 @@ export function FilterItem({ categories }) {
         <ul>
           {categories?.length > 0 ? (
             <li className="">
-              <CheckCategory
-                data={JSON.parse(JSON.stringify(categories))}
-                keyCategory="category"
-              />
+              <CheckCategory data={categories} keyCategory="category" />
             </li>
           ) : (
             <p>No categories found.</p>
@@ -40,7 +37,11 @@ export function FilterItem({ categories }) {
           <CheckCategory
             data={[
               { _id: "beginner", name: "Beginner", slug: "Beginner" },
-              { _id: "intermediate", name: "Intermediate", slug: "Intermediate" },
+              {
+                _id: "intermediate",
+                name: "Intermediate",
+                slug: "Intermediate",
+              },
               { _id: "advanced", name: "Advanced", slug: "Advanced" },
             ]}
             keyCategory="level"

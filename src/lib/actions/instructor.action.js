@@ -11,7 +11,7 @@ export async function getInstructors({ role, page = 1, limit = 5 }) {
     const hasNextPage = total > limit * page;
 
     return {
-      users,
+      users: JSON.parse(JSON.stringify(users)),
       total,
       hasNextPage,
     };
@@ -23,7 +23,7 @@ export async function getInstructors({ role, page = 1, limit = 5 }) {
 export async function getInstructorBySlug(slug) {
   try {
     await dbConnect();
-    return await User.findOne({ slug });
+    return JSON.parse(JSON.stringify(await User.findOne({ slug })));
   } catch (error) {
     console.error("Error getting instructor by slug:", error);
   }
