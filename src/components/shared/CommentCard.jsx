@@ -1,22 +1,26 @@
 "use client";
 
+import { useUser } from "@clerk/nextjs";
 import { format } from "date-fns";
 import { Edit, MoreVertical, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
 export default function CommentCard({ comment }) {
+  const { user, isSignedIn } = useUser();
+  const [activeMenu, setActiveMenu] = useState(null);
   const userCommentDate = format(new Date(comment?.createdAt), "MMMM dd, yyyy");
 
-  const [activeMenu, setActiveMenu] = useState(null);
+  const clerkEmail = user?.emailAddresses[0]?.emailAddress;
 
-  const handleUpdateComment = (commentId) => {
+  const handleUpdateComment = (commentId, userId) => {
     // Handle update logic
     setActiveMenu(null);
   };
 
-  const handleDeleteComment = (commentId) => {
+  const handleDeleteComment = (commentId, userId) => {
     // Handle delete logic
+
     setActiveMenu(null);
   };
 
@@ -48,6 +52,7 @@ export default function CommentCard({ comment }) {
         {/* Three-dot menu button */}
         <div className="relative">
           <button
+            disabled={!isSignedIn || clerkEmail !== comment?.user?.email}
             onClick={() =>
               setActiveMenu(activeMenu === comment?._id ? null : comment?._id)
             }
@@ -57,10 +62,11 @@ export default function CommentCard({ comment }) {
           </button>
 
           {/* Dropdown menu with animation */}
-          {activeMenu === comment._id && (
+          {activeMenu === comment?._id && (
             <div className="ring-opacity-5 animate-in fade-in zoom-in-95 absolute right-0 z-10 mt-1 w-48 origin-top-right rounded-md border bg-white shadow-lg focus:outline-none dark:bg-gray-800">
               <div className="py-1">
                 <button
+                  disabled={!isSignedIn || clerkEmail !== comment?.user?.email}
                   onClick={() => handleUpdateComment(comment._id)}
                   className="flex w-full cursor-pointer items-center px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                 >
@@ -68,6 +74,7 @@ export default function CommentCard({ comment }) {
                   Update comment
                 </button>
                 <button
+                  disabled={!isSignedIn || clerkEmail !== comment?.user?.email}
                   onClick={() => handleDeleteComment(comment._id)}
                   className="flex w-full cursor-pointer items-center px-4 py-2 text-sm text-red-600 transition-colors hover:bg-gray-100 dark:text-red-400 dark:hover:bg-gray-700"
                 >
