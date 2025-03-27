@@ -62,9 +62,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
+      <html lang="en">
         <body
-          className={`${jost.variable} dark:bg-black-dark antialiased dark:text-white`}
+          className={`${jost.variable} antialiased`}
+          cz-shortcut-listen="true"
         >
           <ContextProvider>
             <ThemeProvider
@@ -73,8 +74,7 @@ export default function RootLayout({ children }) {
               enableSystem
               disableTransitionOnChange
             >
-              {children}
-
+              <div suppressHydrationWarning>{children}</div>
               <Toaster position="top-right" />
             </ThemeProvider>
           </ContextProvider>
