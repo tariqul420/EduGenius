@@ -2,9 +2,16 @@ import InsightsCard from "@/components/home/InsightsCard";
 import { SendComment } from "@/components/shared/SendComment";
 import { getBlogBySlug, getBlogs } from "@/lib/actions/blog.action";
 import { getCommentsByBlogId } from "@/lib/actions/comment.action";
-import { auth } from '@clerk/nextjs/server';
+import { auth } from "@clerk/nextjs/server";
 import { format } from "date-fns";
-import { ArrowLeft, CalendarDays, ChartColumnStacked, Clock, MessageCircle, User } from "lucide-react";
+import {
+  ArrowLeft,
+  CalendarDays,
+  ChartColumnStacked,
+  Clock,
+  MessageCircle,
+  User,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,12 +19,16 @@ const BlogDetails = async ({ params }) => {
   const { slug } = await params;
   const { sessionClaims } = await auth();
   const blog = JSON.parse(JSON.stringify(await getBlogBySlug(slug)));
-  const { blogs: featuredBlog } = JSON.parse(JSON.stringify(await getBlogs({ sort: "popular", limit: 6 })));
-  const comments = JSON.parse(JSON.stringify(await getCommentsByBlogId(blog?._id)));
+  const { blogs: featuredBlog } = JSON.parse(
+    JSON.stringify(await getBlogs({ sort: "popular", limit: 6 })),
+  );
+  const comments = JSON.parse(
+    JSON.stringify(await getCommentsByBlogId(blog?._id)),
+  );
 
   if (!blog) {
     return (
-      <div className="flex h-screen items-center justify-center text-gray-500 dark:text-light-bg">
+      <div className="dark:text-light-bg flex h-screen items-center justify-center text-gray-500">
         <h2 className="text-xl">Blog not found</h2>
       </div>
     );
@@ -27,27 +38,29 @@ const BlogDetails = async ({ params }) => {
   const uploadDate = format(new Date(createdAt), "MMMM dd, yyyy");
 
   return (
-    <div className="container mx-auto px-4 py-8 lg:max-w-7xl dark:text-light-bg">
+    <div className="dark:text-light-bg container mx-auto px-4 py-8 lg:max-w-7xl">
       {/* Go Back Link with better styling */}
       <div className="mb-8">
         <Link
           href="/blogs"
-          className="inline-flex items-center text-light-bg hover:text-main-700 transition-colors duration-200"
+          className="text-light-bg hover:text-main-700 inline-flex items-center transition-colors duration-200"
         >
           <ArrowLeft />
           Back to Blog
         </Link>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex flex-col gap-8 lg:flex-row">
         {/* Main Content */}
         <div className="lg:w-2/3">
           {/* Blog Header Section */}
           <div className="mb-10">
-            <h1 className="mb-6 text-4xl font-bold leading-tight dark:text-light-bg">{title}</h1>
+            <h1 className="dark:text-light-bg mb-6 text-4xl leading-tight font-bold">
+              {title}
+            </h1>
 
             {/* Author and Metadata */}
-            <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-8 dark:text-medium-bg">
+            <div className="dark:text-medium-bg mb-8 flex flex-wrap items-center gap-4 text-gray-600">
               <div className="flex items-center gap-2">
                 <User size={18} />
                 <Link
@@ -65,7 +78,9 @@ const BlogDetails = async ({ params }) => {
 
               <div className="flex items-center gap-2">
                 <Clock size={18} />
-                <span>{Math.ceil(content?.split(" ")?.length / 200)} min read</span>
+                <span>
+                  {Math.ceil(content?.split(" ")?.length / 200)} min read
+                </span>
               </div>
 
               <div className="flex items-center gap-2">
@@ -86,7 +101,7 @@ const BlogDetails = async ({ params }) => {
                 alt={title}
                 width={1200}
                 height={630}
-                className="h-auto w-full object-cover aspect-video"
+                className="aspect-video h-auto w-full object-cover"
                 priority
               />
             </div>
@@ -94,7 +109,7 @@ const BlogDetails = async ({ params }) => {
 
           {/* Blog Content with improved typography */}
           <div
-            className="prose prose-lg max-w-none mb-12 text-gray-700 dark:text-medium-bg"
+            className="prose prose-lg dark:text-medium-bg mb-12 max-w-none text-gray-700"
             dangerouslySetInnerHTML={{ __html: content }}
           >
             {/* Your content will be rendered here */}
@@ -102,26 +117,30 @@ const BlogDetails = async ({ params }) => {
 
           {/* Author Info Section with better design */}
           {author && (
-            <div className="mt-12 p-4 rounded-xl bg-white dark:bg-dark-bg border">
-              <div className="flex flex-col sm:flex-row items-center gap-6">
+            <div className="dark:bg-dark-bg mt-12 rounded-xl border bg-white p-4">
+              <div className="flex flex-col items-center gap-6 sm:flex-row">
                 <div className="flex-shrink-0">
                   <Image
                     src={author.profilePicture}
                     alt={`${author.firstName} ${author.lastName}`}
                     width={80}
                     height={80}
-                    className="rounded-full border-4 shadow-md object-cover"
+                    className="rounded-full border-4 object-cover shadow-md"
                   />
                 </div>
-                <div className="text-center sm:text-left space-y-1">
-                  <h3 className="text-xl font-bold text-dark-bg dark:text-light-bg">
+                <div className="space-y-1 text-center sm:text-left">
+                  <h3 className="text-dark-bg dark:text-light-bg text-xl font-bold">
                     {author?.firstName} {author?.lastName}
                   </h3>
-                  <p className="text-gray-600 dark:text-medium-bg">
-                    {author.role === "instructor" ? "Instructor" : "Guest Writer"}
+                  <p className="dark:text-medium-bg text-gray-600">
+                    {author.role === "instructor"
+                      ? "Instructor"
+                      : "Guest Writer"}
                   </p>
-                  <p className="text-gray-600 dark:text-medium-bg">{author?.bio || author?.email}</p>
-                  <div className="mt-3 flex justify-center sm:justify-start gap-3">
+                  <p className="dark:text-medium-bg text-gray-600">
+                    {author?.bio || author?.email}
+                  </p>
+                  <div className="mt-3 flex justify-center gap-3 sm:justify-start">
                     {/* Social links can be added here */}
                   </div>
                 </div>
@@ -131,9 +150,12 @@ const BlogDetails = async ({ params }) => {
 
           {/* Comments Section with enhanced UI */}
           <div className="mt-14">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-bold text-dark-bg dark:text-light-bg flex items-center gap-2">
-                <MessageCircle size={24} className="text-main dark:text-dark-btn" />
+            <div className="mb-8 flex items-center justify-between">
+              <h2 className="text-dark-bg dark:text-light-bg flex items-center gap-2 text-2xl font-bold">
+                <MessageCircle
+                  size={24}
+                  className="text-main dark:text-dark-btn"
+                />
                 Comments ({comments?.length || 0})
               </h2>
             </div>
@@ -141,12 +163,15 @@ const BlogDetails = async ({ params }) => {
             {comments?.length > 0 ? (
               <div className="space-y-6">
                 {comments.map((comment) => {
-                  const userCommentDate = format(new Date(comment.createdAt), "MMMM dd, yyyy");
+                  const userCommentDate = format(
+                    new Date(comment.createdAt),
+                    "MMMM dd, yyyy",
+                  );
 
                   return (
                     <div
                       key={comment._id}
-                      className="p-5 rounded-lg bg-white border shadow hover:shadow-md transition-shadow duration-200 dark:bg-dark-bg"
+                      className="dark:bg-dark-bg rounded-lg border bg-white p-5 shadow transition-shadow duration-200 hover:shadow-md"
                     >
                       <div className="flex items-start gap-4">
                         <Image
@@ -154,17 +179,23 @@ const BlogDetails = async ({ params }) => {
                           alt={`${comment.user?.firstName} ${comment.user?.lastName}`}
                           width={48}
                           height={48}
-                          className="rounded-full flex-shrink-0"
+                          className="flex-shrink-0 rounded-full"
                         />
                         <div>
                           <div className="flex flex-wrap items-center gap-2">
-                            <h4 className="font-semibold text-dark-bg dark:text-light-bg">
+                            <h4 className="text-dark-bg dark:text-light-bg font-semibold">
                               {comment.user?.firstName} {comment.user?.lastName}
                             </h4>
-                            <span className="text-xs text-dark-bg dark:text-light-bg">•</span>
-                            <p className="text-sm text-dark-bg dark:text-medium-bg">{userCommentDate}</p>
+                            <span className="text-dark-bg dark:text-light-bg text-xs">
+                              •
+                            </span>
+                            <p className="text-dark-bg dark:text-medium-bg text-sm">
+                              {userCommentDate}
+                            </p>
                           </div>
-                          <p className="mt-2 text-gray-700 dark:text-light-bg">{comment.comment}</p>
+                          <p className="dark:text-light-bg mt-2 text-gray-700">
+                            {comment.comment}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -172,8 +203,11 @@ const BlogDetails = async ({ params }) => {
                 })}
               </div>
             ) : (
-              <div className="text-center py-8 border-2 border-dashed rounded-lg">
-                <MessageCircle size={48} className="mx-auto text-gray-300 mb-3" />
+              <div className="rounded-lg border-2 border-dashed py-8 text-center">
+                <MessageCircle
+                  size={48}
+                  className="mx-auto mb-3 text-gray-300"
+                />
                 <p className="text-dark-bg dark:text-light-bg">
                   No comments yet. Be the first to share your thoughts!
                 </p>
@@ -182,17 +216,21 @@ const BlogDetails = async ({ params }) => {
 
             {/* Comment Form Section */}
             <div className="mt-10">
-              <SendComment blogId={blog?._id} userId={sessionClaims?.userId} slug={slug} />
+              <SendComment
+                blogId={blog?._id}
+                userId={sessionClaims?.userId}
+                slug={slug}
+              />
             </div>
           </div>
         </div>
 
         {/* Sidebar with Featured Blogs */}
-        <div className="lg:w-1/3 mt-10 lg:mt-0">
+        <div className="mt-10 lg:mt-0 lg:w-1/3">
           <div className="sticky top-6 space-y-8">
             {/* Featured Blogs Section */}
-            <div className="dark:bg-dark-bg/50 q bg-light-bg p-6 rounded-xl shadow-sm border">
-              <h2 className="text-xl font-bold text-dark-bg dark:text-light-bg mb-6 pb-2 border-b">
+            <div className="dark:bg-dark-bg/50 q bg-light-bg rounded-xl border p-6 shadow-sm">
+              <h2 className="text-dark-bg dark:text-light-bg mb-6 border-b pb-2 text-xl font-bold">
                 Popular Blogs
               </h2>
               <div className="space-y-5">
@@ -206,7 +244,9 @@ const BlogDetails = async ({ params }) => {
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500 text-center py-4">No popular blogs found</p>
+                  <p className="text-dark-bg dark:text-light-bg py-4 text-center">
+                    No popular blogs found
+                  </p>
                 )}
               </div>
             </div>
