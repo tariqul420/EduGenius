@@ -24,7 +24,7 @@ const CourseCard = ({ course }) => {
   return (
     <>
       <div
-        className={`course-image dark:bg-dark-bg relative flex h-fit rounded-md border shadow ${isGridCol && pathname === "/courses" ? "flex-col items-center gap-5 sm:flex-row" : "flex-col"}`}
+        className={`course-image dark:bg-dark-bg relative flex h-fit rounded-md border shadow transition-all duration-300 hover:-translate-y-2 ${isGridCol && pathname === "/courses" ? "flex-col items-center gap-5 sm:flex-row" : "flex-col"}`}
       >
         <div>
           {/* Category Badge */}
@@ -68,7 +68,7 @@ const CourseCard = ({ course }) => {
             <div className="flex items-center gap-1.5 dark:text-gray-300">
               <p className="font-medium md:text-2xl">
                 ${" "}
-                <span className="text-overline text-lg font-light text-dark-btn line-through">
+                <span className="text-overline text-dark-btn text-lg font-light line-through">
                   {price}
                 </span>
               </p>
