@@ -11,7 +11,6 @@ import { getBlogs } from "@/lib/actions/blog.action";
 import { getCourses } from "@/lib/actions/course.action";
 
 export default async function Home({ searchParams }) {
-
   const { category } = await searchParams;
 
   const { blogs } = await getBlogs({ sort: "popular", limit: 3 });
