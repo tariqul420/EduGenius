@@ -29,7 +29,7 @@ export default async function Instructors({ searchParams }) {
         <div className="container mx-auto py-8 max-sm:px-4 lg:max-w-6xl">
           <div className="flex items-center justify-between border-b pb-4">
             <h1 className="text-xl font-bold">Our All Instructor</h1>
-            <p className="text-sm font-medium text-gray-500">
+            <p className="dark:text-medium-bg text-sm font-medium text-gray-600">
               Showing {instructors.length} Of {total} Results
             </p>
           </div>
@@ -46,17 +46,17 @@ export default async function Instructors({ searchParams }) {
       </section>
 
       <section>
-        <div className="bg-[#08261c] py-8">
+        <div className="dark:from-dark-bg mt-20 bg-gradient-to-t py-8 dark:to-black">
           <div className="container mx-auto py-8 max-lg:px-4 lg:max-w-6xl">
-            <div className="flex flex-col items-center space-y-2.5">
-              <h1 className="text-center text-xl font-bold text-white">
-                Popular Instructor
-              </h1>
-              <p className="max-w-sm text-center text-sm leading-6 text-white">
+            {/* Heading */}
+            <div className="dark:text-light-bg mb-8 text-center">
+              <h1 className="text-3xl font-bold">Popular Instructor</h1>
+              <p className="mt-2 text-lg">
                 The cost of receiving higher education in the United States has
                 skyrocketed to impossible.
               </p>
             </div>
+
             <div>
               <SlidePrViewSlider />
             </div>
