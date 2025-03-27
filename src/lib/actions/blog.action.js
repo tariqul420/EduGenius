@@ -46,7 +46,7 @@ export async function getBlogs({
           localField: "author",
           foreignField: "_id",
           as: "authorDetails",
-        }
+        },
       },
       {
         $lookup: {
@@ -54,13 +54,13 @@ export async function getBlogs({
           localField: "_id",
           foreignField: "blog",
           as: "comments",
-        }
+        },
       },
       {
         $addFields: {
           commentCount: { $size: "$comments" },
-          authorDetails: { $arrayElemAt: ["$authorDetails", 0] }
-        }
+          authorDetails: { $arrayElemAt: ["$authorDetails", 0] },
+        },
       },
       {
         $project: {
@@ -76,24 +76,25 @@ export async function getBlogs({
           user: {
             _id: "$authorDetails._id",
             firstName: "$authorDetails.firstName",
-            lastName: "$authorDetails.lastName"
-          }
-        }
+            lastName: "$authorDetails.lastName",
+          },
+        },
       },
       {
-        $sort: sort === "popular"
-          ? { commentCount: -1, createdAt: -1 }
-          : { createdAt: -1 }
+        $sort:
+          sort === "popular"
+            ? { commentCount: -1, createdAt: -1 }
+            : { createdAt: -1 },
       },
       { $skip: skip },
-      { $limit: limit }
+      { $limit: limit },
     ]);
 
     const total = await Blog.estimatedDocumentCount();
     const hasNextPage = total > limit * page;
 
     return {
-      blogs,
+      blogs: JSON.parse(JSON.stringify(blogs)),
       total,
       hasNextPage,
     };
@@ -122,10 +123,9 @@ export async function getBlogBySlug(slug) {
       delete blog.updatedAt;
     }
 
-    return blog;
+    return JSON.parse(JSON.stringify(blog));
   } catch (error) {
     console.error("Failed to fetch blog:", error);
     return null;
   }
 }
-

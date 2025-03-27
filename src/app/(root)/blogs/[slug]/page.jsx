@@ -18,13 +18,9 @@ import Link from "next/link";
 const BlogDetails = async ({ params }) => {
   const { slug } = await params;
   const { sessionClaims } = await auth();
-  const blog = JSON.parse(JSON.stringify(await getBlogBySlug(slug)));
-  const { blogs: featuredBlog } = JSON.parse(
-    JSON.stringify(await getBlogs({ sort: "popular", limit: 6 })),
-  );
-  const comments = JSON.parse(
-    JSON.stringify(await getCommentsByBlogId(blog?._id)),
-  );
+  const blog = await getBlogBySlug(slug);
+  const { blogs: featuredBlog } = await getBlogs({ sort: "popular", limit: 6 });
+  const comments = await getCommentsByBlogId(blog?._id);
 
   if (!blog) {
     return (

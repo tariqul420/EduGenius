@@ -101,7 +101,7 @@ export async function getCourses({
 
     const hasNextPage = total > page * limit;
 
-    return { courses, total, hasNextPage };
+    return { courses: JSON.parse(JSON.stringify(courses)), total, hasNextPage };
   } catch (error) {
     console.error(error);
   }
@@ -177,7 +177,7 @@ export async function getCourseBySlug(slug) {
       return null; // Return null if no course is found
     }
 
-    return courses[0];
+    return JSON.parse(JSON.stringify(courses[0]));
   } catch (error) {
     console.error("Error getting Course by slug:", error);
     throw error;
