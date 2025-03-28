@@ -36,11 +36,12 @@ const CourseCard = ({ course }) => {
             <Image
               src={thumbnail}
               alt={title}
-              className="mx-auto max-h-[200px] w-[400px] rounded-t-md object-cover"
+              width={400}
+              height={200}
               blurDataURL={thumbnail}
-              width={100}
-              height={100}
+              className="rounded-t-lg object-cover"
             />
+
             {/* Rating Badge */}
             <p
               className="absolute right-0 -bottom-1.5 flex w-fit items-center gap-1.5 rounded bg-black px-3 py-1 text-sm text-white"
