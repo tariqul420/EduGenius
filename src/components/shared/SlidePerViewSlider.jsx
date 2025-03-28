@@ -11,8 +11,6 @@ import Image from "next/image";
 import { Pagination } from "swiper/modules";
 
 export default function SlidePrViewSlider({ bestInstructors }) {
-  console.log(bestInstructors);
-
   return (
     <>
       <Swiper
