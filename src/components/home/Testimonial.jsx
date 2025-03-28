@@ -26,6 +26,20 @@ const users = [
       "The platform is intuitive and easy to use. It has significantly improved our productivity.",
     name: "Charles Dole",
   },
+  {
+    image:
+      "https://faculty.spagreen.net/demo/public/images/20240210174555image_282x282-34.jpg",
+    review:
+      "We're loving it. OVOY OMS is highly adaptable and has made our workflow seamless.",
+    name: "Natasa Hope",
+  },
+  {
+    image:
+      "https://faculty.spagreen.net/demo/public/images/20240210174604image_282x282-72.jpg",
+    review:
+      "The platform is intuitive and easy to use. It has significantly improved our productivity.",
+    name: "Charles Dole",
+  },
 ];
 
 function Testimonial() {
@@ -53,7 +67,7 @@ function Testimonial() {
                 slidesPerView: 1,
               },
               1024: {
-                slidesPerView: 1,
+                slidesPerView: 2,
               },
             }}
           >
@@ -61,7 +75,7 @@ function Testimonial() {
               <SwiperSlide key={idx} className="py-8">
                 <div className="bg-light-bg dark:bg-dark-bg flex w-full cursor-pointer flex-col items-center justify-between gap-8 rounded-lg border p-8 transition-all duration-300 md:flex-row">
                   {/* Image Container */}
-                  <div className="ring-medium-bg relative h-48 w-48 overflow-hidden rounded-full ring-4 dark:ring-[#292b2e]">
+                  <div className="ring-medium-bg relative h-36 w-36 rounded-full ring-4 dark:ring-[#292b2e]">
                     <Image
                       src={user?.image}
                       alt={user?.name}
@@ -69,11 +83,10 @@ function Testimonial() {
                       style={{ objectFit: "contain" }}
                       className="rounded-full"
                     />
-                  </div>
-
-                  {/* Quote Icon */}
-                  <div className="text-main-500">
-                    <Quote size={60} className="text-main" />
+                    {/* Quote Icon */}
+                    <div className="text-main-500 absolute -right-5 -bottom-5 z-10">
+                      <Quote size={60} className="text-dark-btn/70" />
+                    </div>
                   </div>
 
                   {/* User Details */}
