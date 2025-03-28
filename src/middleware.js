@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 const isProtectedRoute = createRouteMatcher([
   "/student(.*)",
-  "/instructor/(.*)",
+  "/instructor(.*)",
   "/admin(.*)",
 ]);
 
@@ -47,7 +47,7 @@ export default clerkMiddleware(async (auth, req) => {
     return NextResponse.next();
   }
 
-  if (pathname === "instructor") {
+  if (pathname.startsWith("/instructor")) {
     if (userRole !== "instructor") {
       return NextResponse.redirect(new URL(`${userRole}`, req.url));
     }

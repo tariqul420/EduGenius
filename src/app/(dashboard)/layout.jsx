@@ -5,8 +5,8 @@ import { admins, instructors, students } from "@/constant";
 import { auth } from "@clerk/nextjs/server";
 
 export const metadata = {
-  title: "Instructors | Meet our instructors",
-  description: "Meet our instructors",
+  title: "Dashboard | Welcome Our Dashboard.",
+  description: "Welcome Our Dashboard.",
 };
 
 export default async function Layout({ children }) {

@@ -48,7 +48,7 @@ function Navbar() {
     { href: "/", label: "Home" },
     { href: "/blogs", label: "Blog" },
     { href: "/courses", label: "Courses" },
-    { href: "/instructors", label: "instructors" },
+    { href: "/instructors", label: "Instructors" },
   ];
 
   return (
