@@ -58,7 +58,7 @@ export default async function Instructors({ searchParams }) {
             </div>
 
             <div>
-              <SlidePrViewSlider />
+              <SlidePrViewSlider bestInstructors={bestInstructors} />
             </div>
           </div>
         </div>

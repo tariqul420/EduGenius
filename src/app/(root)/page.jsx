@@ -9,6 +9,7 @@ import TotalCourse from "@/components/home/TotalCourse";
 import OurAchieve from "@/components/shared/OurAchieve";
 import { getBlogs } from "@/lib/actions/blog.action";
 import { getCourses } from "@/lib/actions/course.action";
+import { getInstructors } from "@/lib/actions/instructor.action";
 
 export default async function Home({ searchParams }) {
   const { category } = await searchParams;
@@ -17,13 +18,20 @@ export default async function Home({ searchParams }) {
 
   const { courses } = await getCourses({ categorySlug: category, limit: 6 });
 
+  const bestInstructorsResult = await getInstructors({
+    role: "instructor",
+    limit: 5,
+  });
+
+  const bestInstructors = bestInstructorsResult?.users || [];
+
   return (
     <div className="flex flex-col">
       <HeroSection />
       <TopCourses courses={courses} />
       <TotalCourse />
       <CourseSubjects />
-      <TopInstructors />
+      <TopInstructors bestInstructors={bestInstructors} />
       <OurAchieve />
       <PopularInsights blogs={blogs} />
       <BecomeInstructor />
