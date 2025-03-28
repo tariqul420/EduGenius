@@ -11,13 +11,26 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
 import { deleteCommentById } from "@/lib/actions/comment.action";
 import { useUser } from "@clerk/nextjs";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { Edit, MoreVertical, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import * as z from "zod";
 
 export default function CommentCard({ comment, path }) {
   const { user, isSignedIn } = useUser();
@@ -64,6 +77,31 @@ export default function CommentCard({ comment, path }) {
       toast.error(error?.message || "Failed to delete comment");
     } finally {
       setActiveMenu(null);
+    }
+  };
+
+  // Define the schema for comment validation
+  const commentSchema = z.object({
+    comment: z.string().min(5, "Comment must be at least 5 characters"),
+  });
+
+  const form = useForm({
+    resolver: zodResolver(commentSchema),
+    defaultValues: {
+      comment: comment.comment,
+    },
+  });
+
+  const onSubmit = async (data) => {
+    try {
+      // Add your update comment logic here
+      // For example: await updateComment(comment._id, data.comment, path);
+      toast.success("Comment updated successfully");
+      setActiveMenu(null);
+      form.reset({ comment: data.comment }); // Reset form with new value
+    } catch (error) {
+      console.error("Failed to update comment:", error);
+      toast.error(error?.message || "Failed to update comment");
     }
   };
 
@@ -130,20 +168,63 @@ export default function CommentCard({ comment, path }) {
                     </button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Are you absolutely sure?
-                      </AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action cannot be undone. This will permanently
-                        delete your account and remove your data from our
-                        servers.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction>Continue</AlertDialogAction>
-                    </AlertDialogFooter>
+                    <Form {...form}>
+                      <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-4"
+                      >
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Update Comment</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Edit your comment below. This will update your
+                            existing comment.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+
+                        <FormField
+                          control={form.control}
+                          name="comment"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="sr-only">
+                                Your Comment
+                              </FormLabel>
+                              <FormControl>
+                                <Textarea
+                                  placeholder="Share your thoughts... (Min 5 characters)"
+                                  className="bg-background focus:ring-primary min-h-[140px] text-base focus:ring-2"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage className="text-xs text-red-500" />
+                            </FormItem>
+                          )}
+                        />
+
+                        <AlertDialogFooter>
+                          <AlertDialogCancel onClick={() => form.reset()}>
+                            Cancel
+                          </AlertDialogCancel>
+                          <AlertDialogAction asChild>
+                            <Button
+                              type="submit"
+                              disabled={form.formState.isSubmitting}
+                              className="dark:bg-dark-bg w-full cursor-pointer text-white sm:w-auto"
+                              size="lg"
+                            >
+                              {form.formState.isSubmitting ? (
+                                <>
+                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                  Updating...
+                                </>
+                              ) : (
+                                "Update Comment"
+                              )}
+                            </Button>
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </form>
+                    </Form>
                   </AlertDialogContent>
                 </AlertDialog>
 
