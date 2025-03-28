@@ -169,6 +169,9 @@ const BlogDetails = async ({ params, searchParams }) => {
                 />
                 Comments ({total || 0})
               </h2>
+              <p>
+                Show {comments?.length} of {total} Result
+              </p>
             </div>
 
             {total > 0 ? (
