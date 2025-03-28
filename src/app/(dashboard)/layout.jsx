@@ -19,7 +19,7 @@ export default async function Layout({ children }) {
       {role === "student" && <AppSidebar menu={students} />}
       {role === "admin" && <AppSidebar menu={admins} />}
       <main>
-        <nav className="dark:from-dark-bg dark:to-dark-bg sticky top-0 z-[20] flex items-center justify-between gap-4 bg-gradient-to-r from-white to-white p-4 text-black shadow-sm dark:text-white">
+        <nav className="dark:from-dark-bg dark:to-dark-bg sticky top-0 z-[20] flex w-full items-center justify-between gap-4 bg-gradient-to-r from-white to-white p-4 text-black shadow-sm dark:text-white">
           <SidebarTrigger className="cursor-pointer" />
           <Notification />
         </nav>
