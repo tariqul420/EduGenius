@@ -25,8 +25,8 @@ const formSchema = z.object({
     .min(5, {
       message: "Comment must be at least 5 characters long.",
     })
-    .max(1000, {
-      message: "Comment must be less than 1000 characters.",
+    .max(500, {
+      message: "Comment must be less than 500 characters.",
     }),
 });
 
@@ -110,7 +110,7 @@ export function SendComment({ blogId, userId, slug }) {
                     <FormLabel className="sr-only">Your Comment</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Share your thoughts... (Min 5 characters)"
+                        placeholder="Share your thoughts... (Min 5, Max 500 characters)"
                         className="bg-background focus:ring-primary min-h-[140px] text-base focus:ring-2"
                         disabled={!isSignedIn}
                         {...field}
