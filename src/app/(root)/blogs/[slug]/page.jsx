@@ -1,5 +1,6 @@
 import InsightsCard from "@/components/home/InsightsCard";
 import CommentCard from "@/components/shared/CommentCard";
+import LoadMore from "@/components/shared/LoadMore";
 import { SendComment } from "@/components/shared/SendComment";
 import { getBlogBySlug, getBlogs } from "@/lib/actions/blog.action";
 import { getCommentsByBlogId } from "@/lib/actions/comment.action";
@@ -16,12 +17,25 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-const BlogDetails = async ({ params }) => {
+const BlogDetails = async ({ params, searchParams }) => {
   const { slug } = await params;
+  const { page } = await searchParams;
+
   const { sessionClaims } = await auth();
   const blog = await getBlogBySlug(slug);
   const { blogs: featuredBlog } = await getBlogs({ sort: "popular", limit: 6 });
-  const comments = await getCommentsByBlogId(blog?._id);
+
+  const commentsResult = await getCommentsByBlogId({
+    blogId: blog?._id,
+    page: Number(page) || 1,
+    limit: 3,
+  });
+
+  console.log(params);
+
+  const comments = commentsResult?.comments || [];
+  const total = commentsResult?.total || 0;
+  const hasNextPage = commentsResult?.hasNextPage || false;
 
   if (!blog) {
     return (
@@ -82,7 +96,7 @@ const BlogDetails = async ({ params }) => {
 
               <div className="flex items-center gap-2">
                 <MessageCircle size={18} />
-                <span>{comments?.length} comments</span>
+                <span>{total} comments</span>
               </div>
 
               <div className="flex items-center gap-2">
@@ -153,11 +167,11 @@ const BlogDetails = async ({ params }) => {
                   size={24}
                   className="text-main dark:text-dark-btn"
                 />
-                Comments ({comments?.length || 0})
+                Comments ({total || 0})
               </h2>
             </div>
 
-            {comments?.length > 0 ? (
+            {total > 0 ? (
               <div className="space-y-6">
                 {comments.map((comment) => (
                   <div
@@ -167,6 +181,8 @@ const BlogDetails = async ({ params }) => {
                     <CommentCard comment={comment} path={`/blogs/${slug}`} />
                   </div>
                 ))}
+
+                {hasNextPage && <LoadMore />}
               </div>
             ) : (
               <div className="rounded-lg border-2 border-dashed py-8 text-center">
