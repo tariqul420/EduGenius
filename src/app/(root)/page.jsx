@@ -8,6 +8,7 @@ import TopInstructors from "@/components/home/TopInstructors";
 import TotalCourse from "@/components/home/TotalCourse";
 import OurAchieve from "@/components/shared/OurAchieve";
 import { getBlogs } from "@/lib/actions/blog.action";
+import { getCategory } from "@/lib/actions/category.action";
 import { getCourses } from "@/lib/actions/course.action";
 import { getInstructors } from "@/lib/actions/instructor.action";
 
@@ -25,10 +26,12 @@ export default async function Home({ searchParams }) {
 
   const bestInstructors = bestInstructorsResult?.users || [];
 
+  const categories = await getCategory();
+
   return (
     <div className="flex flex-col">
       <HeroSection />
-      <TopCourses courses={courses} />
+      <TopCourses courses={courses} categories={categories} />
       <TotalCourse />
       <CourseSubjects />
       <TopInstructors bestInstructors={bestInstructors} />

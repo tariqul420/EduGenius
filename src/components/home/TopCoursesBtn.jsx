@@ -1,37 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-function TopCoursesBtn() {
+function TopCoursesBtn({ categories }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
   const categorySlug = searchParams.get("category") || "all-courses";
 
-  // State to store fetched categories
-  const [categories, setCategories] = useState([
+  const categoriesResult = [
+    ...categories,
     { name: "All Courses", slug: "all-courses" },
-  ]);
-
-  // Fetch categories from the API
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch("/api/course-category");
-        if (!response.ok) throw new Error("Failed to fetch categories");
-
-        const data = await response.json();
-        setCategories(
-          [...data, { name: "All Courses", slug: "all-courses" }].reverse(),
-        );
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-
-    fetchCategories();
-  }, []);
+  ].reverse();
 
   // Update the selected category
   const updateCategory = (selectedCategorySlug) => {
@@ -45,8 +25,8 @@ function TopCoursesBtn() {
   };
 
   return (
-    <div className="my-6 flex gap-4 flex-wrap md:justify-center">
-      {categories.map((cat, index) => (
+    <div className="my-6 flex flex-wrap gap-4 md:justify-center">
+      {categoriesResult?.map((cat, index) => (
         <button
           key={index}
           onClick={() => updateCategory(cat?.slug)}
