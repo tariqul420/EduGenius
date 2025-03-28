@@ -21,28 +21,40 @@ export async function postComment({ blog, user, comment, path }) {
   }
 }
 
-export async function getCommentsByBlogId(blogId) {
+export async function getCommentsByBlogId({
+  blogId,
+  page = 1,
+  limit = 3,
+} = {}) {
   try {
     await dbConnect();
 
     // Validate blogId
     if (!mongoose.Types.ObjectId.isValid(blogId)) {
-      return [];
+      return { comments: [], total: 0, hasNextPage: false };
     }
 
     // Convert string ID to ObjectId
     const objectId = new mongoose.Types.ObjectId(blogId);
 
-    // Find comments with user population and sorting
+    // Find comments with user population, sorting, and limit
     const comments = await Comments.find({ blog: objectId })
       .populate("user", "email profilePicture firstName lastName")
       .sort({ createdAt: -1 })
+      .limit(limit * page)
       .lean();
 
-    return JSON.parse(JSON.stringify(comments));
+    const total = await Comments.countDocuments({ blog: objectId });
+    const hasNextPage = total > limit * page;
+
+    return {
+      comments: JSON.parse(JSON.stringify(comments)),
+      total,
+      hasNextPage,
+    };
   } catch (error) {
     console.error("Error fetching comments:", error);
-    return [];
+    // Note: getInstructors doesn't return a default value here
   }
 }
 

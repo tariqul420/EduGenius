@@ -23,7 +23,7 @@ export default function LoadMore() {
   return (
     <div className="mt-8 flex justify-center">
       <Button
-        className="bg-main text-white dark:hover:text-black"
+        className="bg-main cursor-pointer text-white transition-all duration-300 dark:hover:text-black"
         onClick={handleLoadMore}
       >
         <span>Load More</span> <MoveRight />

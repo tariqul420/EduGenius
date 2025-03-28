@@ -7,15 +7,10 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 } from "@/components/ui/sheet";
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
-import {
-  AlignJustify,
-  GraduationCap,
-  LogIn,
-  X
-} from "lucide-react";
+import { AlignJustify, GraduationCap, LogIn, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
@@ -53,12 +48,12 @@ function Navbar() {
     { href: "/", label: "Home" },
     { href: "/blogs", label: "Blog" },
     { href: "/courses", label: "Courses" },
-    { href: "/instructors", label: "Instructors" },
+    { href: "/instructors", label: "instructors" },
   ];
 
   return (
     <nav
-      className={`from-white to-white shadow-sm dark:from-dark-bg dark:to-dark-bg sticky top-0 z-[20] bg-gradient-to-r p-4 text-black dark:text-white ${showNavbar ? "translate-y-0" : "-translate-y-full"} transition-transform duration-300`}
+      className={`dark:from-dark-bg dark:to-dark-bg sticky top-0 z-[20] bg-gradient-to-r from-white to-white p-4 text-black shadow-sm dark:text-white ${showNavbar ? "translate-y-0" : "-translate-y-full"} transition-transform duration-300`}
     >
       <div className="container mx-auto flex items-center justify-between lg:max-w-6xl">
         {/* Logo */}
@@ -78,7 +73,7 @@ function Navbar() {
                     <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-full rounded-full bg-black dark:bg-white"></span>
                   )}
                   {!isActive(link.href) && (
-                    <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-0 origin-left rounded-full bg-black dark:bg-white duration-300 group-hover:w-full"></span>
+                    <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-0 origin-left rounded-full bg-black duration-300 group-hover:w-full dark:bg-white"></span>
                   )}
                 </Link>
               </li>
@@ -91,7 +86,7 @@ function Navbar() {
           <SignedOut>
             <Link
               href="/sign-in"
-              className="text-dark-main border shadow hover:bg-light-bg hidden items-center rounded bg-white px-3 py-[5px] transition duration-200 lg:flex dark:text-black"
+              className="text-dark-main hover:bg-light-bg hidden items-center rounded border bg-white px-3 py-[5px] shadow transition duration-200 lg:flex dark:text-black"
             >
               <LogIn className="mr-1.5" size={18} />
               Login

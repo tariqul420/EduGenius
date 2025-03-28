@@ -9,13 +9,17 @@ import { getCategory } from "@/lib/actions/category.action";
 const BlogPage = async ({ searchParams }) => {
   const { category } = await searchParams;
   const { search } = await searchParams;
+  const { page } = await searchParams;
 
   const categoryParams = category || "";
 
   const data = await getBlogs({
     categories: categoryParams.split(","),
     search,
+    page: Number(page) || 1,
+    limit: 4,
   });
+
   const categories = await getCategory();
 
   const blogs = data?.blogs || [];
