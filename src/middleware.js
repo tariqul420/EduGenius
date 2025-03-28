@@ -25,37 +25,38 @@ export default clerkMiddleware(async (auth, req) => {
     return NextResponse.next();
   }
 
-  // Handle protected routes
+  // Skip middleware for public routes first (move this check up)
+  if (publicRoutes.some((route) => pathname.match(new RegExp(`^${route}$`)))) {
+    return NextResponse.next();
+  }
+
+  // Handle protected routes for unauthenticated users
   if (!userId && isProtectedRoute(req)) {
     return redirectToSignIn({ returnBackUrl: req.url });
   }
 
   const userRole = sessionClaims?.role;
 
-  // Role-based routing
+  // Role-based routing for protected routes
   if (pathname.startsWith("/student")) {
     if (userRole !== "student") {
-      return NextResponse.redirect(new URL(`${userRole}`, req.url));
+      return NextResponse.redirect(new URL(`/${userRole}`, req.url));
     }
     return NextResponse.next();
   }
 
   if (pathname.startsWith("/admin")) {
     if (userRole !== "admin") {
-      return NextResponse.redirect(new URL(`${userRole}`, req.url));
+      return NextResponse.redirect(new URL(`/${userRole}`, req.url));
     }
     return NextResponse.next();
   }
 
   if (pathname.startsWith("/instructor")) {
+    // Singular, protected route
     if (userRole !== "instructor") {
-      return NextResponse.redirect(new URL(`${userRole}`, req.url));
+      return NextResponse.redirect(new URL(`/${userRole}`, req.url));
     }
-    return NextResponse.next();
-  }
-
-  // Skip middleware for public routes
-  if (publicRoutes.some((route) => pathname.match(new RegExp(`^${route}$`)))) {
     return NextResponse.next();
   }
 

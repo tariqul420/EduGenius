@@ -41,7 +41,12 @@ function Navbar() {
   }, [lastScrollY]);
 
   // Function to check if a link is active
-  const isActive = (path) => pathname === path;
+  const isActive = (path) => {
+    if (path === "/") {
+      return pathname === "/";
+    }
+    return pathname.startsWith(path);
+  };
 
   // Navigation links data
   const navLinks = [
