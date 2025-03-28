@@ -21,7 +21,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { deleteCommentById } from "@/lib/actions/comment.action";
+import {
+  deleteCommentById,
+  updateCommentById,
+} from "@/lib/actions/comment.action";
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
@@ -123,24 +126,46 @@ export default function CommentCard({ comment, path }) {
       .string()
       .min(5, "Comment must be at least 5 characters")
       .max(500, "Comment must not exceed 500 characters"),
+    commentId: z.string(),
+    userId: z.string(),
   });
 
   const form = useForm({
     resolver: zodResolver(commentSchema),
     defaultValues: {
       comment: comment?.comment || "",
+      commentId: comment?._id || "",
+      userId: comment?.user?._id || "",
     },
   });
 
   const onSubmit = async (data) => {
     try {
-      // Add your update comment logic here
+      // Add your update comment logic here using data.
+      console.log("Submitting:", {
+        commentId: data.commentId,
+        userId: data.userId,
+        comment: data.comment,
+      });
+
+      await updateCommentById(
+        data?.commentId,
+        data?.userId,
+        path,
+        data?.comment,
+      );
+
       toast.success("Comment updated successfully");
-      setActiveMenu(null);
-      form.reset({ comment: data.comment });
     } catch (error) {
-      console.error("Failed to update comment:", error);
       toast.error(error?.message || "Failed to update comment");
+    } finally {
+      // Always close the menu and reset form, even on error
+      setActiveMenu(null);
+      form.reset({
+        comment: data.comment,
+        commentId: data.commentId,
+        userId: data.userId,
+      });
     }
   };
 
@@ -244,10 +269,38 @@ export default function CommentCard({ comment, path }) {
                           )}
                         />
 
+                        {/* Hidden fields for commentId and userId */}
+                        <FormField
+                          control={form.control}
+                          name="commentId"
+                          render={({ field }) => (
+                            <FormItem className="hidden">
+                              <FormControl>
+                                <input type="hidden" {...field} />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="userId"
+                          render={({ field }) => (
+                            <FormItem className="hidden">
+                              <FormControl>
+                                <input type="hidden" {...field} />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+
                         <AlertDialogFooter>
                           <AlertDialogCancel
                             onClick={() => {
-                              form.reset({ comment: comment?.comment || "" });
+                              form.reset({
+                                comment: comment?.comment || "",
+                                commentId: comment?._id || "",
+                                userId: comment?.user?._id || "",
+                              });
                               setActiveMenu(null);
                             }}
                           >
