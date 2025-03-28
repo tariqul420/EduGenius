@@ -10,6 +10,7 @@ export default async function Course({ searchParams }) {
   const { level } = await searchParams;
   const { search } = await searchParams;
   const { sort } = await searchParams;
+  const { page } = await searchParams;
 
   const {
     courses,
@@ -20,6 +21,8 @@ export default async function Course({ searchParams }) {
     level: level,
     search: search,
     sort: sort,
+    page: Number(page) || 1,
+    limit: 4,
   });
 
   return (
