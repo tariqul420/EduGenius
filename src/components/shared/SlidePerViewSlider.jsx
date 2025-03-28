@@ -7,11 +7,10 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 // import required modules
-import { instructors } from "@/constant";
 import Image from "next/image";
 import { Pagination } from "swiper/modules";
 
-export default function SlidePrViewSlider() {
+export default function SlidePrViewSlider({ bestInstructors }) {
   return (
     <>
       <Swiper
@@ -41,14 +40,14 @@ export default function SlidePrViewSlider() {
         modules={[Pagination]}
         className="mySwiper"
       >
-        {instructors.map((instructor, idx) => (
+        {bestInstructors?.map((instructor, idx) => (
           <SwiperSlide key={idx} className="py-8">
-            <div className="group flex w-full border cursor-pointer flex-col items-center rounded-lg bg-light-bg dark:bg-dark-bg dark:text-light-bg p-6 shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
+            <div className="group bg-light-bg dark:bg-dark-bg dark:text-light-bg flex w-full cursor-pointer flex-col items-center rounded-lg border p-6 shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
               {/* Image Container */}
               <div className="relative h-48 w-48 overflow-hidden">
                 <Image
-                  src={instructor.image}
-                  alt={instructor.name}
+                  src={instructor?.profilePicture}
+                  alt={instructor?.firstName}
                   fill
                   style={{ objectFit: "cover" }}
                   className="rounded-full"
@@ -57,10 +56,10 @@ export default function SlidePrViewSlider() {
 
               {/* Instructor Details */}
               <h3 className="mt-4 text-center text-lg font-semibold">
-                {instructor.name}
+                {instructor?.firstName} {instructor?.lastName}
               </h3>
-              <p className="text-center text-base">
-                {instructor.title}
+              <p className="text-center text-base capitalize">
+                {instructor?.role}
               </p>
             </div>
           </SwiperSlide>

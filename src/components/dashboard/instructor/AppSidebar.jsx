@@ -1,13 +1,5 @@
-import {
-  BookOpenCheck,
-  BookText,
-  GraduationCap,
-  LayoutDashboard,
-  Medal,
-  UsersRound,
-} from "lucide-react";
+import { GraduationCap } from "lucide-react";
 
-import ModeToggle from "@/components/shared/ThemeBtn";
 import {
   Sidebar,
   SidebarContent,
@@ -20,38 +12,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
+import { Suspense } from "react";
 
-// Menu items.
-const items = [
-  {
-    title: "Dashboard",
-    url: "/instructor",
-    icon: LayoutDashboard,
-  },
-  {
-    title: "Courses",
-    url: "/instructor/courses",
-    icon: BookText,
-  },
-  {
-    title: "Students",
-    url: "/instructor/students",
-    icon: UsersRound,
-  },
-  {
-    title: "Certificates",
-    url: "/instructor/certificates",
-    icon: Medal,
-  },
-  {
-    title: "Quiz & Assignment",
-    url: "/instructor/quiz-assignment",
-    icon: BookOpenCheck,
-  },
-];
-
-export function AppSidebar() {
+export function AppSidebar({ menu = [] }) {
   return (
     <Sidebar>
       <SidebarHeader>
@@ -65,7 +30,7 @@ export function AppSidebar() {
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {menu.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link href={item.url}>
@@ -80,7 +45,20 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <ModeToggle />
+        <SignedIn>
+          <Suspense
+            fallback={<div className="h-10 w-10 rounded-full">loading</div>}
+          >
+            <UserButton
+              showName={true}
+              appearance={{
+                elements: {
+                  userButtonBox: "flex !flex-row-reverse items-center gap-2", // Flexbox for horizontal alignment
+                },
+              }}
+            />
+          </Suspense>
+        </SignedIn>
       </SidebarFooter>
     </Sidebar>
   );

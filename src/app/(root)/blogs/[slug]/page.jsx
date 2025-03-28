@@ -31,8 +31,6 @@ const BlogDetails = async ({ params, searchParams }) => {
     limit: 3,
   });
 
-  console.log(params);
-
   const comments = commentsResult?.comments || [];
   const total = commentsResult?.total || 0;
   const hasNextPage = commentsResult?.hasNextPage || false;

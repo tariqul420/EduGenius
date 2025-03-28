@@ -41,15 +41,21 @@ function Navbar() {
   }, [lastScrollY]);
 
   // Function to check if a link is active
-  const isActive = (path) => pathname === path;
+  const isActive = (path) => {
+    if (path === "/") {
+      return pathname === "/";
+    }
+    return pathname.startsWith(path);
+  };
 
   // Navigation links data
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/blogs", label: "Blog" },
     { href: "/courses", label: "Courses" },
-    { href: "/instructors", label: "instructors" },
-  ];
+    { href: "/instructors", label: "Instructors" },
+    isSignedIn && { href: "/student", label: "Dashboard" },
+  ].filter(Boolean);
 
   return (
     <nav
@@ -66,13 +72,13 @@ function Navbar() {
         <div className="flex items-center space-x-6">
           <ul className="hidden space-x-6 lg:flex">
             {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} className={`group relative px-1`}>
+              <li key={link?.href}>
+                <Link href={link?.href} className={`group relative px-1`}>
                   {link.label}
-                  {isActive(link.href) && (
+                  {isActive(link?.href) && (
                     <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-full rounded-full bg-black dark:bg-white"></span>
                   )}
-                  {!isActive(link.href) && (
+                  {!isActive(link?.href) && (
                     <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-0 origin-left rounded-full bg-black duration-300 group-hover:w-full dark:bg-white"></span>
                   )}
                 </Link>
@@ -131,17 +137,17 @@ function Navbar() {
               {/* Mobile Navigation Links */}
               <ul className="flex flex-col space-y-4 px-2">
                 {navLinks.map((link) => (
-                  <li key={link.href}>
+                  <li key={link?.href}>
                     <SheetClose asChild>
                       <Link
-                        href={link.href}
+                        href={link?.href}
                         className={`group dark:text-light-bg relative px-1 text-black`}
                       >
                         {link.label}
-                        {isActive(link.href) && (
+                        {isActive(link?.href) && (
                           <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-full rounded-full bg-black dark:bg-white"></span>
                         )}
-                        {!isActive(link.href) && (
+                        {!isActive(link?.href) && (
                           <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-0 origin-left rounded-full bg-black duration-300 group-hover:w-full dark:bg-white"></span>
                         )}
                       </Link>
