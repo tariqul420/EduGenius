@@ -14,7 +14,7 @@ const jost = Jost({
 export const metadata = {
   title: "EduGenius | AI-Powered Course Management System",
   description:
-    "EduGenius is an advanced AI-powered course management system designed to personalize learning, track progress, and recommend optimized learning paths. Enhance your educational journey with EduGenius.",
+    "EduGenius is an advanced AI-powered course management system...",
   keywords: [
     "EduGenius",
     "AI-Powered Course Management",
@@ -24,17 +24,17 @@ export const metadata = {
     "Course Management",
     "Learning Path Optimization",
   ],
-  authors: [{ name: "Sinister Syntax", url: "https://edugenius.verce.app" }],
+  authors: [{ name: "Sinister Syntax", url: "https://edugenius.vercel.app" }],
   creator: "Sinister Syntax",
+  metadataBase: new URL("https://edu-genius.vercel.app"),
   openGraph: {
     title: "EduGenius | AI-Powered Course Management System",
-    description:
-      "Revolutionize your learning experience with EduGenius - the AI-powered course management system that adapts to your progress and preferences.",
-    url: "https://edugenius.vercel.app",
+    description: "Revolutionize your learning experience with EduGenius...",
+    url: "https://edu-genius.vercel.app",
     siteName: "EduGenius",
     images: [
       {
-        url: "https://edugenius.com/og-image.jpg",
+        url: "/favicon.ico",
         width: 1200,
         height: 630,
         alt: "EduGenius - AI-Powered Course Management",
@@ -48,23 +48,45 @@ export const metadata = {
     site: "@EduGenius",
     creator: "@SinisterSyntax",
     title: "EduGenius | AI-Powered Course Management",
-    description:
-      "Discover a smarter way to manage and personalize your learning experience with EduGenius.",
-    images: ["https://edugenius.com/twitter-image.jpg"],
+    description: "Discover a smarter way to manage and personalize...",
+    images: ["/favicon.ico"],
   },
   icons: {
     icon: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+    other: [
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        url: "/favicon.ico",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        url: "/favicon.ico",
+      },
+    ],
   },
   manifest: "/site.webmanifest",
+};
+
+export const viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
 };
 
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
+      <html lang="en">
         <body
-          className={`${jost.variable} dark:bg-black-dark antialiased dark:text-white`}
+          className={`${jost.variable} antialiased`}
+          cz-shortcut-listen="true"
         >
           <ContextProvider>
             <ThemeProvider
@@ -73,8 +95,7 @@ export default function RootLayout({ children }) {
               enableSystem
               disableTransitionOnChange
             >
-              {children}
-
+              <div suppressHydrationWarning>{children}</div>
               <Toaster position="top-right" />
             </ThemeProvider>
           </ContextProvider>

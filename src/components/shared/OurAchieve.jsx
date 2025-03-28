@@ -39,7 +39,7 @@ function OurAchieve() {
           {data?.map((item, index) => (
             <div
               key={index}
-              className="flex flex-col items-center gap-4 text-center md:flex-row md:text-left"
+              className="flex flex-col bg-light-bg dark:bg-dark-bg rounded-md px-2 shadow border py-5 items-center gap-4 text-center md:flex-row md:text-left"
             >
               <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg">
                 <Image
@@ -79,7 +79,9 @@ function OurAchieve() {
 
         <div className="dark:bg-black-light relative flex h-48 items-center justify-center overflow-hidden rounded-lg bg-[#333333] shadow-lg sm:h-64"></div>
 
-        <div className="bg-main dark:bg-black-light relative flex h-48 items-center justify-center overflow-hidden rounded-lg shadow-lg sm:h-64"></div>
+        <div className="bg-main dark:bg-black-light relative flex h-48 items-center justify-center overflow-hidden rounded-lg shadow-lg sm:h-64">
+
+        </div>
 
         <div className="relative h-48 overflow-hidden rounded-lg shadow-lg sm:h-64">
           <Image

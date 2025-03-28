@@ -1,6 +1,6 @@
-"use client";
 import {
   Facebook,
+  Github,
   GraduationCap,
   Instagram,
   Linkedin,
@@ -8,9 +8,19 @@ import {
   Youtube,
 } from "lucide-react";
 import Link from "next/link";
+
+const SocialIcon = [
+  { icon: Facebook, link: "https://www.facebook.com" },
+  { icon: Twitter, link: "https://x.com" },
+  { icon: Linkedin, link: "https://www.linkedin.com" },
+  { icon: Instagram, link: "https://www.instagram.com" },
+  { icon: Youtube, link: "https://www.youtube.com" },
+  { icon: Github, link: "https://github.com/tariqul420/EduGenius" },
+];
+
 const Footer = () => {
   return (
-    <footer className="dark:to-dark-bg border-t  dark:from-dark-bg text-black bg-gradient-to-r py-5 md:py-10 dark:text-light-bg">
+    <footer className="dark:to-dark-bg dark:from-dark-bg dark:text-light-bg border-t bg-gradient-to-r py-5 text-black md:py-10">
       <div className="container m-auto lg:max-w-6xl">
         {/* Top Section */}
         <div className="flex flex-col px-5 lg:flex-row lg:px-0">
@@ -44,35 +54,28 @@ const Footer = () => {
           </div>
         </div>
         {/* Bottom Section */}
-        <div className="flex flex-col items-start px-5 md:flex-row md:gap-8 mt-10 lg:justify-between lg:p-0">
+        <div className="mt-10 flex flex-col items-start px-5 md:flex-row md:gap-8 lg:justify-between lg:p-0">
           <div className="">
             {/* Social Icons */}
             <div className="flex items-center gap-3 text-4xl">
-              <Facebook
-                size={35}
-                className="dark:text-dark-bg text-main border cursor-pointer rounded shadow bg-light-bg  dark:bg-white  p-1.5"
-              />
-              <Twitter
-                size={35}
-                className="dark:text-dark-bg text-main border cursor-pointer rounded shadow bg-light-bg  dark:bg-white  p-1.5"
-              />
-              <Linkedin
-                size={35}
-                className="dark:text-dark-bg text-main border cursor-pointer rounded shadow bg-light-bg  dark:bg-white  p-1.5"
-              />
-              <Instagram
-                size={35}
-                className="dark:text-dark-bg text-main border cursor-pointer rounded shadow bg-light-bg  dark:bg-white  p-1.5"
-              />
-              <Youtube
-                size={35}
-                className="dark:text-dark-bg text-main border cursor-pointer rounded shadow bg-light-bg  dark:bg-white  p-1.5"
-              />
+              {SocialIcon?.map((item, index) => (
+                <a
+                  key={index}
+                  href={item?.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <item.icon
+                    size={35}
+                    className="dark:text-dark-bg text-main bg-light-bg cursor-pointer rounded border p-1.5 shadow dark:bg-white"
+                  />
+                </a>
+              ))}
             </div>
 
             <h3 className="mt-5 mb-5 font-bold">Download App</h3>
 
-            {/* Download app  */}
+            {/* Download app */}
             <div className="mb-10">
               <h3>Download our apps in play store and app store</h3>
               <div className="mt-3 flex gap-5">
@@ -88,7 +91,9 @@ const Footer = () => {
           <div className="flex items-center justify-between gap-7 lg:flex-row lg:gap-32">
             {/* Different types of links */}
             <div className="flex flex-col">
-              <h2 className="mb-3 text-lg md:text-xl font-medium">Useful Links</h2>
+              <h2 className="mb-3 text-lg font-medium md:text-xl">
+                Useful Links
+              </h2>
               <Link className="mb-1 cursor-pointer" href="/aboutUs">
                 About Us
               </Link>
@@ -100,7 +105,7 @@ const Footer = () => {
               </Link>
             </div>
             <div className="flex flex-col">
-              <h2 className="mb-3 text-lg md:text-xl font-medium">Resources</h2>
+              <h2 className="mb-3 text-lg font-medium md:text-xl">Resources</h2>
               <Link className="mb-1 cursor-pointer" href="/contactUs">
                 Contact Us
               </Link>
@@ -112,7 +117,9 @@ const Footer = () => {
               </Link>
             </div>
             <div className="flex flex-col">
-              <h2 className="mb-3 text-lg md:text-xl font-medium">Quick Links</h2>
+              <h2 className="mb-3 text-lg font-medium md:text-xl">
+                Quick Links
+              </h2>
               <Link className="mb-1 cursor-pointer" href="/store">
                 Book Store
               </Link>
@@ -125,10 +132,13 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <hr/>
+        <hr />
         {/* copyright section */}
         <p className="mt-5 text-center">
-          Copyright @ 2025 All Rights Reserved to <Link className="text-dark-main dark:text-light-bg" href='/'>EduGenius</Link>
+          Copyright @ {new Date().getFullYear()} All Rights Reserved to{" "}
+          <Link className="text-dark-main dark:text-light-bg" href="/">
+            EduGenius
+          </Link>
         </p>
       </div>
     </footer>
