@@ -26,15 +26,15 @@ export const metadata = {
   ],
   authors: [{ name: "Sinister Syntax", url: "https://edugenius.vercel.app" }],
   creator: "Sinister Syntax",
-  metadataBase: new URL("https://edugenius.vercel.app"),
+  metadataBase: new URL("https://edu-genius.vercel.app"),
   openGraph: {
     title: "EduGenius | AI-Powered Course Management System",
     description: "Revolutionize your learning experience with EduGenius...",
-    url: "https://edugenius.vercel.app",
+    url: "https://edu-genius.vercel.app",
     siteName: "EduGenius",
     images: [
       {
-        url: "/og-image.jpg", // Now relative to metadataBase
+        url: "/favicon.ico",
         width: 1200,
         height: 630,
         alt: "EduGenius - AI-Powered Course Management",
@@ -49,29 +49,35 @@ export const metadata = {
     creator: "@SinisterSyntax",
     title: "EduGenius | AI-Powered Course Management",
     description: "Discover a smarter way to manage and personalize...",
-    images: ["/twitter-image.jpg"], // Now relative to metadataBase
+    images: ["/favicon.ico"],
   },
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
+    apple: "/favicon.ico",
     other: [
       {
         rel: "icon",
         type: "image/png",
         sizes: "32x32",
-        url: "/favicon-32x32.png",
+        url: "/favicon.ico",
       },
       {
         rel: "icon",
         type: "image/png",
         sizes: "16x16",
-        url: "/favicon-16x16.png",
+        url: "/favicon.ico",
       },
     ],
   },
   manifest: "/site.webmanifest",
-  themeColor: "#000000",
+};
+
+export const viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
 };
 
 export default function RootLayout({ children }) {
