@@ -12,9 +12,11 @@ function HeroSection() {
           </p>
           <h2 className="py-2 md:py-5 font-bold leading-12 md:leading-16 text-5xl lg:text-6xl">
             Enroll &{" "}
-            <span className="from-main to-dark-btn bg-gradient-to-r bg-clip-text text-transparent">
-              grow up
-            </span>{" "}
+            <span className="from-main to-dark-btn bg-gradient-to-r bg-clip-text text-transparent relative overflow-hidden">
+            <span className="absolute dark:hidden blaze top-[40px] w-[100px] h-[10px] md:h-[10px] blur-xl bg-white rotate-60"></span>
+            grow up {" "}
+          </span>
+
             your skills today!
           </h2>
           <p className="text-sm md:text-base md:pr-10 dark:text-medium-bg">
