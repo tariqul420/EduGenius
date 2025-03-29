@@ -29,7 +29,7 @@ export default async function Course({ searchParams }) {
     <section className="py-5">
       <div className="container mx-auto px-2 md:px-5 lg:max-w-6xl">
         {/* Filter Bar */}
-        <FilterBar total={total} courses={courses} />
+        <FilterBar total={total} courses={courses} categories={categories} />
         {/* Courses Content Section */}
         <div className="mt-6 grid grid-cols-12 gap-5 md:mt-8">
           <CoursesContent courses={courses} hasNextPage={hasNextPage} />
