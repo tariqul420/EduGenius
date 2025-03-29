@@ -181,6 +181,7 @@ export default function CommentCard({ comment, path }) {
             <p className="text-dark-bg dark:text-medium-bg text-xs sm:text-sm">
               {userCommentDate}
             </p>
+            <p>{comment?.createdAt !== comment?.updatedAt && "(edited)"}</p>
           </div>
           <p className="dark:text-light-bg mt-1 text-sm break-words text-gray-700 sm:text-base">
             {comment?.comment}

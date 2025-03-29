@@ -124,7 +124,7 @@ export async function updateCommentById(
     const commentObjectId = new mongoose.Types.ObjectId(commentId);
     const userObjectId = new mongoose.Types.ObjectId(userId);
 
-    // Update the comment with additional checks
+    // Update the comment
     const result = await Comments.findOneAndUpdate(
       {
         _id: commentObjectId,
@@ -132,9 +132,7 @@ export async function updateCommentById(
       },
       {
         $set: {
-          comment: updatedComment.trim(),
-          updatedAt: new Date(),
-          wasEdited: true,
+          comment: updatedComment,
         },
       },
     );
@@ -154,7 +152,6 @@ export async function updateCommentById(
     };
   } catch (error) {
     console.error("Update error:", error);
-
     return {
       success: false,
       status: 500,
