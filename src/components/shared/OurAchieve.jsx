@@ -26,7 +26,7 @@ const data = [
 
 function OurAchieve() {
   return (
-    <div className="container m-auto mt-20 flex flex-col gap-8 px-4 lg:max-w-6xl lg:flex-row">
+    <div className="container m-auto mt-20 flex flex-col lg:items-center gap-8 px-2 md:px-5 lg:max-w-6xl lg:flex-row">
       {/* Text Content */}
       <div className="flex-1 space-y-6 text-center lg:text-left">
         <h2 className="text-3xl font-bold lg:text-4xl">Our Achievement</h2>
@@ -35,7 +35,7 @@ function OurAchieve() {
           from us, even if it’s a little – we will be proud to be a part of your
           journey.
         </p>
-        <div className="grid grid-cols-2 gap-6 lg:gap-8">
+        <div className="grid grid-cols-2 gap-3 md:gap-5 lg:gap-8">
           {data?.map((item, index) => (
             <div
               key={index}
@@ -64,10 +64,10 @@ function OurAchieve() {
       </div>
 
       {/* Image Grid */}
-      <div className="mt-5 grid w-full justify-center grid-cols-2 gap-5 md:w-[600px]">
+      <div className="mt-5 grid w-full mx-auto grid-cols-2 gap-5 md:w-[600px]">
         
         {/* First Half-width Image */}
-        <div className="relative col-span-1 h-[150px] md:h-[200px]">
+        <div className="relative col-span-1 h-[150px] md:h-[180px]">
           <Image
             src="/hero-image-2.jpeg"
             alt="Hero Image"
@@ -76,7 +76,7 @@ function OurAchieve() {
           />
         </div>
         {/* Second Half-width Image */}
-        <div className="relative col-span-1 h-[150px] md:h-[200px]">
+        <div className="relative col-span-1 h-[150px] md:h-[180px]">
           <Image
             src="/hero-image-3.jpg"
             alt="Hero Image"
