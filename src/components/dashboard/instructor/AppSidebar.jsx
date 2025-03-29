@@ -1,5 +1,3 @@
-import { GraduationCap } from "lucide-react";
-
 import {
   Sidebar,
   SidebarContent,
@@ -13,10 +11,34 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { SignedIn, UserButton } from "@clerk/nextjs";
+import { BookOpen, GraduationCap, Home, Users } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
 export function AppSidebar({ menu = [] }) {
+  const defaultMenu = [
+    {
+      title: "Home",
+      url: "/",
+      icon: Home,
+    },
+    {
+      title: "Blogs",
+      url: "/blogs",
+      icon: BookOpen,
+    },
+    {
+      title: "Courses",
+      url: "/courses",
+      icon: GraduationCap,
+    },
+    {
+      title: "Instructors",
+      url: "/instructors",
+      icon: Users,
+    },
+  ];
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -31,6 +53,19 @@ export function AppSidebar({ menu = [] }) {
           <SidebarGroupContent>
             <SidebarMenu>
               {menu.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <Link href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+
+              <div className="my-4 border"></div>
+
+              {defaultMenu.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link href={item.url}>
