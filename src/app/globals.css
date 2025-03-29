@@ -155,7 +155,7 @@ body {
 /* Keyframes for continuous left-to-right movement */
 @keyframes blazeAnimate {
   0% {
-    left: -40%;
+    left: -30%;
   }
   50% {
     left: 80%;
