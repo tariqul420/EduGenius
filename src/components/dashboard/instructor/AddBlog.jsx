@@ -25,24 +25,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { createBlog } from "@/lib/actions/blog.action";
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
-// Dummy categories array
-const dummyCategories = [
-  { _id: "1", name: "Technology" },
-  { _id: "2", name: "Lifestyle" },
-  { _id: "3", name: "Travel" },
-  { _id: "4", name: "Food" },
-  { _id: "5", name: "Health" },
-];
-
-// Define the schema using Zod based on your Mongoose blogSchema
+// Define the schema using Zod with custom URL validation
 const blogSchema = z.object({
   title: z
     .string()
@@ -53,13 +46,37 @@ const blogSchema = z.object({
   thumbnail: z
     .string()
     .trim()
+    .min(1, "Thumbnail URL is required")
     .url({ message: "Please enter a valid URL" })
-    .optional()
-    .or(z.literal("")),
+    .refine(
+      (url) => {
+        const allowedDomains = [
+          "pexels.com",
+          "images.pexels.com",
+          "pixabay.com",
+          "cdn.pixabay.com",
+          "stocksnap.io",
+          "cdn.stocksnap.io",
+          "unsplash.com",
+          "images.unsplash.com",
+        ];
+        try {
+          const { hostname } = new URL(url);
+          return allowedDomains.some(
+            (domain) => hostname === domain || hostname.endsWith(`.${domain}`),
+          );
+        } catch {
+          return false;
+        }
+      },
+      {
+        message: "URL must be from Pexels, Pixabay, StockSnap, or Unsplash",
+      },
+    ),
   category: z.string().min(1, "Please select a category"),
 });
 
-export default function AddBlog() {
+export default function AddBlog({ userId, categories, pathname }) {
   const { user, isLoaded } = useUser();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -78,16 +95,22 @@ export default function AddBlog() {
     try {
       const blogData = {
         ...data,
-        author: user?.id,
+        author: userId,
+        slug: data?.title,
       };
-      console.log("Blog data:", blogData);
-      // Here you would typically make an API call to save the blog
-      // await createBlog(blogData);
 
-      setIsOpen(false);
-      form.reset();
+      const result = await createBlog({ blog: blogData, path: pathname });
+
+      if (result.success) {
+        setIsOpen(false);
+        form.reset();
+        toast.success("Blog created successfully!");
+      } else {
+        throw new Error(result.error || "Failed to create blog");
+      }
     } catch (error) {
       console.error("Failed to create blog:", error);
+      toast.error(error.message || "Failed to create blog. Please try again.");
     }
   };
 
@@ -119,7 +142,7 @@ export default function AddBlog() {
               What's on your mind?
             </button>
           </DialogTrigger>
-          <DialogContent className="dark:bg-dark-bg bg-white sm:max-w-[600px]">
+          <DialogContent className="dark:bg-dark-bg scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800 max-h-[80vh] overflow-y-auto bg-white sm:max-w-[80vh]">
             <DialogHeader>
               <DialogTitle className="text-gray-900 dark:text-gray-100">
                 Create a New Blog
@@ -180,7 +203,7 @@ export default function AddBlog() {
                       </FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter thumbnail URL (optional)"
+                          placeholder="e.g., from Pexels, Pixabay, Unsplash, or StockSnap"
                           type="url"
                           className="bg-white text-gray-900 dark:bg-[#181717a4] dark:text-gray-100"
                           {...field}
@@ -201,7 +224,7 @@ export default function AddBlog() {
                       </FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        value={field.value}
                       >
                         <FormControl>
                           <SelectTrigger className="w-full bg-white text-gray-900 dark:bg-[#181717a4] dark:text-gray-100">
@@ -209,7 +232,7 @@ export default function AddBlog() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {dummyCategories.map((category) => (
+                          {categories?.map((category) => (
                             <SelectItem key={category._id} value={category._id}>
                               {category.name}
                             </SelectItem>

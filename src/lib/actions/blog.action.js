@@ -1,7 +1,35 @@
 "use server";
 import Blog from "@/models/Blog";
 import Category from "@/models/Category";
+import mongoose from "mongoose";
+import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
+
+export async function createBlog({ blog, path }) {
+  try {
+    await dbConnect();
+
+    const blogData = {
+      ...blog,
+      author: new mongoose.Types.ObjectId(blog.author),
+      category: new mongoose.Types.ObjectId(blog.category),
+    };
+
+    await Blog.create(blogData);
+
+    if (path) {
+      revalidatePath(path);
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error creating blog:", error);
+    return {
+      success: false,
+      error: error.message || "Failed to create blog",
+    };
+  }
+}
 
 export async function getBlogs({
   search,
