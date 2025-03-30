@@ -289,17 +289,6 @@ export default function BlogForm({
 
             <div className="flex justify-end gap-2">
               <Button
-                type="button"
-                variant="outline"
-                onClick={() => {
-                  setIsOpen(false);
-                  form.reset();
-                }}
-                className="cursor-pointer border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
-              >
-                Cancel
-              </Button>
-              <Button
                 type="submit"
                 disabled={!isLoaded || form.formState.isSubmitting}
                 className="bg-main hover:bg-main/70 cursor-pointer text-white"

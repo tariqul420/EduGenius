@@ -190,12 +190,12 @@ export async function getBlogsByUser({ userId, page = 1, limit = 8 }) {
   }
 }
 
-export async function deleteBlogById(blogIdId, path) {
+export async function deleteBlogById(blogId, path) {
   try {
     await dbConnect();
 
     // Convert string ID to ObjectId
-    const blogObjectId = new mongoose.Types.ObjectId(blogIdId);
+    const blogObjectId = new mongoose.Types.ObjectId(blogId);
 
     const result = await Blog.findOneAndDelete({
       _id: blogObjectId,
@@ -218,4 +218,28 @@ export async function deleteBlogById(blogIdId, path) {
   }
 }
 
-export async function updateBlog(params) {}
+export async function updateBlog({ blogId, blog, path }) {
+  try {
+    await dbConnect();
+
+    const blogData = {
+      ...blog,
+      author: new mongoose.Types.ObjectId(blog.author),
+      category: new mongoose.Types.ObjectId(blog.category),
+    };
+
+    await Blog.findOneAndUpdate({ _id: blogId }, { $set: blogData });
+
+    if (path) {
+      revalidatePath(path);
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error creating blog:", error);
+    return {
+      success: false,
+      error: error.message || "Failed to update blog",
+    };
+  }
+}
