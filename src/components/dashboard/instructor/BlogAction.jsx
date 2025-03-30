@@ -19,30 +19,39 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { TableCell } from "@/components/ui/table";
-import { deleteBlogById } from "@/lib/actions/blog.action";
 import { MoreVertical, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import BlogForm from "./BlogForm"; // Import BlogForm
 
-export default function BlogAction({ blogId }) {
+export default function BlogAction({
+  blogId,
+  userId,
+  categories,
+  pathname,
+  blog,
+}) {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
 
-  // const handleUpdate = (blogId) => {
-  //   console.log(`Update blog with ID: ${blogId}`);
-  //   // Implement update logic here (e.g., open a modal or redirect)
-  // };
-
-  // const handleDeleteConfirm = () => {
-  //   console.log(`Confirmed deletion of blog with ID: ${blogId}`);
-  //   if (onDelete) onDelete(blogId); // Call the parent-provided delete handler
-  //   setIsDeleteOpen(false); // Close the dialog
-  // };
-
-  const handleDelete = async (blogId) => {
+  const handleUpdate = async () => {
     try {
-      const path = "/instructor/my-blogs";
-      await deleteBlogById(blogId, path);
+      const result = await getBlogById(blogId); // Fetch blog data if not provided
+      if (result.success) {
+        setIsUpdateOpen(true); // Open BlogForm
+      } else {
+        toast.error("Failed to load blog data");
+      }
+    } catch (error) {
+      toast.error("Error fetching blog: " + error.message);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deleteBlogById(blogId, pathname || "/instructor/my-blogs");
       toast.success("Blog deleted successfully.");
+      setIsDeleteOpen(false);
     } catch (error) {
       toast.error(error?.message || "Failed to delete Blog");
     }
@@ -65,7 +74,7 @@ export default function BlogAction({ blogId }) {
           className="border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800"
         >
           <DropdownMenuItem
-            onClick={() => handleUpdate(blogId)}
+            onClick={handleUpdate}
             className="cursor-pointer text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
           >
             Update
@@ -113,6 +122,18 @@ export default function BlogAction({ blogId }) {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {/* Render BlogForm for updating */}
+      {isUpdateOpen && (
+        <BlogForm
+          userId={userId}
+          categories={categories}
+          pathname={pathname}
+          isUpdate={true}
+          blog={blog} // Pass the blog data directly
+          onOpenChange={setIsUpdateOpen} // Control dialog visibility
+        />
+      )}
     </TableCell>
   );
 }

@@ -217,3 +217,5 @@ export async function deleteBlogById(blogIdId, path) {
     return { delete: false, error: "Server error" };
   }
 }
+
+export async function updateBlog(params) {}

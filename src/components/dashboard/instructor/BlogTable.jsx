@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Table,
   TableBody,
@@ -10,7 +12,7 @@ import { format } from "date-fns";
 import Image from "next/image";
 import BlogAction from "./BlogAction";
 
-export default function BlogTable({ blog }) {
+export default function BlogTable({ blog, userId, categories, pathname }) {
   if (!Array.isArray(blog) || blog.length === 0) {
     return (
       <div className="p-4 text-gray-500 dark:text-gray-400">
@@ -96,7 +98,13 @@ export default function BlogTable({ blog }) {
                     See Blog
                   </a>
                 </TableCell>
-                <BlogAction blogId={item?._id} />
+                <BlogAction
+                  blogId={item._id}
+                  userId={userId}
+                  categories={categories}
+                  pathname={pathname}
+                  blog={item} // Pass the full blog object
+                />
               </TableRow>
             );
           })}
