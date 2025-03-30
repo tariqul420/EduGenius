@@ -8,38 +8,87 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useUser } from "@clerk/nextjs";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
+// Dummy categories array
+const dummyCategories = [
+  { _id: "1", name: "Technology" },
+  { _id: "2", name: "Lifestyle" },
+  { _id: "3", name: "Travel" },
+  { _id: "4", name: "Food" },
+  { _id: "5", name: "Health" },
+];
+
+// Define the schema using Zod based on your Mongoose blogSchema
+const blogSchema = z.object({
+  title: z
+    .string()
+    .min(1, "Title is required")
+    .max(200, "Title must not exceed 200 characters")
+    .trim(),
+  content: z.string().min(1, "Content is required"),
+  thumbnail: z
+    .string()
+    .trim()
+    .url({ message: "Please enter a valid URL" })
+    .optional()
+    .or(z.literal("")),
+  category: z.string().min(1, "Please select a category"),
+});
 
 export default function AddBlog() {
   const { user, isLoaded } = useUser();
   const [isOpen, setIsOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-    thumbnail: "",
+
+  // Initialize the form with react-hook-form and Zod
+  const form = useForm({
+    resolver: zodResolver(blogSchema),
+    defaultValues: {
+      title: "",
+      content: "",
+      thumbnail: "",
+      category: "",
+    },
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const handleSubmit = async (data) => {
+    try {
+      const blogData = {
+        ...data,
+        author: user?.id,
+      };
+      console.log("Blog data:", blogData);
+      // Here you would typically make an API call to save the blog
+      // await createBlog(blogData);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("Blog data:", {
-      ...formData,
-      author: user?.id,
-    });
-    setIsOpen(false);
-    setFormData({ title: "", content: "", thumbnail: "" });
+      setIsOpen(false);
+      form.reset();
+    } catch (error) {
+      console.error("Failed to create blog:", error);
+    }
   };
 
   return (
@@ -67,7 +116,7 @@ export default function AddBlog() {
               className="dark:text-medium-bg flex-1 cursor-pointer rounded-full bg-gray-100 px-4 py-2 text-left text-gray-500 dark:bg-[#181717a4]"
               onClick={() => setIsOpen(true)}
             >
-              What&apos;s on your mind?
+              What's on your mind?
             </button>
           </DialogTrigger>
           <DialogContent className="dark:bg-dark-bg bg-white sm:max-w-[600px]">
@@ -76,80 +125,131 @@ export default function AddBlog() {
                 Create a New Blog
               </DialogTitle>
             </DialogHeader>
-            <form onSubmit={handleSubmit} className="mt-4 space-y-6">
-              <div className="space-y-2">
-                <Label
-                  htmlFor="title"
-                  className="text-gray-700 dark:text-gray-300"
-                >
-                  Title
-                </Label>
-                <Input
-                  id="title"
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(handleSubmit)}
+                className="mt-4 space-y-6"
+              >
+                <FormField
+                  control={form.control}
                   name="title"
-                  value={formData.title}
-                  onChange={handleInputChange}
-                  placeholder="Enter your blog title"
-                  required
-                  maxLength={200}
-                  className="border-gray-300 bg-white text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700 dark:text-gray-300">
+                        Title
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter your blog title"
+                          className="bg-white text-gray-900 dark:bg-[#181717a4] dark:text-gray-100"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
 
-              <div className="space-y-2">
-                <Label
-                  htmlFor="content"
-                  className="text-gray-700 dark:text-gray-300"
-                >
-                  Content
-                </Label>
-                <Textarea
-                  id="content"
+                <FormField
+                  control={form.control}
                   name="content"
-                  value={formData.content}
-                  onChange={handleInputChange}
-                  placeholder="Write your blog content here..."
-                  required
-                  className="min-h-[200px] resize-y border-gray-300 bg-white text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700 dark:text-gray-300">
+                        Content
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Write your blog content here..."
+                          className="min-h-[200px] resize-y bg-white text-gray-900 dark:bg-[#181717a4] dark:text-gray-100"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
 
-              <div className="space-y-2">
-                <Label
-                  htmlFor="thumbnail"
-                  className="text-gray-700 dark:text-gray-300"
-                >
-                  Thumbnail URL
-                </Label>
-                <Input
-                  id="thumbnail"
+                <FormField
+                  control={form.control}
                   name="thumbnail"
-                  value={formData.thumbnail}
-                  onChange={handleInputChange}
-                  placeholder="Enter thumbnail URL (optional)"
-                  type="url"
-                  className="border-gray-300 bg-white text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700 dark:text-gray-300">
+                        Thumbnail URL
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter thumbnail URL (optional)"
+                          type="url"
+                          className="bg-white text-gray-900 dark:bg-[#181717a4] dark:text-gray-100"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
 
-              <div className="flex justify-end gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsOpen(false)}
-                  className="border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={!isLoaded}
-                  className="bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
-                >
-                  Publish
-                </Button>
-              </div>
-            </form>
+                <FormField
+                  control={form.control}
+                  name="category"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700 dark:text-gray-300">
+                        Category
+                      </FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="w-full bg-white text-gray-900 dark:bg-[#181717a4] dark:text-gray-100">
+                            <SelectValue placeholder="Select a category" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {dummyCategories.map((category) => (
+                            <SelectItem key={category._id} value={category._id}>
+                              {category.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="flex justify-end gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => {
+                      setIsOpen(false);
+                      form.reset();
+                    }}
+                    className="cursor-pointer border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={!isLoaded || form.formState.isSubmitting}
+                    className="bg-main hover:bg-main/70 cursor-pointer text-white"
+                  >
+                    {form.formState.isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Publishing...
+                      </>
+                    ) : (
+                      "Publish"
+                    )}
+                  </Button>
+                </div>
+              </form>
+            </Form>
           </DialogContent>
         </Dialog>
       </div>
