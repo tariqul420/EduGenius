@@ -43,7 +43,7 @@ export default function InstructorContactForm() {
   // 2. Define a submit handler.
   function onSubmit(values) {
     // Do something with the form values.
-    console.log(values);
+    // console.log(values);
   }
 
   return (
