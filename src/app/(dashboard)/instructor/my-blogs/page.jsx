@@ -12,7 +12,7 @@ export default async function MyBlogs() {
   const pathname = "/dashboard/my-blogs";
 
   return (
-    <div className="container mx-auto p-4 md:p-6 lg:p-8">
+    <div className="container mx-auto overflow-x-hidden p-4 md:p-6 lg:p-8">
       <section>
         <BlogForm
           userId={sessionClaims?.userId}
