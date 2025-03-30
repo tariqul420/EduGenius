@@ -1,7 +1,35 @@
 "use server";
 import Blog from "@/models/Blog";
 import Category from "@/models/Category";
+import mongoose from "mongoose";
+import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
+
+export async function createBlog({ blog, path }) {
+  try {
+    await dbConnect();
+
+    const blogData = {
+      ...blog,
+      author: new mongoose.Types.ObjectId(blog.author),
+      category: new mongoose.Types.ObjectId(blog.category),
+    };
+
+    await Blog.create(blogData);
+
+    if (path) {
+      revalidatePath(path);
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error creating blog:", error);
+    return {
+      success: false,
+      error: error.message || "Failed to create blog",
+    };
+  }
+}
 
 export async function getBlogs({
   search,
@@ -127,5 +155,91 @@ export async function getBlogBySlug(slug) {
   } catch (error) {
     console.error("Failed to fetch blog:", error);
     return null;
+  }
+}
+
+export async function getBlogsByUser({ userId, page = 1, limit = 8 }) {
+  try {
+    await dbConnect();
+
+    // Validate blogId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return { blogs: [], total: 0, hasNextPage: false };
+    }
+
+    // Convert string ID to ObjectId
+    const objectId = new mongoose.Types.ObjectId(userId);
+
+    // Find comments with user population, sorting, and limit
+    const blogs = await Blog.find({ author: objectId })
+      .populate("category", "name")
+      .sort({ createdAt: -1 })
+      .limit(limit * page)
+      .lean();
+
+    const total = await Blog.countDocuments({ author: objectId });
+    const hasNextPage = total > limit * page;
+
+    return {
+      blogs: JSON.parse(JSON.stringify(blogs)),
+      total,
+      hasNextPage,
+    };
+  } catch (error) {
+    console.error("Error fetching blogs by user:", error);
+  }
+}
+
+export async function deleteBlogById(blogId, path) {
+  try {
+    await dbConnect();
+
+    // Convert string ID to ObjectId
+    const blogObjectId = new mongoose.Types.ObjectId(blogId);
+
+    const result = await Blog.findOneAndDelete({
+      _id: blogObjectId,
+    });
+
+    if (!result) {
+      return {
+        delete: false,
+        status: 400,
+        error: "Blog not found or not authorized",
+      };
+    }
+
+    revalidatePath(path);
+
+    return { delete: true };
+  } catch (error) {
+    console.error("Delete error:", error);
+    return { delete: false, error: "Server error" };
+  }
+}
+
+export async function updateBlog({ blogId, blog, path }) {
+  try {
+    await dbConnect();
+
+    const blogData = {
+      ...blog,
+      author: new mongoose.Types.ObjectId(blog.author),
+      category: new mongoose.Types.ObjectId(blog.category),
+    };
+
+    await Blog.findOneAndUpdate({ _id: blogId }, { $set: blogData });
+
+    if (path) {
+      revalidatePath(path);
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error creating blog:", error);
+    return {
+      success: false,
+      error: error.message || "Failed to update blog",
+    };
   }
 }

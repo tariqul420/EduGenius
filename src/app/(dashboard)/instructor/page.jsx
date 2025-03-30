@@ -1,14 +1,56 @@
+import { BookOpen } from "lucide-react";
+
 export default function Home() {
+  const cardData = [
+    {
+      icon: BookOpen,
+      num: 7,
+      name: "New Courses",
+    },
+    {
+      icon: BookOpen,
+      num: 12,
+      name: "Active Students",
+    },
+    {
+      icon: BookOpen,
+      num: 8,
+      name: "Pending Reviews",
+    },
+    {
+      icon: BookOpen,
+      num: 15,
+      name: "Total Lessons",
+    },
+  ];
+
   return (
-    <section>
-      <div className="p-4">
-        <h1 className="text-xl font-bold">Overview</h1>
-        <p>
-          Our instructors are the best in the world. They are the best teachers,
-          the best mentors, and the best coaches you can find. They are here to
-          help you reach your goals, and they will do everything in their power
-          to help you succeed.
-        </p>
+    <section className="min-h-screen">
+      <div className="container mx-auto p-4 md:p-6 lg:p-8">
+        <h1 className="mb-6 text-2xl font-semibold text-gray-800 dark:text-gray-100">
+          Overview
+        </h1>
+        <div className="grid grid-cols-1 gap-4 rounded-md border p-6 sm:grid-cols-2 md:gap-6 lg:grid-cols-4">
+          {/* Cards */}
+          {cardData?.map((card, index) => (
+            <div
+              key={index}
+              className="dark:bg-dark-bg flex items-center gap-4 rounded-lg border bg-white p-4 shadow-md transition-shadow hover:shadow-lg"
+            >
+              <div className="rounded-full bg-blue-100 p-2 dark:bg-blue-900">
+                <card.icon className="h-6 w-6 text-blue-600 dark:text-blue-300" />
+              </div>
+              <div>
+                <h4 className="text-lg font-bold text-gray-800 dark:text-gray-100">
+                  {card.num}
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {card.name}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -1,5 +1,3 @@
-import { GraduationCap } from "lucide-react";
-
 import {
   Sidebar,
   SidebarContent,
@@ -13,6 +11,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { SignedIn, UserButton } from "@clerk/nextjs";
+import { GraduationCap } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 

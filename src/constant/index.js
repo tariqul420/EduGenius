@@ -1,5 +1,6 @@
 import {
   BookOpenCheck,
+  BookOpenText,
   BookText,
   LayoutDashboard,
   Medal,
@@ -31,6 +32,11 @@ export const instructors = [
     title: "Quiz & Assignment",
     url: "/instructor/quiz-assignment",
     icon: BookOpenCheck,
+  },
+  {
+    title: "My Blogs",
+    url: "/instructor/my-blogs",
+    icon: BookOpenText,
   },
 ];
 

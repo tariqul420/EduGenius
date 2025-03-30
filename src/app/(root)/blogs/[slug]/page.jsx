@@ -23,7 +23,7 @@ const BlogDetails = async ({ params, searchParams }) => {
 
   const { sessionClaims } = await auth();
   const blog = await getBlogBySlug(slug);
-  const { blogs: featuredBlog } = await getBlogs({ sort: "popular", limit: 6 });
+  const { blogs: featuredBlog } = await getBlogs({ sort: "popular", limit: 4 });
 
   const commentsResult = await getCommentsByBlogId({
     blogId: blog?._id,
