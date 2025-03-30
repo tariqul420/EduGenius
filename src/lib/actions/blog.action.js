@@ -157,3 +157,63 @@ export async function getBlogBySlug(slug) {
     return null;
   }
 }
+
+export async function getBlogsByUser({ userId, page = 1, limit = 8 }) {
+  try {
+    await dbConnect();
+
+    // Validate blogId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return { blogs: [], total: 0, hasNextPage: false };
+    }
+
+    // Convert string ID to ObjectId
+    const objectId = new mongoose.Types.ObjectId(userId);
+
+    // Find comments with user population, sorting, and limit
+    const blogs = await Blog.find({ author: objectId })
+      .populate("category", "name")
+      .sort({ createdAt: -1 })
+      .limit(limit * page)
+      .lean();
+
+    const total = await Blog.countDocuments({ author: objectId });
+    const hasNextPage = total > limit * page;
+
+    return {
+      blogs: JSON.parse(JSON.stringify(blogs)),
+      total,
+      hasNextPage,
+    };
+  } catch (error) {
+    console.error("Error fetching blogs by user:", error);
+  }
+}
+
+export async function deleteBlogById(blogIdId, path) {
+  try {
+    await dbConnect();
+
+    // Convert string ID to ObjectId
+    const blogObjectId = new mongoose.Types.ObjectId(blogIdId);
+
+    const result = await Blog.findOneAndDelete({
+      _id: blogObjectId,
+    });
+
+    if (!result) {
+      return {
+        delete: false,
+        status: 400,
+        error: "Blog not found or not authorized",
+      };
+    }
+
+    revalidatePath(path);
+
+    return { delete: true };
+  } catch (error) {
+    console.error("Delete error:", error);
+    return { delete: false, error: "Server error" };
+  }
+}
