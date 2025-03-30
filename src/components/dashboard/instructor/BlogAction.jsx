@@ -19,10 +19,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { TableCell } from "@/components/ui/table";
-import { MoreVertical, Trash2 } from "lucide-react";
+import { deleteBlogById } from "@/lib/actions/blog.action";
+import { MoreVertical, PenTool, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import BlogForm from "./BlogForm"; // Import BlogForm
+import BlogForm from "./BlogForm";
 
 export default function BlogAction({
   blogId,
@@ -33,19 +34,6 @@ export default function BlogAction({
 }) {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
-
-  const handleUpdate = async () => {
-    try {
-      const result = await getBlogById(blogId); // Fetch blog data if not provided
-      if (result.success) {
-        setIsUpdateOpen(true); // Open BlogForm
-      } else {
-        toast.error("Failed to load blog data");
-      }
-    } catch (error) {
-      toast.error("Error fetching blog: " + error.message);
-    }
-  };
 
   const handleDelete = async () => {
     try {
@@ -74,9 +62,10 @@ export default function BlogAction({
           className="border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800"
         >
           <DropdownMenuItem
-            onClick={handleUpdate}
-            className="cursor-pointer text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+            onClick={() => setIsUpdateOpen(true)}
+            className="flex w-full cursor-pointer items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" // Adjusted text color
           >
+            <PenTool className="mr-2 h-4 w-4" />
             Update
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
@@ -123,15 +112,14 @@ export default function BlogAction({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* Render BlogForm for updating */}
       {isUpdateOpen && (
         <BlogForm
           userId={userId}
           categories={categories}
           pathname={pathname}
           isUpdate={true}
-          blog={blog} // Pass the blog data directly
-          onOpenChange={setIsUpdateOpen} // Control dialog visibility
+          blog={blog}
+          onOpenChange={setIsUpdateOpen}
         />
       )}
     </TableCell>
