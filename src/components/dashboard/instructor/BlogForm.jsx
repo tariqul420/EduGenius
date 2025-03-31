@@ -155,6 +155,12 @@ export default function BlogForm({
     if (!open) form.reset();
   };
 
+  const handleCancel = () => {
+    setIsOpen(false);
+    if (onOpenChange) onOpenChange(false);
+    form.reset();
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       {/* Only show avatar and trigger button when not in update mode */}
@@ -181,7 +187,7 @@ export default function BlogForm({
                 className="dark:text-medium-bg flex-1 cursor-pointer rounded-full bg-gray-100 px-4 py-2 text-left text-gray-500 dark:bg-[#181717a4]"
                 onClick={() => setIsOpen(true)}
               >
-                What&apos;s on your mind?
+                What's on your mind?
               </button>
             </DialogTrigger>
           </div>
@@ -288,6 +294,15 @@ export default function BlogForm({
             />
 
             <div className="flex justify-end gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleCancel}
+                disabled={form.formState.isSubmitting}
+                className="cursor-pointer text-gray-900 dark:text-gray-100"
+              >
+                Cancel
+              </Button>
               <Button
                 type="submit"
                 disabled={!isLoaded || form.formState.isSubmitting}
