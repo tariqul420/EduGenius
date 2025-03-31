@@ -187,7 +187,7 @@ export default function BlogForm({
                 className="dark:text-medium-bg flex-1 cursor-pointer rounded-full bg-gray-100 px-4 py-2 text-left text-gray-500 dark:bg-[#181717a4]"
                 onClick={() => setIsOpen(true)}
               >
-                What's on your mind?
+                What&apos;s on your mind?
               </button>
             </DialogTrigger>
           </div>
