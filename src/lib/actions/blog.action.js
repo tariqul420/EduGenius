@@ -158,7 +158,7 @@ export async function getBlogBySlug(slug) {
   }
 }
 
-export async function getBlogsByUser({ userId, page = 1, limit = 8 }) {
+export async function getBlogsByUser({ userId, page = 1, limit = 6 }) {
   try {
     await dbConnect();
 
