@@ -20,34 +20,18 @@ export default function BlogTable({ blog, userId, categories, pathname }) {
   }
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
+    <div className="dark:bg-dark-bg rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700">
       <Table>
         <TableHeader>
-          <TableRow className="border-b border-gray-200 bg-gray-100 dark:border-gray-700 dark:bg-gray-900">
-            <TableHead className="font-semibold text-gray-900 dark:text-gray-100">
-              No
-            </TableHead>
-            <TableHead className="font-semibold text-gray-900 dark:text-gray-100">
-              Thumbnail
-            </TableHead>
-            <TableHead className="font-semibold text-gray-900 dark:text-gray-100">
-              Title
-            </TableHead>
-            <TableHead className="font-semibold text-gray-900 dark:text-gray-100">
-              Category
-            </TableHead>
-            <TableHead className="font-semibold text-gray-900 dark:text-gray-100">
-              Created At
-            </TableHead>
-            <TableHead className="font-semibold text-gray-900 dark:text-gray-100">
-              Updated At
-            </TableHead>
-            <TableHead className="font-semibold text-gray-900 dark:text-gray-100">
-              See Blog
-            </TableHead>
-            <TableHead className="font-semibold text-gray-900 dark:text-gray-100">
-              Actions
-            </TableHead>
+          <TableRow className="dark:bg-dark-hover border-b bg-gray-100 dark:border-gray-700">
+            <TableHead className="font-semibold">No</TableHead>
+            <TableHead className="font-semibold">Thumbnail</TableHead>
+            <TableHead className="font-semibold">Title</TableHead>
+            <TableHead className="font-semibold">Category</TableHead>
+            <TableHead className="font-semibold">Created At</TableHead>
+            <TableHead className="font-semibold">Updated At</TableHead>
+            <TableHead className="font-semibold">See Blog</TableHead>
+            <TableHead className="font-semibold">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -63,9 +47,9 @@ export default function BlogTable({ blog, userId, categories, pathname }) {
             return (
               <TableRow
                 key={item._id}
-                className="border-b border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700"
+                className="dark:hover:bg-dark-hover border-b hover:bg-gray-50"
               >
-                <TableCell className="text-gray-700 dark:text-gray-300">
+                <TableCell className="dark:text-medium-bg text-gray-700">
                   {index + 1}.
                 </TableCell>
                 <TableCell>
@@ -79,16 +63,16 @@ export default function BlogTable({ blog, userId, categories, pathname }) {
                     />
                   </div>
                 </TableCell>
-                <TableCell className="max-w-xs truncate text-gray-700 dark:text-gray-300">
+                <TableCell className="dark:text-medium-bg max-w-xs truncate text-gray-700">
                   {item?.title.slice(0, 50)} {item?.title.length > 50 && "..."}
                 </TableCell>
-                <TableCell className="text-gray-700 dark:text-gray-300">
+                <TableCell className="dark:text-medium-bg text-gray-700">
                   {item.category?.name || "N/A"}
                 </TableCell>
-                <TableCell className="text-gray-700 dark:text-gray-300">
+                <TableCell className="dark:text-medium-bg text-gray-700">
                   {createDate}
                 </TableCell>
-                <TableCell className="text-gray-700 dark:text-gray-300">
+                <TableCell className="dark:text-medium-bg text-gray-700">
                   {updateDate}
                 </TableCell>
                 <TableCell className="text-dark-btn max-w-xs truncate dark:text-gray-300">
