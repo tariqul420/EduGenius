@@ -27,12 +27,12 @@ export default function Error({ error, reset }) {
             </div>
           </div>
           <div>
-            <Image src="/404-2.png" width={1000} height={1000} alt="404 image" />
+            <Image src="/404.png" width={1000} height={1000} alt="404 image" />
           </div>
         </div>
       </div>
       <div>
-        <Image src="/Group.png" width={1000} height={1000} alt="404 image" />
+        <Image src="/group.png" width={1000} height={1000} alt="404 image" />
       </div>
     </div>
   );

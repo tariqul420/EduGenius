@@ -25,7 +25,7 @@ export default function GlobalError({ reset }) {
               </div>
               <div>
                 <Image
-                  src="/404-2.png"
+                  src="/404.png"
                   width={1000}
                   height={1000}
                   alt="404 image"
@@ -35,7 +35,7 @@ export default function GlobalError({ reset }) {
           </div>
           <div>
             <Image
-              src="/Group.png"
+              src="/group.png"
               width={1000}
               height={1000}
               alt="404 image"
