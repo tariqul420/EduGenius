@@ -2,51 +2,28 @@
 import FilterItem from "@/app/(root)/courses/FilterItem";
 import useProvider from "@/hooks/useProvider";
 import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
-import { LayoutGrid, LayoutList, Search, TableOfContents } from "lucide-react";
+import { LayoutGrid, LayoutList, TableOfContents } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import SearchInput from "../shared/SearchInput";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "../ui/select";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "./ui/sheet";
+} from "../ui/sheet";
 
 const FilterBar = ({ courses, total, categories }) => {
   const { setIsGridCol } = useProvider();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState("");
-
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      let newUrl = "";
-
-      if (searchQuery) {
-        newUrl = formUrlQuery({
-          params: searchParams.toString(),
-          key: "search",
-          value: searchQuery,
-        });
-      } else {
-        newUrl = removeKeysFromQuery({
-          params: searchParams.toString(),
-          keysToRemove: ["search"],
-        });
-      }
-      router.push(newUrl, { scroll: false });
-    }, 500);
-
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchQuery, searchParams, router]);
 
   function onSelectCategory(sort) {
     let newUrl = "";
@@ -69,7 +46,7 @@ const FilterBar = ({ courses, total, categories }) => {
 
   return (
     <>
-      <div className="filter-bar items-left container mx-auto my-3 flex min-h-[60px] flex-col justify-between rounded border border-slate-100 px-2 py-4 shadow-md md:flex-row lg:max-w-6xl dark:border-gray-800 dark:text-gray-400 dark:shadow-slate-800">
+      <div className="filter-bar items-left container mx-auto my-3 flex min-h-[60px] flex-col justify-between rounded border px-2 py-4 shadow-md md:flex-row lg:max-w-6xl dark:border-gray-800 dark:text-gray-400 dark:shadow-slate-800">
         <div className="left-content order-2 mt-5 flex items-center gap-4 text-2xl md:order-1 md:mt-0">
           <Sheet>
             <SheetTrigger>
@@ -116,16 +93,7 @@ const FilterBar = ({ courses, total, categories }) => {
               </SelectContent>
             </Select>
           </div>
-          <div className="search-bar flex items-center gap-1 rounded border border-gray-300 px-2 py-1 dark:border-gray-800">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full outline-none sm:min-w-[220px]"
-              placeholder="Search by Category"
-            />
-            <Search size="18" />
-          </div>
+          <SearchInput />
         </div>
       </div>
     </>

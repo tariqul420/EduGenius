@@ -1,5 +1,5 @@
 import CoursesContent from "@/components/course/CoursesContent";
-import FilterBar from "@/components/FilterBar";
+import FilterBar from "@/components/course/FilterBar";
 import { getCategory } from "@/lib/actions/category.action";
 import { getCourses } from "@/lib/actions/course.action";
 import FilterItem from "./FilterItem";
