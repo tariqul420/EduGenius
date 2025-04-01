@@ -13,7 +13,11 @@ const BlogPage = async ({ searchParams }) => {
 
   const categoryParams = category || "";
 
-  const data = await getBlogs({
+  const {
+    blogs = [],
+    total = 0,
+    hasNextPage = false,
+  } = await getBlogs({
     categories: categoryParams.split(","),
     search,
     page: Number(page) || 1,
@@ -22,9 +26,6 @@ const BlogPage = async ({ searchParams }) => {
 
   const categories = await getCategory();
 
-  const blogs = data?.blogs || [];
-  const total = data?.total || 0;
-  const hasNextPage = data?.hasNextPage || false;
   const { blogs: featured } = await getBlogs({ sort: "popular", limit: 6 });
 
   return (
@@ -49,7 +50,7 @@ const BlogPage = async ({ searchParams }) => {
               {blogs.map((blog) => (
                 <InsightsCard key={blog?.slug} insights={blog} />
               ))}
-              {hasNextPage && <LoadMore />}
+              <div className="col-span-2">{hasNextPage && <LoadMore />}</div>
             </div>
           ) : (
             <NoResult />
