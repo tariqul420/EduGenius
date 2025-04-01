@@ -1,5 +1,14 @@
 import Heading from "@/components/shared/Heading";
-import Image from "next/image";
+import {
+  Atom,
+  Beaker,
+  BookOpen,
+  Calculator,
+  DollarSign,
+  Globe,
+  Paintbrush,
+  Ruler,
+} from "lucide-react";
 import Link from "next/link";
 
 const CourseSubjects = () => {
@@ -7,23 +16,43 @@ const CourseSubjects = () => {
     {
       name: "Social Science",
       slug: "social-science",
-      image: "/images/social-science.png",
+      icon: BookOpen,
     },
-    { name: "Chemistry", slug: "chemistry", image: "/images/chemistry.png" },
-    { name: "Economy", slug: "economy", image: "/images/economy.png" },
-    { name: "Arts", slug: "arts", image: "/images/arts.png" },
+    {
+      name: "Chemistry",
+      slug: "chemistry",
+      icon: Beaker,
+    },
+    {
+      name: "Economy",
+      slug: "economy",
+      icon: DollarSign,
+    },
+    {
+      name: "Arts",
+      slug: "arts",
+      icon: Paintbrush,
+    },
     {
       name: "General Knowledge",
       slug: "general-knowledge",
-      image: "/images/general-knowledge.png",
+      icon: Globe,
     },
     {
       name: "Higher Math",
       slug: "higher-math",
-      image: "/images/higher-math.png",
+      icon: Calculator,
     },
-    { name: "Geometry", slug: "geometry", image: "/images/geometry.png" },
-    { name: "Chemistry", slug: "chemistry", image: "/images/chemistry.png" },
+    {
+      name: "Geometry",
+      slug: "geometry",
+      icon: Ruler,
+    },
+    {
+      name: "Physics",
+      slug: "physics",
+      icon: Atom,
+    },
   ];
 
   return (
@@ -36,28 +65,25 @@ const CourseSubjects = () => {
 
       {/* Subjects Grid */}
       <div className="grid grid-cols-2 gap-3 text-center sm:text-left md:grid-cols-3 md:gap-6 lg:grid-cols-4">
-        {subjects?.map((subject, index) => (
-          <Link
-            href={`/courses?category=${subject?.slug}`}
-            key={index}
-            className="bg-light-bg dark:bg-dark-bg dark:bg-black-light flex transform cursor-pointer flex-col items-center rounded-lg p-6 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg"
-            role="button"
-            aria-label={`Explore ${subject?.name} courses`}
-          >
-            <div className="relative mb-4 h-16 w-16">
-              <Image
-                src={subject?.image}
-                alt={`${subject?.name} icon`}
-                fill
-                style={{ objectFit: "contain" }}
-                className="rounded-md"
-              />
-            </div>
-            <p className="uppercase md:text-lg md:font-semibold">
-              {subject.name}
-            </p>
-          </Link>
-        ))}
+        {subjects?.map((subject, index) => {
+          const IconComponent = subject.icon;
+          return (
+            <Link
+              href={`/courses?category=${subject?.slug}`}
+              key={index}
+              className="bg-light-bg dark:bg-dark-bg dark:bg-black-light flex transform cursor-pointer flex-col items-center rounded-lg border p-6 shadow transition-all duration-300 hover:scale-105 hover:shadow-md"
+              role="button"
+              aria-label={`Explore ${subject?.name} courses`}
+            >
+              <div className="mb-4 flex h-16 w-16 items-center justify-center">
+                <IconComponent className="text-main h-16 w-16" />
+              </div>
+              <p className="uppercase md:text-lg md:font-semibold">
+                {subject?.name}
+              </p>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

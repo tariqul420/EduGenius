@@ -225,12 +225,12 @@ Run `npm run lint` to check code quality before commits.
 
 ## Contributors
 
-| Name           | Role                 | Github                                                | Linkedin                                                      | Contributions                            |
-| -------------- | -------------------- | ----------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------- |
-| Tariqul Islam  | MERN Stack Developer | [github/tariqul420](https://github.com/tariqul420)    | [in/tariqul-420](https://www.linkedin.com/in/tariqul-420-t)   | Built the UI, integrated APIs            |
-| Jahidul Islam  | MERN Stack Developer | [github/jahidul](https://github.com/jahidulkanchan)   | [in/jahidul](https://www.linkedin.com/in/jahidulislamkanchan) | Built the UI                             |
-| Rashadul Islam | Full Stack Developer | [github/Rashad](https://github.com/Rashad-Stack)      | [in/rashadstack](https://www.linkedin.com/in/rashadstack)     | Integrated AI features (recommendations) |
-| Md.Munna       | MERN Stack Developer | [github/munna-khan](https://github.com/md-munna-khan) | [in/munna-mia](https://www.linkedin.com/in/munna-mia)         | Built the UI                             |
+| Name           | Role                 | Github                                              | Linkedin                                                      | Contributions                            |
+| -------------- | -------------------- | --------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------- |
+| Tariqul Islam  | MERN Stack Developer | [github/tariqul](https://github.com/tariqul420)     | [in/tariqul](https://www.linkedin.com/in/tariqul-420-t)       | Built the UI, integrated APIs            |
+| Jahidul Islam  | MERN Stack Developer | [github/jahidul](https://github.com/jahidulkanchan) | [in/jahidul](https://www.linkedin.com/in/jahidulislamkanchan) | Built the UI                             |
+| Rashadul Islam | Full Stack Developer | [github/Rashad](https://github.com/Rashad-Stack)    | [in/rashad](https://www.linkedin.com/in/rashadstack)          | Integrated AI features (recommendations) |
+| Md.Munna       | MERN Stack Developer | [github/munna](https://github.com/md-munna-khan)    | [in/munna](https://www.linkedin.com/in/munna-mia)             | Built the UI                             |
 
 ---
 
@@ -244,9 +244,9 @@ Run `npm run lint` to check code quality before commits.
 
 ## Roadmap
 
-[] Phase 1: Core features (enrollment, course creation, AI recommendations).
-[] Phase 2: Advanced features (gamification, virtual labs).
-[] Phase 3: Scalability improvements and mobile app integration.
+- [ ] Core features (enrollment, course creation, AI recommendations).
+- [ ] Advanced features (gamification, virtual labs).
+- [ ] Scalability improvements and mobile app integration.
 
 ## License
 
