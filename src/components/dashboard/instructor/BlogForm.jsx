@@ -180,11 +180,11 @@ export default function BlogForm({
                 />
               </div>
             ) : (
-              <div className="h-10 w-10 animate-pulse rounded-full bg-gray-200 dark:bg-[#181717a4]" />
+              <div className="dark:bg-dark-input h-10 w-10 animate-pulse rounded-full bg-gray-200" />
             )}
             <DialogTrigger asChild>
               <button
-                className="dark:text-medium-bg flex-1 cursor-pointer rounded-full bg-gray-100 px-4 py-2 text-left text-gray-500 dark:bg-[#181717a4]"
+                className="dark:text-medium-bg dark:bg-dark-input flex-1 cursor-pointer rounded-full bg-gray-100 px-4 py-2 text-left text-gray-500"
                 onClick={() => setIsOpen(true)}
               >
                 What&apos;s on your mind?
@@ -216,7 +216,7 @@ export default function BlogForm({
                   <FormControl>
                     <Input
                       placeholder="Enter your blog title"
-                      className="bg-white text-gray-900 dark:bg-[#181717a4] dark:text-gray-100"
+                      className="dark:bg-dark-input bg-white text-gray-900 dark:text-gray-100"
                       {...field}
                     />
                   </FormControl>
@@ -236,7 +236,7 @@ export default function BlogForm({
                   <FormControl>
                     <Textarea
                       placeholder="Write your blog content here..."
-                      className="min-h-[200px] resize-y bg-white text-gray-900 dark:bg-[#181717a4] dark:text-gray-100"
+                      className="dark:bg-dark-input min-h-[200px] resize-y bg-white text-gray-900 dark:text-gray-100"
                       {...field}
                     />
                   </FormControl>
@@ -257,7 +257,7 @@ export default function BlogForm({
                     <Input
                       placeholder="e.g., from Pexels, Pixabay, Unsplash, or StockSnap"
                       type="url"
-                      className="bg-white text-gray-900 dark:bg-[#181717a4] dark:text-gray-100"
+                      className="dark:bg-dark-input bg-white text-gray-900 dark:text-gray-100"
                       {...field}
                     />
                   </FormControl>
@@ -276,7 +276,7 @@ export default function BlogForm({
                   </FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
-                      <SelectTrigger className="w-full bg-white text-gray-900 dark:bg-[#181717a4] dark:text-gray-100">
+                      <SelectTrigger className="dark:bg-dark-input w-full bg-white text-gray-900 dark:text-gray-100">
                         <SelectValue placeholder="Select a category" />
                       </SelectTrigger>
                     </FormControl>

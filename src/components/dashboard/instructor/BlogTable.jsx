@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { format } from "date-fns";
+import { Monitor, MonitorPlay } from "lucide-react";
 import Image from "next/image";
 import BlogAction from "./BlogAction";
 
@@ -38,7 +39,7 @@ export default function BlogTable({
               <TableHead className="font-semibold">Category</TableHead>
               <TableHead className="font-semibold">Created At</TableHead>
               <TableHead className="font-semibold">Updated At</TableHead>
-              <TableHead className="font-semibold">See Blog</TableHead>
+              <TableHead className="font-semibold">Live Now</TableHead>
               <TableHead className="font-semibold">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -55,7 +56,7 @@ export default function BlogTable({
               return (
                 <TableRow
                   key={item._id}
-                  className="dark:hover:bg-dark-hover border-b hover:bg-gray-50"
+                  className="dark:hover:bg-dark-input border-b hover:bg-gray-50"
                 >
                   <TableCell className="dark:text-medium-bg text-gray-700">
                     {index + 1}.
@@ -84,9 +85,20 @@ export default function BlogTable({
                   <TableCell className="dark:text-medium-bg text-gray-700">
                     {updateDate}
                   </TableCell>
-                  <TableCell className="text-dark-btn max-w-xs truncate dark:text-gray-300">
-                    <a target="_blank" href={`/blogs/${item?.slug}`}>
-                      See Blog
+                  <TableCell className="max-w-xs truncate text-gray-700 dark:text-gray-300">
+                    <a
+                      target="_blank"
+                      href={`/blogs/${item?.slug}`}
+                      className="group relative inline-block"
+                    >
+                      <Monitor
+                        size={20}
+                        className="transition-opacity duration-300 ease-in-out group-hover:opacity-0"
+                      />
+                      <MonitorPlay
+                        size={20}
+                        className="absolute inset-0 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100"
+                      />
                     </a>
                   </TableCell>
                   <BlogAction
@@ -94,7 +106,7 @@ export default function BlogTable({
                     userId={userId}
                     categories={categories}
                     pathname={pathname}
-                    blog={item} // Pass the full blog object
+                    blog={item}
                   />
                 </TableRow>
               );

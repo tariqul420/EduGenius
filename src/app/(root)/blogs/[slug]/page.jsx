@@ -20,7 +20,6 @@ import Link from "next/link";
 const BlogDetails = async ({ params, searchParams }) => {
   const { slug } = await params;
   const { page } = await searchParams;
-
   const { sessionClaims } = await auth();
   const blog = await getBlogBySlug(slug);
   const { blogs: featuredBlog } = await getBlogs({ sort: "popular", limit: 4 });
