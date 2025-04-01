@@ -1,7 +1,5 @@
 "use client";
 
-import { Bar, BarChart, XAxis, YAxis } from "recharts";
-
 import {
   Card,
   CardContent,
@@ -9,15 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-
-export const description = "An interactive bar chart";
+import { ChartContainer } from "@/components/ui/chart";
+import { Tooltip } from "@radix-ui/react-tooltip";
+import { CartesianGrid, Legend, Line, LineChart, XAxis, YAxis } from "recharts";
 
 const data = [
   {
@@ -65,33 +57,40 @@ const chartConfig = {
   },
 };
 
-export default function CourseStatistic() {
+export default function SellingReport() {
   return (
     <Card>
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-          <CardTitle>Course Statistic</CardTitle>
+          <CardTitle>Selling Report</CardTitle>
           <CardDescription>
-            Showing Course Statistic for the last 3 months
+            Showing Selling Report for the last 3 months
           </CardDescription>
         </div>
       </CardHeader>
       <CardContent className="px-2 sm:p-6">
         <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-          <BarChart accessibilityLayer data={data}>
-            <XAxis
-              dataKey="day"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+          <LineChart accessibilityLayer data={data}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis yAxisId="left" />
+            <YAxis yAxisId="right" orientation="right" />
+            <Tooltip />
+            <Legend />
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="course"
+              stroke="#8884d8"
+              activeDot={{ r: 8 }}
             />
-            <YAxis />
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <ChartLegend content={<ChartLegendContent />} />
-
-            <Bar dataKey="course" fill="var(--color-course)" radius={4} />
-          </BarChart>
+            <Line
+              yAxisId="right"
+              type="monotone"
+              dataKey="amt"
+              stroke="#82ca9d"
+            />
+          </LineChart>
         </ChartContainer>
       </CardContent>
     </Card>
