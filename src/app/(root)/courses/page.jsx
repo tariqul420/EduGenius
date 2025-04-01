@@ -1,8 +1,8 @@
 import CoursesContent from "@/components/course/CoursesContent";
 import FilterBar from "@/components/course/FilterBar";
+import FilterItem from "@/components/course/FilterItem";
 import { getCategory } from "@/lib/actions/category.action";
 import { getCourses } from "@/lib/actions/course.action";
-import FilterItem from "./FilterItem";
 
 export default async function Course({ searchParams }) {
   const categories = await getCategory();
@@ -33,7 +33,7 @@ export default async function Course({ searchParams }) {
         {/* Courses Content Section */}
         <div className="mt-6 grid grid-cols-12 gap-5 md:mt-8">
           <CoursesContent courses={courses} hasNextPage={hasNextPage} />
-          <div className="courses-filter col-span-4 hidden rounded px-4 py-1.5 shadow-md lg:block">
+          <div className="courses-filter col-span-3 hidden rounded px-4 py-1.5 shadow-md lg:block">
             <FilterItem categories={categories} />
           </div>
         </div>

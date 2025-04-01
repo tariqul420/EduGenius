@@ -1,7 +1,7 @@
+import { format } from "date-fns";
 import { ArrowRight, Calendar, MessageCircleMore, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { format } from "date-fns";
 
 function InsightsCard({ insights }) {
   const { slug, title, thumbnail, content, commentCount, user, createdAt } =
@@ -13,7 +13,7 @@ function InsightsCard({ insights }) {
     : "";
 
   return (
-    <div className="dark:bg-black-light flex h-full flex-col overflow-hidden rounded-lg bg-white dark:bg-dark-bg shadow transition-all duration-300 hover:-translate-y-2 hover:shadow-md border">
+    <div className="dark:bg-black-light dark:bg-dark-bg flex h-full flex-col overflow-hidden rounded-lg border bg-white shadow transition-all duration-300 hover:-translate-y-2 hover:shadow-md">
       {/* Thumbnail Section */}
       <div className="course-image relative flex-shrink-0">
         <Image
@@ -37,7 +37,7 @@ function InsightsCard({ insights }) {
         </h3>
 
         {/* Content Preview */}
-        <p className="mb-4 flex-grow text-gray-600  dark:text-medium-bg">
+        <p className="dark:text-medium-bg mb-4 flex-grow text-gray-600">
           {content?.slice(0, 95)} ...
         </p>
 
