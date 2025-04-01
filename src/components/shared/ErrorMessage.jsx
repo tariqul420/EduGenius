@@ -2,21 +2,22 @@ import { Button } from "@/components/ui/button";
 
 export default function ErrorMessage({ handleClick }) {
   return (
-    <div className="flex flex-col-reverse items-center justify-center gap-16 px-4 py-24 md:gap-28 md:px-44 md:py-20 lg:flex-row lg:px-24 lg:py-24">
-      <div className="relative w-full pb-12 lg:pb-0 xl:w-1/2 xl:pt-24">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-8 bg-white px-4 py-12 transition-colors duration-200 dark:bg-black">
+      <div className="w-full max-w-2xl space-y-6 text-center">
         <div className="relative">
-          <div className="absolute">
-            <div className="">
-              <h1 className="text-main my-2 text-2xl font-bold">
-                Looks like you&apos;ve found the doorway to the great nothing
-              </h1>
-              <p className="my-2 text-gray-800">
-                Sorry about that! Please visit our homepage to get where you
-                need to go.
-              </p>
-              <Button onClick={handleClick}>Try again </Button>
-            </div>
-          </div>
+          <h1 className="mb-4 text-2xl font-bold sm:text-3xl">
+            Looks like you&apos;ve found the doorway to the great nothing
+          </h1>
+          <p className="dark:text-medium-bg mb-6 text-base text-gray-600 sm:text-lg">
+            Sorry about that! Please try again or visit our homepage to get
+            where you need to go.
+          </p>
+          <Button
+            onClick={handleClick}
+            className="bg-main hover:bg-dark-main cursor-pointer rounded-md px-6 py-2 text-white transition-colors duration-200"
+          >
+            Try Again
+          </Button>
         </div>
       </div>
     </div>
