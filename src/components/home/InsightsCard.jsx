@@ -13,53 +13,57 @@ function InsightsCard({ insights }) {
     : "";
 
   return (
-    <div className="dark:bg-black-light dark:bg-dark-bg flex h-full flex-col overflow-hidden rounded-lg border bg-white shadow transition-all duration-300 hover:-translate-y-2 hover:shadow-md">
+    <div className="dark:bg-black-light dark:bg-dark-bg flex w-full flex-col overflow-hidden rounded-lg border bg-white shadow transition-all duration-300 hover:-translate-y-2 hover:shadow-lg dark:border-gray-800">
       {/* Thumbnail Section */}
-      <div className="course-image relative flex-shrink-0">
+      <div className="relative h-48 flex-shrink-0">
         <Image
           src={thumbnail}
           alt={title}
           width={300}
-          height={200}
-          className="h-48 w-full object-cover"
+          height={192}
+          className="h-full w-full object-cover"
         />
         {/* Date Badge */}
-        <p className="bg-main absolute -bottom-3 left-4 flex w-fit items-center gap-1.5 rounded px-3 py-1 text-sm text-white">
+        <p className="bg-main absolute -bottom-3 left-4 flex w-fit items-center gap-1.5 rounded px-3 py-1 text-sm text-white shadow">
           <Calendar size={16} /> {formattedDate}
         </p>
       </div>
 
       {/* Content Section */}
-      <div className="course-content flex flex-grow flex-col p-4">
+      <div className="flex flex-col p-4">
         {/* Title */}
-        <h3 className="mb-2 text-xl font-semibold">
-          {title?.slice(0, 30)} ...
+        <h3 className="mb-2 line-clamp-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
+          {title.length > 33
+            ? `${title?.slice(0, 30)}...`
+            : title?.slice(0, 33)}
         </h3>
 
         {/* Content Preview */}
-        <p className="dark:text-medium-bg mb-4 flex-grow text-gray-600">
-          {content?.slice(0, 95)} ...
+        <p className="dark:text-medium-bg mb-4 line-clamp-3 text-sm text-gray-600">
+          {content.length > 105
+            ? `${content?.slice(0, 108)}...`
+            : content?.slice(0, 110)}
         </p>
 
         {/* Footer Section */}
-        <div className="mt-auto flex items-center justify-between">
+        <div className="flex items-center justify-between">
           {/* Comments and Author */}
-          <div className="flex items-center gap-3">
-            <p className="flex items-center gap-1 text-base">
-              <MessageCircleMore size={20} /> {commentCount}
-            </p>
-            <p>|</p>
-            <p className="flex items-center gap-1 text-base">
-              <User size={20} /> {user?.firstName} {user?.lastName}
-            </p>
+          <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+            <span className="flex items-center gap-1">
+              <MessageCircleMore size={16} /> {commentCount}
+            </span>
+            <span className="mx-2">|</span>
+            <span className="flex items-center gap-1">
+              <User size={16} /> {user?.firstName} {user?.lastName}
+            </span>
           </div>
 
           {/* Read More Button */}
           <Link
             href={`/blogs/${slug}`}
-            className="text-main dark:text-dark-btn flex cursor-pointer gap-1 text-lg"
+            className="text-main dark:text-dark-btn flex items-center gap-1 text-sm font-medium hover:underline"
           >
-            Read More <ArrowRight />
+            Read More <ArrowRight size={16} />
           </Link>
         </div>
       </div>

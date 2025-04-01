@@ -37,18 +37,22 @@ const BlogPage = async ({ searchParams }) => {
           {/* Blog Posts Section */}
           <div className="lg:col-span-9">
             {blogs?.length > 0 ? (
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {blogs?.map((blog) => (
                   <InsightsCard key={blog?.slug} insights={blog} />
                 ))}
-                <div className="col-span-2">{hasNextPage && <LoadMore />}</div>
+                {hasNextPage && (
+                  <div className="col-span-full mt-4">
+                    <LoadMore />
+                  </div>
+                )}
               </div>
             ) : (
               <NoResult />
             )}
           </div>
 
-          {/* Fixed Sidebar (Categories) */}
+          {/* Sidebar (Categories) */}
           <div className="courses-filter col-span-3 hidden rounded px-4 py-1.5 shadow-md lg:block">
             <FilterItem categories={categories} />
           </div>
