@@ -35,12 +35,11 @@ export async function getBlogs({
   search,
   sort,
   page = 1,
-  limit = 5,
+  limit = 4,
   categories = [],
 } = {}) {
   try {
     await dbConnect();
-    const skip = (page - 1) * limit;
 
     // Fetch category IDs
     let categoryIds = [];
@@ -114,8 +113,7 @@ export async function getBlogs({
             ? { commentCount: -1, createdAt: -1 }
             : { createdAt: -1 },
       },
-      { $skip: skip },
-      { $limit: limit },
+      { $limit: limit * page },
     ]);
 
     const total = await Blog.estimatedDocumentCount();
