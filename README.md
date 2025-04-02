@@ -1,6 +1,10 @@
 # EduGenius - AI-Powered Course Management System
 
-![EduGenius Logo](https://edu-genius.vercel.app)
+<!-- [![EduGenius Logo](https://github.com/tariqul420/EduGenius/raw/main/public/icon/edu-genius.png)](https://edu-genius.vercel.app) -->
+
+<a href="https://edu-genius.vercel.app" target="_blank" rel="noopener noreferrer">
+  <img src="https://github.com/tariqul420/EduGenius/raw/main/public/icon/edu-genius.png" alt="EduGenius Logo" />
+</a>
 
 **EduGenius** is a modern, scalable, AI-driven platform designed to revolutionize online education by providing personalized learning experiences, streamlined course management, and actionable insights for students, instructors, and administrators.
 
