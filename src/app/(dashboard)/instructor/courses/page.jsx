@@ -1,3 +1,4 @@
+import CourseTable from "@/components/dashboard/instructor/CourseTable";
 import { Button } from "@/components/ui/button";
 
 export default function Courses() {
@@ -14,6 +15,7 @@ export default function Courses() {
             </Button>
           </div>
         </div>
+        <CourseTable />
       </div>
     </section>
   );
