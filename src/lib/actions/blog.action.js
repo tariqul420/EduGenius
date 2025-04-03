@@ -160,7 +160,7 @@ export async function getBlogsByUser({ userId, page = 1, limit = 6 }) {
   try {
     await dbConnect();
 
-    // Validate blogId
+    // Validate userId
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       return { blogs: [], total: 0, hasNextPage: false };
     }
@@ -168,14 +168,20 @@ export async function getBlogsByUser({ userId, page = 1, limit = 6 }) {
     // Convert string ID to ObjectId
     const objectId = new mongoose.Types.ObjectId(userId);
 
-    // Find comments with user population, sorting, and limit
+    // Calculate skip value for pagination
+    const skip = (page - 1) * limit;
+
+    // Find blogs with pagination
     const blogs = await Blog.find({ author: objectId })
       .populate("category", "name")
       .sort({ createdAt: -1 })
-      .limit(limit * page)
+      .skip(skip)
+      .limit(limit)
       .lean();
 
+    // Get total count
     const total = await Blog.countDocuments({ author: objectId });
+    // const hasNextPage = skip + blogs.length < total;
     const hasNextPage = total > limit * page;
 
     return {
@@ -185,6 +191,7 @@ export async function getBlogsByUser({ userId, page = 1, limit = 6 }) {
     };
   } catch (error) {
     console.error("Error fetching blogs by user:", error);
+    return { blogs: [], total: 0, hasNextPage: false };
   }
 }
 
