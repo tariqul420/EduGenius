@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton"; // Adjust import path based on your Shadcn setup
+import { Skeleton } from "@/components/ui/skeleton";
 import { BookOpenText, UsersRound } from "lucide-react";
 
 export default function InstructorSkeleton() {
