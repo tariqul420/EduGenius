@@ -36,7 +36,7 @@ export default async function MyBlogs({ searchParams }) {
             My Blogs
           </h1>
           <p className="dark:text-medium-bg text-sm font-medium text-gray-600">
-            Showing {blogs.length} Of {total} Results
+            Showing {blogs?.length} Of {total} Results
           </p>
         </div>
         <BlogTable
@@ -45,6 +45,7 @@ export default async function MyBlogs({ searchParams }) {
           categories={categories}
           pathname={pathname}
           hasNextPage={hasNextPage}
+          total={total}
         />
       </section>
     </div>

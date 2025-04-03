@@ -1,4 +1,4 @@
-import LoadMore from "@/components/shared/LoadMore";
+import { PagePagination } from "@/components/shared/PagePagination";
 import {
   Table,
   TableBody,
@@ -18,6 +18,7 @@ export default function BlogTable({
   categories,
   pathname,
   hasNextPage,
+  total = 0,
 }) {
   if (!Array.isArray(blog) || blog.length === 0) {
     return (
@@ -114,7 +115,11 @@ export default function BlogTable({
           </TableBody>
         </Table>
       </div>
-      {hasNextPage && <LoadMore />}
+      {/* {hasNextPage && <LoadMore />} */}
+      {/* Pagination */}
+      {total > 0 && (
+        <PagePagination total={total} limit={6} hasNextPage={hasNextPage} />
+      )}
     </section>
   );
 }
