@@ -17,7 +17,11 @@ export default async function Home({ searchParams }) {
 
   const { blogs } = await getBlogs({ sort: "popular", limit: 3 });
 
-  const { courses } = await getCourses({ categorySlug: category, limit: 6 });
+  const { courses } = await getCourses({
+    categorySlug: category,
+    limit: 6,
+    sort: "top-rated",
+  });
 
   const bestInstructorsResult = await getInstructors({
     role: "instructor",

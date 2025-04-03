@@ -1,116 +1,134 @@
 # EduGenius - AI-Powered Course Management System
 
-🚀 **Live Demo:** [EduGenius](https://edu-genius.vercel.app/)
+<!-- [![EduGenius Logo](https://github.com/tariqul420/EduGenius/raw/main/public/icon/edu-genius.png)](https://edu-genius.vercel.app) -->
+
+<a href="https://edu-genius.vercel.app" target="_blank" rel="noopener noreferrer">
+  <img src="https://github.com/tariqul420/EduGenius/raw/main/public/icon/edu-genius.png" alt="EduGenius Logo" />
+</a>
+
+**EduGenius** is a modern, scalable, AI-driven platform designed to revolutionize online education by providing personalized learning experiences, streamlined course management, and actionable insights for students, instructors, and administrators.
 
 ---
 
-## 📝 **Table of Contents**
+## Table of Contents
 
-1. [Introduction](#introduction)
+1. [Project Overview](#project-overview)
 2. [Features](#features)
-   - [Student Features](#student-features)
-   - [Instructor Features](#instructor-features)
-   - [Administrator Features](#administrator-features)
-   - [AI-Powered Features](#ai-powered-features)
-   - [Advanced Features](#advanced-features)
-3. [Tech Stack](#tech-stack)
+3. [Technical Stack](#technical-stack)
 4. [Installation](#installation)
-5. [Configuration](#configuration)
-6. [Usage](#usage)
-7. [Workflow](#workflow)
-8. [Contributing](#contributing)
-9. [License](#license)
+5. [Usage](#usage)
+6. [Project Workflow](#project-workflow)
+7. [Deployment](#deployment)
+8. [Contributors](#contributors)
+9. [Troubleshooting](#troubleshooting)
+10. [Roadmap](#roadmap)
+11. [License](#license)
 
 ---
 
-## 🌟 **Introduction**
+## Project Overview
 
-**EduGenius** is an AI-powered course management system designed to enhance the learning experience for students, instructors, and administrators. The platform leverages artificial intelligence to provide personalized learning paths, automated feedback, and insightful analytics.
+EduGenius aims to enhance the learning ecosystem by integrating **Artificial Intelligence** to deliver:
 
-By offering seamless course creation, management, and progress tracking, EduGenius empowers educational institutions and individual instructors to deliver high-quality, personalized learning experiences.
+- **Personalized Learning Paths**: Adaptive content tailored to student performance.
+- **Automated Feedback**: Instant grading and suggestions powered by AI.
+- **Actionable Insights**: Analytics for instructors and administrators to optimize outcomes.
 
----
-
-## 🚀 **Features**
-
-### 🎓 **Student Features**
-
-- **Course Enrollment:** Browse and enroll in courses, view details, and check prerequisites.
-- **Progress Tracking:** Visualize learning progress through charts and graphs.
-- **Quizzes and Assignments:** Attempt quizzes, submit assignments, and view grades.
-- **AI-Powered Recommendations:** Receive course and lesson suggestions based on interests and performance.
-- **Adaptive Learning Paths:** Course content adapts according to progress and performance.
-- **Discussion Forum:** Interact with peers and instructors through discussions.
-- **Notifications:** Get notified about deadlines, new content, and updates.
-- **Certificates:** Obtain certificates upon course completion.
+The platform supports three user roles: **Students**, **Instructors**, and **Administrators**, each with tailored functionalities to streamline education delivery.
 
 ---
 
-### 🧑‍🏫 **Instructor Features**
+## Features
 
-- **Course Creation:** Build courses with modules, lessons, quizzes, and multimedia content.
-- **Student Management:** Monitor progress and provide feedback.
-- **Grading:** Grade quizzes and assignments efficiently.
-- **AI-Powered Insights:** Analyze student performance and receive content recommendations.
-- **Announcements:** Post updates and course announcements.
+### For Students
+
+- **Course Enrollment**: Browse, enroll, and view course details.
+- **Progress Tracking**: Visualize progress with charts.
+- **Quizzes & Assignments**: Submit work and receive AI-driven feedback.
+- **AI Recommendations**: Personalized course and lesson suggestions.
+- **Adaptive Learning**: Dynamic content adjustments based on performance.
+- **Discussion Forum**: Engage with peers and instructors.
+- **Notifications**: Stay updated on deadlines and announcements.
+- **Certificates**: Earn certificates upon completion.
+
+### For Instructors
+
+- **Course Creation**: Build courses with multimedia content.
+- **Student Management**: Monitor progress and provide feedback.
+- **Grading**: Evaluate assignments with AI insights.
+- **AI Insights**: Identify student weaknesses and optimize content.
+- **Announcements**: Communicate updates to students.
+
+### For Administrators
+
+- **User Management**: Oversee accounts and approvals.
+- **Course Oversight**: Approve and monitor course quality.
+- **Analytics**: Access platform-wide performance metrics.
+- **AI Analytics**: Predict trends and suggest improvements.
+- **Promotions**: Manage campaigns and discounts.
+
+### AI-Powered Features
+
+- Personalized recommendations and adaptive learning paths.
+- Automated feedback and predictive analytics.
+- AI chatbot for real-time student support.
+
+### Advanced Features
+
+- **Gamification**: Badges, points, and leaderboards.
+- **Peer Learning**: Group projects and peer reviews.
+- **Virtual Labs**: Hands-on practice environments.
 
 ---
 
-### 👨‍💼 **Administrator Features**
-
-- **User Management:** Manage students, instructors, and administrators.
-- **Course Management:** Approve or reject submitted courses.
-- **Analytics:** Track platform performance and user behavior.
-- **Promotions:** Set up and manage promotional campaigns.
-
----
-
-### 🤖 **AI-Powered Features**
-
-- **Personalized Recommendations:** AI-driven course suggestions tailored to individual learners.
-- **Adaptive Learning Paths:** Dynamically adjust content based on student progress.
-- **Automated Feedback:** Instant grading and feedback on quizzes and assignments.
-- **Predictive Analytics:** Predict course completion rates and student performance.
-- **AI-Powered Chatbot:** Assist students with course navigation and troubleshooting.
-
----
-
-### 🏅 **Advanced Features**
-
-- **Gamification:** Earn badges and points for progress, with leaderboards to foster competition.
-- **Peer Learning:** Collaborate on group projects and review peer submissions.
-- **Virtual Labs:** Access hands-on practice environments for coding and experiments.
-
----
-
-## 🛠️ **Tech Stack**
+## Technical Stack
 
 ### Frontend
 
-- **Next.js**: Responsive and dynamic UI development.
-- **Tailwind CSS**: Modern, utility-first CSS framework.
+- **Next.js**: v15.2.1 - React framework for SSR and static site generation.
+- **Tailwind CSS**: v4 - Utility-first CSS with `tailwindcss-animate`.
+- **React**: v19.0.0 - UI components with `react-dom`.
+- **Framer Motion**: v12.5.0 - Animations.
+- **Radix UI**: Accessible, unstyled components (e.g., dialogs, tooltips).
+- **Next Themes**: v0.4.6 - Theme management.
 
 ### Backend
 
-- **Node.js** with **Express.js**: Backend server and APIs.
-- **MongoDB**: NoSQL database management.
-- **Mongoose**: Schema modeling and database interaction.
+- **Node.js + Express.js**: Server-side logic (via Next.js API routes).
+- **MongoDB**: Database with `mongoose` v8.12.1 for schema modeling.
+- **Clerk**: v6.12.5 - Authentication and user management with `JWT`.
 
 ### AI Integration
 
-- **DeepSeek API**: AI-powered recommendations, feedback, and insights.
+- **TensorFlow.js**: v4.22.0 - On-device AI for recommendations and analytics.
+- _(Note: DeepSeek API mentioned in SRS is not in `package.json`; confirm usage.)_
 
-### Payment Processing
+### Additional Tools
 
-- **Stripe**: Secure online payments.
+- **Stripe**: Payment processing (not in `package.json`; to be added if used).
+- **Axios**: v1.8.4 - HTTP requests.
+- **Zod**: v3.24.2 - Schema validation with `react-hook-form` v7.54.2.
+- **Lucide React**: v0.479.0 - Icon library.
+- **Swiper**: v11.2.5 - Carousel components.
 
-### Authentication
+### Dev Tools
 
-- **JWT (JSON Web Tokens)**: Secure user authentication.
+- **ESLint**: v9 - Linting with `eslint-config-next` v15.2.1.
+- **Prettier**: v3.5.3 - Code formatting with Tailwind plugin.
+- **PostCSS**: v4 - CSS processing.
 
 ---
 
-## 💻 **Installation**
+## Installation
+
+### Prerequisites
+
+- **Node.js**: v18.x or later
+- **MongoDB**: Local or cloud instance (e.g., MongoDB Atlas)
+- **npm**: v9.x or later
+- **Git**: For version control
+
+### Steps
 
 1. **Clone the Repository:**
 
@@ -134,24 +152,106 @@ By offering seamless course creation, management, and progress tracking, EduGeni
    WEBHOOK_SECRET=
    NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
    NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-   NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
-   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
    MONGODB_DATABASE_URL=
    MONGODB_DATABASE_USERNAME=
    MONGODB_DATABASE_PASSWORD=
    ```
 
 4. **Run the Development Server:**
+
    ```bash
    npm run dev
    ```
 
-## 👥 **Contributors**
+5. **Build for Production:**
 
-| Name          | Role               | Contributions                                     |
-| ------------- | ------------------ | ------------------------------------------------- |
-| Team Member 1 | Frontend Developer | Built the UI, integrated APIs                     |
-| Team Member 2 | Backend Developer  | Designed the database, built APIs                 |
-| Team Member 3 | AI/ML Engineer     | Integrated AI features (recommendations, chatbot) |
-| Team Member 4 | Project Manager    | Managed timelines, coordinated tasks              |
-| Team Member 5 | UI/UX Designer     | Designed the user interface and flow              |
+   ```bash
+   npm run build
+   npm run start
+   ```
+
+---
+
+## Usage
+
+- **Students:** Sign up via Clerk, browse courses, and start learning.
+- **Instructors:** Log in, create courses, and manage students.
+- **Admins:** Access the admin dashboard to oversee platform operations.
+
+Run `npm run lint` to check code quality before commits.
+
+---
+
+## Project Workflow
+
+- **Course Creation:** Instructors design courses; admins approve.
+- **Enrollment:** Students join courses and track progress.
+- **Learning:** Students complete tasks with AI support; instructors grade.
+- **Certification:** Students earn certificates upon completion.
+
+---
+
+## Deployment
+
+### Local Deployment
+
+- **Build and run:**
+
+  ```bash
+  npm run build
+  npm run start
+  ```
+
+### Cloud Deployment (e.g., Vercel)
+
+1. **Install Vercel CLI:**
+
+   ```bash
+   npm install -g vercel
+   ```
+
+2. **Deploy:**
+
+   ```bash
+   vercel
+   ```
+
+3. Set environment variables in Vercel dashboard matching `.env.local`.
+
+### Database
+
+- Use MongoDB Atlas for a cloud-hosted database.
+- Update `MONGODB_URI` in your environment variables.
+
+---
+
+## Contributors
+
+| Name           | Role                 | Github                                              | Linkedin                                                      | Contributions                            |
+| -------------- | -------------------- | --------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------- |
+| Tariqul Islam  | MERN Stack Developer | [github/tariqul](https://github.com/tariqul420)     | [in/tariqul](https://www.linkedin.com/in/tariqul-420-t)       | Built the UI, integrated APIs            |
+| Jahidul Islam  | MERN Stack Developer | [github/jahidul](https://github.com/jahidulkanchan) | [in/jahidul](https://www.linkedin.com/in/jahidulislamkanchan) | Built the UI                             |
+| Rashadul Islam | Full Stack Developer | [github/Rashad](https://github.com/Rashad-Stack)    | [in/rashad](https://www.linkedin.com/in/rashadstack)          | Integrated AI features (recommendations) |
+| Md.Munna       | MERN Stack Developer | [github/munna](https://github.com/md-munna-khan)    | [in/munna](https://www.linkedin.com/in/munna-mia)             | Built the UI                             |
+
+---
+
+## Troubleshooting
+
+- MongoDB Connection Error: Verify `MONGODB_URI` and network access.
+- Clerk Auth Issues: Check Clerk keys in `.env.local`.
+- Build Fails: Run npm run lint and fix errors; ensure dependencies match `package.json`.
+
+---
+
+## Roadmap
+
+- [ ] Core features (enrollment, course creation, AI recommendations).
+- [ ] Advanced features (gamification, virtual labs).
+- [ ] Scalability improvements and mobile app integration.
+
+## License
+
+This project is licensed under the .

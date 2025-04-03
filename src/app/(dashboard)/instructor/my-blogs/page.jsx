@@ -4,10 +4,19 @@ import { getBlogsByUser } from "@/lib/actions/blog.action";
 import { getCategory } from "@/lib/actions/category.action";
 import { auth } from "@clerk/nextjs/server";
 
-export default async function MyBlogs() {
+export default async function MyBlogs({ searchParams }) {
+  const { page } = await searchParams;
   const { sessionClaims } = await auth();
   const categories = await getCategory();
-  const blogs = await getBlogsByUser({ userId: sessionClaims?.userId });
+  const {
+    blogs = [],
+    total = 0,
+    hasNextPage = false,
+  } = await getBlogsByUser({
+    userId: sessionClaims?.userId,
+    page: Number(page) || 1,
+    limit: 6,
+  });
 
   const pathname = "/dashboard/my-blogs";
 
@@ -22,14 +31,21 @@ export default async function MyBlogs() {
         />
       </section>
       <section className="mt-4">
-        <h1 className="mb-6 text-2xl font-semibold text-gray-800 dark:text-gray-100">
-          My Blogs
-        </h1>
+        <div className="flex items-center justify-between">
+          <h1 className="mb-6 text-2xl font-semibold text-gray-800 dark:text-gray-100">
+            My Blogs
+          </h1>
+          <p className="dark:text-medium-bg text-sm font-medium text-gray-600">
+            Showing {blogs?.length} Of {total} Results
+          </p>
+        </div>
         <BlogTable
-          blog={blogs?.blogs}
+          blog={blogs}
           userId={sessionClaims?.userId}
           categories={categories}
           pathname={pathname}
+          hasNextPage={hasNextPage}
+          total={total}
         />
       </section>
     </div>

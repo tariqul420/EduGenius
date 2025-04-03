@@ -50,7 +50,7 @@ const TotalCourse = () => {
         {data.map((item, index) => (
           <div
             key={index}
-            className="bg-light-bg dark:bg-dark-bg flex flex-col items-center gap-2.5 rounded-md px-2 py-3 text-center md:flex-row md:text-left"
+            className="bg-light-bg dark:bg-dark-bg flex flex-col items-center gap-2.5 rounded-md border px-2 py-3 text-center md:flex-row md:text-left"
           >
             <div>{item.icon}</div>
             <div>

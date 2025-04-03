@@ -1,3 +1,6 @@
+import BestSellingCourse from "@/components/dashboard/instructor/BestSellingCourse";
+import CourseStatistic from "@/components/dashboard/instructor/CourseStatistic";
+import SellingReport from "@/components/dashboard/instructor/SellingReport";
 import { BookOpen } from "lucide-react";
 
 export default function Home() {
@@ -50,6 +53,15 @@ export default function Home() {
               </div>
             </div>
           ))}
+        </div>
+        <div className="mt-6 grid gap-5 md:grid-cols-2">
+          <CourseStatistic />
+
+          <SellingReport />
+        </div>
+
+        <div className="mt-6">
+          <BestSellingCourse />
         </div>
       </div>
     </section>

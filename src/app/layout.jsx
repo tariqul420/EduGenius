@@ -29,6 +29,7 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${jost.variable} dark:bg-black-dark antialiased dark:text-white`}
+        cz-shortcut-listen="true"
       >
         <ContextProvider>
           <ThemeProvider
