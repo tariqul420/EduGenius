@@ -181,7 +181,8 @@ export async function getBlogsByUser({ userId, page = 1, limit = 6 }) {
 
     // Get total count
     const total = await Blog.countDocuments({ author: objectId });
-    const hasNextPage = skip + blogs.length < total;
+    // const hasNextPage = skip + blogs.length < total;
+    const hasNextPage = total > limit * page;
 
     return {
       blogs: JSON.parse(JSON.stringify(blogs)),
