@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton"; // Adjust import path based on your Shadcn setup
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function InstructorsSkeleton() {
   return (
