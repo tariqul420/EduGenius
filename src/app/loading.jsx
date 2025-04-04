@@ -2,7 +2,7 @@ import { GraduationCap } from "lucide-react";
 
 const EducationLoading = () => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="flex min-h-screen w-full items-center justify-center">
       <div className="space-y-6 text-center">
         {/* Animated Spinner with Educational Icons */}
         <div className="relative mx-auto h-24 w-24">
