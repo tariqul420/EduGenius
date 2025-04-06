@@ -95,7 +95,7 @@ export default function Students() {
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                       Issued: {certificate.issueDate}
                     </p>
-                    <button className="flex items-center justify-center gap-1 px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-dark-btn transition-colors dark:bg-dark-btn dark:hover:bg-dark-btn/80">
+                    <button className="flex items-center justify-center gap-1 px-3 py-1 bg-main text-white text-sm rounded hover:bg-dark-btn transition-colors dark:bg-dark-btn dark:hover:bg-dark-btn/80">
                       {certificate.status}
                     </button>
                   </div>
