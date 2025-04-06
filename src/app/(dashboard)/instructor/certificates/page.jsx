@@ -46,9 +46,9 @@ export default function Certificates() {
           {certificates.map((certificate) => (
             <div 
               key={certificate.id} 
-              className="rounded-lg border bg-white p-6 shadow-md transition-shadow hover:shadow-lg dark:border-gray-700 dark:bg-gray-800"
+              className="rounded-lg border bg-white p-6 shadow-md transition-shadow hover:shadow-lg dark:border dark:bg-dark-bg"
             >
-              <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 {/* Left Section - Icon and Basic Info */}
                 <div className="flex items-start gap-4">
                   <div className="rounded-full bg-blue-100 p-3 dark:bg-blue-900">
@@ -101,7 +101,7 @@ export default function Certificates() {
                       {certificate.issueDate}
                     </p>
                   </div>
-                  <button className="flex items-center gap-1 text-blue-600 hover:text-blue-800 dark:text-blue-300 dark:hover:text-blue-200">
+                  <button className="flex items-center gap-1 text-dark-btn hover:text-dark-btn/80 dark:hover:text-dark-btn/80 cursor-pointer"> 
                     <Download className="h-4 w-4" />
                     <span className="font-medium">Download</span>
                   </button>
@@ -113,7 +113,7 @@ export default function Certificates() {
 
         {/* Empty State */}
         {certificates.length === 0 && (
-          <div className="rounded-lg border bg-white p-12 text-center dark:border-gray-700 dark:bg-gray-800">
+          <div className="rounded-lg border bg-white p-12 text-center dark:border dark:bg-dark-bg">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
               <Award className="h-8 w-8 text-gray-400" />
             </div>

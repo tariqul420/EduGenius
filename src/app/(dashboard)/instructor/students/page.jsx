@@ -42,7 +42,7 @@ export default function Students() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="rounded-lg border bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
+          <div className="rounded-lg border bg-white p-6 shadow-md dark:border dark:bg-dark-bg">
             <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400">
               Total Certificates
             </h3>
@@ -50,7 +50,7 @@ export default function Students() {
               4
             </p>
           </div>
-          <div className="rounded-lg border bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
+          <div className="rounded-lg border bg-white p-6 shadow-md dark:border dark:bg-dark-bg">
             <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400">
               Recent Certificate
             </h3>
@@ -58,7 +58,7 @@ export default function Students() {
               March 4, 2025
             </p>
           </div>
-          <div className="rounded-lg border bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
+          <div className="rounded-lg border bg-white p-6 shadow-md dark:border dark:bg-dark-bg">
             <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400">
               Next Goal
             </h3>
@@ -79,7 +79,7 @@ export default function Students() {
             {certificates.map((certificate) => (
               <div 
                 key={certificate.id} 
-                className="rounded-lg border bg-white p-6 shadow-md transition-shadow hover:shadow-lg dark:border-gray-700 dark:bg-gray-800"
+                className="rounded-lg border bg-white p-6 shadow-md transition-shadow hover:shadow-lg dark:border dark:bg-dark-bg"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                   <div className="space-y-2">
@@ -95,7 +95,7 @@ export default function Students() {
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                       Issued: {certificate.issueDate}
                     </p>
-                    <button className="flex items-center justify-center gap-1 px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors dark:bg-blue-700 dark:hover:bg-blue-600">
+                    <button className="flex items-center justify-center gap-1 px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-dark-btn transition-colors dark:bg-dark-btn dark:hover:bg-dark-btn/80">
                       {certificate.status}
                     </button>
                   </div>
