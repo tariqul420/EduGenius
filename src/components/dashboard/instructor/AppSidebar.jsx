@@ -17,21 +17,22 @@ import { Suspense } from "react";
 
 export function AppSidebar({ menu = [] }) {
   return (
-    <Sidebar>
-      <SidebarHeader>
+    <>
+      <Sidebar>
+      <SidebarHeader className="bg-light-bg dark:bg-dark-bg">
         <Link href="/" className="flex items-center gap-2 text-3xl">
           <GraduationCap size={26} className="text-main" />
           <h2 className="text-2xl font-semibold">EduGenius</h2>
         </Link>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="bg-light-bg dark:bg-dark-bg">
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menu.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton className="hover:bg-medium-bg dark:hover:bg-dark-hover" asChild>
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
@@ -60,5 +61,6 @@ export function AppSidebar({ menu = [] }) {
         </SignedIn>
       </SidebarFooter>
     </Sidebar>
+    </>
   );
 }
