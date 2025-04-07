@@ -3,19 +3,24 @@ import { Button } from "@/components/ui/button";
 
 export default function Courses() {
   return (
-    <section>
-      <div className="container mx-auto p-4 md:p-6 lg:p-8">
-        <div className="dark:bg-dark-bg mb-6 flex items-center justify-between rounded-md border bg-white p-6 shadow-md">
-          <h1 className="mb-6 text-2xl font-semibold text-gray-800 dark:text-gray-100">
+    <section className="py-6">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8">
+        <div className="dark:bg-dark-bg mb-8 flex items-center justify-between rounded-lg border bg-white p-6 shadow-sm">
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
             Courses
           </h1>
           <div>
-            <Button className="mb-4" variant="outline">
+            <Button
+              variant="outline"
+              className="px-4 py-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
               Create Course
             </Button>
           </div>
         </div>
-        <CourseTable />
+        <div className="dark:bg-dark-bg rounded-lg border bg-white p-6 shadow-sm">
+          <CourseTable />
+        </div>
       </div>
     </section>
   );
