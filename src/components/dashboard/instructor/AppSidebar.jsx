@@ -14,9 +14,11 @@ import {
 } from "@/components/ui/sidebar";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import {
+  Award,
   BookOpenCheck,
   BookOpenText,
   BookText,
+  ClipboardCheck,
   GraduationCap,
   LayoutDashboard,
   Medal,
@@ -34,6 +36,8 @@ const iconMap = {
   Medal: Medal,
   BookOpenCheck: BookOpenCheck,
   BookOpenText: BookOpenText,
+  ClipboardCheck: ClipboardCheck,
+  Award: Award,
 };
 
 export function AppSidebar({ menu = [] }) {
