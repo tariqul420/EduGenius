@@ -6,7 +6,11 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { useMemo } from "react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { useMemo, useRef } from "react";
+// import jsPDF from "jspdf";
+// import html2canvas from "html2canvas";
 
 export default function CertificateTable({ certificates = [] }) {
   const columns = useMemo(
@@ -53,9 +57,29 @@ export default function CertificateTable({ certificates = [] }) {
     [],
   );
 
+  const licenseCertificateRef = useRef(null);
+
   const handleDownload = (certificate) => {
-    console.log(`Downloading certificate for: ${certificate.courseName}`);
-    // Implement your download logic here
+    const inputData = licenseCertificateRef.current;
+    try {
+      const canvas = html2canvas(inputData);
+      const imgData = canvas.toDataURL("image/png");
+
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "px",
+        format: "a4",
+      });
+
+      const width = pdf.internal.pageSize.getWidth();
+      const height = pdf.internal.pageSize.getHeight();
+      pdf.addImage(imgData, "PNG", 0, 0, width, height);
+      pdf.save(
+        `${certificate.courseName.replace(/\s+/g, "_")}_certificate.pdf`,
+      );
+    } catch (e) {
+      console.error("Error downloading certificate:", e);
+    }
   };
 
   const table = useReactTable({
