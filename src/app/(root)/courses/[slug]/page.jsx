@@ -1,4 +1,16 @@
+import { auth } from "@clerk/nextjs/server";
 import { getCourseBySlug } from "@/lib/actions/course.action";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import {
   RefreshCcw,
   Star,
@@ -13,7 +25,13 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
+
 const CourseDetails = async ({ params }) => {
+  const { userId } = await auth();
+  // Debugging logs
+  // console.log("User ID:", userId);
+  // console.log("Is user signed in?", !!userId);
+
   const { slug } = await params;
   const course = await getCourseBySlug(slug);
   const {
@@ -30,9 +48,11 @@ const CourseDetails = async ({ params }) => {
     instructor,
   } = course;
 
+  const isSignedIn = !!userId; // ✅ boolean flag for UI logic
+
   return (
     <section className="flex min-h-screen flex-col items-center justify-center bg-gray-50 py-10 dark:bg-black">
-      <div className="container mx-auto max-w-3xl rounded-lg bg-white p-6 px-2.5 shadow-md md:p-10 md:px-8 dark:bg-dark-bg">
+      <div className="dark:bg-dark-bg container mx-auto max-w-3xl rounded-lg bg-white p-6 px-2.5 shadow-md md:p-10 md:px-8">
         <Image
           src={thumbnail}
           alt={category?.name}
@@ -53,7 +73,7 @@ const CourseDetails = async ({ params }) => {
                 strokeWidth={1}
                 fill="#ffd500"
                 absoluteStrokeWidth
-              />{" "}
+              />
               {averageRating}
             </p>
           </span>
@@ -97,19 +117,41 @@ const CourseDetails = async ({ params }) => {
           </p>
         </div>
 
-        <div className="flex justify-between items-center">
-        <Link
-          href={`/courses`}
-          className="bg-main hover:bg-main mt-5 inline-block rounded px-4 py-1.5 text-white transition-colors"
-        >
-          Go Back
-        </Link>
-        <Link
-          href={`/courses`}
-          className="bg-main hover:bg-main mt-5 inline-block rounded px-4 py-1.5 text-white transition-colors"
-        >
-          Enrollment
-        </Link>
+        <div className="flex items-center justify-between">
+          <Link
+            href={`/courses`}
+            className="bg-main hover:bg-main mt-5 inline-block rounded px-4 py-1.5 text-white transition-colors"
+          >
+            Go Back
+          </Link>
+
+          {isSignedIn ? (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <button className="bg-main cursor-pointer hover:bg-main mt-5 inline-block rounded px-4 py-1.5 text-white transition-colors" variant="outline">Enrollment</button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your account and remove your data from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction>Continue</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          ) : (
+            <Link
+              href={`/sign-in`}
+              className="mt-5 inline-block rounded bg-gray-500 px-4 py-1.5 text-white transition-colors hover:bg-gray-600"
+            >
+              Sign in to Enroll
+            </Link>
+          )}
         </div>
       </div>
     </section>
