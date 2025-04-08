@@ -31,8 +31,8 @@ const CourseDetails = async ({ params }) => {
   } = course;
 
   return (
-    <section className="flex min-h-screen flex-col items-center justify-center bg-gray-50 py-10 dark:bg-gray-900">
-      <div className="container mx-auto max-w-3xl rounded-lg bg-white p-6 px-2.5 shadow-md md:p-10 md:px-8 dark:bg-gray-800">
+    <section className="flex min-h-screen flex-col items-center justify-center bg-gray-50 py-10 dark:bg-black">
+      <div className="container mx-auto max-w-3xl rounded-lg bg-white p-6 px-2.5 shadow-md md:p-10 md:px-8 dark:bg-dark-bg">
         <Image
           src={thumbnail}
           alt={category?.name}
@@ -97,12 +97,20 @@ const CourseDetails = async ({ params }) => {
           </p>
         </div>
 
+        <div className="flex justify-between items-center">
         <Link
           href={`/courses`}
           className="bg-main hover:bg-main mt-5 inline-block rounded px-4 py-1.5 text-white transition-colors"
         >
           Go Back
         </Link>
+        <Link
+          href={`/courses`}
+          className="bg-main hover:bg-main mt-5 inline-block rounded px-4 py-1.5 text-white transition-colors"
+        >
+          Enrollment
+        </Link>
+        </div>
       </div>
     </section>
   );
