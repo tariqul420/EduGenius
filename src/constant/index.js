@@ -38,19 +38,24 @@ export const students = [
     icon: "LayoutDashboard",
   },
   {
-    title: "Courses",
-    url: "/student/courses",
+    title: "Course",
+    url: "/student/course",
     icon: "BookText",
   },
   {
-    title: "Certificates",
-    url: "/student/certificates",
-    icon: "Medal",
+    title: "Assignment",
+    url: "/student/assignment",
+    icon: "BookOpenCheck",
   },
   {
-    title: "Quiz & Assignment",
-    url: "/student/quiz-assignment",
-    icon: "BookOpenCheck",
+    title: "Quiz",
+    url: "/student/quiz",
+    icon: "ClipboardCheck",
+  },
+  {
+    title: "Certificate",
+    url: "/student/certificate",
+    icon: "Award",
   },
 ];
 
