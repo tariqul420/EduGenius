@@ -1,5 +1,6 @@
 "use client";
 
+import CategoryForm from "@/components/shared/CategoryForm";
 import DialogModal from "@/components/shared/DialogModal";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +22,6 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconPlus } from "@tabler/icons-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -139,33 +139,12 @@ export default function CourseForm() {
                       <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
                     <SelectContent>
-                      <Form {...categoryForm}>
-                        <form
-                          onSubmit={categoryForm.handleSubmit(onCategorySubmit)}
-                          className="flex items-center gap-2"
-                        >
-                          <FormField
-                            control={categoryForm.control}
-                            name="name"
-                            render={({ field }) => (
-                              <FormItem className="w-full">
-                                <FormLabel>Category Name</FormLabel>
-                                <FormControl>
-                                  <Input
-                                    placeholder="Enter category name"
-                                    {...field}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-
-                          <Button type="submit">
-                            <IconPlus size={12} />
-                          </Button>
-                        </form>
-                      </Form>
+                      <CategoryForm
+                        onSubmit={(values) => {
+                          console.log("New Category:", values);
+                          // Add logic to handle the new category
+                        }}
+                      />
 
                       <SelectItem value="programming">Programming</SelectItem>
                       <SelectItem value="design">Design</SelectItem>
