@@ -1,5 +1,5 @@
 export default function CertificateLicense({
-  recipientName = "[Recipient Name]",
+  studentName = "[Student Name]",
   courseName = "[Course/Program Name]",
   certificateId = "[Unique ID]",
   instructorName = "[Instructor Name]",
@@ -36,7 +36,7 @@ export default function CertificateLicense({
 
         {/* Details */}
         <div className="mb-14 space-y-4">
-          <h2 className="text-dark-bg text-3xl font-bold">{recipientName}</h2>
+          <h2 className="text-dark-bg text-3xl font-bold">{studentName}</h2>
           <p className="text-dark-input">Date {new Date().toISOString()}</p>
         </div>
 
