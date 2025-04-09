@@ -1,39 +1,42 @@
 "use client";
 
+import { PagePagination } from "@/components/shared/PagePagination";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import { format } from "date-fns";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import { useMemo, useRef } from "react";
-// import jsPDF from "jspdf";
-// import html2canvas from "html2canvas";
+import { useMemo } from "react";
+import CertificatePDF from "./CertificatePDF";
 
-export default function CertificateTable({ certificates = [] }) {
+export default function CertificateTable({
+  certificates = [],
+  hasNextPage,
+  total,
+}) {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "courseName",
+        accessorKey: "course.title",
         header: "Course Name",
         cell: ({ row }) => (
           <div className="dark:text-medium-bg max-w-xs truncate text-gray-700">
-            {row.original.courseName}
+            {row.original.course.title}
           </div>
         ),
       },
       {
-        accessorKey: "issueDate",
+        accessorKey: "createdAt",
         header: "Issue Date",
         cell: ({ row }) => {
           const formattedDate = format(
-            new Date(row.original.issueDate),
+            new Date(row.original.createdAt),
             "MMMM dd, yyyy",
           );
           return (
-            <div className="dark:text-medium-bg text-center text-gray-700">
+            <div className="dark:text-medium-bg text-gray-700">
               {formattedDate}
             </div>
           );
@@ -42,45 +45,27 @@ export default function CertificateTable({ certificates = [] }) {
       {
         accessorKey: "action",
         header: "Action",
-        cell: ({ row }) => (
-          <div className="flex justify-end">
-            <button
-              onClick={() => handleDownload(row.original)}
-              className="bg-main cursor-pointer rounded px-3 py-1 text-sm font-medium text-white"
-            >
-              Download
-            </button>
-          </div>
-        ),
+        cell: ({ row }) => {
+          const formattedFileName =
+            row.original.course.title.toLowerCase().replaceAll(" ", "-") +
+            ".pdf";
+
+          return (
+            <div className="flex justify-end">
+              <PDFDownloadLink
+                document={<CertificatePDF certificateData={row.original} />}
+                fileName={formattedFileName}
+                className="bg-main hover:bg-main dark:bg-main dark:hover:bg-main rounded px-3 py-1 text-sm font-medium text-white"
+              >
+                {({ loading }) => (loading ? "Generating..." : "Download")}
+              </PDFDownloadLink>
+            </div>
+          );
+        },
       },
     ],
     [],
   );
-
-  const licenseCertificateRef = useRef(null);
-
-  const handleDownload = (certificate) => {
-    const inputData = licenseCertificateRef.current;
-    try {
-      const canvas = html2canvas(inputData);
-      const imgData = canvas.toDataURL("image/png");
-
-      const pdf = new jsPDF({
-        orientation: "landscape",
-        unit: "px",
-        format: "a4",
-      });
-
-      const width = pdf.internal.pageSize.getWidth();
-      const height = pdf.internal.pageSize.getHeight();
-      pdf.addImage(imgData, "PNG", 0, 0, width, height);
-      pdf.save(
-        `${certificate.courseName.replace(/\s+/g, "_")}_certificate.pdf`,
-      );
-    } catch (e) {
-      console.error("Error downloading certificate:", e);
-    }
-  };
 
   const table = useReactTable({
     data: certificates,
@@ -89,15 +74,12 @@ export default function CertificateTable({ certificates = [] }) {
   });
 
   return (
-    <section className="py-6">
-      <div className="dark:bg-dark-bg mx-4 rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700">
+    <section className="overflow-x-auto">
+      <div className="dark:bg-dark-bg rounded-lg border bg-white shadow">
         <table className="w-full border-collapse">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr
-                key={headerGroup.id}
-                className="dark:bg-dark-hover border-b bg-gray-100 dark:border-gray-700"
-              >
+              <tr key={headerGroup.id} className="border-b">
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
@@ -140,6 +122,11 @@ export default function CertificateTable({ certificates = [] }) {
           </tbody>
         </table>
       </div>
+
+      {/* Pagination */}
+      {total > 0 && (
+        <PagePagination total={total} limit={6} hasNextPage={hasNextPage} />
+      )}
     </section>
   );
 }

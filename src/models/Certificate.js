@@ -10,7 +10,6 @@ const certificateSchema = new mongoose.Schema(
       unique: true,
     },
     student: { type: mongoose.Schema.Types.ObjectId, ref: User },
-    instructor: { type: mongoose.Schema.Types.ObjectId, ref: User },
     course: { type: mongoose.Schema.Types.ObjectId, ref: Course },
   },
   { timestamps: true },
