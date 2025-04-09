@@ -1,35 +1,33 @@
-import { auth } from "@clerk/nextjs/server";
-import { getCourseBySlug } from "@/lib/actions/course.action";
+import PaymentModal from "@/components/payment/PaymentModal";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { getCourseBySlug } from "@/lib/actions/course.action";
+import { auth } from "@clerk/nextjs/server";
 import {
+  Award,
+  BookOpen,
+  Clock,
+  DollarSign,
+  Globe,
   RefreshCcw,
   Star,
-  Users,
-  Clock,
-  BookOpen,
-  Award,
-  Globe,
-  DollarSign,
   Tag,
+  Users,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import PaymentModal from "@/components/payment/PaymentModal";
 
 const CourseDetails = async ({ params }) => {
-  const { userId } = await auth();
+  const { userId, sessionClaims } = await auth();
   const { slug } = await params;
   const course = await getCourseBySlug(slug);
+  const path = `/courses/${slug}`;
 
   const {
     level,
@@ -46,10 +44,6 @@ const CourseDetails = async ({ params }) => {
   } = course;
 
   const isSignedIn = !!userId;
-  const savePayment = async (transactionId) => {
-    
-  }
-
 
   return (
     <section className="flex min-h-screen flex-col items-center justify-center bg-gray-50 py-10 dark:bg-black">
@@ -141,11 +135,16 @@ const CourseDetails = async ({ params }) => {
                   <AlertDialogTitle>Payment Authorization</AlertDialogTitle>
                   <AlertDialogDescription>
                     <div className="mb-5">
-                      You&apos;re about to purchase <strong>{course.title}</strong>{" "}
-                      for <strong>{course.price}</strong>. Please review your
+                      You&apos;re about to purchase{" "}
+                      <strong>{course.title}</strong> for{" "}
+                      <strong>{course.price}</strong>. Please review your
                       payment details before confirming.
                     </div>
-                    <PaymentModal course={course}></PaymentModal>
+                    <PaymentModal
+                      course={course}
+                      userId={sessionClaims?.userId}
+                      path={path}
+                    />
                   </AlertDialogDescription>
                 </AlertDialogHeader>
               </AlertDialogContent>
