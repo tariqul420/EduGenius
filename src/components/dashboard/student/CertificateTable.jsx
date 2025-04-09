@@ -8,9 +8,13 @@ import {
 import { format } from "date-fns";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
+import CertificateLicense from "./CertificateLicense";
 
 export default function CertificateTable({ certificates = [] }) {
+  const [selectedCertificate, setSelectedCertificate] = useState(null);
+  const certificateRef = useRef(null);
+
   const columns = useMemo(
     () => [
       {
@@ -55,13 +59,14 @@ export default function CertificateTable({ certificates = [] }) {
     [],
   );
 
-  const licenseCertificateRef = useRef(null);
+  const handleDownload = async (certificate) => {
+    setSelectedCertificate(certificate);
+    const element = certificateRef.current;
+    if (!element) return;
 
-  const handleDownload = (certificate) => {
-    const inputData = licenseCertificateRef.current;
     try {
-      const canvas = html2canvas(inputData);
-      const imgData = canvas.toDataURL("image/png");
+      const canvas = await html2canvas(element, { scale: 2 });
+      const data = canvas.toDataURL("image/png");
 
       const pdf = new jsPDF({
         orientation: "landscape",
@@ -69,12 +74,13 @@ export default function CertificateTable({ certificates = [] }) {
         format: "a4",
       });
 
+      const imgProperties = pdf.getImageProperties(data);
       const width = pdf.internal.pageSize.getWidth();
-      const height = pdf.internal.pageSize.getHeight();
-      pdf.addImage(imgData, "PNG", 0, 0, width, height);
-      pdf.save(
-        `${certificate.courseName.replace(/\s+/g, "_")}_certificate.pdf`,
-      );
+      const height = (imgProperties.height * width) / imgProperties.width;
+
+      pdf.addImage(data, "PNG", 0, 0, width, height);
+
+      pdf.save("certificate.pdf");
     } catch (e) {
       console.error("Error downloading certificate:", e);
     }
@@ -87,7 +93,7 @@ export default function CertificateTable({ certificates = [] }) {
   });
 
   return (
-    <section className="py-6">
+    <section className="overflow-x-auto">
       <div className="dark:bg-dark-bg mx-4 rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700">
         <table className="w-full border-collapse">
           <thead>
@@ -137,6 +143,16 @@ export default function CertificateTable({ certificates = [] }) {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Hidden Certificate Template */}
+      <div style={{ position: "absolute", left: "-9999px" }}>
+        {selectedCertificate && (
+          <CertificateLicense
+            certificateRef={certificateRef}
+            certificateData={selectedCertificate}
+          />
+        )}
       </div>
     </section>
   );

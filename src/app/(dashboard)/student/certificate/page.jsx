@@ -22,14 +22,6 @@ export default async function StudentCertificate({ searchParams }) {
       </h1>
 
       <CertificateTable certificates={certificates} />
-
-      {/* <div className="flex flex-col gap-4">
-        {certificates?.map((certificate, index) => (
-          <div key={index}>
-            <CertificateLicense certificateData={certificate} />
-          </div>
-        ))}
-      </div> */}
     </section>
   );
 }

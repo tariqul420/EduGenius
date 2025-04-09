@@ -1,11 +1,17 @@
 import { format } from "date-fns";
 
-export default function CertificateLicense({ certificateData }) {
+export default function CertificateLicense({
+  certificateData,
+  certificateRef,
+}) {
   const { certificateId, student, course, createdAt } = certificateData || {};
   const formattedDate = format(new Date(createdAt), "MMMM dd, yyyy");
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-white">
+    <div
+      ref={certificateRef}
+      className="flex min-h-screen items-center justify-center bg-white"
+    >
       <div className="relative w-[900px] rounded-md border-2 bg-white p-14 shadow-lg">
         {/* Header */}
         <div className="mb-12 flex items-center justify-between">
