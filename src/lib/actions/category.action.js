@@ -2,7 +2,7 @@
 import Category from "@/models/Category";
 import dbConnect from "../dbConnect";
 
-export async function getCategory({ categoryParams }) {
+export async function getCategory(categoryParams = "") {
   try {
     await dbConnect();
     const query = categoryParams ? { name: categoryParams } : {}; // Check if categoryParams exists
