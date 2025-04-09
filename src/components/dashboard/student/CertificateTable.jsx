@@ -1,20 +1,16 @@
 "use client";
 
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import { format } from "date-fns";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import { useMemo, useRef, useState } from "react";
-import CertificateLicense from "./CertificateLicense";
+import { useMemo } from "react";
+import CertificatePDF from "./CertificatePDF";
 
 export default function CertificateTable({ certificates = [] }) {
-  const [selectedCertificate, setSelectedCertificate] = useState(null);
-  const certificateRef = useRef(null);
-
   const columns = useMemo(
     () => [
       {
@@ -46,12 +42,13 @@ export default function CertificateTable({ certificates = [] }) {
         header: "Action",
         cell: ({ row }) => (
           <div className="flex justify-end">
-            <button
-              onClick={() => handleDownload(row.original)}
-              className="bg-main cursor-pointer rounded px-3 py-1 text-sm font-medium text-white"
+            <PDFDownloadLink
+              document={<CertificatePDF certificateData={row.original} />}
+              fileName="certificate.pdf"
+              className="bg-main hover:bg-main dark:bg-main dark:hover:bg-main rounded px-3 py-1 text-sm font-medium text-white"
             >
-              Download
-            </button>
+              {({ loading }) => (loading ? "Generating..." : "Download")}
+            </PDFDownloadLink>
           </div>
         ),
       },
@@ -59,32 +56,32 @@ export default function CertificateTable({ certificates = [] }) {
     [],
   );
 
-  const handleDownload = async (certificate) => {
-    setSelectedCertificate(certificate);
-    const element = certificateRef.current;
-    if (!element) return;
+  // const handleDownload = async (certificate) => {
+  //   setSelectedCertificate(certificate);
+  //   const element = certificateRef.current;
+  //   if (!element) return;
 
-    try {
-      const canvas = await html2canvas(element, { scale: 2 });
-      const data = canvas.toDataURL("image/png");
+  //   try {
+  //     const canvas = await html2canvas(element, { scale: 2 });
+  //     const data = canvas.toDataURL("image/png");
 
-      const pdf = new jsPDF({
-        orientation: "landscape",
-        unit: "px",
-        format: "a4",
-      });
+  //     const pdf = new jsPDF({
+  //       orientation: "landscape",
+  //       unit: "px",
+  //       format: "a4",
+  //     });
 
-      const imgProperties = pdf.getImageProperties(data);
-      const width = pdf.internal.pageSize.getWidth();
-      const height = (imgProperties.height * width) / imgProperties.width;
+  //     const imgProperties = pdf.getImageProperties(data);
+  //     const width = pdf.internal.pageSize.getWidth();
+  //     const height = (imgProperties.height * width) / imgProperties.width;
 
-      pdf.addImage(data, "PNG", 0, 0, width, height);
+  //     pdf.addImage(data, "PNG", 0, 0, width, height);
 
-      pdf.save("certificate.pdf");
-    } catch (e) {
-      console.error("Error downloading certificate:", e);
-    }
-  };
+  //     pdf.save("certificate.pdf");
+  //   } catch (e) {
+  //     console.error("Error downloading certificate:", e);
+  //   }
+  // };
 
   const table = useReactTable({
     data: certificates,
@@ -143,16 +140,6 @@ export default function CertificateTable({ certificates = [] }) {
             ))}
           </tbody>
         </table>
-      </div>
-
-      {/* Hidden Certificate Template */}
-      <div style={{ position: "absolute", left: "-9999px" }}>
-        {selectedCertificate && (
-          <CertificateLicense
-            certificateRef={certificateRef}
-            certificateData={selectedCertificate}
-          />
-        )}
       </div>
     </section>
   );
