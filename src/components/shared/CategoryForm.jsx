@@ -14,8 +14,10 @@ export default function CategoryForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [category, setCategory] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  async function onSubmit() {
+  function onSubmit() {
+    setLoading(true);
     try {
       // Handle category submission logic here
       if (!category) return;
@@ -24,12 +26,15 @@ export default function CategoryForm() {
         loading: "Creating category...",
         success: (res) => {
           setCategory("");
+
           return `Category ${res.name} created successfully!`;
         },
         error: (err) => `Error creating category: ${err}`,
       });
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -63,7 +68,12 @@ export default function CategoryForm() {
         onChange={(e) => setCategory(e.target.value)}
         value={category}
       />
-      <Button type="button" onClick={onSubmit} variant="outline">
+      <Button
+        type="button"
+        onClick={onSubmit}
+        variant="outline"
+        disabled={loading}
+      >
         <IconPlus size={12} />
       </Button>
     </div>

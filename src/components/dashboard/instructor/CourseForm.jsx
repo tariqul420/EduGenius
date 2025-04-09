@@ -24,9 +24,10 @@ import { getCategory } from "@/lib/actions/category.action";
 import { createCourse } from "@/lib/actions/course.action";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -62,6 +63,7 @@ const formSchema = z.object({
 export default function CourseForm() {
   const [categories, setCategories] = useState([]);
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   // Get a specific query parameter
   const category = searchParams.get("cq");
@@ -85,14 +87,29 @@ export default function CourseForm() {
   // 2. Define a submit handler.
   function onSubmit(values) {
     console.log("Form submitted:", values);
-    createCourse(values);
+    toast.promise(
+      createCourse({ data: values, path: "/instructor/courses" }),
+      {
+        loading: "Creating course...",
+        success: (data) => {
+          console.log("Course created:", data);
+          router.refresh();
+          form.reset();
+          return "Course created successfully!";
+        },
+        error: (error) => {
+          console.error("Error creating course:", error);
+          return "Failed to create course.";
+        },
+      },
+      { id: "create-course" },
+    );
   }
 
-  //  Get category by server action
+  //  Get category from server action
   useEffect(() => {
     const fetchCategory = async () => {
       const result = await getCategory({ categoryParams: category });
-      console.log("Fetched categories:", result);
       if (!result) return;
       setCategories(result);
     };
@@ -296,7 +313,11 @@ export default function CourseForm() {
           />
 
           {/* Submit Button */}
-          <Button type="submit" className="col-span-1 sm:col-span-2">
+          <Button
+            type="submit"
+            className="col-span-1 sm:col-span-2"
+            disabled={form.formState.isSubmitting}
+          >
             Submit
           </Button>
         </form>

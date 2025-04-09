@@ -2,6 +2,7 @@
 
 import Course from "@/models/Course";
 import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
 
 export async function getCourses({
@@ -187,7 +188,7 @@ export async function getCourseBySlug(slug) {
   }
 }
 
-export async function createCourse(courseData) {
+export async function createCourse({ data, path }) {
   try {
     await dbConnect();
 
@@ -200,9 +201,10 @@ export async function createCourse(courseData) {
     }
 
     // Add the userId as the instructor for the course
-    const newCourse = new Course({ ...courseData, instructor: userId });
+    const newCourse = new Course({ ...data, instructor: userId });
     await newCourse.save();
 
+    revalidatePath(path);
     return JSON.parse(JSON.stringify(newCourse));
   } catch (error) {
     console.error("Error creating course:", error);
