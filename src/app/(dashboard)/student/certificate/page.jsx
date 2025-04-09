@@ -1,12 +1,20 @@
 import CertificateTable from "@/components/dashboard/student/CertificateTable";
+import { getCertificateByStudent } from "@/lib/actions/certificate.action";
+import { auth } from "@clerk/nextjs/server";
 
-const certificates = [
-  { id: 1, courseName: "React Fundamentals", issueDate: "2025-03-15" },
-  { id: 2, courseName: "JavaScript Advanced", issueDate: "2025-02-20" },
-  { id: 3, courseName: "CSS Mastery", issueDate: "2025-01-10" },
-];
+export default async function StudentCertificate({ searchParams }) {
+  const { sessionClaims } = await auth();
+  const { page } = await searchParams;
+  const {
+    certificates = [],
+    total = 0,
+    hasNextPage = false,
+  } = await getCertificateByStudent({
+    studentId: sessionClaims?.userId,
+    page: Number(page) || 1,
+    limit: 6,
+  });
 
-export default async function StudentCertificate() {
   return (
     <section className="container mx-auto overflow-x-hidden p-4 md:p-6 lg:p-8">
       <h1 className="dark:text-medium-bg text-dark-bg mb-6 text-2xl font-semibold">

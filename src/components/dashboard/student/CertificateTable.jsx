@@ -14,24 +14,24 @@ export default function CertificateTable({ certificates = [] }) {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "courseName",
+        accessorKey: "course.title",
         header: "Course Name",
         cell: ({ row }) => (
           <div className="dark:text-medium-bg max-w-xs truncate text-gray-700">
-            {row.original.courseName}
+            {row.original.course.title}
           </div>
         ),
       },
       {
-        accessorKey: "issueDate",
+        accessorKey: "createdAt",
         header: "Issue Date",
         cell: ({ row }) => {
           const formattedDate = format(
-            new Date(row.original.issueDate),
+            new Date(row.original.createdAt),
             "MMMM dd, yyyy",
           );
           return (
-            <div className="dark:text-medium-bg text-center text-gray-700">
+            <div className="dark:text-medium-bg text-gray-700">
               {formattedDate}
             </div>
           );

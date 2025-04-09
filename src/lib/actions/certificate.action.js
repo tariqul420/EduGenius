@@ -14,7 +14,7 @@ export async function getCertificateByStudent({
 
     // Validate studentId
     if (!mongoose.Types.ObjectId.isValid(studentId)) {
-      return { certificate: [], total: 0, hasNextPage: false };
+      return { certificates: [], total: 0, hasNextPage: false };
     }
 
     // Convert string ID to ObjectId
@@ -24,7 +24,7 @@ export async function getCertificateByStudent({
     const skip = (page - 1) * limit;
 
     // Find certificate with pagination
-    const certificate = await Certificate.find({ student: objectId })
+    const certificates = await Certificate.find({ student: objectId })
       .populate("student", "firstName lastName")
       .populate({
         path: "course",
@@ -42,12 +42,12 @@ export async function getCertificateByStudent({
     const hasNextPage = total > limit * page;
 
     return {
-      certificate: JSON.parse(JSON.stringify(certificate)),
+      certificates: JSON.parse(JSON.stringify(certificates)),
       total,
       hasNextPage,
     };
   } catch (error) {
     console.error("Error fetching certificate by student:", error);
-    return { certificate: [], total: 0, hasNextPage: false };
+    return { certificates: [], total: 0, hasNextPage: false };
   }
 }
