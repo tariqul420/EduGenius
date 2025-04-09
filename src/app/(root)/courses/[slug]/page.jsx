@@ -139,11 +139,11 @@ const CourseDetails = async ({ params }) => {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Payment Authorization</AlertDialogTitle>
                   <AlertDialogDescription>
-                    <p className="mb-5">
+                    <div className="mb-5">
                       You&apos;re about to purchase <strong>{course.title}</strong>{" "}
                       for <strong>{course.price}</strong>. Please review your
                       payment details before confirming.
-                    </p>
+                    </div>
                     <PaymentModal course={course}></PaymentModal>
                   </AlertDialogDescription>
                 </AlertDialogHeader>

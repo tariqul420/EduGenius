@@ -244,7 +244,7 @@ export default function CheckOutForm({ payInfo }) {
             className={`px-4 py-2 rounded-md text-white font-medium ${
               !stripe || !clientSecret || paymentLoading
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-primary hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/80"
+                : "bg-main hover:bg-dark-main cursor-pointer dark:bg-dark-bg dark:hover:bg-dark-hover"
             }`}
           >
             {paymentLoading ? (
