@@ -1,28 +1,28 @@
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import { format } from "date-fns";
 
-// Define styles using StyleSheet (similar to inline CSS but for PDF)
+// Define styles with adjusted padding and margins
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
     backgroundColor: "#ffffff",
-    padding: 40,
+    padding: 20, // Reduced from 40 for tighter page margins
     alignItems: "center",
     justifyContent: "center",
   },
   container: {
-    width: 900,
+    width: 700, // Reduced from 900 to fit A4 landscape better
     borderWidth: 2,
     borderColor: "#e5e7eb",
     borderRadius: 6,
     backgroundColor: "#ffffff",
-    padding: 40,
+    padding: 30, // Reduced from 40 for internal spacing
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 48,
+    marginBottom: 30, // Reduced from 48 for tighter spacing
   },
   title: {
     color: "#181717",
@@ -39,20 +39,20 @@ const styles = StyleSheet.create({
     fontWeight: "medium",
   },
   mainContent: {
-    marginBottom: 56,
+    marginBottom: 40, // Reduced from 56 for balanced spacing
   },
   completionText: {
     color: "#181717a4",
     fontSize: 18,
     textTransform: "uppercase",
-    marginBottom: 24,
+    marginBottom: 16, // Reduced from 24
   },
   courseTitle: {
     color: "#673de5",
     fontSize: 36,
     fontWeight: "semibold",
     textTransform: "uppercase",
-    marginBottom: 24,
+    marginBottom: 16, // Reduced from 24
   },
   instructorText: {
     color: "#181717a4",
@@ -63,12 +63,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   details: {
-    marginBottom: 56,
+    marginBottom: 40, // Reduced from 56
   },
   studentName: {
     color: "#181717",
     fontSize: 30,
     fontWeight: "bold",
+    marginBottom: 12, // Added for spacing below student name
   },
   date: {
     color: "#181717a4",
@@ -79,11 +80,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderTopWidth: 1,
     borderTopColor: "#e5e7eb",
-    paddingTop: 32,
+    paddingTop: 20, // Reduced from 32
   },
   footerText: {
     color: "#181717a4",
     fontSize: 12,
+    marginBottom: 4, // Added for spacing between footer lines
   },
   footerBold: {
     fontWeight: "medium",
@@ -152,7 +154,8 @@ const CertificatePDF = ({ certificateData }) => {
                 Issued by <Text style={styles.footerBold}>Edu Genius</Text>
               </Text>
               <Text style={styles.footerText}>
-                Website: <Text style={styles.link}>https://edugenius.com</Text>
+                Website:{" "}
+                <Text style={styles.link}>https://edu-genius.vercel.app</Text>
               </Text>
             </View>
             <View style={styles.poweredBy}>
