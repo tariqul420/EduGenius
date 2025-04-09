@@ -109,7 +109,7 @@ export default function CourseForm() {
   //  Get category from server action
   useEffect(() => {
     const fetchCategory = async () => {
-      const result = await getCategory({ categoryParams: category });
+      const result = await getCategory(category);
       if (!result) return;
       setCategories(result);
     };
