@@ -9,8 +9,6 @@ import { format } from "date-fns";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useMemo, useRef } from "react";
-// import jsPDF from "jspdf";
-// import html2canvas from "html2canvas";
 
 export default function CertificateTable({ certificates = [] }) {
   const columns = useMemo(

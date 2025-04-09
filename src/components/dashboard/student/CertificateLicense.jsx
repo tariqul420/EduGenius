@@ -1,10 +1,11 @@
-export default function CertificateLicense({
-  studentName = "[Student Name]",
-  courseName = "[Course/Program Name]",
-  certificateId = "[Unique ID]",
-  instructorName = "[Instructor Name]",
-  websiteUrl = "https://edugenius.com",
-}) {
+import { format } from "date-fns";
+
+export default function CertificateLicense({ certificateData }) {
+  const formattedDate = format(
+    new Date(certificateData?.createdAt),
+    "MMMM dd, yyyy",
+  );
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50">
       <div className="relative w-[900px] rounded-md border border-gray-200 bg-white p-14 shadow-lg">
@@ -37,7 +38,7 @@ export default function CertificateLicense({
         {/* Details */}
         <div className="mb-14 space-y-4">
           <h2 className="text-dark-bg text-3xl font-bold">{studentName}</h2>
-          <p className="text-dark-input">Date {new Date().toISOString()}</p>
+          <p className="text-dark-input">Date {formattedDate}</p>
         </div>
 
         {/* Footer */}
@@ -48,8 +49,11 @@ export default function CertificateLicense({
             </p>
             <p className="text-dark-input mt-2 text-sm">
               Website:{" "}
-              <a href={websiteUrl} className="text-main hover:underline">
-                {websiteUrl}
+              <a
+                href={`https://edu-genius.vercel.app`}
+                className="text-main hover:underline"
+              >
+                https://edugenius.com
               </a>
             </p>
           </div>
