@@ -23,13 +23,12 @@ export default async function StudentCertificate({ searchParams }) {
 
       <CertificateTable certificates={certificates} />
 
-      {/* <div>
-        <CertificateLicense
-          studentName="Alex Johnson"
-          courseName="Data Science Fundamentals"
-          certificateId="EG-54321"
-          instructorName="Dr. Emily Carter"
-        />
+      {/* <div className="flex flex-col gap-4">
+        {certificates?.map((certificate, index) => (
+          <div key={index}>
+            <CertificateLicense certificateData={certificate} />
+          </div>
+        ))}
       </div> */}
     </section>
   );

@@ -1,14 +1,12 @@
 import { format } from "date-fns";
 
 export default function CertificateLicense({ certificateData }) {
-  const formattedDate = format(
-    new Date(certificateData?.createdAt),
-    "MMMM dd, yyyy",
-  );
+  const { certificateId, student, course, createdAt } = certificateData || {};
+  const formattedDate = format(new Date(createdAt), "MMMM dd, yyyy");
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
-      <div className="relative w-[900px] rounded-md border border-gray-200 bg-white p-14 shadow-lg">
+    <div className="flex min-h-screen items-center justify-center bg-white">
+      <div className="relative w-[900px] rounded-md border-2 bg-white p-14 shadow-lg">
         {/* Header */}
         <div className="mb-12 flex items-center justify-between">
           <div>
@@ -28,17 +26,22 @@ export default function CertificateLicense({ certificateData }) {
             Certificate of Completion
           </p>
           <h1 className="text-main mb-6 text-4xl font-semibold uppercase">
-            {courseName}
+            {course?.title}
           </h1>
           <p className="text-dark-input text-base">
-            Instructors <b className="text-dark-bg">{instructorName}</b>
+            Instructors{" "}
+            <b className="text-dark-bg">
+              {course?.instructor?.firstName} {course?.instructor?.lastName}
+            </b>
           </p>
         </div>
 
         {/* Details */}
         <div className="mb-14 space-y-4">
-          <h2 className="text-dark-bg text-3xl font-bold">{studentName}</h2>
-          <p className="text-dark-input">Date {formattedDate}</p>
+          <h2 className="text-dark-bg text-3xl font-bold">
+            {student?.firstName} {student?.lastName}
+          </h2>
+          <p className="text-dark-input">{formattedDate}</p>
         </div>
 
         {/* Footer */}
