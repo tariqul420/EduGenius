@@ -40,48 +40,27 @@ export default function CertificateTable({ certificates = [] }) {
       {
         accessorKey: "action",
         header: "Action",
-        cell: ({ row }) => (
-          <div className="flex justify-end">
-            <PDFDownloadLink
-              document={<CertificatePDF certificateData={row.original} />}
-              fileName="certificate.pdf"
-              className="bg-main hover:bg-main dark:bg-main dark:hover:bg-main rounded px-3 py-1 text-sm font-medium text-white"
-            >
-              {({ loading }) => (loading ? "Generating..." : "Download")}
-            </PDFDownloadLink>
-          </div>
-        ),
+        cell: ({ row }) => {
+          const formattedFileName =
+            row.original.course.title.toLowerCase().replaceAll(" ", "-") +
+            ".pdf";
+
+          return (
+            <div className="flex justify-end">
+              <PDFDownloadLink
+                document={<CertificatePDF certificateData={row.original} />}
+                fileName={formattedFileName}
+                className="bg-main hover:bg-main dark:bg-main dark:hover:bg-main rounded px-3 py-1 text-sm font-medium text-white"
+              >
+                {({ loading }) => (loading ? "Generating..." : "Download")}
+              </PDFDownloadLink>
+            </div>
+          );
+        },
       },
     ],
     [],
   );
-
-  // const handleDownload = async (certificate) => {
-  //   setSelectedCertificate(certificate);
-  //   const element = certificateRef.current;
-  //   if (!element) return;
-
-  //   try {
-  //     const canvas = await html2canvas(element, { scale: 2 });
-  //     const data = canvas.toDataURL("image/png");
-
-  //     const pdf = new jsPDF({
-  //       orientation: "landscape",
-  //       unit: "px",
-  //       format: "a4",
-  //     });
-
-  //     const imgProperties = pdf.getImageProperties(data);
-  //     const width = pdf.internal.pageSize.getWidth();
-  //     const height = (imgProperties.height * width) / imgProperties.width;
-
-  //     pdf.addImage(data, "PNG", 0, 0, width, height);
-
-  //     pdf.save("certificate.pdf");
-  //   } catch (e) {
-  //     console.error("Error downloading certificate:", e);
-  //   }
-  // };
 
   const table = useReactTable({
     data: certificates,
@@ -91,13 +70,13 @@ export default function CertificateTable({ certificates = [] }) {
 
   return (
     <section className="overflow-x-auto">
-      <div className="dark:bg-dark-bg mx-4 rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700">
+      <div className="dark:bg-dark-bg rounded-lg border bg-white shadow">
         <table className="w-full border-collapse">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr
                 key={headerGroup.id}
-                className="dark:bg-dark-hover border-b bg-gray-100 dark:border-gray-700"
+                className="dark:bg-dark-hover border-b bg-gray-100"
               >
                 {headerGroup.headers.map((header) => (
                   <th
