@@ -32,7 +32,7 @@ export default function StudentHome() {
 
   return (
     <section className="min-h-screen py-8">
-      <StudentDashboard></StudentDashboard>
+     
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         {/* Page Header */}
         <div className="mb-8">
@@ -43,7 +43,7 @@ export default function StudentHome() {
             View and manage your certificates
           </p>
         </div>
-
+        <StudentDashboard></StudentDashboard>
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="rounded-lg border bg-white p-6 shadow-md dark:border dark:bg-dark-bg">
