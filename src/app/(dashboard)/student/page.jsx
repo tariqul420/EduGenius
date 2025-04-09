@@ -24,7 +24,7 @@ export default async function StudentHome({ searchParams }) {
             View and manage your certificates
           </p>
         </div>
-        <StudentDashboard></StudentDashboard>
+      
         {/* Stats Cards */}
         <StudentDashboard />
 

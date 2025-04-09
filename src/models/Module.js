@@ -11,7 +11,8 @@ const moduleSchema = new mongoose.Schema(
     }, // Course ID
     order: { type: Number, required: true }, // Module order in the course
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export default mongoose.models.Module || mongoose.model("Module", moduleSchema);
+export default mongoose.models?.Module ||
+  mongoose.model("Module", moduleSchema);

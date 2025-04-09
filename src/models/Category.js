@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import slugify from "slugify";
 
 const categorySchema = new mongoose.Schema(
   {
@@ -26,15 +27,21 @@ const categorySchema = new mongoose.Schema(
 );
 
 // Pre-save middleware to generate a slug from the category name
-categorySchema.pre("save", function (next) {
+categorySchema.pre("save", async function (next) {
+  console.log(this.name);
   if (this.isModified("name")) {
-    this.slug = this.name
-      .toLowerCase()
-      .replace(/ /g, "-")
-      .replace(/[^\w-]+/g, "");
+    let slug = slugify(this.name, { lower: true });
+    const existingUser = await mongoose.models?.Category.findOne({ slug });
+
+    if (existingUser) {
+      const uniqueSuffix = Date.now().toString(36);
+      slug = `${slug}-${uniqueSuffix}`;
+    }
+
+    this.slug = slug;
   }
   next();
 });
 
-export default mongoose.models.Category ||
+export default mongoose.models?.Category ||
   mongoose.model("Category", categorySchema);

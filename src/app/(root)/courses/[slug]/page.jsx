@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
+import PaymentModal from "@/components/payment/PaymentModal";
 
 const CourseDetails = async ({ params }) => {
   const { userId } = await auth();
@@ -48,7 +48,7 @@ const CourseDetails = async ({ params }) => {
     instructor,
   } = course;
 
-  const isSignedIn = !!userId; // ✅ boolean flag for UI logic
+  const isSignedIn = !!userId;
 
   return (
     <section className="flex min-h-screen flex-col items-center justify-center bg-gray-50 py-10 dark:bg-black">
@@ -128,20 +128,25 @@ const CourseDetails = async ({ params }) => {
           {isSignedIn ? (
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <button className="bg-main cursor-pointer hover:bg-main mt-5 inline-block rounded px-4 py-1.5 text-white transition-colors" variant="outline">Enrollment</button>
+                <button
+                  className="bg-main hover:bg-main mt-5 inline-block cursor-pointer rounded px-4 py-1.5 text-white transition-colors"
+                  variant="outline"
+                >
+                  Enrollment
+                </button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogTitle>Payment Authorization</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your account and remove your data from our servers.
+                    <div className="mb-5">
+                      You&apos;re about to purchase <strong>{course.title}</strong>{" "}
+                      for <strong>{course.price}</strong>. Please review your
+                      payment details before confirming.
+                    </div>
+                    <PaymentModal course={course}></PaymentModal>
                   </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction>Continue</AlertDialogAction>
-                </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
           ) : (
