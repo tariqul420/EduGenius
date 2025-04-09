@@ -21,7 +21,11 @@ export default async function StudentCertificate({ searchParams }) {
         Certificate of Completion
       </h1>
 
-      <CertificateTable certificates={certificates} />
+      <CertificateTable
+        certificates={certificates}
+        hasNextPage={hasNextPage}
+        total={total}
+      />
     </section>
   );
 }

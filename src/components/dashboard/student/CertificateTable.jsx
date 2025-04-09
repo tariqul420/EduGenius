@@ -1,5 +1,6 @@
 "use client";
 
+import { PagePagination } from "@/components/shared/PagePagination";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import {
   flexRender,
@@ -10,7 +11,11 @@ import { format } from "date-fns";
 import { useMemo } from "react";
 import CertificatePDF from "./CertificatePDF";
 
-export default function CertificateTable({ certificates = [] }) {
+export default function CertificateTable({
+  certificates = [],
+  hasNextPage,
+  total,
+}) {
   const columns = useMemo(
     () => [
       {
@@ -74,10 +79,7 @@ export default function CertificateTable({ certificates = [] }) {
         <table className="w-full border-collapse">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr
-                key={headerGroup.id}
-                className="dark:bg-dark-hover border-b bg-gray-100"
-              >
+              <tr key={headerGroup.id} className="border-b">
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
@@ -120,6 +122,11 @@ export default function CertificateTable({ certificates = [] }) {
           </tbody>
         </table>
       </div>
+
+      {/* Pagination */}
+      {total > 0 && (
+        <PagePagination total={total} limit={6} hasNextPage={hasNextPage} />
+      )}
     </section>
   );
 }
