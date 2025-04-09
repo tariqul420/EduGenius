@@ -20,8 +20,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { getCategory } from "@/lib/actions/category.action";
+import { createCourse } from "@/lib/actions/course.action";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -33,7 +37,6 @@ const formSchema = z.object({
   description: z
     .string()
     .min(10, { message: "Description must be at least 10 characters." }),
-  instructor: z.string().min(1, { message: "Instructor is required." }), // Instructor ID
   category: z.string().min(1, { message: "Category is required." }), // Category ID
   thumbnail: z.string().url({ message: "Thumbnail must be a valid URL." }),
   language: z
@@ -56,19 +59,19 @@ const formSchema = z.object({
     .optional(),
 });
 
-const categorySchema = z.object({
-  name: z.string().min(1, { message: "Category name is required." }),
-  description: z.string().optional(),
-});
-
 export default function CourseForm() {
+  const [categories, setCategories] = useState([]);
+  const searchParams = useSearchParams();
+
+  // Get a specific query parameter
+  const category = searchParams.get("cq");
+
   // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
       description: "",
-      instructor: "",
       category: "",
       thumbnail: "",
       language: "",
@@ -79,26 +82,23 @@ export default function CourseForm() {
     },
   });
 
-  const categoryForm = useForm({
-    resolver: zodResolver(categorySchema),
-    defaultValues: {
-      name: "",
-      description: "",
-    },
-  });
-
   // 2. Define a submit handler.
   function onSubmit(values) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    console.log("Form submitted:", values);
+    createCourse(values);
   }
 
-  function onCategorySubmit(values) {
-    // Do something with the category values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-  }
+  //  Get category by server action
+  useEffect(() => {
+    const fetchCategory = async () => {
+      const result = await getCategory({ categoryParams: category });
+      console.log("Fetched categories:", result);
+      if (!result) return;
+      setCategories(result);
+    };
+
+    fetchCategory();
+  }, [category]);
 
   return (
     <DialogModal title="Create Course" buttonTitle="Create Course">
@@ -139,17 +139,15 @@ export default function CourseForm() {
                       <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
                     <SelectContent>
-                      <CategoryForm
-                        onSubmit={(values) => {
-                          console.log("New Category:", values);
-                          // Add logic to handle the new category
-                        }}
-                      />
+                      <CategoryForm />
 
-                      <SelectItem value="programming">Programming</SelectItem>
-                      <SelectItem value="design">Design</SelectItem>
-                      <SelectItem value="marketing">Marketing</SelectItem>
-                      <SelectItem value="data-science">Data Science</SelectItem>
+                      {/* Map through categories and create SelectItem for each category */}
+                      {categories.map((category) => (
+                        <SelectItem key={category._id} value={category._id}>
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                      {/* Example static categories */}
                     </SelectContent>
                   </Select>
                 </FormControl>
@@ -227,6 +225,8 @@ export default function CourseForm() {
                     type="number"
                     placeholder="Enter discount percentage"
                     {...field}
+                    value={field.value || 0}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </FormControl>
                 <FormMessage />
@@ -246,6 +246,8 @@ export default function CourseForm() {
                     type="number"
                     placeholder="Enter course price"
                     {...field}
+                    value={field.value || 0}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </FormControl>
                 <FormMessage />
@@ -265,6 +267,8 @@ export default function CourseForm() {
                     type="number"
                     placeholder="Enter course duration"
                     {...field}
+                    value={field.value || 0}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </FormControl>
                 <FormMessage />

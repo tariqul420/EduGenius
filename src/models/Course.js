@@ -18,7 +18,6 @@ const courseSchema = new mongoose.Schema(
       },
     }, // Instructor ID
     category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" }, // Course category (e.g., Programming, Design)
-    categorySlug: { type: String, required: true }, // Category slug
     thumbnail: { type: String, required: true }, // Course thumbnail URL
     language: { type: String, required: true }, // Course language (e.g., English, Spanish)
     level: {
@@ -78,7 +77,7 @@ courseSchema.pre("save", async function (next) {
 });
 
 // Post-save middleware to update the instructor's average rating
-courseSchema.post("save", async function () {
+courseSchema.post("update", async function () {
   const Course = mongoose.model("Course");
   const Instructor = mongoose.model("Instructor");
 
@@ -124,4 +123,5 @@ courseSchema.methods.addStudent = async function (studentId) {
   }
 };
 
-export default mongoose.models.Course || mongoose.model("Course", courseSchema);
+export default mongoose.models?.Course ||
+  mongoose.model("Course", courseSchema);
