@@ -1,4 +1,8 @@
+"use server";
+
 import Course from "@/models/Course";
+import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
 
 export async function getCourses({
@@ -180,6 +184,30 @@ export async function getCourseBySlug(slug) {
     return JSON.parse(JSON.stringify(courses[0]));
   } catch (error) {
     console.error("Error getting Course by slug:", error);
+    throw error;
+  }
+}
+
+export async function createCourse({ data, path }) {
+  try {
+    await dbConnect();
+
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+
+    const userId = sessionClaims?.userId;
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    // Add the userId as the instructor for the course
+    const newCourse = new Course({ ...data, instructor: userId });
+    await newCourse.save();
+
+    revalidatePath(path);
+    return JSON.parse(JSON.stringify(newCourse));
+  } catch (error) {
+    console.error("Error creating course:", error);
     throw error;
   }
 }

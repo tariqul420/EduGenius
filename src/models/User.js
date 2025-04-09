@@ -36,4 +36,4 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-export default mongoose.models.User || mongoose.model("User", userSchema);
+export default mongoose.models?.User || mongoose.model("User", userSchema);

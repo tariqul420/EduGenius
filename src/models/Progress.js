@@ -21,8 +21,8 @@ const progressSchema = new mongoose.Schema(
     ],
     progressPercentage: { type: Number, default: 0 }, // Overall progress percentage
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export default mongoose.models.Progress ||
+export default mongoose.models?.Progress ||
   mongoose.model("Progress", progressSchema);

@@ -7,14 +7,14 @@ if (!cached) {
 }
 
 async function dbConnect() {
-  const MONGODB_URI = process.env.MONGODB_DATABASE_URL.replace(
+  const MONGODB_URI = process.env.MONGODB_DATABASE_URL?.replace(
     "<db_password>",
-    process.env.MONGODB_DATABASE_PASSWORD
+    process.env.MONGODB_DATABASE_PASSWORD,
   );
 
   if (!MONGODB_URI) {
     throw new Error(
-      "Please define the MONGODB_URI environment variable inside .env.local"
+      "Please define the MONGODB_URI environment variable inside .env.local",
     );
   }
 
