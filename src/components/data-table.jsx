@@ -125,7 +125,7 @@ const columns = [
   {
     id: "drag",
     header: () => null,
-    cell: ({ row }) => <DragHandle id={row.original.id} />,
+    cell: ({ row }) => <DragHandle id={row.original._id} />,
   },
   {
     id: "select",
@@ -240,7 +240,7 @@ const columns = [
 
 function DraggableRow({ row }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
-    id: row.original.id,
+    id: row.original._id,
   });
 
   return (
@@ -280,7 +280,10 @@ export function DataTable({ data: initialData }) {
     useSensor(KeyboardSensor, {}),
   );
 
-  const dataIds = React.useMemo(() => data?.map(({ id }) => id) || [], [data]);
+  const dataIds = React.useMemo(
+    () => data?.map(({ _id }) => _id) || [],
+    [data],
+  );
 
   const table = useReactTable({
     data,
@@ -571,7 +574,10 @@ function TableCellViewer({ item }) {
   return (
     <Drawer direction={isMobile ? "bottom" : "right"}>
       <DrawerTrigger asChild>
-        <Button variant="link" className="text-foreground w-fit px-0 text-left">
+        <Button
+          variant="link"
+          className="max-w-32 justify-start truncate px-0 text-left"
+        >
           {item.title}
         </Button>
       </DrawerTrigger>
