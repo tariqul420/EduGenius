@@ -7,11 +7,16 @@ import { AlertTriangle, CheckCircle, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AlertDialogCancel } from "../ui/alert-dialog";
 
-export default function CheckOutForm({ course, userId, path }) {
+export default function CheckOutForm({
+  course,
+  userId,
+  path,
+  onPaymentSuccess,
+}) {
   const { user } = useUser();
   const [clientSecret, setClientSecret] = useState("");
   const [transactionId, setTransactionId] = useState("");
-  const { discount, price, title, id: courseId } = course;
+  const { discount, price, title, _id: courseId } = course;
 
   const [error, setError] = useState("");
   const stripe = useStripe();
@@ -108,6 +113,11 @@ export default function CheckOutForm({ course, userId, path }) {
           paymentData,
           path,
         });
+
+        // Close the modal on success
+        if (onPaymentSuccess) {
+          onPaymentSuccess();
+        }
       }
     } catch (err) {
       setError(err.message);
@@ -117,7 +127,7 @@ export default function CheckOutForm({ course, userId, path }) {
   };
 
   return (
-    <section className="mx-auto max-w-md">
+    <section className="mx-auto mt-4 max-w-md">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="rounded-lg border p-4">
           <h3 className="mb-2 font-medium">Payment Details</h3>
@@ -141,9 +151,9 @@ export default function CheckOutForm({ course, userId, path }) {
 
         <div className="dark:bg-dark-bg rounded-lg border p-4">
           <h3 className="mb-2 font-medium">Order Summary</h3>
-          <div className="flex justify-between">
+          <div className="flex items-center justify-between">
             <span>Course:</span>
-            <span className="font-medium">{title}</span>
+            <span className="max-w-[60%] text-right font-medium">{title}</span>
           </div>
 
           <div className="mt-2 flex justify-between">

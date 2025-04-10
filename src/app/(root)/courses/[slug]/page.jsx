@@ -1,12 +1,4 @@
 import PaymentModal from "@/components/payment/PaymentModal";
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { getCourseBySlug } from "@/lib/actions/course.action";
 import { auth } from "@clerk/nextjs/server";
 import {
@@ -121,34 +113,7 @@ const CourseDetails = async ({ params }) => {
           </Link>
 
           {isSignedIn ? (
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <button
-                  className="bg-main hover:bg-main mt-5 inline-block cursor-pointer rounded px-4 py-1.5 text-white transition-colors"
-                  variant="outline"
-                >
-                  Enrollment
-                </button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Payment Authorization</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    <div className="mb-5">
-                      You&apos;re about to purchase{" "}
-                      <strong>{course.title}</strong> for{" "}
-                      <strong>{course.price}</strong>. Please review your
-                      payment details before confirming.
-                    </div>
-                    <PaymentModal
-                      course={course}
-                      userId={sessionClaims?.userId}
-                      path={path}
-                    />
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-              </AlertDialogContent>
-            </AlertDialog>
+            <PaymentModal course={course} userId={userId} path={path} />
           ) : (
             <Link
               href={`/sign-in`}
