@@ -18,7 +18,7 @@ export default async function MyBlogs({ searchParams }) {
     limit: 6,
   });
 
-  const pathname = "/dashboard/my-blogs";
+  const pathname = "/instructor/my-blogs";
 
   return (
     <div className="container mx-auto overflow-x-hidden p-4 md:p-6 lg:p-8">
