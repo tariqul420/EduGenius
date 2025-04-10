@@ -86,13 +86,11 @@ export default function CourseForm() {
 
   // 2. Define a submit handler.
   function onSubmit(values) {
-    console.log("Form submitted:", values);
     toast.promise(
       createCourse({ data: values, path: "/instructor/courses" }),
       {
         loading: "Creating course...",
         success: (data) => {
-          console.log("Course created:", data);
           router.refresh();
           form.reset();
           return "Course created successfully!";
