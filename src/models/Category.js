@@ -28,7 +28,6 @@ const categorySchema = new mongoose.Schema(
 
 // Pre-save middleware to generate a slug from the category name
 categorySchema.pre("save", async function (next) {
-  console.log(this.name);
   if (this.isModified("name")) {
     let slug = slugify(this.name, { lower: true });
     const existingUser = await mongoose.models?.Category.findOne({ slug });
