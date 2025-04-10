@@ -1,10 +1,19 @@
 # EduGenius - AI-Powered Course Management System
 
-<!-- [![EduGenius Logo](https://github.com/tariqul420/EduGenius/raw/main/public/icon/edu-genius.png)](https://edu-genius.vercel.app) -->
-
 <a href="https://edu-genius.vercel.app" target="_blank" rel="noopener noreferrer">
-  <img src="https://github.com/tariqul420/EduGenius/raw/main/public/icon/edu-genius.png" alt="EduGenius Logo" />
+  <img src="/public/images/edu-genius-banner.jpeg" alt="EduGenius Logo" />
 </a>
+
+<div align="center">
+
+[![Live Preview](https://img.shields.io/badge/Live_Preview-Visit%20Site-brightgreen?style=for-the-badge&logo=vercel&color=333333)](https://edu-genius.vercel.app)
+[![GitHub Commit Activity](https://img.shields.io/github/commit-activity/y/tariqul420/EduGenius?style=for-the-badge&color=333333)](https://github.com/tariqul420/EduGenius/commits/main)
+[![GitHub Watchers](https://img.shields.io/github/watchers/tariqul420/EduGenius?style=for-the-badge&color=333333)](https://github.com/tariqul420/EduGenius/watchers)
+[![GitHub Stars](https://img.shields.io/github/stars/tariqul420/EduGenius?style=for-the-badge&color=333333)](https://github.com/tariqul420/EduGenius/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/tariqul420/EduGenius?style=for-the-badge&color=333333)](https://github.com/tariqul420/EduGenius/network/members)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge&color=333333)](LICENSE)
+
+</div>
 
 **EduGenius** is a modern, scalable, AI-driven platform designed to revolutionize online education by providing personalized learning experiences, streamlined course management, and actionable insights for students, instructors, and administrators.
 

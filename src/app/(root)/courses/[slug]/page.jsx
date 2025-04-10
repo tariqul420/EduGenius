@@ -1,21 +1,26 @@
+import PaymentModal from "@/components/payment/PaymentModal";
 import { getCourseBySlug } from "@/lib/actions/course.action";
+import { auth } from "@clerk/nextjs/server";
 import {
+  Award,
+  BookOpen,
+  Clock,
+  DollarSign,
+  Globe,
   RefreshCcw,
   Star,
-  Users,
-  Clock,
-  BookOpen,
-  Award,
-  Globe,
-  DollarSign,
   Tag,
+  Users,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 const CourseDetails = async ({ params }) => {
+  const { userId, sessionClaims } = await auth();
   const { slug } = await params;
   const course = await getCourseBySlug(slug);
+  const path = `/courses/${slug}`;
+
   const {
     level,
     discount,
@@ -30,9 +35,11 @@ const CourseDetails = async ({ params }) => {
     instructor,
   } = course;
 
+  const isSignedIn = !!userId;
+
   return (
-    <section className="flex min-h-screen flex-col items-center justify-center bg-gray-50 py-10 dark:bg-gray-900">
-      <div className="container mx-auto max-w-3xl rounded-lg bg-white p-6 px-2.5 shadow-md md:p-10 md:px-8 dark:bg-gray-800">
+    <section className="flex min-h-screen flex-col items-center justify-center bg-gray-50 py-10 dark:bg-black">
+      <div className="dark:bg-dark-bg container mx-auto max-w-3xl rounded-lg bg-white p-6 px-2.5 shadow-md md:p-10 md:px-8">
         <Image
           src={thumbnail}
           alt={category?.name}
@@ -53,7 +60,7 @@ const CourseDetails = async ({ params }) => {
                 strokeWidth={1}
                 fill="#ffd500"
                 absoluteStrokeWidth
-              />{" "}
+              />
               {averageRating}
             </p>
           </span>
@@ -97,12 +104,25 @@ const CourseDetails = async ({ params }) => {
           </p>
         </div>
 
-        <Link
-          href={`/courses`}
-          className="bg-main hover:bg-main mt-5 inline-block rounded px-4 py-1.5 text-white transition-colors"
-        >
-          Go Back
-        </Link>
+        <div className="flex items-center justify-between">
+          <Link
+            href={`/courses`}
+            className="bg-main hover:bg-main mt-5 inline-block rounded px-4 py-1.5 text-white transition-colors"
+          >
+            Go Back
+          </Link>
+
+          {isSignedIn ? (
+            <PaymentModal course={course} userId={userId} path={path} />
+          ) : (
+            <Link
+              href={`/sign-in`}
+              className="mt-5 inline-block rounded bg-gray-500 px-4 py-1.5 text-white transition-colors hover:bg-gray-600"
+            >
+              Sign in to Enroll
+            </Link>
+          )}
+        </div>
       </div>
     </section>
   );

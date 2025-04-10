@@ -9,8 +9,8 @@ import { Bell } from "lucide-react";
 export default function Notification() {
   return (
     <Popover>
-      <PopoverTrigger className="relative flex cursor-pointer items-center gap-2 rounded-full bg-gray-500 p-2 text-3xl">
-        <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500 drop-shadow-2xl" />
+      <PopoverTrigger className="relative flex cursor-pointer items-center gap-2 rounded-full border p-2 text-3xl bg-white shadow text-main dark:text-dark-bg hover:bg-light-bg dark:border-gray-500">
+        <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-dark-btn drop-shadow-2xl" />
         <Bell size={16} />
       </PopoverTrigger>
       <PopoverContent>

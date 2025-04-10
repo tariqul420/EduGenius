@@ -24,5 +24,5 @@ const instructorSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export default mongoose.models.Instructor ||
+export default mongoose.models?.Instructor ||
   mongoose.model("Instructor", instructorSchema);

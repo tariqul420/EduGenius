@@ -8,5 +8,5 @@ const studentSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export default mongoose.models.Student ||
+export default mongoose.models?.Student ||
   mongoose.model("Student", studentSchema);
