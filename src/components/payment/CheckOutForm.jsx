@@ -126,9 +126,13 @@ export default function CheckOutForm({
   };
 
   return (
+<<<<<<< HEAD
     <section className="mx-auto mt-4">
+=======
+    <section className="mx-auto mt-4 w-full">
+>>>>>>> 7c19b0835f778304d2260bf71db7884315d3b53b
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="rounded-lg border p-4">
+        <div className="rounded-lg border p-2 md:p-4">
           <h3 className="mb-2 font-medium">Payment Details</h3>
           <CardElement
             options={{
