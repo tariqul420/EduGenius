@@ -1,18 +1,31 @@
-import CertificateLicense from "@/components/dashboard/student/CertificateLicense";
+import CertificateTable from "@/components/dashboard/student/CertificateTable";
+import { getCertificateByStudent } from "@/lib/actions/certificate.action";
+import { auth } from "@clerk/nextjs/server";
 
-export default function StudentCertificate() {
+export default async function StudentCertificate({ searchParams }) {
+  const { sessionClaims } = await auth();
+  const { page } = await searchParams;
+  const {
+    certificates = [],
+    total = 0,
+    hasNextPage = false,
+  } = await getCertificateByStudent({
+    studentId: sessionClaims?.userId,
+    page: Number(page) || 1,
+    limit: 6,
+  });
+
   return (
-    <div>
-      <CertificateLicense
-        recipientName="Alex Johnson"
-        courseName="Data Science Fundamentals"
-        completionDate="April 07, 2025"
-        certificateId="EG-54321"
-        duration="20 hours"
-        instructorName="Dr. Emily Carter"
-        websiteUrl="https://edugenius.com"
-        verificationUrl="https://edugenius.com/verify/EG-54321"
+    <section className="container mx-auto overflow-x-hidden p-4 md:p-6 lg:p-8">
+      <h1 className="dark:text-medium-bg text-dark-bg mb-6 text-2xl font-semibold">
+        Certificate of Completion
+      </h1>
+
+      <CertificateTable
+        certificates={certificates}
+        hasNextPage={hasNextPage}
+        total={total}
       />
-    </div>
+    </section>
   );
 }
