@@ -1,5 +1,6 @@
 "use server";
 
+import Category from "@/models/Category";
 import Course from "@/models/Course";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
@@ -12,9 +13,12 @@ export async function getCourses({
   page = 1,
   limit = 5,
   sort,
+  instructor,
 } = {}) {
   try {
     await dbConnect();
+
+    const category = await Category.findOne({ slug: categorySlug });
 
     const skip = (page - 1) * limit;
 
@@ -22,7 +26,8 @@ export async function getCourses({
       // Match courses based on categorySlug or search query
       {
         $match: {
-          ...(categorySlug && { categorySlug }),
+          ...(instructor && { instructor }),
+          ...(category && { category: category._id }),
           ...(level && { level }),
           ...(search && {
             $or: [
@@ -208,6 +213,32 @@ export async function createCourse({ data, path }) {
     return JSON.parse(JSON.stringify(newCourse));
   } catch (error) {
     console.error("Error creating course:", error);
+    throw error;
+  }
+}
+
+export async function updateCourse({ courseId, data, path }) {
+  try {
+    await dbConnect();
+
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+
+    const userId = sessionClaims?.userId;
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    const updatedCourse = await Course.findOneAndUpdate(
+      { _id: courseId, instructor: userId },
+      data,
+      { new: true },
+    );
+
+    revalidatePath(path);
+    return JSON.parse(JSON.stringify(updatedCourse));
+  } catch (error) {
+    console.error("Error updating course:", error);
     throw error;
   }
 }
