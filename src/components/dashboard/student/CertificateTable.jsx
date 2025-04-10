@@ -23,7 +23,7 @@ export default function CertificateTable({
         header: "Course Name",
         cell: ({ row }) => (
           <div className="dark:text-medium-bg max-w-xs truncate text-gray-700">
-            {row.original.course.title}
+            {row.original.course?.title}
           </div>
         ),
       },
@@ -47,7 +47,7 @@ export default function CertificateTable({
         header: "Action",
         cell: ({ row }) => {
           const formattedFileName =
-            row.original.course.title.toLowerCase().replaceAll(" ", "-") +
+            row.original.course?.title.toLowerCase().replaceAll(" ", "-") +
             ".pdf";
 
           return (
