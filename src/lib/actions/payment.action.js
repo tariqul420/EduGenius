@@ -1,4 +1,4 @@
- import payment from "@/models/Payment";
+ import payment from "@/models/payment";
 import dbConnect from "../dbConnect";
 import mongoose from "mongoose";
 
