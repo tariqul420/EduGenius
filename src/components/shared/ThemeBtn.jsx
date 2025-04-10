@@ -17,15 +17,13 @@ export default function ModeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          className="hover:bg-light-bg border shadow h-[32px] w-[32px] cursor-pointer rounded bg-white py-1.5 ring-0 duration-200 outline-none"
-          size="icon"
-        >
-          <Sun className="text-dark-main h-[22px] w-[22px] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-          <Moon className="absolute h-[20px] w-[20px] scale-0 rotate-90 text-black transition-all dark:scale-100 dark:rotate-0" />
+        <Button variant="ghost" size="icon">
+          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+          <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="ring-0 outline-none">
+      <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>
           Light
         </DropdownMenuItem>
