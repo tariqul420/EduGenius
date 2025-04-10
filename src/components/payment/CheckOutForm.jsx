@@ -1,35 +1,31 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useUser } from "@clerk/nextjs";
-import { AlertDialogCancel } from "../ui/alert-dialog";
-import { AlertTriangle, CheckCircle } from "lucide-react"; 
 
-export default function CheckOutForm({ payInfo }) {
-  const { userId, user } =  useUser();
+import { savePayment, savePaymentIntent } from "@/lib/actions/payment.action";
+import { useUser } from "@clerk/nextjs";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { AlertTriangle, CheckCircle, LoaderCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { AlertDialogCancel } from "../ui/alert-dialog";
+
+export default function CheckOutForm({
+  course,
+  userId,
+  path,
+  onPaymentSuccess,
+}) {
+  const { user } = useUser();
   const [clientSecret, setClientSecret] = useState("");
   const [transactionId, setTransactionId] = useState("");
-  const {
-    level,
-    discount,
-    price,
-    language,
-    duration,
-    instructor,
-    title,
-    id: courseId,
-  } = payInfo;
-  
+  const { discount, price, title, _id: courseId } = course;
+
   const [error, setError] = useState("");
   const stripe = useStripe();
   const elements = useElements();
   const [paymentLoading, setPaymentLoading] = useState(false);
 
   // Calculate discounted price
-  const discountedPrice = discount > 0 
-    ? price * (1 - discount / 100)
-    : price;
-  
+  const discountedPrice = discount > 0 ? price * (1 - discount / 100) : price;
+
   // Format numbers to 2 decimal places
   const formatPrice = (amount) => parseFloat(amount.toFixed(2));
 
@@ -37,32 +33,20 @@ export default function CheckOutForm({ payInfo }) {
   useEffect(() => {
     const createPaymentIntent = async () => {
       try {
-        const response = await fetch('/api/create-payment-intent', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        const paymentInfo = await savePaymentIntent({
+          amount: Math.round(formatPrice(discountedPrice) * 100),
+          currency: "usd",
+          metadata: {
+            courseId,
+            userId,
+            originalPrice: price,
+            discountApplied: discount,
           },
-          body: JSON.stringify({
-            amount: Math.round(formatPrice(discountedPrice) * 100), // Convert to cents
-            currency: 'usd',
-            metadata: {
-              courseId,
-              userId,
-              originalPrice: price,
-              discountApplied: discount
-            }
-          })
         });
 
-        if (!response.ok) {
-          throw new Error('Failed to create payment intent');
-        }
-
-        const data = await response.json();
-        setClientSecret(data.clientSecret);
+        setClientSecret(paymentInfo.clientSecret);
       } catch (err) {
-        setError('Failed to initialize payment');
-        console.error(err);
+        setError("Failed to initialize payment");
       }
     };
 
@@ -74,7 +58,7 @@ export default function CheckOutForm({ payInfo }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setPaymentLoading(true);
-    setError('');
+    setError("");
 
     if (!stripe || !elements) {
       setPaymentLoading(false);
@@ -90,7 +74,7 @@ export default function CheckOutForm({ payInfo }) {
     try {
       // Create payment method
       const { error: paymentMethodError } = await stripe.createPaymentMethod({
-        type: 'card',
+        type: "card",
         card,
       });
 
@@ -99,54 +83,39 @@ export default function CheckOutForm({ payInfo }) {
       }
 
       // Confirm payment
-      const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: card,
-          billing_details: {
-            email: user?.emailAddresses[0]?.emailAddress || 'anonymous',
-            name: user?.fullName || 'anonymous',
-          }
-        }
-      });
+      const { paymentIntent, error: confirmError } =
+        await stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: card,
+            billing_details: {
+              email: user?.primaryEmailAddress?.emailAddress || "anonymous",
+              name: user?.fullName || "anonymous",
+            },
+          },
+        });
 
       if (confirmError) {
         throw confirmError;
       }
 
-      if (paymentIntent.status === 'succeeded') {
+      if (paymentIntent.status === "succeeded") {
         setTransactionId(paymentIntent.id);
-        
+
         // Save payment data to your database
         const paymentData = {
-          courseId,
-          courseTitle: title,
-          originalPrice: price,
-          discountRate: discount,
-          finalPrice: formatPrice(discountedPrice),
-          userId,
-          userEmail: user?.emailAddresses[0]?.emailAddress,
-          userName: user?.fullName,
           transactionId: paymentIntent.id,
-          paymentStatus: 'completed',
-          date: new Date().toISOString(),
-          courseDetails: {
-            level,
-            language,
-            duration,
-            instructor
-          }
+          course: courseId,
+          student: userId,
         };
 
-        const response = await fetch('/api/save-payment', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(paymentData)
+        await savePayment({
+          paymentData,
+          path,
         });
 
-        if (!response.ok) {
-          setError("Payment was successful but we couldn't save your records. Please contact support.");
+        // Close the modal on success
+        if (onPaymentSuccess) {
+          onPaymentSuccess();
         }
       }
     } catch (err) {
@@ -157,10 +126,10 @@ export default function CheckOutForm({ payInfo }) {
   };
 
   return (
-    <section className="max-w-md mx-auto">
+    <section className="mx-auto mt-4 max-w-md">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="border rounded-lg p-4">
-          <h3 className="font-medium mb-2">Payment Details</h3>
+        <div className="rounded-lg border p-4">
+          <h3 className="mb-2 font-medium">Payment Details</h3>
           <CardElement
             options={{
               style: {
@@ -179,31 +148,31 @@ export default function CheckOutForm({ payInfo }) {
           />
         </div>
 
-        <div className="dark:bg-dark-bg border p-4 rounded-lg">
-          <h3 className="font-medium mb-2">Order Summary</h3>
-          <div className="flex justify-between">
+        <div className="dark:bg-dark-bg rounded-lg border p-4">
+          <h3 className="mb-2 font-medium">Order Summary</h3>
+          <div className="flex items-center justify-between">
             <span>Course:</span>
-            <span className="font-medium">{title}</span>
+            <span className="max-w-[60%] text-right font-medium">{title}</span>
           </div>
-          
-          <div className="flex justify-between mt-2">
+
+          <div className="mt-2 flex justify-between">
             <span>Original Price:</span>
             <span className="font-medium">${price.toFixed(2)}</span>
           </div>
-          
+
           {discount > 0 && (
             <>
-              <div className="flex justify-between mt-2">
+              <div className="mt-2 flex justify-between">
                 <span>Discount ({discount}%):</span>
                 <span className="font-medium text-green-600 dark:text-green-400">
-                  -${formatPrice(price * discount / 100).toFixed(2)}
+                  -${formatPrice((price * discount) / 100).toFixed(2)}
                 </span>
               </div>
-              <div className="border-t my-2"></div>
+              <div className="my-2 border-t"></div>
             </>
           )}
-          
-          <div className="flex justify-between font-semibold mt-2">
+
+          <div className="mt-2 flex justify-between font-semibold">
             <span>Total Amount:</span>
             <span className="text-primary dark:text-primary-light">
               ${formatPrice(discountedPrice).toFixed(2)}
@@ -212,45 +181,44 @@ export default function CheckOutForm({ payInfo }) {
         </div>
 
         {error && (
-          <div className="flex items-start gap-2 bg-red-50 dark:bg-red-900/20 p-3 rounded-lg">
-            <AlertTriangle className="text-red-600 dark:text-red-400 h-5 w-5 mt-0.5" />
-            <div className="text-red-600 dark:text-red-400 text-sm">
+          <div className="flex items-start gap-2 rounded-lg bg-red-50 p-3 dark:bg-red-900/20">
+            <AlertTriangle className="mt-0.5 h-5 w-5 text-red-600 dark:text-red-400" />
+            <div className="text-sm text-red-600 dark:text-red-400">
               <strong>Error:</strong> <span>{error}</span>
             </div>
           </div>
         )}
 
         {transactionId && (
-          <div className="flex items-start gap-2 bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
-            <CheckCircle className="text-green-600 dark:text-green-400 h-5 w-5 mt-0.5" />
-            <div className="text-green-600 dark:text-green-400 text-sm">
+          <div className="flex items-start gap-2 rounded-lg bg-green-50 p-3 dark:bg-green-900/20">
+            <CheckCircle className="mt-0.5 h-5 w-5 text-green-600 dark:text-green-400" />
+            <div className="text-sm text-green-600 dark:text-green-400">
               <strong>Transaction ID:</strong> <span>{transactionId}</span>
             </div>
           </div>
         )}
 
         <div className="flex justify-end gap-4 pt-2">
-          <AlertDialogCancel className="px-4 py-2 border rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
+          <AlertDialogCancel className="rounded-md border px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800">
             Cancel
           </AlertDialogCancel>
           <button
             type="submit"
             disabled={!stripe || !clientSecret || paymentLoading}
-            className={`px-4 py-2 rounded-md text-white font-medium ${
+            className={`rounded-md px-4 py-2 font-medium text-white ${
               !stripe || !clientSecret || paymentLoading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-main hover:bg-dark-main cursor-pointer dark:bg-dark-bg dark:hover:bg-dark-hover"
+                ? "cursor-not-allowed bg-gray-400"
+                : "bg-main hover:bg-dark-main dark:bg-dark-bg dark:hover:bg-dark-hover cursor-pointer"
             }`}
           >
             {paymentLoading ? (
               <span className="flex items-center">
-                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
+                <LoaderCircle className="animate-spin" />
                 Processing...
               </span>
-            ) : `Pay $${formatPrice(discountedPrice).toFixed(2)}`}
+            ) : (
+              `Pay $${formatPrice(discountedPrice).toFixed(2)}`
+            )}
           </button>
         </div>
       </form>
