@@ -1,25 +1,20 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useAuth } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { AlertDialogCancel } from "../ui/alert-dialog";
-import { AlertTriangle, CheckCircle } from "lucide-react"; // Import Lucide icons
+import { AlertTriangle, CheckCircle } from "lucide-react"; 
 
 export default function CheckOutForm({ payInfo }) {
-  const { userId, user } = useAuth();
+  const { userId, user } =  useUser();
   const [clientSecret, setClientSecret] = useState("");
   const [transactionId, setTransactionId] = useState("");
   const {
     level,
     discount,
     price,
-    students,
-    thumbnail,
     language,
-    description,
-    category,
     duration,
-    averageRating,
     instructor,
     title,
     id: courseId,

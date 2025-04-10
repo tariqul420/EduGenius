@@ -3,10 +3,13 @@ import { DataTable } from "@/components/data-table";
 import { SectionCards } from "@/components/section-cards";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset } from "@/components/ui/sidebar";
+import { getCourses } from "@/lib/actions/course.action";
 
-import data from "@/constant/data.json";
+export default async function Home() {
+  const result = await getCourses({ limit: 5 });
 
-export default function Home() {
+  const courses = result?.courses || [];
+
   return (
     <SidebarInset>
       <SiteHeader />
@@ -17,7 +20,7 @@ export default function Home() {
             <div className="px-4 lg:px-6">
               <ChartAreaInteractive />
             </div>
-            <DataTable data={data} />
+            <DataTable data={courses} />
           </div>
         </div>
       </div>

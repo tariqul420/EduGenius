@@ -28,12 +28,9 @@ import PaymentModal from "@/components/payment/PaymentModal";
 
 const CourseDetails = async ({ params }) => {
   const { userId } = await auth();
-  // Debugging logs
-  // console.log("User ID:", userId);
-  // console.log("Is user signed in?", !!userId);
-
   const { slug } = await params;
   const course = await getCourseBySlug(slug);
+
   const {
     level,
     discount,
@@ -49,6 +46,10 @@ const CourseDetails = async ({ params }) => {
   } = course;
 
   const isSignedIn = !!userId;
+  const savePayment = async (transactionId) => {
+    
+  }
+
 
   return (
     <section className="flex min-h-screen flex-col items-center justify-center bg-gray-50 py-10 dark:bg-black">
