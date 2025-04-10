@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
 
 export async function getCourses({
-  categorySlug,
+  categorySlugs = [],
   level,
   search,
   page = 1,
@@ -18,7 +18,11 @@ export async function getCourses({
   try {
     await dbConnect();
 
-    const category = await Category.findOne({ slug: categorySlug });
+    // Find categories matching the provided slugs
+    const categories = await Category.find({
+      slug: { $in: categorySlugs },
+    });
+    const categoryIds = categories.map((category) => category._id);
 
     const skip = (page - 1) * limit;
 
@@ -27,7 +31,7 @@ export async function getCourses({
       {
         $match: {
           ...(instructor && { instructor }),
-          ...(category && { category: category._id }),
+          ...(categoryIds.length > 0 && { category: { $in: categoryIds } }), // Match multiple categories
           ...(level && { level }),
           ...(search && {
             $or: [
