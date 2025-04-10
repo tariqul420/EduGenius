@@ -1,4 +1,5 @@
 import { Rocket, User, Users, Video } from "lucide-react";
+import Image from "next/image";
 
 const data = [
   {
@@ -59,27 +60,27 @@ function OurAchieve() {
 
       {/* Image Grid */}
       <div className="mx-auto mt-5 grid w-full grid-cols-2 gap-5 md:w-[600px]">
-        {/* First Half-width Image */}
         <div className="relative col-span-1 h-[150px] md:h-[180px]">
-          <img
+          <Image
             src="/hero-image-2.jpeg"
             alt="Hero Image"
+            fill
             className="h-full w-full rounded-lg object-cover"
           />
         </div>
-        {/* Second Half-width Image */}
         <div className="relative col-span-1 h-[150px] md:h-[180px]">
-          <img
+          <Image
             src="/hero-image-3.jpg"
             alt="Hero Image"
+            fill
             className="h-full w-full rounded-lg object-cover"
           />
         </div>
-        {/* Full-width Image */}
         <div className="relative col-span-2 h-[200px] md:h-[250px]">
-          <img
+          <Image
             src="/hero-image-1.jpg"
             alt="Hero Image"
+            fill
             className="h-full w-full rounded-lg object-cover"
           />
         </div>

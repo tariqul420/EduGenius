@@ -47,7 +47,6 @@ export default function CheckOutForm({
         setClientSecret(paymentInfo.clientSecret);
       } catch (err) {
         setError("Failed to initialize payment");
-        console.error(err);
       }
     };
 
