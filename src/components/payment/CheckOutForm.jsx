@@ -126,7 +126,7 @@ export default function CheckOutForm({
   };
 
   return (
-    <section className="mx-auto mt-4 max-w-md">
+    <section className="mx-auto mt-4">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="rounded-lg border p-4">
           <h3 className="mb-2 font-medium">Payment Details</h3>

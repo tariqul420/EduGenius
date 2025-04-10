@@ -1,8 +1,8 @@
 import ClientClerkProvider from "@/components/shared/ClientClerkProvider";
 import { ThemeProvider } from "@/components/shared/theme-provider";
+import ToasterProvider from "@/components/shared/ToasterProvider";
 import ContextProvider from "@/provider/ContextProvider";
 import { Jost } from "next/font/google";
-import { Toaster } from "sonner";
 import "./globals.css";
 
 const jost = Jost({
@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${jost.variable} dark:bg-black-dark antialiased dark:text-white`}
+        className={`${jost.variable} antialiased dark:bg-black dark:text-white`}
         cz-shortcut-listen="true"
       >
         <ContextProvider>
@@ -40,7 +40,7 @@ export default function RootLayout({ children }) {
           >
             <ClientClerkProvider>
               {children}
-              <Toaster position="top-right" />
+              <ToasterProvider />
             </ClientClerkProvider>
           </ThemeProvider>
         </ContextProvider>
