@@ -5,6 +5,7 @@ import Course from "@/models/Course";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
+import { objectId } from "../utils";
 
 export async function getCourses({
   categorySlugs = [],
@@ -30,7 +31,7 @@ export async function getCourses({
       // Match courses based on categorySlug or search query
       {
         $match: {
-          ...(instructor && { instructor }),
+          ...(instructor && { instructor: objectId(instructor) }), // Match instructor by ObjectId
           ...(categoryIds.length > 0 && { category: { $in: categoryIds } }), // Match multiple categories
           ...(level && { level }),
           ...(search && {
