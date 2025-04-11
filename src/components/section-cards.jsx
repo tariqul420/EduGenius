@@ -126,7 +126,11 @@ export async function SectionCards() {
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
-              <IconTrendingUp />
+              {revenueStats.trend === "increase" ? (
+                <IconTrendingUp className="size-4" />
+              ) : (
+                <IconTrendingDown className="size-4" />
+              )}
               {studentsStats.trend === "increase" && "+"}
               {growthRateStats.growthRate}%
             </Badge>
