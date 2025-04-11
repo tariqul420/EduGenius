@@ -1,4 +1,4 @@
-import CourseEditForm from "@/components/dashboard/instructor/CourseEditForm";
+import CourseForm from "@/components/dashboard/instructor/CourseForm";
 import ModuleForm from "@/components/dashboard/instructor/ModuleForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -23,11 +23,15 @@ export default async function EditCourse({ params }) {
           </TabsList>
 
           <TabsContent value="basic">
-            <CourseEditForm course={course} />
+            <CourseForm course={course} />
           </TabsContent>
 
           <TabsContent value="curriculum">
-            <ModuleForm courseId={course._id} curriculum={curriculum} />
+            <ModuleForm
+              courseId={course._id}
+              curriculum={curriculum}
+              slug={course.slug}
+            />
           </TabsContent>
         </Tabs>
       </div>
