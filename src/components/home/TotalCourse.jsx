@@ -24,7 +24,7 @@ const data = [
       <ShoppingCart className="text-main mx-auto size-[50px] md:size-[70px]" />
     ),
     feature: "Learners",
-    value: 357,
+    value: 358,
     suffix: " +",
   },
   {
