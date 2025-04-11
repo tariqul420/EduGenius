@@ -62,7 +62,7 @@ export default function BlogAction({
             className={`cursor-pointer`}
             onClick={() => setIsUpdateOpen(true)}
           >
-            <PenTool className="text-black" />
+            <PenTool className="text-dark-bg dark:text-light-bg" />
             Update
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
@@ -77,7 +77,7 @@ export default function BlogAction({
                   Delete
                 </button>
               </AlertDialogTrigger>
-              <AlertDialogContent className="w-full max-w-md border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
+              <AlertDialogContent className="w-full max-w-md border">
                 <AlertDialogHeader>
                   <AlertDialogTitle className="text-gray-900 dark:text-gray-100">
                     Delete Blog
