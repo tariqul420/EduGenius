@@ -1,6 +1,7 @@
 "use server";
 import Blog from "@/models/Blog";
 import Category from "@/models/Category";
+import Comments from "@/models/Comments";
 import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
@@ -199,14 +200,19 @@ export async function deleteBlogById(blogId, path) {
   try {
     await dbConnect();
 
-    // Convert string ID to ObjectId
     const blogObjectId = new mongoose.Types.ObjectId(blogId);
 
-    const result = await Blog.findOneAndDelete({
+    const commentDeletionResult = await Comments.deleteMany({
+      blog: blogObjectId,
+    });
+
+    // Delete the blog
+    const blogDeletionResult = await Blog.findOneAndDelete({
       _id: blogObjectId,
     });
 
-    if (!result) {
+    // Check if the blog was found and deleted
+    if (!blogDeletionResult) {
       return {
         delete: false,
         status: 400,
@@ -214,12 +220,19 @@ export async function deleteBlogById(blogId, path) {
       };
     }
 
+    // Revalidate the cache for the given path
     revalidatePath(path);
 
-    return { delete: true };
+    return {
+      delete: true,
+      message: `Blog and ${commentDeletionResult.deletedCount} associated comment(s) deleted successfully`,
+    };
   } catch (error) {
     console.error("Delete error:", error);
-    return { delete: false, error: "Server error" };
+    return {
+      delete: false,
+      error: "Server error",
+    };
   }
 }
 
