@@ -318,7 +318,7 @@ export async function getCourseCurriculum(courseId) {
 
     const courseCurriculum = await Module.aggregate([
       {
-        $match: { course: courseId }, // Match modules for the given course
+        $match: { course: objectId(courseId) }, // Match modules for the given course
       },
       {
         $lookup: {
