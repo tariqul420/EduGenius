@@ -23,7 +23,7 @@ const data = [
       <ShoppingCart className="text-main mx-auto size-[40px] md:size-[40px]" />
     ),
     feature: "Learners",
-    value: 357,
+    value: 358,
     suffix: " +",
   },
   {
@@ -50,7 +50,9 @@ const TotalCourse = () => {
             className="bg-light-bg dark:bg-dark-bg flex flex-col items-center gap-2.5 rounded-md border px-2 py-3 text-center shadow dark:shadow-xl"
           >
             <div>
-                <div className="py-2 px-3 rounded mx-auto mb-3 dark:bg-dark-hover  w-fit">{item.icon}</div>
+              <div className="dark:bg-dark-hover mx-auto mb-3 w-fit rounded px-3 py-2">
+                {item.icon}
+              </div>
               <h3 className="dark:text-light-bg text-3xl font-bold text-black md:text-4xl">
                 {inView ? (
                   <CountUp

@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { createBlog, updateBlog } from "@/lib/actions/blog.action";
+import ImageUploadCloud from "@/lib/ImageUploadCloud";
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
@@ -35,7 +36,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 
-// Define the schema using Zod with custom URL validation
+// Define the schema using Zod
 const blogSchema = z.object({
   title: z
     .string()
@@ -44,41 +45,24 @@ const blogSchema = z.object({
     .trim(),
   content: z.string().min(1, "Content is required"),
   thumbnail: z
-    .string()
-    .trim()
-    .min(1, "Thumbnail URL is required")
-    .url({ message: "Please enter a valid URL" })
+    .any()
+    .optional()
+    .refine((file) => !file || file instanceof File, "Thumbnail must be a file")
     .refine(
-      (url) => {
-        const allowedDomains = [
-          "pexels.com",
-          "images.pexels.com",
-          "pixabay.com",
-          "cdn.pixabay.com",
-          "stocksnap.io",
-          "cdn.stocksnap.io",
-          "unsplash.com",
-          "images.unsplash.com",
-        ];
-        try {
-          const { hostname } = new URL(url);
-          return allowedDomains.some(
-            (domain) => hostname === domain || hostname.endsWith(`.${domain}`),
-          );
-        } catch {
-          return false;
-        }
-      },
-      {
-        message: "URL must be from Pexels, Pixabay, StockSnap, or Unsplash",
-      },
+      (file) =>
+        !file || ["image/jpeg", "image/png", "image/gif"].includes(file.type),
+      "Thumbnail must be an image (JPEG, PNG, or GIF)",
+    )
+    .refine(
+      (file) => !file || file.size <= 5 * 1024 * 1024,
+      "File size must be under 5MB",
     ),
   category: z.string().min(1, "Please select a category"),
 });
 
 export default function BlogForm({
   userId,
-  categories,
+  categories = [],
   pathname,
   isUpdate = false,
   blog = {},
@@ -93,18 +77,17 @@ export default function BlogForm({
       ? {
           title: blog.title || "",
           content: blog.content || "",
-          thumbnail: blog.thumbnail || "",
+          thumbnail: null, // Initialize as null for updates
           category: blog.category?._id || "",
         }
       : {
           title: "",
           content: "",
-          thumbnail: "",
+          thumbnail: null,
           category: "",
         },
   });
 
-  // Automatically open dialog when isUpdate is true
   useEffect(() => {
     if (isUpdate) {
       setIsOpen(true);
@@ -113,10 +96,16 @@ export default function BlogForm({
 
   const handleSubmit = async (data) => {
     try {
+      let thumbnailUrl = isUpdate ? blog.thumbnail : null;
+      if (data.thumbnail instanceof File) {
+        thumbnailUrl = await ImageUploadCloud(data.thumbnail); // Assume ImageUploadCloud is async
+      }
+
       const blogData = {
         ...data,
         author: userId,
-        slug: data.title,
+        slug: data.title.toLowerCase().replace(/\s+/g, "-"),
+        thumbnail: thumbnailUrl,
       };
 
       let result;
@@ -133,7 +122,7 @@ export default function BlogForm({
       if (result.success) {
         setIsOpen(false);
         if (onOpenChange) onOpenChange(false);
-        form.reset();
+        if (!isUpdate) form.reset(); // Reset only for create
         toast.success(`Blog ${isUpdate ? "updated" : "created"} successfully!`);
       } else {
         throw new Error(
@@ -152,18 +141,17 @@ export default function BlogForm({
   const handleOpenChange = (open) => {
     setIsOpen(open);
     if (onOpenChange) onOpenChange(open);
-    if (!open) form.reset();
+    if (!open && !isUpdate) form.reset(); // Reset only for create on close
   };
 
   const handleCancel = () => {
     setIsOpen(false);
     if (onOpenChange) onOpenChange(false);
-    form.reset();
+    if (!isUpdate) form.reset(); // Reset only for create
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      {/* Only show avatar and trigger button when not in update mode */}
       {!isUpdate && (
         <div className="dark:bg-dark-bg rounded-lg bg-white p-4 shadow">
           <div className="flex items-center gap-3">
@@ -247,27 +235,6 @@ export default function BlogForm({
 
             <FormField
               control={form.control}
-              name="thumbnail"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-700 dark:text-gray-300">
-                    Thumbnail URL
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="e.g., from Pexels, Pixabay, Unsplash, or StockSnap"
-                      type="url"
-                      className="dark:bg-dark-input bg-white text-gray-900 dark:text-gray-100"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
               name="category"
               render={({ field }) => (
                 <FormItem>
@@ -281,13 +248,56 @@ export default function BlogForm({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {categories?.map((category) => (
-                        <SelectItem key={category._id} value={category._id}>
-                          {category.name}
+                      {categories.length > 0 ? (
+                        categories.map((category) => (
+                          <SelectItem key={category._id} value={category._id}>
+                            {category.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <SelectItem value="" disabled>
+                          No categories available
                         </SelectItem>
-                      ))}
+                      )}
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="thumbnail"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-700 dark:text-gray-300">
+                    Thumbnail {isUpdate && "(optional)"}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      id="thumbnail"
+                      type="file"
+                      accept="image/jpeg,image/png,image/gif"
+                      onChange={(e) =>
+                        field.onChange(e.target.files?.[0] || null)
+                      }
+                    />
+                  </FormControl>
+                  {isUpdate && blog.thumbnail && (
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500">
+                        Current thumbnail:
+                      </p>
+                      <Image
+                        src={blog.thumbnail}
+                        alt="Current thumbnail"
+                        width={100}
+                        height={100}
+                        className="mt-1 rounded"
+                      />
+                    </div>
+                  )}
                   <FormMessage />
                 </FormItem>
               )}

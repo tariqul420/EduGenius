@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { getCategory } from "@/lib/actions/category.action";
-import { createCourse } from "@/lib/actions/course.action";
+import { createCourse, updateCourse } from "@/lib/actions/course.action";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImageUp } from "lucide-react";
@@ -61,7 +61,7 @@ const formSchema = z.object({
     .optional(),
 });
 
-export default function CourseForm() {
+export default function CourseForm({ course }) {
   const [categories, setCategories] = useState([]);
 
   const searchParams = useSearchParams();
@@ -74,37 +74,61 @@ export default function CourseForm() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      category: "",
-      thumbnail: "",
-      language: "",
-      level: "Beginner",
-      discount: 0,
-      price: 0,
-      duration: 0,
+      title: course?.title || "",
+      description: course?.description || "",
+      category: course?.category?._id || "",
+      thumbnail: course?.thumbnail || "",
+      language: course?.language || "",
+      level: course?.level || "Beginner",
+      discount: course?.discount || 0,
+      price: course?.price || 0,
+      duration: course?.duration || 0,
     },
   });
 
   // 2. Define a submit handler.
   function onSubmit(values) {
-    toast.promise(
-      createCourse({ data: values, path: "/instructor/courses" }),
-      {
-        loading: "Creating course...",
-        success: (data) => {
-          router.push("/instructor/courses");
-          router.refresh();
-          form.reset();
-          return "Course created successfully!";
+    if (course) {
+      toast.promise(
+        updateCourse({
+          courseId: course._id,
+          data: values,
+          path: "/instructor/courses",
+        }),
+        {
+          loading: "Updating course...",
+          success: (data) => {
+            router.refresh();
+            router.push("/instructor/courses/");
+            form.reset();
+            return "Course updated!";
+          },
+          error: (error) => {
+            console.error("Error creating course:", error);
+            return "Failed to create course.";
+          },
         },
-        error: (error) => {
-          console.error("Error creating course:", error);
-          return "Failed to create course.";
+        { id: "create-course" },
+      );
+    } else {
+      toast.promise(
+        createCourse({ data: values, path: "/instructor/courses" }),
+        {
+          loading: "Creating course...",
+          success: (data) => {
+            router.refresh();
+            router.push("/instructor/courses");
+            form.reset();
+            return "Course created successfully!";
+          },
+          error: (error) => {
+            console.error("Error creating course:", error);
+            return "Failed to create course.";
+          },
         },
-      },
-      { id: "create-course" },
-    );
+        { id: "create-course" },
+      );
+    }
   }
 
   //  Get category from server action
@@ -348,7 +372,7 @@ export default function CourseForm() {
           className="col-span-1 sm:col-span-2"
           disabled={form.formState.isSubmitting}
         >
-          Submit
+          {course ? "Update Course" : "Create Course"}
         </Button>
       </form>
     </Form>

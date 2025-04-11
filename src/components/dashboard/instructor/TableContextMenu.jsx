@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { deleteCourse } from "@/lib/actions/course.action";
 import { IconDotsVertical } from "@tabler/icons-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -46,7 +47,14 @@ export default function TableContextMenu({ row }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-32">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link
+            href={`/instructor/courses/${row.original.slug}`}
+            className="block w-full"
+          >
+            Edit
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive" onClick={HandleDeleteCourse}>
           Delete
