@@ -1,7 +1,6 @@
 "use client";
 
 import CategoryForm from "@/components/shared/CategoryForm";
-import DialogModal from "@/components/shared/DialogModal";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -24,6 +23,7 @@ import { getCategory } from "@/lib/actions/category.action";
 import { createCourse } from "@/lib/actions/course.action";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CldUploadWidget } from "next-cloudinary";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -62,6 +62,7 @@ const formSchema = z.object({
 
 export default function CourseForm() {
   const [categories, setCategories] = useState([]);
+
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -116,62 +117,62 @@ export default function CourseForm() {
   }, [category]);
 
   return (
-    <DialogModal title="Create Course" buttonTitle="Create Course">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8"
-        >
-          {/* Title */}
-          <FormField
-            control={form.control}
-            name="title"
-            className="col-span-1 sm:col-span-2"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Course Title</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter course title" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8"
+      >
+        {/* Title */}
+        <FormField
+          control={form.control}
+          name="title"
+          className="col-span-1 sm:col-span-2"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Course Title</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter course title" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          {/* Category */}
-          <FormField
-            control={form.control}
-            name="category"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Category</FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select a category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <CategoryForm />
+        {/* Category */}
+        <FormField
+          control={form.control}
+          name="category"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Category</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <CategoryForm />
 
-                      {/* Map through categories and create SelectItem for each category */}
-                      {categories.map((category) => (
-                        <SelectItem key={category._id} value={category._id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                      {/* Example static categories */}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                    {/* Map through categories and create SelectItem for each category */}
+                    {categories.map((category) => (
+                      <SelectItem key={category._id} value={category._id}>
+                        {category.name}
+                      </SelectItem>
+                    ))}
+                    {/* Example static categories */}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          {/* Thumbnail */}
+        {/* Thumbnail */}
+        <div>
           <FormField
             control={form.control}
             name="thumbnail"
@@ -179,147 +180,177 @@ export default function CourseForm() {
               <FormItem>
                 <FormLabel>Thumbnail URL</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter thumbnail URL" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Language */}
-          <FormField
-            control={form.control}
-            name="language"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Language</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter course language" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Level */}
-          <FormField
-            control={form.control}
-            name="level"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Course Level</FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
+                  <CldUploadWidget
+                    uploadPreset="edu-genius"
+                    onSuccess={(result, { widget }) => {
+                      // setResource(result?.info); // { public_id, secure_url, etc }
+                      form.setValue("thumbnail", result?.info?.secure_url); // Set the thumbnail URL in the form state
+                    }}
                   >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select a level" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Beginner">Beginner</SelectItem>
-                      <SelectItem value="Intermediate">Intermediate</SelectItem>
-                      <SelectItem value="Advanced">Advanced</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    {({ open }) => {
+                      return (
+                        <div>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={open}
+                            className="w-full"
+                          >
+                            Upload Thumbnail
+                          </Button>
+                          {form.watch("thumbnail") && (
+                            <div className="mt-2">
+                              <img
+                                src={form.watch("thumbnail")}
+                                alt="Thumbnail Preview"
+                                className="h-32 w-32 rounded-lg object-cover"
+                              />
+                            </div>
+                          )}
+                        </div>
+                      );
+                    }}
+                  </CldUploadWidget>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+        </div>
 
-          {/* Discount */}
-          <FormField
-            control={form.control}
-            name="discount"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Discount (%)</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    placeholder="Enter discount percentage"
-                    {...field}
-                    value={field.value || 0}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        {/* Language */}
+        <FormField
+          control={form.control}
+          name="language"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Language</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter course language" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          {/* Price */}
-          <FormField
-            control={form.control}
-            name="price"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Course Price</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    placeholder="Enter course price"
-                    {...field}
-                    value={field.value || 0}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        {/* Level */}
+        <FormField
+          control={form.control}
+          name="level"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Course Level</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a level" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Beginner">Beginner</SelectItem>
+                    <SelectItem value="Intermediate">Intermediate</SelectItem>
+                    <SelectItem value="Advanced">Advanced</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          {/* Duration */}
-          <FormField
-            control={form.control}
-            name="duration"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Duration (hours)</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    placeholder="Enter course duration"
-                    {...field}
-                    value={field.value || 0}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        {/* Discount */}
+        <FormField
+          control={form.control}
+          name="discount"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Discount (%)</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  placeholder="Enter discount percentage"
+                  {...field}
+                  value={field.value || 0}
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          {/* Description */}
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem className="col-span-1 sm:col-span-2">
-                <FormLabel>Course Description</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Enter course description"
-                    {...field}
-                    className="w-full"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        {/* Price */}
+        <FormField
+          control={form.control}
+          name="price"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Course Price</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  placeholder="Enter course price"
+                  {...field}
+                  value={field.value || 0}
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          {/* Submit Button */}
-          <Button
-            type="submit"
-            className="col-span-1 sm:col-span-2"
-            disabled={form.formState.isSubmitting}
-          >
-            Submit
-          </Button>
-        </form>
-      </Form>
-    </DialogModal>
+        {/* Duration */}
+        <FormField
+          control={form.control}
+          name="duration"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Duration (hours)</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  placeholder="Enter course duration"
+                  {...field}
+                  value={field.value || 0}
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Description */}
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem className="col-span-1 sm:col-span-2">
+              <FormLabel>Course Description</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Enter course description"
+                  {...field}
+                  className="w-full"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Submit Button */}
+        <Button
+          type="submit"
+          className="col-span-1 sm:col-span-2"
+          disabled={form.formState.isSubmitting}
+        >
+          Submit
+        </Button>
+      </form>
+    </Form>
   );
 }
