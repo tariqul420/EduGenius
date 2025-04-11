@@ -43,7 +43,7 @@ const FilterBar = ({ courses, total, categories }) => {
   }
 
   return (
-    <div className="filter-bar container mx-auto my-3 flex min-h-[60px] flex-col justify-between rounded border px-2 py-4 shadow-md md:flex-row lg:max-w-6xl dark:border-gray-800 dark:text-gray-400 dark:shadow-slate-800">
+    <div className="filter-bar bg-gradient-to-b from-black to-black container mx-auto my-3 flex min-h-[60px] flex-col justify-between rounded border px-2 py-4 shadow-md md:flex-row lg:max-w-6xl  dark:text-light-bg dark:shadow-zinc-900">
       <div className="left-content order-2 mt-5 flex items-center justify-between gap-4 text-2xl md:order-1 md:mt-0">
         <Sheet>
           <SheetTrigger>

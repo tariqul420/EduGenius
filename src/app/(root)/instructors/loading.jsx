@@ -10,8 +10,8 @@ export default function InstructorsSkeleton() {
             <Skeleton className="h-4 w-32" />
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
-            {[...Array(4)].map((_, idx) => (
+          <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {[...Array(6)].map((_, idx) => (
               <div key={idx} className="space-y-4">
                 <Skeleton className="h-48 w-full rounded-lg" />
                 <Skeleton className="h-6 w-3/4" />
@@ -57,8 +57,8 @@ export default function InstructorsSkeleton() {
             <Skeleton className="h-4 w-28" />
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
-            {[...Array(5)].map((_, idx) => (
+          <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {[...Array(6)].map((_, idx) => (
               <div key={idx} className="space-y-4">
                 <Skeleton className="h-48 w-full rounded-lg" />
                 <Skeleton className="h-6 w-3/4" />

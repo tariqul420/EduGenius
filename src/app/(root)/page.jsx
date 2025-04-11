@@ -14,11 +14,13 @@ import { getInstructors } from "@/lib/actions/instructor.action";
 
 export default async function Home({ searchParams }) {
   const { category } = await searchParams;
+  // If category then get the category slug
+  const categoryParams = category ? category.split(",") : [];
 
   const { blogs } = await getBlogs({ sort: "popular", limit: 3 });
 
   const { courses } = await getCourses({
-    categorySlug: category,
+    categorySlugs: categoryParams,
     limit: 6,
     sort: "top-rated",
   });

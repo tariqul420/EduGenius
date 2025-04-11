@@ -29,7 +29,7 @@ export default function PaymentModal({ course, userId, path }) {
             Enrollment
           </button>
         </AlertDialogTrigger>
-        <AlertDialogContent>
+        <AlertDialogContent className="px-2.5 md:px-4">
           <AlertDialogHeader>
             <AlertDialogTitle>Payment Authorization</AlertDialogTitle>
             <AlertDialogDescription>

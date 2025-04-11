@@ -20,7 +20,7 @@ const assignmentSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.models.Assignment ||

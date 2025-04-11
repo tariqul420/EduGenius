@@ -44,7 +44,7 @@ const users = [
 
 function Testimonial() {
   return (
-    <section className="dark:from-dark-bg/50 dark:to-dark-bg/5 my-20 bg-gradient-to-t py-8">
+    <section className="dark:from-dark-bg/50 dark:to-dark-bg/5 bg-gradient-to-t py-8">
       <section className="container mx-auto py-8 max-lg:px-4 lg:max-w-6xl">
         {/* Heading */}
         <Heading
@@ -72,7 +72,7 @@ function Testimonial() {
             }}
           >
             {users?.map((user, idx) => (
-              <SwiperSlide key={idx} className="py-8">
+              <SwiperSlide key={idx} className="py-8 mb-7">
                 <div className="bg-light-bg dark:bg-dark-bg flex w-full cursor-pointer flex-col items-center justify-between gap-8 rounded-lg border p-8 transition-all duration-300 md:flex-row">
                   {/* Image Container */}
                   <div className="ring-medium-bg relative h-36 w-36 rounded-full ring-4 dark:ring-[#292b2e]">

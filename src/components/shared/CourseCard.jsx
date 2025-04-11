@@ -23,7 +23,7 @@ const CourseCard = ({ course }) => {
 
   return (
     <div
-      className={`dark:bg-dark-bg relative flex h-fit rounded-md border shadow transition-all duration-300 hover:-translate-y-2 ${
+      className={`dark:bg-dark-bg relative flex h-[400px] rounded-md border shadow transition-all duration-300 hover:-translate-y-2 ${
         isGridCol && pathname === "/courses"
           ? "flex-col gap-5 sm:flex-row sm:gap-6"
           : "flex-col gap-5"
@@ -66,8 +66,8 @@ const CourseCard = ({ course }) => {
       </div>
 
       {/* Course Content */}
-      <div className={`course-content w-full p-3`}>
-        <h3 className="text-lg font-semibold">{title}</h3>
+      <div className={`course-content flex flex-col flex-grow w-full p-3`}>
+        <h3 className="text-lg font-semibold flex-grow">{title}</h3>
         <div className="flex justify-between py-5 text-slate-600">
           <div className="price flex items-center gap-1.5 dark:text-gray-300">
             <Languages size={16} /> {language}
