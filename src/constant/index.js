@@ -10,21 +10,6 @@ export const instructors = [
     icon: "BookText",
   },
   {
-    title: "Students",
-    url: "/instructor/students",
-    icon: "UsersRound",
-  },
-  {
-    title: "Certificates",
-    url: "/instructor/certificates",
-    icon: "Medal",
-  },
-  {
-    title: "Quiz & Assignment",
-    url: "/instructor/quiz-assignment",
-    icon: "BookOpenCheck",
-  },
-  {
     title: "My Blogs",
     url: "/instructor/my-blogs",
     icon: "BookOpenText",
