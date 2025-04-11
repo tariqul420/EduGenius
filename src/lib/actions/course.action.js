@@ -201,6 +201,7 @@ export async function getCourseBySlug(slug) {
 }
 
 export async function createCourse({ data, path }) {
+  console.log("Creating course with data:", data);
   try {
     await dbConnect();
 
@@ -355,5 +356,44 @@ export async function getCourseCurriculum(courseId) {
   } catch (error) {
     console.error("Error getting course curriculum:", error);
     throw error;
+  }
+}
+
+export async function updateCourseCurriculum({
+  moduleId,
+  lessonIds,
+  data,
+  path,
+}) {
+  try {
+    await dbConnect();
+
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+
+    const userId = sessionClaims?.userId;
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    await Module.findOneAndUpdate(
+      { _id: objectId(moduleId) },
+      { name: data.name, isFinished: false },
+      { new: true },
+    );
+
+    await Lesson.updateMany(
+      { _id: { $in: lessonIds } },
+      {
+        $set: {
+          ...data.lessons,
+          isFinished: false,
+        },
+      },
+    );
+
+    revalidatePath(path);
+  } catch (error) {
+    console.error("Error updating course curriculum:", error);
   }
 }
