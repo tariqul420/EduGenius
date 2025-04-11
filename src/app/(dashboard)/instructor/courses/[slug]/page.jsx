@@ -1,11 +1,16 @@
 import CourseEditForm from "@/components/dashboard/instructor/CourseEditForm";
+import ModuleForm from "@/components/dashboard/instructor/ModuleForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getCourseBySlug } from "@/lib/actions/course.action";
+import {
+  getCourseBySlug,
+  getCourseCurriculum,
+} from "@/lib/actions/course.action";
 
 export default async function EditCourse({ params }) {
   const { slug } = await params;
 
   const course = await getCourseBySlug(slug);
+  const curriculum = await getCourseCurriculum(course._id);
 
   return (
     <section>
@@ -22,11 +27,7 @@ export default async function EditCourse({ params }) {
           </TabsContent>
 
           <TabsContent value="curriculum">
-            <div className="col-span-1 sm:col-span-2">
-              <p className="text-muted-foreground text-sm">
-                Curriculum content goes here.
-              </p>
-            </div>
+            <ModuleForm courseId={course._id} curriculum={curriculum} />
           </TabsContent>
         </Tabs>
       </div>
