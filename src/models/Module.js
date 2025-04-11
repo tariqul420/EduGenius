@@ -2,14 +2,14 @@ import mongoose from "mongoose";
 
 const moduleSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true }, // Module title
-    description: { type: String }, // Module description
+    name: { type: String, required: true }, // Module title
     course: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
       required: true,
     }, // Course ID
-    order: { type: Number, required: true }, // Module order in the course
+
+    isFinished: { type: Boolean, required: true, default: false }, // Lesson order in the module
   },
   { timestamps: true },
 );

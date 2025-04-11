@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const lessonSchema = new mongoose.Schema(
   {
     title: { type: String, required: true }, // Lesson title
-    content: { type: String, required: true }, // Lesson content (HTML or Markdown)
     videoUrl: { type: String }, // Video URL (if applicable)
     course: {
       type: mongoose.Schema.Types.ObjectId,
@@ -15,7 +14,7 @@ const lessonSchema = new mongoose.Schema(
       ref: "Module",
       required: true,
     }, // Module ID
-    order: { type: Number, required: true }, // Lesson order in the module
+    isFinished: { type: Boolean, required: true, default: false }, // Lesson order in the module
   },
   { timestamps: true },
 );
