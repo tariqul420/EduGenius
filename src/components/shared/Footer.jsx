@@ -66,7 +66,7 @@ const Footer = () => {
                   rel="noopener noreferrer"
                 >
                   <item.icon
-                    size={18}
+                    size={34}
                     className="bg-light-bg shadow text-dark-main dark:bg-gradient-to-b dark:from-dark-hover dark:to-dark-bg rounded p-1.5"
                   />
                 </a>
