@@ -59,6 +59,9 @@ const blogSchema = z.object({
           "cdn.stocksnap.io",
           "unsplash.com",
           "images.unsplash.com",
+          "res.cloudinary.com",
+          "i.ibb.co",
+          "i.ibb.co.com",
         ];
         try {
           const { hostname } = new URL(url);
@@ -70,7 +73,8 @@ const blogSchema = z.object({
         }
       },
       {
-        message: "URL must be from Pexels, Pixabay, StockSnap, or Unsplash",
+        message:
+          "URL must be from Pexels, Pixabay, StockSnap, Cloudinary, ImageBB or Unsplash",
       },
     ),
   category: z.string().min(1, "Please select a category"),
@@ -255,7 +259,7 @@ export default function BlogForm({
                   </FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="e.g., from Pexels, Pixabay, Unsplash, or StockSnap"
+                      placeholder="e.g., from Pexels, Pixabay, StockSnap, Cloudinary, ImageBB or Unsplash"
                       type="url"
                       className="dark:bg-dark-input bg-white text-gray-900 dark:text-gray-100"
                       {...field}

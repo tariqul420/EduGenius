@@ -13,10 +13,10 @@ import { Monitor } from "lucide-react";
 function BlogTableSkeleton({ total = 6 }) {
   return (
     <section>
-      <div className="dark:bg-dark-bg rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700">
+      <div className="dark:bg-dark-bg rounded-lg bg-white shadow">
         <Table>
           <TableHeader>
-            <TableRow className="dark:bg-dark-hover border-b bg-gray-100 dark:border-gray-700">
+            <TableRow className="dark:bg-dark-bg rounded-t-lg border-b bg-gray-100">
               <TableHead>
                 <Skeleton className="h-5 w-12" />
               </TableHead>
