@@ -274,7 +274,6 @@ export async function deleteCourse({ courseId, path }) {
 
 // Server action for adding course curriculum
 export async function addCourseCurriculum({ courseId, data, path }) {
-  console.log(data);
   try {
     await dbConnect();
 
