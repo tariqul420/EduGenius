@@ -201,7 +201,6 @@ export async function getCourseBySlug(slug) {
 }
 
 export async function createCourse({ data, path }) {
-  console.log("Creating course with data:", data);
   try {
     await dbConnect();
 
@@ -267,6 +266,9 @@ export async function deleteCourse({ courseId, path }) {
       _id: courseId,
       instructor: objectId(userId),
     });
+    await Module.deleteMany({ course: objectId(courseId) });
+    await Lesson.deleteMany({ course: objectId(courseId) });
+
     revalidatePath(path);
   } catch (error) {
     console.error("Error deleting course:", error);
