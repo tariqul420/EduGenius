@@ -37,8 +37,6 @@ const formSchema = z.object({
 });
 
 export default function ModuleForm({ curriculum, courseId, slug }) {
-  console.log("curriculum", curriculum);
-
   const router = useRouter();
 
   // 1. Define your form.
@@ -57,7 +55,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
 
   // 2. Define a submit handler.
   function onSubmit(values) {
-    if (curriculum) {
+    if (curriculum?.lessons) {
       toast.promise(
         updateCourseCurriculum({
           moduleId: curriculum._id,
@@ -190,7 +188,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
             className="w-full"
             disabled={form.formState.isSubmitting}
           >
-            {curriculum ? "Update Curriculum" : "Add Curriculum"}
+            {curriculum?.lessons ? "Update Curriculum" : "Add Curriculum"}
           </Button>
         </div>
       </form>
