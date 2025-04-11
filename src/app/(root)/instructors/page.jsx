@@ -10,7 +10,7 @@ export default async function Instructors({ searchParams }) {
   const instructorsResult = await getInstructors({
     role: "instructor",
     page: Number(page) || 1,
-    limit: 4,
+    limit: 6,
   });
   const instructors = instructorsResult?.users || [];
   const total = instructorsResult?.total || 0;
@@ -34,7 +34,7 @@ export default async function Instructors({ searchParams }) {
             </p>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
+          <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {instructors &&
               instructors.length > 0 &&
               instructors.map((instructor, idx) => (
@@ -73,7 +73,7 @@ export default async function Instructors({ searchParams }) {
             </p>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
+          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {bestInstructors &&
               bestInstructors.length > 0 &&
               bestInstructors.map((instructor, idx) => (

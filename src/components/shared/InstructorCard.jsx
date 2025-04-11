@@ -5,15 +5,15 @@ import { Button } from "../ui/button";
 
 export default function InstructorCard({ instructor }) {
   return (
-    <div className="dark:bg-dark-bg flex cursor-pointer flex-wrap gap-4 rounded-lg p-4 shadow-md transition-all duration-300 hover:-translate-y-4 dark:shadow-white/5">
+    <div className="dark:bg-dark-bg flex cursor-pointer justify-around gap-7 rounded-lg px-5 py-2 shadow-md transition-all duration-300 hover:-translate-y-4 dark:shadow-white/5">
       <Image
         src={instructor.profilePicture}
         alt={instructor.firstName}
-        width={180}
-        height={139}
+        width={150}
+        height={100}
         className="rounded-lg max-sm:w-full"
       />
-      <div className="flex-1">
+      <div className="">
         <div>
           <h2 className="mt-4 text-xl font-semibold">
             {instructor.firstName} {instructor.lastName}
@@ -21,10 +21,10 @@ export default function InstructorCard({ instructor }) {
           <p className="text-gray-600">{instructor?.title}</p>
         </div>
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <Button className="bg-main mt-4 rounded px-4 py-2 text-white dark:hover:text-black">
+          <Button className="bg-main mt-4 rounded px-4 py-1.5 text-white dark:hover:text-black">
             <Link href={`/instructors/${instructor?.slug}`}>Details</Link>
           </Button>
-          {instructor?.social && (
+          {/* {instructor?.social && (
             <div className="flex items-center justify-center space-x-4">
               {instructor?.social?.facebook && (
                 <a href={instructor.social.facebook}>
@@ -59,7 +59,18 @@ export default function InstructorCard({ instructor }) {
                 </a>
               )}
             </div>
-          )}
+          )} */}
+        </div>
+        <div className="mt-4 flex items-center gap-2.5">
+          <span className="icon bg-light-bg shadow text-dark-main dark:bg-dark-hover rounded p-1.5">
+            <Linkedin size={18} />
+          </span>
+          <span className="icon bg-light-bg shadow text-dark-main dark:bg-dark-hover rounded p-1.5">
+            <Twitter size={18} />
+          </span>
+          <span className="icon bg-light-bg shadow text-dark-main dark:bg-dark-hover rounded p-1.5">
+            <Facebook size={18} />
+          </span>
         </div>
       </div>
     </div>
