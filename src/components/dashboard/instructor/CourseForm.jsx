@@ -23,6 +23,7 @@ import { getCategory } from "@/lib/actions/category.action";
 import { createCourse } from "@/lib/actions/course.action";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ImageUp } from "lucide-react";
 import { CldUploadWidget } from "next-cloudinary";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -92,6 +93,7 @@ export default function CourseForm() {
       {
         loading: "Creating course...",
         success: (data) => {
+          router.push("/instructor/courses");
           router.refresh();
           form.reset();
           return "Course created successfully!";
@@ -189,24 +191,22 @@ export default function CourseForm() {
                   >
                     {({ open }) => {
                       return (
-                        <div>
+                        <div className="flex items-center gap-2">
+                          <Input
+                            placeholder="Upload thumbnail"
+                            value={field.value}
+                            onChange={(e) => field.onChange(e.target.value)}
+                            className="mb-2"
+                            disabled
+                          />
                           <Button
                             type="button"
                             variant="outline"
                             onClick={open}
-                            className="w-full"
+                            className="w-fit"
                           >
-                            Upload Thumbnail
+                            <ImageUp strokeWidth={1} />
                           </Button>
-                          {form.watch("thumbnail") && (
-                            <div className="mt-2">
-                              <img
-                                src={form.watch("thumbnail")}
-                                alt="Thumbnail Preview"
-                                className="h-32 w-32 rounded-lg object-cover"
-                              />
-                            </div>
-                          )}
                         </div>
                       );
                     }}

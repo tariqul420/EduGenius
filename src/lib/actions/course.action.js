@@ -247,3 +247,25 @@ export async function updateCourse({ courseId, data, path }) {
     throw error;
   }
 }
+
+export async function deleteCourse({ courseId, path }) {
+  try {
+    await dbConnect();
+
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+
+    const userId = sessionClaims?.userId;
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    await Course.findOneAndDelete({
+      _id: courseId,
+      instructor: objectId(userId),
+    });
+    revalidatePath(path);
+  } catch (error) {
+    console.error("Error deleting course:", error);
+  }
+}
