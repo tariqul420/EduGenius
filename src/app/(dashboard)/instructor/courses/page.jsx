@@ -9,7 +9,6 @@ export default async function Courses() {
     throw new Error("User not authenticated");
   }
   const result = await getCourses({ instructor, limit: 10 });
-
   const courses = result?.courses || [];
 
   return (

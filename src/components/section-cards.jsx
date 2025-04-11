@@ -9,15 +9,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  getGrowthRate,
+  getTotalEnrolment,
+  getTotalRevenue,
+  getTotalStudents,
+} from "@/lib/actions/course.action";
 
-export function SectionCards() {
+export async function SectionCards() {
+  const revenue = await getTotalRevenue();
+  const students = await getTotalStudents();
+  const enrolment = await getTotalEnrolment();
+  const growthRate = await getGrowthRate();
+
   return (
-    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1  gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
       <Card className="@container/card">
         <CardHeader>
           <CardDescription>Total Revenue</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
+            ${revenue.toFixed(2)}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -39,7 +50,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Total Students</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            14,234
+            {students}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -61,7 +72,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Total Enrolment</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
+            {enrolment}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -81,7 +92,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Growth Rate</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
+            {growthRate}%
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -100,5 +111,3 @@ export function SectionCards() {
     </div>
   );
 }
-
-

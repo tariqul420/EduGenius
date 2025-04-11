@@ -398,3 +398,177 @@ export async function updateCourseCurriculum({
     console.error("Error updating course curriculum:", error);
   }
 }
+
+// get last three months course selling data
+export async function getLastThreeMonthsCourseSellingData() {
+  try {
+    await dbConnect();
+
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+
+    const userId = sessionClaims?.userId;
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    const pipeline = [
+      { $match: { instructor: objectId(userId) } }, // Filter by instructor ID
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } }, // Group by date
+          totalCoursesSold: { $sum: 1 }, // Count the number of courses sold
+          totalPrice: { $sum: "$price" }, // Sum the course prices
+        },
+      },
+      {
+        $sort: { _id: -1 }, // Sort by date descending
+      },
+    ];
+
+    const result = await Course.aggregate(pipeline);
+
+    // Format the result to match the desired output
+    const formattedResult = result.map((item) => ({
+      date: item._id, // Date
+      totalCoursesSold: item.totalCoursesSold,
+      totalPrice: item.totalPrice,
+    }));
+
+    return JSON.parse(JSON.stringify(formattedResult));
+  } catch (error) {
+    console.error(
+      "Error getting last three months course selling data:",
+      error,
+    );
+    throw error;
+  }
+}
+
+// get total revenue
+export async function getTotalRevenue() {
+  try {
+    await dbConnect();
+
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+
+    const userId = sessionClaims?.userId;
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    const pipeline = [
+      { $match: { instructor: objectId(userId) } }, // Filter by instructor ID
+      {
+        $group: {
+          _id: null,
+          totalRevenue: { $sum: "$price" }, // Sum the course prices
+        },
+      },
+    ];
+
+    const result = await Course.aggregate(pipeline);
+
+    return JSON.parse(JSON.stringify(result[0]?.totalRevenue || 0));
+  } catch (error) {
+    console.error("Error getting total revenue:", error);
+    throw error;
+  }
+}
+
+// get total students
+export async function getTotalStudents() {
+  try {
+    await dbConnect();
+
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+
+    const userId = sessionClaims?.userId;
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    const pipeline = [
+      { $match: { instructor: objectId(userId) } }, // Filter by instructor ID
+      {
+        $group: {
+          _id: null,
+          totalStudents: { $sum: "$students" }, // Sum the number of students
+        },
+      },
+    ];
+
+    const result = await Course.aggregate(pipeline);
+
+    return JSON.parse(JSON.stringify(result[0]?.totalStudents || 0));
+  } catch (error) {
+    console.error("Error getting total students:", error);
+    throw error;
+  }
+}
+
+// get total enrolment
+export async function getTotalEnrolment() {
+  try {
+    await dbConnect();
+
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+
+    const userId = sessionClaims?.userId;
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    const pipeline = [
+      { $match: { instructor: objectId(userId) } }, // Filter by instructor ID
+      {
+        $group: {
+          _id: null,
+          totalEnrolment: { $sum: "$students" }, // Sum the number of students
+        },
+      },
+    ];
+
+    const result = await Course.aggregate(pipeline);
+
+    return JSON.parse(JSON.stringify(result[0]?.totalEnrolment || 0));
+  } catch (error) {
+    console.error("Error getting total enrolment:", error);
+    throw error;
+  }
+}
+
+// get growth rate
+export async function getGrowthRate() {
+  try {
+    await dbConnect();
+
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+
+    const userId = sessionClaims?.userId;
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    const pipeline = [
+      { $match: { instructor: objectId(userId) } }, // Filter by instructor ID
+      {
+        $group: {
+          _id: null,
+          totalEnrolment: { $sum: "$students" }, // Sum the number of students
+        },
+      },
+    ];
+
+    const result = await Course.aggregate(pipeline);
+
+    return JSON.parse(JSON.stringify(result[0]?.totalEnrolment || 0));
+  } catch (error) {
+    console.error("Error getting growth rate:", error);
+    throw error;
+  }
+}
