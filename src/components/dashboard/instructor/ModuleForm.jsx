@@ -127,7 +127,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
         {/* Dynamic Lessons */}
         <div className="col-span-2 space-y-5">
           {fields.map((lesson, index) => (
-            <div key={lesson.id} className="flex w-full items-center gap-5">
+            <div key={lesson.id} className="flex w-full items-end gap-5">
               {/* Lesson Title */}
               <FormField
                 control={form.control}
@@ -157,14 +157,12 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
                   </FormItem>
                 )}
               />
-
               {/* Remove Lesson Button */}
-
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => remove(index)} // Remove the lesson
-                className="w-fit self-center"
+                className="w-fit"
               >
                 <Minus strokeWidth={1} />
               </Button>
