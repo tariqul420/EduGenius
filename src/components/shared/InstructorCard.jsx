@@ -20,6 +20,17 @@ export default function InstructorCard({ instructor }) {
           </h2>
           <p className="text-gray-600">{instructor?.title}</p>
         </div>
+        <div className="mt-4 flex items-center gap-2.5">
+          <span className="icon bg-light-bg shadow text-dark-main dark:bg-gradient-to-b dark:from-dark-hover dark:to-dark-bg rounded p-1.5">
+            <Linkedin size={18} />
+          </span>
+          <span className="icon bg-light-bg shadow text-dark-main dark:bg-gradient-to-b dark:from-dark-hover dark:to-dark-bg rounded p-1.5">
+            <Twitter size={18} />
+          </span>
+          <span className="icon bg-light-bg shadow text-dark-main dark:bg-gradient-to-b dark:from-dark-hover dark:to-dark-bg rounded p-1.5">
+            <Facebook size={18} />
+          </span>
+        </div>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <Button className="bg-main mt-4 rounded px-4 py-1.5 text-white dark:hover:text-black">
             <Link href={`/instructors/${instructor?.slug}`}>Details</Link>
@@ -60,17 +71,6 @@ export default function InstructorCard({ instructor }) {
               )}
             </div>
           )} */}
-        </div>
-        <div className="mt-4 flex items-center gap-2.5">
-          <span className="icon bg-light-bg shadow text-dark-main dark:bg-dark-hover rounded p-1.5">
-            <Linkedin size={18} />
-          </span>
-          <span className="icon bg-light-bg shadow text-dark-main dark:bg-dark-hover rounded p-1.5">
-            <Twitter size={18} />
-          </span>
-          <span className="icon bg-light-bg shadow text-dark-main dark:bg-dark-hover rounded p-1.5">
-            <Facebook size={18} />
-          </span>
         </div>
       </div>
     </div>

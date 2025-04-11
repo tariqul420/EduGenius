@@ -46,7 +46,7 @@ export default async function Instructors({ searchParams }) {
       </section>
 
       <section>
-        <div className="dark:from-dark-bg mt-20 bg-gradient-to-t py-8 dark:to-black">
+        <div className="dark:from-dark-bg bg-gradient-to-t py-8 dark:to-black">
           <div className="container mx-auto py-8 max-lg:px-4 lg:max-w-6xl">
             {/* Heading */}
             <div className="dark:text-light-bg mb-8 text-center">
