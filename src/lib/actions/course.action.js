@@ -5,6 +5,7 @@ import Course from "@/models/Course";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
+import { objectId } from "../utils";
 
 export async function getCourses({
   categorySlugs = [],
@@ -30,7 +31,7 @@ export async function getCourses({
       // Match courses based on categorySlug or search query
       {
         $match: {
-          ...(instructor && { instructor }),
+          ...(instructor && { instructor: objectId(instructor) }), // Match instructor by ObjectId
           ...(categoryIds.length > 0 && { category: { $in: categoryIds } }), // Match multiple categories
           ...(level && { level }),
           ...(search && {
@@ -244,5 +245,27 @@ export async function updateCourse({ courseId, data, path }) {
   } catch (error) {
     console.error("Error updating course:", error);
     throw error;
+  }
+}
+
+export async function deleteCourse({ courseId, path }) {
+  try {
+    await dbConnect();
+
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+
+    const userId = sessionClaims?.userId;
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    await Course.findOneAndDelete({
+      _id: courseId,
+      instructor: objectId(userId),
+    });
+    revalidatePath(path);
+  } catch (error) {
+    console.error("Error deleting course:", error);
   }
 }
