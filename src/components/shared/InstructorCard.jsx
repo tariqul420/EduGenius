@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 
 export default function InstructorCard({ instructor }) {
   return (
-    <div className="dark:bg-dark-bg flex cursor-pointer justify-around gap-7 rounded-lg px-5 py-2 shadow-md transition-all duration-300 hover:-translate-y-4 dark:shadow-white/5">
+    <div className="dark:bg-dark-bg flex dark:border dark:border-t-[3px] dark:border-b-0 cursor-pointer justify-around gap-7 rounded-lg px-5 py-2 shadow-md transition-all duration-300 hover:-translate-y-4 dark:shadow-none">
       <Image
         src={instructor.profilePicture}
         alt={instructor.firstName}
