@@ -89,7 +89,7 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
-import CourseForm from "./dashboard/instructor/CourseForm";
+import Link from "next/link";
 
 export const schema = z.object({
   id: z.string(),
@@ -389,10 +389,14 @@ export function DataTable({ data: initialData }) {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <div className="bg-background hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 flex h-8 items-center gap-1.5 rounded-md border px-3 text-sm font-medium shadow-xs has-[>svg]:px-2.5">
+          <Link
+            href="/instructor/courses/add-course"
+            className="bg-background hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 flex h-8 items-center gap-1.5 rounded-md border px-3 text-sm font-medium shadow-xs has-[>svg]:px-2.5"
+          >
             <IconPlus size={16} />
-            <CourseForm />
-          </div>
+            <span>Add course</span>
+            {/* <CourseForm /> */}
+          </Link>
         </div>
       </div>
       <TabsContent

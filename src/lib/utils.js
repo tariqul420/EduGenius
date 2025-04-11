@@ -1,4 +1,5 @@
 import { clsx } from "clsx";
+import mongoose from "mongoose";
 import qs from "query-string";
 import { twMerge } from "tailwind-merge";
 
@@ -44,3 +45,5 @@ export function formatDate(inputDate) {
 
   return `${day} ${month} ${year}`;
 }
+
+export const objectId = (id) => (id ? new mongoose.Types.ObjectId(id) : null);
