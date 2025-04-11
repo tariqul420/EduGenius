@@ -12,12 +12,15 @@ export default async function Course({ searchParams }) {
   const { sort } = await searchParams;
   const { page } = await searchParams;
 
+  // If category then get the category slug
+  const categoryParams = category ? category.split(",") : [];
+
   const {
     courses,
     total,
     hasNextPage = false,
   } = await getCourses({
-    categorySlug: category,
+    categorySlugs: categoryParams,
     level: level,
     search: search,
     sort: sort,
