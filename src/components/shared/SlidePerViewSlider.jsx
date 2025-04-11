@@ -42,7 +42,7 @@ export default function SlidePrViewSlider({ bestInstructors }) {
       >
         {bestInstructors?.map((instructor, idx) => (
           <SwiperSlide key={idx} className="py-8">
-            <div className="group bg-light-bg dark:bg-dark-bg dark:text-light-bg flex w-full cursor-pointer flex-col items-center rounded-lg border p-6 shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
+            <div className="group bg-light-bg mb-5 dark:bg-dark-bg dark:text-light-bg flex w-full cursor-pointer flex-col items-center dark:border-t-[3px] dark:border-b-0 rounded-lg border p-6 shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
               {/* Image Container */}
               <div className="relative h-48 w-48 overflow-hidden">
                 <Image

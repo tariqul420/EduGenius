@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 
 export default function InstructorCard({ instructor }) {
   return (
-    <div className="dark:bg-dark-bg flex dark:border dark:border-t-[3px] dark:border-b-0 cursor-pointer justify-around gap-7 rounded-lg px-5 py-2 shadow-md transition-all duration-300 hover:-translate-y-4 dark:shadow-none">
+    <div className="dark:bg-dark-bg flex cursor-pointer justify-around gap-7 rounded-lg px-5 py-2 shadow-md transition-all duration-300 hover:-translate-y-4 dark:border dark:border-t-[3px] dark:border-b-0 dark:shadow-none">
       <Image
         src={instructor.profilePicture}
         alt={instructor.firstName}
@@ -21,13 +21,13 @@ export default function InstructorCard({ instructor }) {
           <p className="text-gray-600">{instructor?.title}</p>
         </div>
         <div className="mt-4 flex items-center gap-2.5">
-          <span className="icon bg-light-bg shadow text-dark-main dark:bg-gradient-to-b dark:from-dark-hover dark:to-dark-bg rounded p-1.5">
+          <span className="icon bg-light-bg text-dark-main dark:from-dark-hover dark:to-dark-bg rounded p-1.5 shadow dark:bg-gradient-to-b">
             <Linkedin size={18} />
           </span>
-          <span className="icon bg-light-bg shadow text-dark-main dark:bg-gradient-to-b dark:from-dark-hover dark:to-dark-bg rounded p-1.5">
+          <span className="icon bg-light-bg text-dark-main dark:from-dark-hover dark:to-dark-bg rounded p-1.5 shadow dark:bg-gradient-to-b">
             <Twitter size={18} />
           </span>
-          <span className="icon bg-light-bg shadow text-dark-main dark:bg-gradient-to-b dark:from-dark-hover dark:to-dark-bg rounded p-1.5">
+          <span className="icon bg-light-bg text-dark-main dark:from-dark-hover dark:to-dark-bg rounded p-1.5 shadow dark:bg-gradient-to-b">
             <Facebook size={18} />
           </span>
         </div>
