@@ -266,6 +266,9 @@ export async function deleteCourse({ courseId, path }) {
       _id: courseId,
       instructor: objectId(userId),
     });
+    await Module.deleteMany({ course: objectId(courseId) });
+    await Lesson.deleteMany({ course: objectId(courseId) });
+
     revalidatePath(path);
   } catch (error) {
     console.error("Error deleting course:", error);
@@ -315,7 +318,7 @@ export async function getCourseCurriculum(courseId) {
 
     const courseCurriculum = await Module.aggregate([
       {
-        $match: { course: objectId(courseId) }, // Match modules for the given course
+        $match: { course: courseId }, // Match modules for the given course
       },
       {
         $lookup: {
@@ -349,11 +352,49 @@ export async function getCourseCurriculum(courseId) {
       },
     ]);
 
-    const objCourseCurriculum = courseCurriculum[0];
-
+    const objCourseCurriculum = courseCurriculum[0] || {};
     return JSON.parse(JSON.stringify(objCourseCurriculum));
   } catch (error) {
     console.error("Error getting course curriculum:", error);
     throw error;
+  }
+}
+
+export async function updateCourseCurriculum({
+  moduleId,
+  lessonIds,
+  data,
+  path,
+}) {
+  try {
+    await dbConnect();
+
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+
+    const userId = sessionClaims?.userId;
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    await Module.findOneAndUpdate(
+      { _id: objectId(moduleId) },
+      { name: data.name, isFinished: false },
+      { new: true },
+    );
+
+    await Lesson.updateMany(
+      { _id: { $in: lessonIds } },
+      {
+        $set: {
+          ...data.lessons,
+          isFinished: false,
+        },
+      },
+    );
+
+    revalidatePath(path);
+  } catch (error) {
+    console.error("Error updating course curriculum:", error);
   }
 }

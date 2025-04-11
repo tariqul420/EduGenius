@@ -3,9 +3,16 @@ import { DataTable } from "@/components/data-table";
 import { SectionCards } from "@/components/section-cards";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { getCourses } from "@/lib/actions/course.action";
+import { auth } from "@clerk/nextjs/server";
 
 export default async function Home() {
-  const result = await getCourses({ limit: 5 });
+  const { sessionClaims } = await auth();
+  const instructor = sessionClaims?.userId;
+  if (!instructor) {
+    throw new Error("User not authenticated");
+  }
+
+  const result = await getCourses({ instructor, limit: 5 });
 
   const courses = result?.courses || [];
 
