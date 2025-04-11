@@ -316,7 +316,7 @@ export async function getCourseCurriculum(courseId) {
 
     const courseCurriculum = await Module.aggregate([
       {
-        $match: { course: objectId(courseId) }, // Match modules for the given course
+        $match: { course: courseId }, // Match modules for the given course
       },
       {
         $lookup: {
@@ -350,8 +350,7 @@ export async function getCourseCurriculum(courseId) {
       },
     ]);
 
-    const objCourseCurriculum = courseCurriculum[0];
-
+    const objCourseCurriculum = courseCurriculum[0] || {};
     return JSON.parse(JSON.stringify(objCourseCurriculum));
   } catch (error) {
     console.error("Error getting course curriculum:", error);
