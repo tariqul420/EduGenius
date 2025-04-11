@@ -446,7 +446,7 @@ export async function getLastThreeMonthsCourseSellingData() {
 }
 
 // get total revenue
-export async function getTotalRevenue() {
+export async function getRevenueStats() {
   try {
     await dbConnect();
 
@@ -458,7 +458,36 @@ export async function getTotalRevenue() {
       throw new Error("User not authenticated");
     }
 
+    // Get the current date and calculate the start of the current and previous months
+    const currentDate = new Date();
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
+
+    // Pipeline to calculate total revenue and revenue growth
     const pipeline = [
+      {
+        $match: {
+          instructor: objectId(userId), // Filter by instructor ID
+          createdAt: { $gte: sixMonthsAgo }, // Filter for the last 6 months
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: { format: "%Y-%m", date: "$createdAt" }, // Group by month
+          },
+          totalRevenue: { $sum: "$price" }, // Sum the course prices
+        },
+      },
+      {
+        $sort: { _id: 1 }, // Sort by month in ascending order
+      },
+    ];
+
+    const result = await Course.aggregate(pipeline);
+
+    // Calculate total revenue
+    const totalRevenuePipeline = [
       { $match: { instructor: objectId(userId) } }, // Filter by instructor ID
       {
         $group: {
@@ -468,17 +497,44 @@ export async function getTotalRevenue() {
       },
     ];
 
-    const result = await Course.aggregate(pipeline);
+    const totalRevenueResult = await Course.aggregate(totalRevenuePipeline);
+    const totalRevenue = totalRevenueResult[0]?.totalRevenue || 0;
 
-    return JSON.parse(JSON.stringify(result[0]?.totalRevenue || 0));
+    // Ensure we have at least two months of data to calculate growth
+    if (result.length < 2) {
+      return {
+        totalRevenue,
+        growthRate: 0,
+        trend: "No data",
+      };
+    }
+
+    // Get the most recent month and the previous month
+    const latestMonth = result[result.length - 1];
+    const previousMonth = result[result.length - 2];
+
+    // Calculate the growth rate
+    const growthRate =
+      ((latestMonth.totalRevenue - previousMonth.totalRevenue) /
+        previousMonth.totalRevenue) *
+      100;
+
+    // Determine the trend
+    const trend = growthRate > 0 ? "Trending up" : "Trending down";
+
+    return {
+      totalRevenue,
+      growthRate: Math.abs(growthRate.toFixed(2)), // Return absolute value with 2 decimal places
+      trend,
+    };
   } catch (error) {
-    console.error("Error getting total revenue:", error);
+    console.error("Error getting revenue stats:", error);
     throw error;
   }
 }
 
 // get total students
-export async function getTotalStudents() {
+export async function getTotalStudentStats() {
   try {
     await dbConnect();
 
@@ -490,27 +546,74 @@ export async function getTotalStudents() {
       throw new Error("User not authenticated");
     }
 
+    // Get the current date and calculate the date 6 months ago
+    const currentDate = new Date();
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
+
+    // Pipeline to calculate total students for the last 6 months
     const pipeline = [
-      { $match: { instructor: objectId(userId) } }, // Filter by instructor ID
+      {
+        $match: {
+          instructor: objectId(userId), // Filter by instructor ID
+          createdAt: { $gte: sixMonthsAgo }, // Filter for the last 6 months
+        },
+      },
       {
         $group: {
-          _id: null,
-          totalStudents: { $sum: "$students" }, // Sum the number of students
+          _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } }, // Group by month
+          totalStudents: { $sum: { $size: "$students" } }, // Count the number of students
         },
+      },
+      {
+        $sort: { _id: 1 }, // Sort by month in ascending order
       },
     ];
 
     const result = await Course.aggregate(pipeline);
 
-    return JSON.parse(JSON.stringify(result[0]?.totalStudents || 0));
+    // Calculate total students for the last 6 months
+    const totalStudents = result.reduce(
+      (sum, month) => sum + month.totalStudents,
+      0,
+    );
+
+    // Calculate growth rate (compare the last two months)
+    let growthRate = 0;
+    let trend = "No data";
+
+    if (result.length >= 2) {
+      const latestMonth = result[result.length - 1];
+      const previousMonth = result[result.length - 2];
+
+      growthRate =
+        ((latestMonth.totalStudents - previousMonth.totalStudents) /
+          previousMonth.totalStudents) *
+        100;
+
+      trend = growthRate > 0 ? "Up" : "Down";
+    }
+
+    // // Format the result
+    // const formattedResult = result.map((item) => ({
+    //   month: item._id, // Month (e.g., "2025-04")
+    //   totalStudents: item.totalStudents, // Total students for the month
+    // }));
+
+    return {
+      totalStudents,
+      growthRate: Math.abs(growthRate.toFixed(2)), // Return absolute value with 2 decimal places
+      trend,
+      // monthlyStudents: formattedResult, // Students for each of the last 6 months
+    };
   } catch (error) {
-    console.error("Error getting total students:", error);
+    console.error("Error getting total student stats:", error);
     throw error;
   }
 }
 
 // get total enrolment
-export async function getTotalEnrolment() {
+export async function getTotalEnrolmentStats() {
   try {
     await dbConnect();
 
@@ -522,21 +625,69 @@ export async function getTotalEnrolment() {
       throw new Error("User not authenticated");
     }
 
+    // Get the current date and calculate the date 6 months ago
+    const currentDate = new Date();
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
+
+    // Pipeline to calculate total enrolments for the last 6 months
     const pipeline = [
-      { $match: { instructor: objectId(userId) } }, // Filter by instructor ID
+      {
+        $match: {
+          instructor: objectId(userId), // Filter by instructor ID
+          createdAt: { $gte: sixMonthsAgo }, // Filter for the last 6 months
+        },
+      },
       {
         $group: {
-          _id: null,
-          totalEnrolment: { $sum: "$students" }, // Sum the number of students
+          _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } }, // Group by month
+          totalEnrolment: { $sum: { $size: "$students" } }, // Count the number of enrolments
         },
+      },
+      {
+        $sort: { _id: 1 }, // Sort by month in ascending order
       },
     ];
 
     const result = await Course.aggregate(pipeline);
 
-    return JSON.parse(JSON.stringify(result[0]?.totalEnrolment || 0));
+    // Calculate total enrolments for the last 6 months
+    const totalEnrolment = result.reduce(
+      (sum, month) => sum + month.totalEnrolment,
+      0,
+    );
+
+    // Calculate growth rate (compare the last two months)
+    let growthRate = 0;
+    let trend = "No data";
+
+    if (result.length >= 2) {
+      const latestMonth = result[result.length - 1];
+      const previousMonth = result[result.length - 2];
+
+      growthRate =
+        ((latestMonth.totalEnrolment - previousMonth.totalEnrolment) /
+          previousMonth.totalEnrolment) *
+        100;
+
+      trend =
+        growthRate > 0 ? "Strong student retention" : "Poor student retention";
+    }
+
+    // Format the result
+    // const formattedResult = result.map((item) => ({
+    //   month: item._id, // Month (e.g., "2025-04")
+    //   totalEnrolment: item.totalEnrolment, // Total enrolments for the month
+    // }));
+
+    return {
+      totalEnrolment,
+      growthRate: Math.abs(growthRate.toFixed(2)), // Return absolute value with 2 decimal places
+      trend,
+      // monthlyEnrolments: formattedResult, // Enrolments for each of the last 6 months
+    };
   } catch (error) {
-    console.error("Error getting total enrolment:", error);
+    console.error("Error getting total enrolment stats:", error);
     throw error;
   }
 }
@@ -554,19 +705,65 @@ export async function getGrowthRate() {
       throw new Error("User not authenticated");
     }
 
+    // Get the current date and calculate the start of the current and previous periods
+    const currentDate = new Date();
+    const startOfCurrentMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      1,
+    );
+    const startOfPreviousMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - 1,
+      1,
+    );
+
+    // Pipeline to calculate total enrolments for the last two months
     const pipeline = [
-      { $match: { instructor: objectId(userId) } }, // Filter by instructor ID
+      {
+        $match: {
+          instructor: objectId(userId), // Filter by instructor ID
+          createdAt: { $gte: startOfPreviousMonth }, // Filter for the last two months
+        },
+      },
       {
         $group: {
-          _id: null,
-          totalEnrolment: { $sum: "$students" }, // Sum the number of students
+          _id: {
+            $cond: [
+              { $gte: ["$createdAt", startOfCurrentMonth] },
+              "current",
+              "previous",
+            ],
+          }, // Group into "current" and "previous" periods
+          totalEnrolment: { $sum: { $size: "$students" } }, // Count the number of enrolments
         },
       },
     ];
 
     const result = await Course.aggregate(pipeline);
 
-    return JSON.parse(JSON.stringify(result[0]?.totalEnrolment || 0));
+    // Extract current and previous enrolments
+    const currentEnrolment =
+      result.find((item) => item._id === "current")?.totalEnrolment || 0;
+    const previousEnrolment =
+      result.find((item) => item._id === "previous")?.totalEnrolment || 0;
+
+    // Calculate growth rate
+    let growthRate = 0;
+    let trend = "No data";
+
+    if (previousEnrolment > 0) {
+      growthRate =
+        ((currentEnrolment - previousEnrolment) / previousEnrolment) * 100;
+      trend = growthRate > 0 ? "increase" : "decrease";
+    }
+
+    return {
+      currentEnrolment,
+      previousEnrolment,
+      growthRate: Math.abs(growthRate.toFixed(2)), // Return absolute value with 2 decimal places
+      trend,
+    };
   } catch (error) {
     console.error("Error getting growth rate:", error);
     throw error;
