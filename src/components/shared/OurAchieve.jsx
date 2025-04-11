@@ -43,8 +43,8 @@ function OurAchieve() {
                 key={index}
                 className="bg-light-bg dark:bg-dark-bg flex flex-col items-center gap-4 rounded-md border px-2 py-5 text-center shadow md:flex-row md:text-left"
               >
-                <div className="dark:bg-dark-hover flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-[#F4F5FF]">
-                  <IconComponent className="text-main h-10 w-10" />
+                <div className="dark:bg-dark-hover flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-lg bg-[#F4F5FF]">
+                  <IconComponent className="text-main h-7 w-7" />
                 </div>
                 <div>
                   <p className="text-lg font-bold md:text-xl">{item?.value}</p>
