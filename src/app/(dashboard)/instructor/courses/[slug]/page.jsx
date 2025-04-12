@@ -24,16 +24,16 @@ export default async function EditCourse({ params }) {
               defaultValue="basic"
               className="w-full space-y-5 rounded border px-3 py-3 shadow-xl md:px-8 md:py-5"
             >
-              <TabsList className="dark:bg-dark-hover w-full rounded bg-gray-50 px-1.5 py-5 shadow-sm">
+              <TabsList className="dark:bg-dark-hover bg-light-bg w-full rounded px-1.5 py-5 shadow-sm">
                 <TabsTrigger
                   value="basic"
-                  className="data-[state=active]:text-main dark:data-[state=active]:bg-dark-bg dark:data-[state=active]:text-main-dark rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                  className="data-[state=active]:text-main from-dark-bg to-dark-hover dark:data-[state=active]:text-white rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-gradient-to-b"
                 >
                   Basic Information
                 </TabsTrigger>
                 <TabsTrigger
                   value="curriculum"
-                  className="roundedpx-6 data-[state=active]:text-main dark:data-[state=active]:bg-dark-bg dark:data-[state=active]:text-main-dark py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                  className="data-[state=active]:text-main from-dark-bg to-dark-hover dark:data-[state=active]:text-white rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-gradient-to-b"
                 >
                   Curriculum
                 </TabsTrigger>
@@ -61,16 +61,16 @@ export default async function EditCourse({ params }) {
               defaultValue="quiz"
               className="w-full space-y-5 rounded border px-3 py-3 shadow-xl md:px-8 md:py-5"
             >
-              <TabsList className="dark:bg-dark-hover w-full rounded">
+              <TabsList className="dark:bg-dark-hover bg-light-bg w-full rounded px-1.5 py-5 shadow-sm">
                 <TabsTrigger
                   value="quiz"
-                  className="data-[state=active]:text-main dark:data-[state=active]:bg-dark-bg dark:data-[state=active]:text-main-dark rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                  className="data-[state=active]:text-main from-dark-bg to-dark-hover dark:data-[state=active]:text-white rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-gradient-to-b"
                 >
                   Quiz
                 </TabsTrigger>
                 <TabsTrigger
                   value="assignment"
-                  className="data-[state=active]:text-main dark:data-[state=active]:bg-dark-bg dark:data-[state=active]:text-main-dark rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                  className="data-[state=active]:text-main from-dark-bg to-dark-hover dark:data-[state=active]:text-white rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-gradient-to-b"
                 >
                   Assignment
                 </TabsTrigger>
