@@ -46,8 +46,8 @@ const BlogDetails = async ({ params, searchParams }) => {
   const uploadDate = format(new Date(createdAt), "MMMM dd, yyyy");
 
   return (
-    <section className="mx-auto lg:max-w-6xl py-8 md:py-12">
-      <div className="dark:text-light-bg container px-4  lg:max-w-7xl">
+    <section className="mx-auto py-8 md:py-12 lg:max-w-6xl">
+      <div className="dark:text-light-bg container px-4 lg:max-w-7xl">
         {/* Go Back Link with better styling */}
         <div className="mb-8">
           <Link
@@ -138,9 +138,12 @@ const BlogDetails = async ({ params, searchParams }) => {
                     />
                   </div>
                   <div className="space-y-1 text-center sm:text-left">
-                    <h3 className="text-dark-bg dark:text-light-bg text-xl font-bold">
+                    <Link
+                      href={`/instructors/${author?.slug}`}
+                      className="text-dark-bg dark:text-light-bg text-xl font-bold"
+                    >
                       {author?.firstName} {author?.lastName}
-                    </h3>
+                    </Link>
                     <p className="dark:text-medium-bg text-gray-600">
                       {author.role === "instructor"
                         ? "Instructor"

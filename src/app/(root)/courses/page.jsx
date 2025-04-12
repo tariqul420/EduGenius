@@ -36,7 +36,7 @@ export default async function Course({ searchParams }) {
         {/* Courses Content Section */}
         <div className="mt-6 flex justify-between gap-5 md:mt-8">
           <CoursesContent courses={courses} hasNextPage={hasNextPage} />
-          <div className="courses-filter min-w-[250px] hidden rounded px-4 py-1.5 shadow-md lg:block">
+          <div className="courses-filter hidden min-w-[250px] rounded px-4 py-1.5 shadow-md lg:block">
             <FilterItem categories={categories} />
           </div>
         </div>
