@@ -71,7 +71,7 @@ const CourseSubjects = () => {
             <Link
               href={`/courses?category=${subject?.slug}`}
               key={index}
-              className="bg-light-bg dark:bg-dark-bg dark:bg-black-light flex transform cursor-pointer flex-col items-center rounded-lg border p-6 shadow transition-all duration-300 hover:scale-105 hover:shadow-md"
+              className="bg-light-bg dark:bg-dark-bg dark:bg-black-light flex transform cursor-pointer flex-col items-center rounded-lg border p-6 shadow transition-all duration-300 dark:border-t-[3px] dark:border-b-0 hover:scale-105 hover:shadow-md"
               role="button"
               aria-label={`Explore ${subject?.name} courses`}
             >

@@ -5,6 +5,7 @@ import ContextProvider from "@/provider/ContextProvider";
 import { Jost } from "next/font/google";
 import "./globals.css";
 
+
 const jost = Jost({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],

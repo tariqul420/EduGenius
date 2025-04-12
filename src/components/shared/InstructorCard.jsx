@@ -11,7 +11,7 @@ export default function InstructorCard({ instructor }) {
         alt={instructor.firstName}
         width={150}
         height={100}
-        className="rounded-lg max-sm:w-full"
+        className="rounded-lg object-cover h-fit max-sm:w-full"
       />
       <div className="">
         <div>
@@ -32,7 +32,7 @@ export default function InstructorCard({ instructor }) {
           </span>
         </div>
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <Button className="bg-main mt-4 rounded px-4 py-1.5 text-white dark:hover:text-black">
+          <Button className="bg-main hover:bg-dark-main mt-4 rounded px-4 py-1.5 text-white dark:hover:text-black">
             <Link href={`/instructors/${instructor?.slug}`}>Details</Link>
           </Button>
           {/* {instructor?.social && (

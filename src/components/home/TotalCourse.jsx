@@ -47,10 +47,10 @@ const TotalCourse = () => {
         {data.map((item, index) => (
           <div
             key={index}
-            className="bg-light-bg dark:bg-dark-bg flex flex-col items-center gap-2.5 rounded-md border px-2 py-3 text-center shadow dark:shadow-xl"
+            className="bg-light-bg dark:bg-dark-bg flex flex-col items-center gap-2.5 rounded-md border px-2 py-3 text-center dark:border-t-[3px] dark:border-b-0 shadow dark:shadow-none"
           >
             <div>
-              <div className="dark:bg-dark-hover mx-auto mb-3 w-fit rounded px-3 py-2">
+              <div className="dark:bg-gradient-to-b dark:from-dark-hover to-dark-bg mx-auto mb-3 w-fit rounded px-3 py-2">
                 {item.icon}
               </div>
               <h3 className="dark:text-light-bg text-3xl font-bold text-black md:text-4xl">
