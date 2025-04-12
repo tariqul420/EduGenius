@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
+import Instructor from "./Instructor";
+import Student from "./Student";
 
 const courseSchema = new mongoose.Schema(
   {
@@ -104,22 +106,44 @@ courseSchema.post("update", async function () {
 });
 
 // Middleware to add a student to the course and instructor when a course is purchased
-courseSchema.methods.addStudent = async function (studentId) {
-  const Instructor = mongoose.model("Instructor");
+courseSchema.methods.enrollment = async function (studentId, instructorId) {
+  console.log(this.instructor, studentId, instructorId);
+  try {
+    // Add the student to the course's students array if not already added
+    if (!this.students.includes(studentId)) {
+      this.students.push(studentId);
+      await this.save();
+      console.log("Student added to course:", studentId);
+    }
 
-  // Add the student to the course's students array if not already added
-  if (!this.students.includes(studentId)) {
-    this.students.push(studentId);
-    await this.save();
-  }
+    // Add the student to the instructor's students array if not already added
+    const instructorUpdate = await Instructor.findOneAndUpdate(
+      { instructorId: instructorId },
+      { $addToSet: { students: studentId } }, // Use $addToSet to avoid duplicates
+      { upsert: true },
+    );
 
-  // Add the student to the instructor's students array if not already added
-  const instructor = await Instructor.findOne({
-    instructorId: this.instructor,
-  });
-  if (instructor && !instructor.students.includes(studentId)) {
-    instructor.students.push(studentId);
-    await instructor.save();
+    if (!instructorUpdate) {
+      console.error("Failed to update instructor:", this.instructor);
+    } else {
+      console.log("Instructor updated successfully:", this.instructor);
+    }
+
+    // Update or create the Student document
+    const studentUpdate = await Student.findOneAndUpdate(
+      { studentId, courses: { $ne: this._id } }, // Find the student by their ID
+      { $addToSet: { courses: this._id } }, // Add the course to the courses array if it doesn't already exist
+      { upsert: true }, // Create a new document if it doesn't exist, and return the updated document
+    );
+
+    if (!studentUpdate) {
+      console.error("Failed to update student:", studentId);
+    } else {
+      console.log("Student updated successfully:", studentId);
+    }
+  } catch (error) {
+    console.error("Error in enrollment method:", error);
+    throw error;
   }
 };
 

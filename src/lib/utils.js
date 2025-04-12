@@ -46,4 +46,4 @@ export function formatDate(inputDate) {
   return `${day} ${month} ${year}`;
 }
 
-export const objectId = (id) => (id ? new mongoose.Types.ObjectId(id) : null);
+export const objectId = (id) => (id ? new mongoose.Types.ObjectId(id) : id);
