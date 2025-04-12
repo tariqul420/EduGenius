@@ -10,7 +10,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
-import { AlignJustify, GraduationCap, LogIn, X } from "lucide-react";
+import { AlignLeft, GraduationCap, LogIn, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
@@ -98,7 +98,6 @@ function Navbar() {
               Login
             </Link>
           </SignedOut>
-
           <SignedIn>
             <Suspense
               fallback={<div className="h-10 w-10 rounded-full">loading</div>}
@@ -110,10 +109,10 @@ function Navbar() {
           {/* Mobile Menu (Sheet)========================= */}
           <Sheet>
             <SheetTrigger
-              className="text-dark-main hover:bg-light-bg cursor-pointer rounded bg-white px-1 py-1 lg:hidden dark:text-black"
+              className="text-dark-main cursor-pointer rounded  px-1 py-1 lg:hidden dark:text-white"
               aria-label="Open menu"
             >
-              <AlignJustify />
+              <AlignLeft />
             </SheetTrigger>
             <SheetContent
               side="left"

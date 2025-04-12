@@ -73,15 +73,12 @@ const CourseDetails = async ({ params }) => {
     averageRating,
     instructor,
   } = course;
-
-  const isSignedIn = !!userId;
-
   return (
     <>
       <section className="dark:bg-black px-2 md:px-5 py-10">
       <div className="grid container mx-auto gap-5 md:gap-4 max-w-6xl grid-cols-12 justify-center">
         {/* Main Content */}
-        <div className="dark:bg-dark-bg  col-span-12 rounded-lg bg-light-bg p-6 px-2.5 shadow-md md:w-4/5 mx-auto lg:w-full border lg:col-span-8">
+        <div className="dark:bg-dark-bg  col-span-12 h-fit rounded-lg bg-light-bg p-6 px-2.5 shadow-md md:w-7/8 mx-auto lg:w-full border lg:col-span-8">
           <Image
             src={thumbnail}
             alt={category?.name}
@@ -170,13 +167,13 @@ const CourseDetails = async ({ params }) => {
           </div>
           </div>
         {/* Sidebar */}
-        <div className="col-span-12 mt-10 lg:col-span-4 lg:mt-0">
+        <div className="col-span-12 mt-10 lg:col-span-4 bg-light-bg dark:bg-black lg:mt-0">
           <div className="dark:bg-dark-bg/50 rounded-xl border p-6 shadow-sm">
             <h2 className="text-dark-bg dark:text-light-bg mb-6 border-b pb-2 text-xl font-bold">
               Recomended Courses
             </h2>
             {/* ================== Recomended Courses Card ===================== */}
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-1">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
             {
               relatedCourses.map((course)=> (
                 <CourseCard key={course._id} course={course} />
