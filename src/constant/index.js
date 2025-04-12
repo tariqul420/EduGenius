@@ -9,16 +9,19 @@ export const instructors = [
     url: "/instructor/courses",
     icon: "BookText",
   },
-  {
-    title: "My Blogs",
-    url: "/instructor/my-blogs",
-    icon: "BookOpenText",
-  },
+
   {
     title: "Students",
     url: "/instructor/students",
     icon: "UsersRound",
   },
+
+  {
+    title: "My Blogs",
+    url: "/instructor/my-blogs",
+    icon: "BookOpenText",
+  },
+
   // {
   //   title: "Certificates",
   //   url: "/instructor/certificates",

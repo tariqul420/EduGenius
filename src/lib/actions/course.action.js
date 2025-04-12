@@ -785,3 +785,40 @@ export async function getGrowthRate() {
     throw error;
   }
 }
+
+// export async function enrolled({ courseId, path = "/" }) {
+//   try {
+//     await dbConnect();
+
+//     // Get the current logged-in user
+//     const { sessionClaims } = await auth();
+
+//     const userId = sessionClaims?.userId;
+//     if (!userId) {
+//       throw new Error("User not authenticated");
+//     }
+
+//     // Add the student to the course's students array if not already added
+//     const updatedCourse = await Course.findOneAndUpdate(
+//       { _id: objectId(courseId), students: { $ne: objectId(userId) } },
+//       { $push: { students: objectId(userId) } },
+//       { new: true },
+//     );
+
+//     // Update or create the Student document
+//     await Student.findOneAndUpdate(
+//       { studentId: objectId(userId), courses: { $ne: courseId } }, // Find the student by their ID
+//       { $push: { courses: newPayment.course } }, // Add the course to the courses array if it doesn't already exist
+//       { upsert: true, new: true }, // Create a new document if it doesn't exist, and return the updated document
+//     );
+
+//     if (path) {
+//       revalidatePath(path);
+//     }
+
+//     revalidatePath(path);
+//     return JSON.parse(JSON.stringify(updatedCourse));
+//   } catch (error) {
+//     console.error("Error enrolling in course:", error);
+//   }
+// }

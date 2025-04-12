@@ -37,7 +37,7 @@ paymentSchema.post("save", async function (doc) {
     }
 
     // Use the addStudent method from the Course schema
-    await course.addStudent(doc.student);
+    await course.enrollment(doc.student);
   } catch (error) {
     console.error("Error adding student to course after payment:", error);
     throw error; // Optionally rethrow the error to handle it upstream

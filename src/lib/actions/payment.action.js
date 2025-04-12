@@ -1,7 +1,6 @@
 "use server";
 import Payment from "@/models/Payment";
-import Student from "@/models/Student";
-import { revalidatePath } from "next/cache";
+import { auth } from "@clerk/nextjs/server";
 import Stripe from "stripe";
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
@@ -28,11 +27,13 @@ export async function savePaymentIntent({ amount, currency, metadata }) {
       },
     });
 
-    return {
-      success: true,
-      clientSecret: paymentIntent.client_secret,
-      paymentIntentId: paymentIntent.id,
-    };
+    return JSON.parse(
+      JSON.stringify({
+        success: true,
+        message: "Payment intent created successfully",
+        data: paymentIntent,
+      }),
+    );
   } catch (error) {
     console.error("Error creating payment intent:", error);
     return {
@@ -45,10 +46,17 @@ export async function savePaymentIntent({ amount, currency, metadata }) {
 export async function savePayment({ paymentData, path }) {
   try {
     await dbConnect();
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+
+    const userId = sessionClaims?.userId;
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
 
     const paymentInfo = {
       ...paymentData,
-      student: objectId(paymentData.student),
+      student: objectId(userId),
       course: objectId(paymentData.course),
     };
 
@@ -69,22 +77,13 @@ export async function savePayment({ paymentData, path }) {
     // If no existing payment found, create new one
     const newPayment = await Payment.create(paymentInfo);
 
-    // Update or create the Student document
-    await Student.findOneAndUpdate(
-      { studentId: objectId(paymentInfo.student) }, // Find the student by their ID
-      { $addToSet: { courses: objectId(paymentInfo.course) } }, // Add the course to the courses array if it doesn't already exist
-      { upsert: true, new: true }, // Create a new document if it doesn't exist, and return the updated document
+    return JSON.parse(
+      JSON.stringify({
+        success: true,
+        message: "Payment successful",
+        data: newPayment,
+      }),
     );
-
-    if (path) {
-      revalidatePath(path);
-    }
-
-    return {
-      success: true,
-      message: "Payment created successfully",
-      data: newPayment,
-    };
   } catch (error) {
     console.error("Something is Wrong", error);
     return {
