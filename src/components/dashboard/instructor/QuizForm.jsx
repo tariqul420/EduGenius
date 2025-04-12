@@ -120,7 +120,7 @@ export default function QuizForm({ courseId }) {
           {fields.map((question, index) => (
             <div key={question.id} className="flex w-full flex-col gap-5">
               {/* Question */}
-              <div className="flex w-full items-start gap-5">
+              <div className="flex w-full items-end gap-5">
                 <FormField
                   control={form.control}
                   name={`questions.${index}.question`} // Use "questions" instead of "quiz"
@@ -139,7 +139,7 @@ export default function QuizForm({ courseId }) {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => remove(index)} // Remove the question
+                  onClick={() => remove(index)}
                   className="w-fit"
                 >
                   <Minus strokeWidth={1} />
