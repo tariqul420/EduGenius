@@ -8,23 +8,25 @@ export default function CoursesContent({ courses = [], hasNextPage }) {
   const { isGridCol } = useProvider();
 
   return (
-    <div
-      className={`courses col-span-12 grid gap-5 lg:col-span-8 ${
-        isGridCol ? "grid-cols-1 gap-5" : "sm:grid-cols-2"
-      }`}
-    >
-      {courses.length > 0 ? (
-        <>
-          {courses.map((course) => (
-            <CourseCard key={course._id} course={course} />
-          ))}
-          {hasNextPage && <LoadMore />}
-        </>
-      ) : (
-        <div className="col-span-12 grid items-center justify-center">
-          <EmptyPage />
-        </div>
-      )}
-    </div>
+    <section>
+      <div
+        className={`courses col-span-12 grid gap-5 lg:col-span-8 ${
+          isGridCol ? "grid-cols-1 gap-5" : "sm:grid-cols-2"
+        }`}
+      >
+        {courses.length > 0 ? (
+          <>
+            {courses.map((course) => (
+              <CourseCard key={course._id} course={course} />
+            ))}
+          </>
+        ) : (
+          <div className="col-span-12 grid items-center justify-center">
+            <EmptyPage />
+          </div>
+        )}
+      </div>
+      {hasNextPage && <LoadMore />}
+    </section>
   );
 }
