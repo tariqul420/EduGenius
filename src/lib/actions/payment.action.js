@@ -37,7 +37,7 @@ export async function savePaymentIntent({ amount, currency, metadata }) {
   }
 }
 
-export async function savePayment({ paymentData, path }) {
+export async function savePayment({ paymentData }) {
   try {
     await dbConnect();
     // Get the current logged-in user
@@ -61,13 +61,12 @@ export async function savePayment({ paymentData, path }) {
     });
 
     if (existingPayment) {
-      return JSON.parse(JSON.stringify(
-        {
-          success: true,
+      return JSON.parse(
+        JSON.stringify({
+          status: 400,
           message: "Student already enrolled in this course",
-          data: existingPayment,
-        }
-      ));
+        }),
+      );
     }
 
     // If no existing payment found, create new one

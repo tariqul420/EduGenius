@@ -21,7 +21,6 @@ const CourseDetails = async ({ params }) => {
   const userId = sessionClaims?.userId;
   const { slug } = await params;
   const course = await getCourseBySlug(slug);
-  const path = `/courses/${slug}`;
 
   // Get the category slug of the current course
   const categorySlug = course?.category?.slug;
@@ -55,9 +54,6 @@ const CourseDetails = async ({ params }) => {
     });
     relatedCourses = popularCourses;
   }
-
-  // console.log(relatedCourses);
-  // console.log("single course", course);
 
   const {
     level,
@@ -106,7 +102,7 @@ const CourseDetails = async ({ params }) => {
                 <span>
                   <p className="flex items-center gap-1.5">
                     <Users size={16} strokeWidth={1} absoluteStrokeWidth />{" "}
-                    {students}
+                    {students?.length}
                   </p>
                 </span>
                 <span>
@@ -149,7 +145,7 @@ const CourseDetails = async ({ params }) => {
                 </Link>
 
                 <SignedIn>
-                  <PaymentModal course={course} userId={userId} path={path} />
+                  <PaymentModal course={course} userId={userId} />
                 </SignedIn>
                 <SignedOut>
                   <Link
@@ -208,23 +204,6 @@ const CourseDetails = async ({ params }) => {
                   <CourseCard key={course._id} course={course} />
                 ))}
               </div>
-
-              {/* <div className="space-y-5">
-             {featuredBlog?.length > 0 ? (
-            featuredBlog.map((blog) => (
-            <div key={blog?.slug} className="group">
-              <CourseCard
-                insights={blog}
-                className="transition-all duration-200 group-hover:scale-[1.02]"
-              />
-            </div>
-          ))
-        ) : (
-          <p className="text-dark-bg dark:text-light-bg py-4 text-center">
-            No popular blogs found
-          </p>
-        )}
-      </div> */}
             </div>
           </div>
         </div>
