@@ -3,8 +3,9 @@
 import { savePayment, savePaymentIntent } from "@/lib/actions/payment.action";
 import { useUser } from "@clerk/nextjs";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { AlertTriangle, CheckCircle, LoaderCircle } from "lucide-react";
+import { AlertTriangle, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { AlertDialogCancel } from "../ui/alert-dialog";
 
 export default function CheckOutForm({
@@ -45,8 +46,7 @@ export default function CheckOutForm({
           },
         });
         setClientSecret(paymentInfo?.client_secret);
-      }
-      catch (err) {
+      } catch (err) {
         setError("Failed to initialize payment");
       }
     };
@@ -99,7 +99,7 @@ export default function CheckOutForm({
         throw confirmError;
       }
 
-      if (paymentIntent.status === "succeeded") {
+      if (paymentIntent?.status === "succeeded") {
         setTransactionId(paymentIntent.id);
 
         // Save payment data to your database
@@ -119,6 +119,10 @@ export default function CheckOutForm({
           onPaymentSuccess();
         }
       }
+
+      toast.success("Payment Successful!", {
+        position: "top-center",
+      });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -186,15 +190,6 @@ export default function CheckOutForm({
             <AlertTriangle className="mt-0.5 h-5 w-5 text-red-600 dark:text-red-400" />
             <div className="text-sm text-red-600 dark:text-red-400">
               <strong>Error:</strong> <span>{error}</span>
-            </div>
-          </div>
-        )}
-
-        {transactionId && (
-          <div className="flex items-start gap-2 rounded-lg bg-green-50 p-3 dark:bg-green-900/20">
-            <CheckCircle className="mt-0.5 h-5 w-5 text-green-600 dark:text-green-400" />
-            <div className="text-sm text-green-600 dark:text-green-400">
-              <strong>Transaction ID:</strong> <span>{transactionId}</span>
             </div>
           </div>
         )}
