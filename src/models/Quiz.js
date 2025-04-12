@@ -3,6 +3,11 @@ import mongoose from "mongoose";
 const quizSchema = new mongoose.Schema(
   {
     title: { type: String, required: true }, // Quiz title
+    instructor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    }, // Instructor ID
     course: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
@@ -11,8 +16,12 @@ const quizSchema = new mongoose.Schema(
     questions: [
       {
         question: { type: String, required: true }, // Question text
-        options: [{ type: String }], // Answer options
-        correctAnswer: { type: String, required: true }, // Correct answer
+        options: [
+          {
+            option: { type: String, required: true }, // Option text
+            isCorrect: { type: Boolean, required: true, default: false }, // Whether the option is correct
+          },
+        ],
       },
     ],
   },
