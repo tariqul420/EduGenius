@@ -14,6 +14,7 @@ export default function CheckOutForm({
   onPaymentSuccess,
 }) {
   const { user } = useUser();
+  // const [isPurchasing, setIsPurchasing] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
   const [transactionId, setTransactionId] = useState("");
   const { discount, price, title, _id: courseId } = course;
@@ -43,9 +44,9 @@ export default function CheckOutForm({
             discountApplied: discount,
           },
         });
-
-        setClientSecret(paymentInfo.clientSecret);
-      } catch (err) {
+        setClientSecret(paymentInfo?.client_secret);
+      }
+      catch (err) {
         setError("Failed to initialize payment");
       }
     };

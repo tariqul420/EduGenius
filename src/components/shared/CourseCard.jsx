@@ -67,9 +67,9 @@ const CourseCard = ({ course }) => {
 
       {/* Course Content */}
       <div
-        className={`course-content flex w-full flex-col p-3 ${isGridCol && "flex-grow"}`}
+        className={`course-content flex w-full flex-col p-3 ${!isGridCol && "flex-grow"}`}
       >
-        <h3 className="text-lg font-semibold">{title}</h3>
+        <h3 className="text-lg font-semibold flex-grow">{title}</h3>
         <div className="flex justify-between py-5 text-slate-600">
           <div className="price flex items-center gap-1.5 dark:text-gray-300">
             <Languages size={16} /> {language}

@@ -27,13 +27,7 @@ export async function savePaymentIntent({ amount, currency, metadata }) {
       },
     });
 
-    return JSON.parse(
-      JSON.stringify({
-        success: true,
-        message: "Payment intent created successfully",
-        data: paymentIntent,
-      }),
-    );
+    return JSON.parse(JSON.stringify(paymentIntent));
   } catch (error) {
     console.error("Error creating payment intent:", error);
     return {
@@ -67,11 +61,13 @@ export async function savePayment({ paymentData, path }) {
     });
 
     if (existingPayment) {
-      return {
-        success: true,
-        message: "Student already enrolled in this course",
-        data: existingPayment,
-      };
+      return JSON.parse(JSON.stringify(
+        {
+          success: true,
+          message: "Student already enrolled in this course",
+          data: existingPayment,
+        }
+      ));
     }
 
     // If no existing payment found, create new one

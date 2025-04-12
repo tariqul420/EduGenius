@@ -1,5 +1,4 @@
 "use client";
-
 import {
   AlertDialog,
   AlertDialogContent,
@@ -13,8 +12,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useState } from "react";
 import CheckOutForm from "./CheckOutForm";
 
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY);
 export default function PaymentModal({ course, userId, path }) {
-  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
