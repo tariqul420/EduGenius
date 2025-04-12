@@ -2,7 +2,7 @@ import PaymentModal from "@/components/payment/PaymentModal";
 import CourseCard from "@/components/shared/CourseCard";
 import { getCourseBySlug, getCourses } from "@/lib/actions/course.action";
 import { auth } from "@clerk/nextjs/server";
-import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import {
   Award,
   BookOpen,
@@ -18,7 +18,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 const CourseDetails = async ({ params }) => {
-  const { userId } = await auth();
+  const { sessionClaims} = await auth()
+  const userId = sessionClaims?.userId
   const { slug } = await params;
   const course = await getCourseBySlug(slug);
   const path = `/courses/${slug}`;
@@ -77,9 +78,10 @@ const CourseDetails = async ({ params }) => {
 
   return (
     <>
-      <section className="container mx-auto grid gap-5 md:gap-8 max-w-6xl grid-cols-12 items-start justify-center bg-gray-50 px-2 py-10 dark:bg-black">
+      <section className="dark:bg-black px-2 md:px-5 py-10">
+      <div className="grid container mx-auto gap-5 md:gap-4 max-w-6xl grid-cols-12 justify-center">
         {/* Main Content */}
-        <div className="dark:bg-dark-bg col-span-12 rounded-lg bg-white p-6 px-2.5 shadow-md md:w-4/5 mx-auto lg:w-full lg:col-span-8">
+        <div className="dark:bg-dark-bg  col-span-12 rounded-lg bg-light-bg p-6 px-2.5 shadow-md md:w-4/5 mx-auto lg:w-full border lg:col-span-8">
           <Image
             src={thumbnail}
             alt={category?.name}
@@ -167,10 +169,9 @@ const CourseDetails = async ({ params }) => {
             </SignedOut>
           </div>
           </div>
-
         {/* Sidebar */}
         <div className="col-span-12 mt-10 lg:col-span-4 lg:mt-0">
-          <div className="dark:bg-dark-bg/50 bg-light-bg rounded-xl border p-6 shadow-sm">
+          <div className="dark:bg-dark-bg/50 rounded-xl border p-6 shadow-sm">
             <h2 className="text-dark-bg dark:text-light-bg mb-6 border-b pb-2 text-xl font-bold">
               Recomended Courses
             </h2>
@@ -201,6 +202,7 @@ const CourseDetails = async ({ params }) => {
       </div> */}
           </div>
         </div>
+      </div>
       </section>
     </>
   );

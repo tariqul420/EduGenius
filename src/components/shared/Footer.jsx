@@ -20,8 +20,8 @@ const SocialIcon = [
 
 const Footer = () => {
   return (
-    <footer className="dark:to-dark-bg dark:from-dark-bg dark:text-light-bg border-t bg-gradient-to-r py-5 text-black md:py-10">
-      <div className="container m-auto lg:max-w-6xl">
+    <footer className="dark:to-dark-bg dark:from-dark-bg dark:text-light-bg border-t bg-gradient-to-r py-5 px-5 text-black md:py-10">
+      <div className="container mx-auto lg:max-w-6xl ">
         {/* Top Section */}
         <div className="flex flex-col px-5 lg:flex-row lg:px-0">
           {/* EduGenius & Description */}
