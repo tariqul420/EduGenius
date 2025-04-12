@@ -1,9 +1,10 @@
 "use server";
 import Payment from "@/models/Payment";
-import mongoose from "mongoose";
+import Student from "@/models/Student";
 import { revalidatePath } from "next/cache";
 import Stripe from "stripe";
 import dbConnect from "../dbConnect";
+import { objectId } from "../utils";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -47,8 +48,8 @@ export async function savePayment({ paymentData, path }) {
 
     const paymentInfo = {
       ...paymentData,
-      student: new mongoose.Types.ObjectId(paymentData.student),
-      course: new mongoose.Types.ObjectId(paymentData.course),
+      student: objectId(paymentData.student),
+      course: objectId(paymentData.course),
     };
 
     // Check if payment already exists for this student and course
@@ -67,6 +68,13 @@ export async function savePayment({ paymentData, path }) {
 
     // If no existing payment found, create new one
     const newPayment = await Payment.create(paymentInfo);
+
+    // Update or create the Student document
+    await Student.findOneAndUpdate(
+      { studentId: objectId(paymentInfo.student) }, // Find the student by their ID
+      { $addToSet: { courses: objectId(paymentInfo.course) } }, // Add the course to the courses array if it doesn't already exist
+      { upsert: true, new: true }, // Create a new document if it doesn't exist, and return the updated document
+    );
 
     if (path) {
       revalidatePath(path);
