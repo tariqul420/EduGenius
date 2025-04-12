@@ -21,7 +21,7 @@ export default async function MyBlogs({ searchParams }) {
   const pathname = "/instructor/my-blogs";
 
   return (
-    <div className="container mx-auto overflow-x-hidden p-4 md:p-6 lg:p-8">
+    <div className="@container/main mx-auto overflow-x-hidden p-4 md:p-6 lg:p-8">
       <section>
         <BlogForm
           userId={sessionClaims?.userId}

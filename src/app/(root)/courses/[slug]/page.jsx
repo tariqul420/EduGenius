@@ -1,5 +1,5 @@
 import PaymentModal from "@/components/payment/PaymentModal";
-import { getCourseBySlug } from "@/lib/actions/course.action";
+import { getCourseBySlug, getCourses } from "@/lib/actions/course.action";
 import { auth } from "@clerk/nextjs/server";
 import {
   Award,
@@ -21,6 +21,43 @@ const CourseDetails = async ({ params }) => {
   const course = await getCourseBySlug(slug);
   const path = `/courses/${slug}`;
 
+  // Get the category slug of the current course
+  const categorySlug = course?.category?.slug;
+
+  let relatedCourses = [];
+
+  if (categorySlug) {
+    // Fetch courses with the same category slug, excluding the current course
+    const { courses } = await getCourses({
+      categorySlugs: [categorySlug],
+      limit: 4,
+      excludeSlug: slug, // Exclude the current course
+    });
+
+    relatedCourses = courses;
+
+    // Fallback to top-rated courses if no related courses are found
+    if (!relatedCourses || relatedCourses.length === 0) {
+      const { courses: popularCourses } = await getCourses({
+        sort: "top-rated",
+        limit: 4,
+        excludeSlug: slug, // Exclude the current course
+      });
+      relatedCourses = popularCourses;
+    }
+  } else {
+    // If no category slug, fetch top-rated courses, excluding the current course
+    const { courses: popularCourses } = await getCourses({
+      sort: "top-rated",
+      limit: 4,
+      excludeSlug: slug, // Exclude the current course
+    });
+    relatedCourses = popularCourses;
+  }
+
+  // console.log(relatedCourses);
+  // console.log("single course", course);
+
   const {
     level,
     discount,
@@ -38,7 +75,7 @@ const CourseDetails = async ({ params }) => {
   const isSignedIn = !!userId;
 
   return (
-    <section className="flex min-h-screen flex-col px-2 items-center justify-center bg-gray-50 py-10 dark:bg-black">
+    <section className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-2 py-10 dark:bg-black">
       <div className="dark:bg-dark-bg container mx-auto max-w-3xl rounded-lg bg-white p-6 px-2.5 shadow-md md:p-10 md:px-8">
         <Image
           src={thumbnail}

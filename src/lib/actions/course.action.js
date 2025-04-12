@@ -17,24 +17,27 @@ export async function getCourses({
   limit = 5,
   sort,
   instructor,
+  excludeSlug, // New parameter to exclude a specific course
 } = {}) {
   try {
     await dbConnect();
 
     // Find categories matching the provided slugs
-    const categories = await Category.find({
-      slug: { $in: categorySlugs },
-    });
+    const categories = categorySlugs.length
+      ? await Category.find({
+          slug: { $in: categorySlugs },
+        })
+      : [];
     const categoryIds = categories.map((category) => category._id);
 
     const skip = (page - 1) * limit;
 
     const pipeline = [
-      // Match courses based on categorySlug or search query
+      // Match courses based on criteria
       {
         $match: {
-          ...(instructor && { instructor: objectId(instructor) }), // Match instructor by ObjectId
-          ...(categoryIds.length > 0 && { category: { $in: categoryIds } }), // Match multiple categories
+          ...(instructor && { instructor: objectId(instructor) }),
+          ...(categoryIds.length > 0 && { category: { $in: categoryIds } }),
           ...(level && { level }),
           ...(search && {
             $or: [
@@ -42,6 +45,7 @@ export async function getCourses({
               { level: { $regex: search, $options: "i" } },
             ],
           }),
+          ...(excludeSlug && { slug: { $ne: excludeSlug } }), // Exclude the course with the given slug
         },
       },
       // Lookup instructor details
@@ -74,7 +78,6 @@ export async function getCourses({
           },
         },
       },
-
       // Project specific fields
       {
         $project: {
@@ -100,9 +103,10 @@ export async function getCourses({
     if (sort) {
       pipeline.push({
         $sort: {
-          ...(sort === "top-rated" && { averageRating: -1 }), // Sort by highest rating
-          ...(sort === "latest" && { createdAt: -1 }), // Sort by latest
-          ...(sort === "oldest" && { createdAt: 1 }), // Sort by oldest
+          ...(sort === "top-rated" && { averageRating: -1 }),
+          ...(sort === "latest" && { createdAt: -1 }),
+          ...(sort === "oldest" && { createdAt: 1 }),
+          ...(sort === "category-related" && { "category.slug": -1 }),
         },
       });
     }
@@ -113,13 +117,25 @@ export async function getCourses({
     const courses = await Course.aggregate(pipeline);
 
     // Count total documents matching the query
-    const total = await Course.estimatedDocumentCount();
+    const total = await Course.countDocuments({
+      ...(instructor && { instructor: objectId(instructor) }),
+      ...(categoryIds.length > 0 && { category: { $in: categoryIds } }),
+      ...(level && { level }),
+      ...(search && {
+        $or: [
+          { title: { $regex: search, $options: "i" } },
+          { level: { $regex: search, $options: "i" } },
+        ],
+      }),
+      ...(excludeSlug && { slug: { $ne: excludeSlug } }),
+    });
 
     const hasNextPage = total > page * limit;
 
     return { courses: JSON.parse(JSON.stringify(courses)), total, hasNextPage };
   } catch (error) {
     console.error(error);
+    return { courses: [], total: 0, hasNextPage: false };
   }
 }
 
