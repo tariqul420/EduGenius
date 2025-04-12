@@ -14,6 +14,21 @@ export const instructors = [
     url: "/instructor/my-blogs",
     icon: "BookOpenText",
   },
+  {
+    title: "Students",
+    url: "/instructor/students",
+    icon: "UsersRound",
+  },
+  // {
+  //   title: "Certificates",
+  //   url: "/instructor/certificates",
+  //   icon: "Medal",
+  // },
+  // {
+  //   title: "Quiz & Assignment",
+  //   url: "/instructor/quiz-assignment",
+  //   icon: "BookOpenCheck",
+  // },
 ];
 
 export const students = [
