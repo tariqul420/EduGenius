@@ -13,7 +13,7 @@ export default function InstructorCard({ instructor }) {
         height={100}
         className="rounded-lg object-cover mx-auto h-fit max-w-[350px] max-sm:w-full"
       />
-      <div className="flex sm:block justify-between">
+      <div className="flex flex-wrap gap-4 sm:block justify-between">
         <div>
           <h2 className="mt-4 text-xl font-semibold">
             {instructor.firstName} {instructor.lastName}
