@@ -73,7 +73,7 @@ function Testimonial() {
           >
             {users?.map((user, idx) => (
               <SwiperSlide key={idx} className="py-8 mb-7">
-                <div className="bg-light-bg dark:bg-dark-bg flex w-full cursor-pointer flex-col items-center justify-between gap-8 rounded-lg border p-8 transition-all duration-300 md:flex-row">
+                <div className="bg-light-bg dark:bg-dark-bg flex w-full cursor-pointer flex-col items-center dark:border-t-[3px] dark:border-b-0 justify-between gap-8 rounded-lg border p-8 transition-all duration-300 md:flex-row">
                   {/* Image Container */}
                   <div className="ring-medium-bg relative h-36 w-36 rounded-full ring-4 dark:ring-[#292b2e]">
                     <Image
