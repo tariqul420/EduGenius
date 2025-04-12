@@ -180,23 +180,6 @@ const CourseDetails = async ({ params }) => {
               ))
             }
             </div>
-
-            {/* <div className="space-y-5">
-             {featuredBlog?.length > 0 ? (
-            featuredBlog.map((blog) => (
-            <div key={blog?.slug} className="group">
-              <CourseCard
-                insights={blog}
-                className="transition-all duration-200 group-hover:scale-[1.02]"
-              />
-            </div>
-          ))
-        ) : (
-          <p className="text-dark-bg dark:text-light-bg py-4 text-center">
-            No popular blogs found
-          </p>
-        )}
-      </div> */}
           </div>
         </div>
       </div>
