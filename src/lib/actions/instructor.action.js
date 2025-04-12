@@ -28,3 +28,16 @@ export async function getInstructorBySlug(slug) {
     console.error("Error getting instructor by slug:", error);
   }
 }
+
+export async function getStudentsByInstructorCoursesId(instructorId) {
+  try {
+    await dbConnect();
+    const students = await User.find({
+      instructor: instructorId,
+      courses: courseId,
+    });
+    return JSON.parse(JSON.stringify(students));
+  } catch (error) {
+    console.error("Error getting students by instructor and course ID:", error);
+  }
+}

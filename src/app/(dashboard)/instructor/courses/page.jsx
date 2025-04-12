@@ -9,12 +9,13 @@ export default async function Courses() {
     throw new Error("User not authenticated");
   }
   const result = await getCourses({ instructor, limit: 10 });
-
   const courses = result?.courses || [];
 
   return (
-    <section className="@container/main py-6">
-      <DataTable data={courses || []} />
+    <section className="py-6">
+      <div className="@container/main flex flex-1 flex-col gap-2">
+        <DataTable data={courses || []} />
+      </div>
     </section>
   );
 }

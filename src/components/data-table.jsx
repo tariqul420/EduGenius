@@ -38,7 +38,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import * as React from "react";
-import { z } from "zod";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -68,16 +67,6 @@ import {
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import Link from "next/link";
 import TableContextMenu from "./dashboard/instructor/TableContextMenu";
-
-export const schema = z.object({
-  id: z.string(),
-  header: z.string(),
-  type: z.string(),
-  status: z.string(),
-  target: z.string(),
-  limit: z.string(),
-  reviewer: z.string(),
-});
 
 // Create a separate component for the drag handle
 function DragHandle({ id }) {
@@ -489,15 +478,6 @@ export function DataTable({ data: initialData }) {
     </Tabs>
   );
 }
-
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
 
 const chartConfig = {
   desktop: {
