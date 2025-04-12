@@ -25,7 +25,7 @@ const CourseCard = ({ course }) => {
     <div
       className={`dark:bg-dark-bg relative flex h-[400px] rounded-md border shadow transition-all duration-300 hover:-translate-y-2 ${
         isGridCol && pathname === "/courses"
-          ? "flex-col h-fit gap-5 items-center sm:flex-row sm:gap-6"
+          ? "h-fit flex-col items-center gap-5 sm:flex-row sm:gap-6"
           : "flex-col gap-5"
       }`}
     >
@@ -61,12 +61,14 @@ const CourseCard = ({ course }) => {
           >
             <Star fill="yellow" size={16} className="text-orange-400" />{" "}
             {averageRating}
-          </p> 
+          </p>
         </div>
       </div>
 
       {/* Course Content */}
-      <div className={`course-content flex flex-col w-full p-3 ${isGridCol && 'flex-grow' }`}>
+      <div
+        className={`course-content flex w-full flex-col p-3 ${isGridCol && "flex-grow"}`}
+      >
         <h3 className="text-lg font-semibold">{title}</h3>
         <div className="flex justify-between py-5 text-slate-600">
           <div className="price flex items-center gap-1.5 dark:text-gray-300">

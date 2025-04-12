@@ -193,6 +193,11 @@ export async function getCourseBySlug(slug) {
             _id: "$instructorDetails._id",
             name: "$instructorDetails.name",
             email: "$instructorDetails.email",
+            firstName: "$instructorDetails.firstName",
+            lastName: "$instructorDetails.lastName",
+            profilePicture: "$instructorDetails.profilePicture",
+            role: "$instructorDetails.role",
+            slug: "$instructorDetails.slug",
           },
           category: {
             _id: "$categoryDetails._id",
