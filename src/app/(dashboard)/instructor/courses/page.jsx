@@ -13,7 +13,7 @@ export default async function Courses() {
   const courses = result?.courses || [];
 
   return (
-    <section className="py-6">
+    <section className="@container/main py-6">
       <DataTable data={courses || []} />
     </section>
   );

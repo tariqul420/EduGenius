@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
         <ContextProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="dark"
             enableSystem
             disableTransitionOnChange
           >
