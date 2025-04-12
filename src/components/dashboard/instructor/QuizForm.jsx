@@ -79,7 +79,7 @@ export default function QuizForm({ courseId }) {
         loading: "Creating quiz...",
         success: (data) => {
           if (data.success) {
-            router.push("/dashboard/instructor/courses");
+            router.push("/instructor/courses");
             return "Quiz created successfully!";
           } else {
             throw new Error(data.message || "Failed to create quiz.");
