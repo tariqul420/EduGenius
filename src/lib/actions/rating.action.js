@@ -22,6 +22,7 @@ export async function saveRating({ reviewData, path }) {
       ...reviewData,
       student: userId,
     });
+
     await newCourse.save();
 
     // revalidatePath(path);
