@@ -5,22 +5,22 @@ import InstructorContactForm from "./InstructorContactForm";
 export default function InstructorTab() {
   return (
     <Tabs defaultValue="about" className="mt-8 w-full">
-      <TabsList className="w-full rounded bg-gray-50 px-1.5 py-5 shadow-sm dark:bg-dark-hover">
+      <TabsList className="w-full rounded bg-light-bg px-1.5 py-5 shadow-sm dark:bg-dark-hover">
         <TabsTrigger
           value="about"
-          className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:text-main dark:data-[state=active]:bg-dark-bg dark:data-[state=active]:text-main-dark"
+          className="data-[state=active]:text-main  dark:from-dark-bg dark:to-dark-hover rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-gradient-to-b from-white to-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-gradient-to-b dark:data-[state=active]:text-white"
         >
           About
         </TabsTrigger>
         <TabsTrigger
           value="course"
-          className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:text-main dark:data-[state=active]:bg-dark-bg dark:data-[state=active]:text-main-dark"
+          className="data-[state=active]:text-main  dark:from-dark-bg dark:to-dark-hover rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-gradient-to-b from-white to-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-gradient-to-b dark:data-[state=active]:text-white"
         >
           Courses
         </TabsTrigger>
         <TabsTrigger
           value="contact"
-          className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:text-main dark:data-[state=active]:bg-dark-bg dark:data-[state=active]:text-main-dark"
+          className="data-[state=active]:text-main  dark:from-dark-bg dark:to-dark-hover rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-gradient-to-b from-white to-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-gradient-to-b dark:data-[state=active]:text-white"
         >
           Contact
         </TabsTrigger>
