@@ -4,6 +4,7 @@ import Category from "@/models/Category";
 import Course from "@/models/Course";
 import Lesson from "@/models/Lesson";
 import Module from "@/models/Module";
+import Student from "@/models/Student";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
@@ -417,5 +418,137 @@ export async function updateCourseCurriculum({
     revalidatePath(path);
   } catch (error) {
     console.error("Error updating course curriculum:", error);
+  }
+}
+
+// export async function getCourseForEnrollStudent(studentId) {
+//   try {
+//     await dbConnect();
+
+//     const id = objectId(studentId);
+
+//     // const course = await Student.aggregate([
+//     //   // Match the student by studentId
+//     //   {
+//     //     $match: {
+//     //       student: id,
+//     //     },
+//     //   },
+//     //   // Lookup courses from the Course collection
+//     //   {
+//     //     $lookup: {
+//     //       from: "courses", // MongoDB collection name for Course
+//     //       localField: "courses", // courses array in Student
+//     //       foreignField: "_id", // _id field in Course
+//     //       as: "courses", // Output array
+//     //     },
+//     //   },
+//     //   // Lookup instructor for each course
+//     //   {
+//     //     $lookup: {
+//     //       from: "users", // MongoDB collection name for User
+//     //       localField: "courses.instructor", // instructor field in each course
+//     //       foreignField: "_id", // _id field in User
+//     //       as: "instructors", // Temporary array for instructors
+//     //     },
+//     //   },
+//     //   // Project to shape the output
+//     //   {
+//     //     $project: {
+//     //       _id: 1,
+//     //       student: 1,
+//     //       courses: {
+//     //         $map: {
+//     //           input: "$courses",
+//     //           as: "course",
+//     //           in: {
+//     //             _id: "$$course._id",
+//     //             title: "$$course.title",
+//     //             thumbnail: "$$course.thumbnail",
+//     //             instructor: {
+//     //               $let: {
+//     //                 vars: {
+//     //                   instructor: {
+//     //                     $arrayElemAt: [
+//     //                       "$instructors",
+//     //                       {
+//     //                         $indexOfArray: [
+//     //                           "$courses.instructor",
+//     //                           "$$course.instructor",
+//     //                         ],
+//     //                       },
+//     //                     ],
+//     //                   },
+//     //                 },
+//     //                 in: {
+//     //                   _id: "$$instructor._id",
+//     //                   name: {
+//     //                     $concat: [
+//     //                       "$$instructor.firstName",
+//     //                       " ",
+//     //                       { $ifNull: ["$$instructor.lastName", ""] },
+//     //                     ],
+//     //                   },
+//     //                 },
+//     //               },
+//     //             },
+//     //           },
+//     //         },
+//     //       },
+//     //     },
+//     //   },
+//     // ]);
+
+//     const course = await Student.findOne({ student: id }).populate({
+//       path: "courses",
+//       select: "title thumbnail slug instructor",
+//       populate: {
+//         path: "instructor",
+//       },
+//     });
+
+//     // Mimic populate's JSON serialization
+//     return JSON.parse(JSON.stringify(course));
+//   } catch (error) {
+//     console.error("Error fetching courses:", error);
+//     throw error;
+//   }
+// }
+
+export async function getCourseForEnrollStudent(studentId) {
+  try {
+    await dbConnect();
+
+    const id = objectId(studentId);
+
+    const student = await Student.findOne({ student: id }).populate({
+      path: "courses",
+      select: "title thumbnail slug instructor",
+      populate: {
+        path: "instructor",
+        select: "firstName lastName",
+      },
+    });
+
+    if (!student) {
+      return { courses: [] };
+    }
+
+    // Transform instructor names if needed
+    const result = JSON.parse(JSON.stringify(student));
+    result.courses = result.courses.map((course) => ({
+      ...course,
+      instructor: course.instructor
+        ? {
+            _id: course.instructor._id,
+            name: `${course.instructor.firstName} ${course.instructor.lastName || ""}`.trim(),
+          }
+        : null,
+    }));
+
+    return result;
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    throw error;
   }
 }

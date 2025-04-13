@@ -6,7 +6,7 @@ import Link from "next/link";
 import { RatingModal } from "./RatingModal";
 
 export default function CourseCard({ course }) {
-  const { image, title, instructor, progress } = course || {};
+  const { thumbnail, title, instructor, progress } = course || {};
   return (
     <Card
       className={`group dark:bg-dark-bg rounded-md border shadow transition-all duration-300 hover:-translate-y-2`}
@@ -14,11 +14,11 @@ export default function CourseCard({ course }) {
       <Link href={"#"}>
         <CardHeader className={`relative h-[200px] w-full rounded-lg`}>
           <Image
-            src={image}
+            src={thumbnail}
             alt={title}
             width={400}
             height={200}
-            blurDataURL={image}
+            blurDataURL={thumbnail}
             className={`h-full w-full rounded-md object-cover`}
             placeholder="blur"
             loading="lazy"
@@ -40,7 +40,7 @@ export default function CourseCard({ course }) {
         <CardTitle className="flex-grow text-lg font-semibold">
           {title}
         </CardTitle>
-        <p>{instructor}</p>
+        <p>{instructor?.name}</p>
         <div className="mt-1">
           <Progress value={progress || 0} className="mt-2 h-[2px]" />
 

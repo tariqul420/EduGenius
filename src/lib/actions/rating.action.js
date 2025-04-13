@@ -1,6 +1,7 @@
 "use server";
 
 import Rating from "@/models/Rating";
+import { auth } from "@clerk/nextjs/server";
 
 export async function createCourse({ data, path }) {
   try {
