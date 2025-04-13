@@ -18,7 +18,7 @@ export async function getCourses({
   limit = 10,
   sort,
   instructor,
-  excludeSlug, // New parameter to exclude a specific course
+  excludeSlug,
 } = {}) {
   try {
     await dbConnect();
@@ -46,7 +46,7 @@ export async function getCourses({
               { level: { $regex: search, $options: "i" } },
             ],
           }),
-          ...(excludeSlug && { slug: { $ne: excludeSlug } }), // Exclude the course with the given slug
+          ...(excludeSlug && { slug: { $ne: excludeSlug } }),
         },
       },
       // Lookup instructor details
@@ -58,6 +58,7 @@ export async function getCourses({
           as: "instructorDetails",
         },
       },
+      // Lookup category details
       {
         $lookup: {
           from: "categories",
@@ -66,14 +67,25 @@ export async function getCourses({
           as: "categoryDetails",
         },
       },
+      // Lookup ratings
+      {
+        $lookup: {
+          from: "ratings",
+          localField: "_id", // Assuming ratings references course by course _id
+          foreignField: "course",
+          as: "ratingsData",
+        },
+      },
+      // Unwind instructor and category (single values)
       { $unwind: "$instructorDetails" },
       { $unwind: "$categoryDetails" },
+      // Add field for average rating
       {
         $addFields: {
           averageRating: {
             $cond: {
-              if: { $gt: [{ $size: "$ratings" }, 0] },
-              then: { $avg: "$ratings.rating" },
+              if: { $gt: [{ $size: "$ratingsData" }, 0] },
+              then: { $avg: "$ratingsData.rating" },
               else: 0,
             },
           },
@@ -95,6 +107,10 @@ export async function getCourses({
             _id: "$categoryDetails._id",
             name: "$categoryDetails.name",
             slug: "$categoryDetails.slug",
+          },
+          instructor: {
+            _id: "$instructorDetails._id",
+            name: "$instructorDetails.name",
           },
         },
       },
@@ -164,14 +180,22 @@ export async function getCourseBySlug(slug) {
           as: "categoryDetails",
         },
       },
+      {
+        $lookup: {
+          from: "ratings",
+          localField: "_id",
+          foreignField: "course",
+          as: "ratingsData",
+        },
+      },
       { $unwind: "$instructorDetails" },
       { $unwind: "$categoryDetails" },
       {
         $addFields: {
           averageRating: {
             $cond: {
-              if: { $gt: [{ $size: "$ratings" }, 0] },
-              then: { $avg: "$ratings.rating" },
+              if: { $gt: [{ $size: "$ratingsData" }, 0] },
+              then: { $avg: "$ratingsData.rating" },
               else: 0,
             },
           },
@@ -420,100 +444,6 @@ export async function updateCourseCurriculum({
     console.error("Error updating course curriculum:", error);
   }
 }
-
-// export async function getCourseForEnrollStudent(studentId) {
-//   try {
-//     await dbConnect();
-
-//     const id = objectId(studentId);
-
-//     // const course = await Student.aggregate([
-//     //   // Match the student by studentId
-//     //   {
-//     //     $match: {
-//     //       student: id,
-//     //     },
-//     //   },
-//     //   // Lookup courses from the Course collection
-//     //   {
-//     //     $lookup: {
-//     //       from: "courses", // MongoDB collection name for Course
-//     //       localField: "courses", // courses array in Student
-//     //       foreignField: "_id", // _id field in Course
-//     //       as: "courses", // Output array
-//     //     },
-//     //   },
-//     //   // Lookup instructor for each course
-//     //   {
-//     //     $lookup: {
-//     //       from: "users", // MongoDB collection name for User
-//     //       localField: "courses.instructor", // instructor field in each course
-//     //       foreignField: "_id", // _id field in User
-//     //       as: "instructors", // Temporary array for instructors
-//     //     },
-//     //   },
-//     //   // Project to shape the output
-//     //   {
-//     //     $project: {
-//     //       _id: 1,
-//     //       student: 1,
-//     //       courses: {
-//     //         $map: {
-//     //           input: "$courses",
-//     //           as: "course",
-//     //           in: {
-//     //             _id: "$$course._id",
-//     //             title: "$$course.title",
-//     //             thumbnail: "$$course.thumbnail",
-//     //             instructor: {
-//     //               $let: {
-//     //                 vars: {
-//     //                   instructor: {
-//     //                     $arrayElemAt: [
-//     //                       "$instructors",
-//     //                       {
-//     //                         $indexOfArray: [
-//     //                           "$courses.instructor",
-//     //                           "$$course.instructor",
-//     //                         ],
-//     //                       },
-//     //                     ],
-//     //                   },
-//     //                 },
-//     //                 in: {
-//     //                   _id: "$$instructor._id",
-//     //                   name: {
-//     //                     $concat: [
-//     //                       "$$instructor.firstName",
-//     //                       " ",
-//     //                       { $ifNull: ["$$instructor.lastName", ""] },
-//     //                     ],
-//     //                   },
-//     //                 },
-//     //               },
-//     //             },
-//     //           },
-//     //         },
-//     //       },
-//     //     },
-//     //   },
-//     // ]);
-
-//     const course = await Student.findOne({ student: id }).populate({
-//       path: "courses",
-//       select: "title thumbnail slug instructor",
-//       populate: {
-//         path: "instructor",
-//       },
-//     });
-
-//     // Mimic populate's JSON serialization
-//     return JSON.parse(JSON.stringify(course));
-//   } catch (error) {
-//     console.error("Error fetching courses:", error);
-//     throw error;
-//   }
-// }
 
 export async function getCourseForEnrollStudent(studentId) {
   try {

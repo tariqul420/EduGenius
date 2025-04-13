@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Course from "./Course";
 
 const ratingSchema = new mongoose.Schema(
   {
@@ -18,6 +19,17 @@ const ratingSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+ratingSchema.post("save", async function (doc) {
+  try {
+    await Course.findOneAndUpdate(
+      { _id: doc.course },
+      { $addToSet: { ratings: doc._id } },
+    );
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 export default mongoose.models?.Rating ||
   mongoose.model("Rating", ratingSchema);

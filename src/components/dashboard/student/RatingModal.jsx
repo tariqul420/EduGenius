@@ -70,8 +70,6 @@ export function RatingModal({ course }) {
       review,
     };
 
-    console.log(ratingData);
-
     await saveRating({ reviewData: ratingData });
     form.reset();
     setRating(0);
