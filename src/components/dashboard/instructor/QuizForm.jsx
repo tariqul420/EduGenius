@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -78,13 +79,13 @@ export default function QuizForm({ quiz, courseId, slug }) {
           path: `/instructor/courses/${slug}`,
         }),
         {
-          loading: "Creating quiz...",
+          loading: "Updating quiz...",
           success: (data) => {
             if (data.success) {
               router.push(`/instructor/courses/${slug}`);
-              return "Quiz created successfully!";
+              return "Quiz updated successfully!";
             } else {
-              throw new Error(data.message || "Failed to create quiz.");
+              throw new Error(data.message || "Failed to update quiz.");
             }
           },
           error: (error) => error.message,

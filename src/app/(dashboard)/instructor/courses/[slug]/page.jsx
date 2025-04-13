@@ -3,6 +3,7 @@ import CourseForm from "@/components/dashboard/instructor/CourseForm";
 import ModuleForm from "@/components/dashboard/instructor/ModuleForm";
 import QuizForm from "@/components/dashboard/instructor/QuizForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getAssignmentById } from "@/lib/actions/assignment.action";
 import {
   getCourseBySlug,
   getCourseCurriculum,
@@ -15,6 +16,7 @@ export default async function EditCourse({ params }) {
   const course = await getCourseBySlug(slug);
   const curriculum = await getCourseCurriculum(course._id);
   const quiz = await getQuizById(course._id);
+  const assignment = await getAssignmentById(course._id);
 
   return (
     <>
@@ -87,7 +89,11 @@ export default async function EditCourse({ params }) {
               </TabsContent>
 
               <TabsContent value="assignment">
-                <AssignmentForm />
+                <AssignmentForm
+                  assignment={assignment}
+                  courseId={course._id}
+                  slug={course.slug}
+                />
               </TabsContent>
             </Tabs>
           </div>

@@ -47,11 +47,12 @@ export async function updateQuiz({ quizId, data, path }) {
       throw new Error("User not authenticated");
     }
 
+    await Quiz.findByIdAndUpdate(quizId, data, { new: true });
+
     if (String(quiz.instructor) !== String(userId)) {
       throw new Error("You are not authorized to update this quiz");
     }
 
-    await Quiz.findByIdAndUpdate(quizId, data, { new: true });
     revalidatePath(path);
     return JSON.parse(
       JSON.stringify({
