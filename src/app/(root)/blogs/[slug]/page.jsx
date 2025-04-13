@@ -10,6 +10,7 @@ import {
   ArrowLeft,
   CalendarDays,
   ChartColumnStacked,
+  ChevronRight,
   Clock,
   MessageCircle,
   User,
@@ -73,7 +74,7 @@ const BlogDetails = async ({ params, searchParams }) => {
                 <div className="flex items-center gap-2">
                   <User size={18} />
                   <Link
-                    href={`/instructors/${author?.slug}`}
+                    href={`/authors/${author?.slug}`}
                     className="text-main dark:text-dark-btn hover:text-main-700 font-medium hover:underline"
                   >
                     {author?.firstName} {author?.lastName}
@@ -125,29 +126,24 @@ const BlogDetails = async ({ params, searchParams }) => {
             </div>
 
             {/* Author Info Section with better design */}
-            {author && (
-              <div className="dark:bg-dark-bg mt-12 rounded-xl border bg-white p-4">
+            <Link href={`/instructors/${author?.slug}`}>
+              <div className="group dark:bg-dark-bg relative mt-12 rounded-xl border bg-white p-4 transition-shadow hover:shadow-lg">
                 <div className="flex flex-col items-center gap-6 sm:flex-row">
                   <div className="flex-shrink-0">
                     <Image
-                      src={author.profilePicture}
-                      alt={`${author.firstName} ${author.lastName}`}
+                      src={author?.profilePicture}
+                      alt={`${author?.firstName} ${author?.lastName}`}
                       width={80}
                       height={80}
                       className="rounded-full border-4 object-cover shadow-md"
                     />
                   </div>
                   <div className="space-y-1 text-center sm:text-left">
-                    <Link
-                      href={`/instructors/${author?.slug}`}
-                      className="text-dark-bg dark:text-light-bg text-xl font-bold"
-                    >
+                    <h2 className="text-dark-bg dark:text-light-bg text-xl font-bold">
                       {author?.firstName} {author?.lastName}
-                    </Link>
+                    </h2>
                     <p className="dark:text-medium-bg text-gray-600">
-                      {author.role === "instructor"
-                        ? "Instructor"
-                        : "Guest Writer"}
+                      {author?.role === "author" ? "author" : "Guest Writer"}
                     </p>
                     <p className="dark:text-medium-bg text-gray-600">
                       {author?.bio || author?.email}
@@ -157,8 +153,12 @@ const BlogDetails = async ({ params, searchParams }) => {
                     </div>
                   </div>
                 </div>
+                {/* Arrow Icon with Animation */}
+                <div className="absolute top-1/2 right-4 -translate-y-1/2 transform transition-transform duration-300 group-hover:translate-x-2">
+                  <ChevronRight className="dark:text-medium-bg h-6 w-6 text-gray-600" />
+                </div>
               </div>
-            )}
+            </Link>
 
             {/* Comments Section with enhanced UI */}
             <div className="mt-14">
