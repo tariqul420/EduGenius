@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
 import Instructor from "./Instructor";
-import Student from "./Student";
 
 const courseSchema = new mongoose.Schema(
   {
@@ -78,74 +77,15 @@ courseSchema.pre("save", async function (next) {
   next();
 });
 
-// Post-save middleware to update the instructor's average rating
-courseSchema.post("update", async function () {
-  const Course = mongoose.model("Course");
-  const Instructor = mongoose.model("Instructor");
-
-  // Use aggregation to calculate the average rating of all courses by the instructor
-  const result = await Course.aggregate([
-    { $match: { instructor: this.instructor } }, // Match courses by instructor ID
-    { $unwind: "$ratings" }, // Deconstruct the ratings array
-    {
-      $group: {
-        _id: "$instructor",
-        averageRating: { $avg: "$ratings.rating" }, // Calculate the average rating
-      },
-    },
-  ]);
-
-  // Update the instructor's rating
-  if (result.length > 0) {
-    const averageRating = result[0].averageRating; // Round to 1 decimal place
-    await Instructor.findOneAndUpdate(
-      { instructorId: this.instructor },
-      { rating: averageRating },
-    );
-  }
+// when a course is created or updated
+courseSchema.post("save", async function (doc) {
+  // Update the instructor's courses array
+  await Instructor.findOneAndUpdate(
+    { instructorId: doc.instructor },
+    { $addToSet: { courses: doc._id } }, // Use $addToSet to avoid duplicates
+    { upsert: true }, // Create the document if it doesn't exist
+  );
 });
-
-// Middleware to add a student to the course and instructor when a course is purchased
-courseSchema.methods.enrollment = async function (studentId, instructorId) {
-  console.log(this.instructor, studentId, instructorId);
-  try {
-    // Add the student to the course's students array if not already added
-    if (!this.students.includes(studentId)) {
-      this.students.push(studentId);
-      await this.save();
-      console.log("Student added to course:", studentId);
-    }
-
-    // Add the student to the instructor's students array if not already added
-    const instructorUpdate = await Instructor.findOneAndUpdate(
-      { instructorId: instructorId },
-      { $addToSet: { students: studentId } }, // Use $addToSet to avoid duplicates
-      { upsert: true },
-    );
-
-    if (!instructorUpdate) {
-      console.error("Failed to update instructor:", this.instructor);
-    } else {
-      console.log("Instructor updated successfully:", this.instructor);
-    }
-
-    // Update or create the Student document
-    const studentUpdate = await Student.findOneAndUpdate(
-      { studentId, courses: { $ne: this._id } }, // Find the student by their ID
-      { $addToSet: { courses: this._id } }, // Add the course to the courses array if it doesn't already exist
-      { upsert: true }, // Create a new document if it doesn't exist, and return the updated document
-    );
-
-    if (!studentUpdate) {
-      console.error("Failed to update student:", studentId);
-    } else {
-      console.log("Student updated successfully:", studentId);
-    }
-  } catch (error) {
-    console.error("Error in enrollment method:", error);
-    throw error;
-  }
-};
 
 export default mongoose.models?.Course ||
   mongoose.model("Course", courseSchema);

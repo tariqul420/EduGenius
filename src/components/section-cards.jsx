@@ -14,7 +14,7 @@ import {
   getRevenueStats,
   getTotalEnrolmentStats,
   getTotalStudentStats,
-} from "@/lib/actions/course.action";
+} from "@/lib/actions/stats.action";
 
 export async function SectionCards() {
   const revenueStats = await getRevenueStats();

@@ -2,23 +2,27 @@ import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { DataTable } from "@/components/data-table";
 import { SectionCards } from "@/components/section-cards";
 import { SidebarInset } from "@/components/ui/sidebar";
-import {
-  getCourses,
-  getLastThreeMonthsCourseSellingData,
-} from "@/lib/actions/course.action";
+import { getCourses } from "@/lib/actions/course.action";
+import { courseSellingData } from "@/lib/actions/stats.action";
 import { auth } from "@clerk/nextjs/server";
 
-export default async function Home() {
+export default async function Home({ searchParams }) {
+  const { pageSize, pageIndex } = await searchParams;
+
   const { sessionClaims } = await auth();
   const instructor = sessionClaims?.userId;
   if (!instructor) {
     throw new Error("User not authenticated");
   }
 
-  const result = await getCourses({ instructor, limit: 5 });
+  const result = await getCourses({
+    instructor,
+    limit: Number(pageSize || 10),
+    page: Number(pageIndex || 1),
+  });
   const courses = result?.courses || [];
 
-  const data = await getLastThreeMonthsCourseSellingData();
+  const data = await courseSellingData();
 
   return (
     <SidebarInset>
@@ -30,7 +34,12 @@ export default async function Home() {
             <div className="px-4 lg:px-6">
               <ChartAreaInteractive data={data} />
             </div>
-            <DataTable data={courses} />
+            <DataTable
+              pageIndex={Number(pageIndex || "0")}
+              pageSize={Number(pageSize || "10")}
+              total={result?.total || 0}
+              data={courses || []}
+            />
           </div>
         </div>
       </div>

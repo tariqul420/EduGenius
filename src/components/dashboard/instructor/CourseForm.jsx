@@ -69,6 +69,7 @@ export default function CourseForm({ course }) {
 
   // Get a specific query parameter
   const category = searchParams.get("cq");
+  console.log(course);
 
   // 1. Define your form.
   const form = useForm({
@@ -80,7 +81,7 @@ export default function CourseForm({ course }) {
       thumbnail: course?.thumbnail || "",
       language: course?.language || "",
       level: course?.level || "Beginner",
-      discount: course?.discount || "",
+      discount: course?.discount ?? "",
       price: course?.price || "",
       duration: course?.duration || "",
     },
