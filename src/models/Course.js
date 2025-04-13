@@ -31,18 +31,7 @@ const courseSchema = new mongoose.Schema(
     price: { type: Number, required: true }, // Course price
     duration: { type: Number, default: 0 },
     slug: { type: String, unique: true },
-    ratings: [
-      {
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        rating: {
-          type: Number,
-          required: true,
-          min: [1, "Rating must be above 1.0"],
-          max: [5, "Rating must be below 5.0"],
-          set: (val) => Math.round(val * 10) / 10,
-        },
-      },
-    ],
+    ratings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Rating" }],
     students: [
       {
         type: mongoose.Schema.Types.ObjectId,
