@@ -10,17 +10,17 @@ export default function CourseCard({ course }) {
 
   return (
     <Card
-      className={`group dark:bg-dark-bg rounded-md border shadow transition-all duration-300 hover:-translate-y-2`}
+      className={`group dark:border-t-[3px] dark:border-b-0 dark:bg-dark-bg rounded-md border shadow-md transition-all duration-300 hover:-translate-y-2`}
     >
       <Link href={"#"}>
-        <CardHeader className={`relative h-[200px] w-full rounded-lg`}>
+        <CardHeader className={`relative w-full rounded-lg`}>
           <Image
             src={thumbnail}
             alt={title}
             width={400}
             height={200}
             blurDataURL={thumbnail}
-            className={`h-full w-full rounded-md object-cover`}
+            className={`h-full w-full border min-h-[170px] rounded-md object-cover`}
             placeholder="blur"
             loading="lazy"
             sizes={"100vw"}
@@ -43,7 +43,7 @@ export default function CourseCard({ course }) {
         <div className="mt-1">
           <Progress value={progress || 0} className="mt-2 h-[2px]" />
 
-          <div className="mt-1 flex items-center justify-between text-sm">
+          <div className="mt-2.5 flex items-center justify-between text-sm">
             <p>{progress || 0}% Complete</p>
             <RatingModal course={_id} />
           </div>
