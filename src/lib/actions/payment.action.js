@@ -70,7 +70,8 @@ export async function savePayment({ paymentData }) {
     }
 
     // If no existing payment found, create new one
-    const newPayment = await Payment.create(paymentInfo);
+    const newPayment = Payment(paymentInfo);
+    await newPayment.save();
 
     return JSON.parse(
       JSON.stringify({
