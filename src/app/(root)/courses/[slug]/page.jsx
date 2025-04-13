@@ -5,6 +5,7 @@ import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import {
   BookOpen,
+  ChevronRight,
   Clock,
   DollarSign,
   Globe,
@@ -157,38 +158,41 @@ const CourseDetails = async ({ params }) => {
               </div>
             </div>
 
-            <div className="dark:bg-dark-bg mt-12 rounded-xl border bg-white p-4">
-              <div className="flex flex-col items-center gap-6 sm:flex-row">
-                <div className="flex-shrink-0">
-                  <Image
-                    src={instructor?.profilePicture}
-                    alt={`${instructor?.firstName} ${instructor?.lastName}`}
-                    width={80}
-                    height={80}
-                    className="rounded-full border-4 object-cover shadow-md"
-                  />
-                </div>
-                <div className="space-y-1 text-center sm:text-left">
-                  <Link
-                    href={`/instructors/${instructor?.slug}`}
-                    className="text-dark-bg dark:text-light-bg text-xl font-bold"
-                  >
-                    {instructor?.firstName} {instructor?.lastName}
-                  </Link>
-                  <p className="dark:text-medium-bg text-gray-600">
-                    {instructor?.role === "instructor"
-                      ? "Instructor"
-                      : "Guest Writer"}
-                  </p>
-                  <p className="dark:text-medium-bg text-gray-600">
-                    {instructor?.bio || instructor?.email}
-                  </p>
-                  <div className="mt-3 flex justify-center gap-3 sm:justify-start">
-                    {/* Social links can be added here */}
+            <Link href={`/instructors/${instructor?.slug}`}>
+              <div className="group dark:bg-dark-bg relative mt-12 rounded-xl border bg-white p-4 transition-shadow hover:shadow-lg">
+                <div className="flex flex-col items-center gap-6 sm:flex-row">
+                  <div className="flex-shrink-0">
+                    <Image
+                      src={instructor?.profilePicture}
+                      alt={`${instructor?.firstName} ${instructor?.lastName}`}
+                      width={80}
+                      height={80}
+                      className="rounded-full border-4 object-cover shadow-md"
+                    />
+                  </div>
+                  <div className="space-y-1 text-center sm:text-left">
+                    <h2 className="text-dark-bg dark:text-light-bg text-xl font-bold">
+                      {instructor?.firstName} {instructor?.lastName}
+                    </h2>
+                    <p className="dark:text-medium-bg text-gray-600">
+                      {instructor?.role === "instructor"
+                        ? "Instructor"
+                        : "Guest Writer"}
+                    </p>
+                    <p className="dark:text-medium-bg text-gray-600">
+                      {instructor?.bio || instructor?.email}
+                    </p>
+                    <div className="mt-3 flex justify-center gap-3 sm:justify-start">
+                      {/* Social links can be added here */}
+                    </div>
                   </div>
                 </div>
+                {/* Arrow Icon with Animation */}
+                <div className="absolute top-1/2 right-4 -translate-y-1/2 transform transition-transform duration-300 group-hover:translate-x-2">
+                  <ChevronRight className="dark:text-medium-bg h-6 w-6 text-gray-600" />
+                </div>
               </div>
-            </div>
+            </Link>
           </div>
 
           {/* Sidebar */}
