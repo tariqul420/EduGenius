@@ -188,7 +188,7 @@ export async function getCourseBySlug(slug) {
           duration: 1,
           averageRating: 1,
           slug: 1,
-          students: { $size: "$students" },
+          students: 1,
           instructor: {
             _id: "$instructorDetails._id",
             name: "$instructorDetails.name",

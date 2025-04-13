@@ -4,26 +4,20 @@ import { savePayment, savePaymentIntent } from "@/lib/actions/payment.action";
 import { useUser } from "@clerk/nextjs";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { AlertTriangle, LoaderCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { AlertDialogCancel } from "../ui/alert-dialog";
 
-export default function CheckOutForm({
-  course,
-  userId,
-  path,
-  onPaymentSuccess,
-}) {
+export default function CheckOutForm({ course, userId, onPaymentSuccess }) {
   const { user } = useUser();
-  // const [isPurchasing, setIsPurchasing] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
-  const [transactionId, setTransactionId] = useState("");
   const { discount, price, title, _id: courseId } = course;
-
   const [error, setError] = useState("");
   const stripe = useStripe();
   const elements = useElements();
   const [paymentLoading, setPaymentLoading] = useState(false);
+  const router = useRouter();
 
   // Calculate discounted price
   const discountedPrice = discount > 0 ? price * (1 - discount / 100) : price;
@@ -89,8 +83,8 @@ export default function CheckOutForm({
           payment_method: {
             card: card,
             billing_details: {
-              email: user?.primaryEmailAddress?.emailAddress || "anonymous",
-              name: user?.fullName || "anonymous",
+              email: user?.primaryEmailAddress?.emailAddress,
+              name: user?.fullName,
             },
           },
         });
@@ -100,8 +94,6 @@ export default function CheckOutForm({
       }
 
       if (paymentIntent?.status === "succeeded") {
-        setTransactionId(paymentIntent.id);
-
         // Save payment data to your database
         const paymentData = {
           transactionId: paymentIntent.id,
@@ -111,18 +103,19 @@ export default function CheckOutForm({
 
         await savePayment({
           paymentData,
-          path,
         });
 
         // Close the modal on success
         if (onPaymentSuccess) {
           onPaymentSuccess();
         }
-      }
 
-      toast.success("Payment Successful!", {
-        position: "top-center",
-      });
+        toast.success("Payment Successful!", {
+          position: "top-center",
+        });
+
+        router.push("/student/course");
+      }
     } catch (err) {
       setError(err.message);
     } finally {

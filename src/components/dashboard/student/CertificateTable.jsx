@@ -1,6 +1,14 @@
 "use client";
 
 import { PagePagination } from "@/components/shared/PagePagination";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"; // ShadCN table components
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import {
   flexRender,
@@ -13,8 +21,8 @@ import CertificatePDF from "./CertificatePDF";
 
 export default function CertificateTable({
   certificates = [],
-  hasNextPage,
-  total,
+  hasNextPage = false,
+  total = 0,
 }) {
   const columns = useMemo(
     () => [
@@ -22,8 +30,8 @@ export default function CertificateTable({
         accessorKey: "course.title",
         header: "Course Name",
         cell: ({ row }) => (
-          <div className="dark:text-medium-bg max-w-xs truncate text-gray-700">
-            {row.original.course?.title}
+          <div className="max-w-xs truncate text-gray-700 dark:text-gray-300">
+            {row.original.course?.title || "N/A"}
           </div>
         ),
       },
@@ -31,13 +39,12 @@ export default function CertificateTable({
         accessorKey: "createdAt",
         header: "Issue Date",
         cell: ({ row }) => {
-          const formattedDate = format(
-            new Date(row.original.createdAt),
-            "MMMM dd, yyyy",
-          );
+          const date = row.original.createdAt
+            ? format(new Date(row.original.createdAt), "MMMM dd, yyyy")
+            : "N/A";
           return (
-            <div className="dark:text-medium-bg text-gray-700">
-              {formattedDate}
+            <div className="text-center text-gray-700 dark:text-gray-300">
+              {date}
             </div>
           );
         },
@@ -47,15 +54,15 @@ export default function CertificateTable({
         header: "Action",
         cell: ({ row }) => {
           const formattedFileName =
-            row.original.course?.title.toLowerCase().replaceAll(" ", "-") +
-            ".pdf";
+            (row.original.course?.title?.toLowerCase().replaceAll(" ", "-") ||
+              "certificate") + ".pdf";
 
           return (
             <div className="flex justify-end">
               <PDFDownloadLink
                 document={<CertificatePDF certificateData={row.original} />}
                 fileName={formattedFileName}
-                className="bg-main hover:bg-main dark:bg-main dark:hover:bg-main rounded px-3 py-1 text-sm font-medium text-white"
+                className="rounded bg-blue-600 px-3 py-1 text-sm font-medium text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
               >
                 {({ loading }) => (loading ? "Generating..." : "Download")}
               </PDFDownloadLink>
@@ -74,19 +81,18 @@ export default function CertificateTable({
   });
 
   return (
-    <section className="overflow-x-auto">
-      <div className="dark:bg-dark-bg rounded-lg border bg-white shadow">
-        <table className="w-full border-collapse">
-          <thead>
+    <section>
+      <div className="dark:bg-dark-bg rounded-lg bg-white shadow">
+        <Table aria-label="Certificates table">
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id} className="border-b">
+              <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th
+                  <TableHead
                     key={header.id}
-                    className={`px-6 py-4 font-semibold ${
-                      header.column.columnDef.accessorKey === "issueDate"
-                        ? "text-center"
-                        : "text-left"
+                    className={`font-semibold text-gray-900 dark:text-gray-200 ${
+                      header.column.columnDef.accessorKey === "createdAt" &&
+                      "text-center"
                     } ${
                       header.column.columnDef.accessorKey === "action" &&
                       "text-right"
@@ -98,29 +104,40 @@ export default function CertificateTable({
                           header.column.columnDef.header,
                           header.getContext(),
                         )}
-                  </th>
+                  </TableHead>
                 ))}
-              </tr>
+              </TableRow>
             ))}
-          </thead>
-          <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr
-                key={row.id}
-                className="dark:hover:bg-dark-input border-b hover:bg-gray-50"
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className="dark:text-medium-bg px-6 py-4 text-gray-700"
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          </TableHeader>
+          <TableBody>
+            {certificates.length > 0 ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  className="dark:bg-dark-bg rounded-t-lg border-b bg-gray-100"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="py-10 text-center"
+                >
+                  No certificates found.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
       </div>
 
       {/* Pagination */}

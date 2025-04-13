@@ -16,7 +16,7 @@ export default async function StudentCertificate({ searchParams }) {
   });
 
   return (
-    <section className="container mx-auto overflow-x-hidden p-4 md:p-6 lg:p-8">
+    <section className="@container/main mx-auto p-4 md:p-6 lg:p-8">
       <h1 className="dark:text-medium-bg text-dark-bg mb-6 text-2xl font-semibold">
         Certificate of Completion
       </h1>
