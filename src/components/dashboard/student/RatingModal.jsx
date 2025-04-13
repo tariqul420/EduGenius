@@ -21,7 +21,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { saveRating } from "@/lib/actions/rating.action";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { Loader2, MessagesSquare } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Rating } from "react-simple-star-rating";
@@ -70,7 +70,7 @@ export function RatingModal({ course }) {
       review,
     };
 
-    console.log(ratingData);
+    // console.log(ratingData);
 
     await saveRating({ reviewData: ratingData });
     form.reset();
@@ -112,7 +112,7 @@ export function RatingModal({ course }) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <button className="cursor-pointer">Give Rating</button>
+        <button className="border-green bg-main hover:bg-dark-main hover:text-medium-bg flex cursor-pointer items-center gap-2 rounded border px-3 py-1.5 text-white duration-200"><MessagesSquare size={18} />Feedback</button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -158,15 +158,14 @@ export function RatingModal({ course }) {
                 type="button"
                 onClick={handleCancel}
                 disabled={form.formState.isSubmitting}
-                className="cursor-pointer text-gray-900 dark:text-gray-100"
+                className="cursor-pointer rounded text-gray-900 dark:text-gray-100"
               >
                 Cancel
               </AlertDialogCancel>
               <Button
                 type="submit"
                 disabled={form.formState.isSubmitting || rating === 0}
-                className="dark:bg-dark-bg w-full cursor-pointer text-white sm:w-auto"
-                size="lg"
+                className="dark:bg-dark-bg rounded w-full cursor-pointer text-white sm:w-auto"
               >
                 {form.formState.isSubmitting ? (
                   <>
