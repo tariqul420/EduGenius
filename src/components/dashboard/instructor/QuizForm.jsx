@@ -10,7 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createQuiz } from "@/lib/actions/quiz.action";
+import { createQuiz, updateQuiz } from "@/lib/actions/quiz.action";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Minus, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -41,15 +41,15 @@ const formSchema = z.object({
   ),
 });
 
-export default function QuizForm({ courseId }) {
+export default function QuizForm({ quiz, courseId, slug }) {
   const router = useRouter();
 
   // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      questions: [
+      title: quiz?.title || "", // Default to empty string if no quiz title is provided
+      questions: quiz?.questions || [
         {
           question: "",
           options: [
@@ -70,24 +70,46 @@ export default function QuizForm({ courseId }) {
 
   // 2. Define a submit handler.
   function onSubmit(values) {
-    toast.promise(
-      createQuiz({
-        courseId,
-        data: values,
-      }),
-      {
-        loading: "Creating quiz...",
-        success: (data) => {
-          if (data.success) {
-            router.push("/instructor/courses");
-            return "Quiz created successfully!";
-          } else {
-            throw new Error(data.message || "Failed to create quiz.");
-          }
+    if (quiz) {
+      toast.promise(
+        updateQuiz({
+          quizId: quiz._id,
+          data: values,
+          path: `/instructor/courses/${slug}`,
+        }),
+        {
+          loading: "Creating quiz...",
+          success: (data) => {
+            if (data.success) {
+              router.push(`/instructor/courses/${slug}`);
+              return "Quiz created successfully!";
+            } else {
+              throw new Error(data.message || "Failed to create quiz.");
+            }
+          },
+          error: (error) => error.message,
         },
-        error: (error) => error.message,
-      },
-    );
+      );
+    } else {
+      toast.promise(
+        createQuiz({
+          courseId,
+          data: values,
+        }),
+        {
+          loading: "Creating quiz...",
+          success: (data) => {
+            if (data.success) {
+              router.push("/instructor/courses");
+              return "Quiz created successfully!";
+            } else {
+              throw new Error(data.message || "Failed to create quiz.");
+            }
+          },
+          error: (error) => error.message,
+        },
+      );
+    }
   }
 
   return (
@@ -214,7 +236,7 @@ export default function QuizForm({ courseId }) {
             className="w-full"
             disabled={form.formState.isSubmitting}
           >
-            Create Quiz
+            {quiz ? "Update Quiz" : "Create Quiz"}
           </Button>
         </div>
       </form>

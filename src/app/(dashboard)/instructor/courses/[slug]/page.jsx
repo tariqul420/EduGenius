@@ -7,12 +7,14 @@ import {
   getCourseBySlug,
   getCourseCurriculum,
 } from "@/lib/actions/course.action";
+import { getQuizById } from "@/lib/actions/quiz.action";
 
 export default async function EditCourse({ params }) {
   const { slug } = await params;
 
   const course = await getCourseBySlug(slug);
   const curriculum = await getCourseCurriculum(course._id);
+  const quiz = await getQuizById(course._id);
 
   return (
     <>
@@ -27,13 +29,13 @@ export default async function EditCourse({ params }) {
               <TabsList className="dark:bg-dark-hover bg-light-bg w-full rounded px-1.5 py-5 shadow-sm">
                 <TabsTrigger
                   value="basic"
-                  className="data-[state=active]:text-main from-dark-bg to-dark-hover dark:data-[state=active]:text-white rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-gradient-to-b"
+                  className="data-[state=active]:text-main from-dark-bg to-dark-hover rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-gradient-to-b dark:data-[state=active]:text-white"
                 >
                   Basic Information
                 </TabsTrigger>
                 <TabsTrigger
                   value="curriculum"
-                  className="data-[state=active]:text-main from-dark-bg to-dark-hover dark:data-[state=active]:text-white rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-gradient-to-b"
+                  className="data-[state=active]:text-main from-dark-bg to-dark-hover rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-gradient-to-b dark:data-[state=active]:text-white"
                 >
                   Curriculum
                 </TabsTrigger>
@@ -64,20 +66,24 @@ export default async function EditCourse({ params }) {
               <TabsList className="dark:bg-dark-hover bg-light-bg w-full rounded px-1.5 py-5 shadow-sm">
                 <TabsTrigger
                   value="quiz"
-                  className="data-[state=active]:text-main from-dark-bg to-dark-hover dark:data-[state=active]:text-white rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-gradient-to-b"
+                  className="data-[state=active]:text-main from-dark-bg to-dark-hover rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-gradient-to-b dark:data-[state=active]:text-white"
                 >
                   Quiz
                 </TabsTrigger>
                 <TabsTrigger
                   value="assignment"
-                  className="data-[state=active]:text-main from-dark-bg to-dark-hover dark:data-[state=active]:text-white rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-gradient-to-b"
+                  className="data-[state=active]:text-main from-dark-bg to-dark-hover rounded px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-gradient-to-b dark:data-[state=active]:text-white"
                 >
                   Assignment
                 </TabsTrigger>
               </TabsList>
 
               <TabsContent value="quiz">
-                <QuizForm courseId={course._id} />
+                <QuizForm
+                  quiz={quiz}
+                  courseId={course._id}
+                  slug={course.slug}
+                />
               </TabsContent>
 
               <TabsContent value="assignment">
