@@ -10,7 +10,7 @@ export default async function StudentCourse() {
 
   return (
     <section className="min-h-screen py-8">
-      <div className="container mx-auto px-4 md:px-6 lg:px-8">
+      <div className="@container/main mx-auto px-4 md:px-6 lg:px-8">
         {/* Page Header */}
         <div className="mb-8">
           <h1 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-gray-100">

@@ -19,11 +19,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { saveRating } from "@/lib/actions/rating.action";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Rating } from "react-simple-star-rating";
+import { toast } from "sonner";
 import * as z from "zod";
 
 // Define Zod schema
@@ -35,7 +37,7 @@ const formSchema = z.object({
     .nonempty({ message: "Review is required." }),
 });
 
-export function RatingModal() {
+export function RatingModal({ course }) {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [open, setOpen] = useState(false);
@@ -61,13 +63,22 @@ export function RatingModal() {
 
   const onSubmit = async ({ review }) => {
     if (rating === 0) return;
-    console.log("Submitted:", { rating, review: review });
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    const ratingData = {
+      course,
+      rating,
+      review,
+    };
+
+    console.log(ratingData);
+
+    await saveRating({ reviewData: ratingData });
     form.reset();
     setRating(0);
     setHoverRating(0);
     setOpen(false);
+
+    toast.success("Review Successfully!");
   };
 
   const handleCancel = () => {
