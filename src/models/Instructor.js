@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import User from "./User";
 
 const instructorSchema = new mongoose.Schema(
   {
@@ -18,7 +19,7 @@ const instructorSchema = new mongoose.Schema(
       set: (val) => Math.round(val * 10) / 10,
     },
 
-    students: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    students: [{ type: mongoose.Schema.Types.ObjectId, ref: User }],
     courses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
   },
   { timestamps: true },

@@ -78,6 +78,40 @@ courseSchema.pre("save", async function (next) {
   next();
 });
 
+// when a course is created or updated
+// courseSchema.post("save", async function (doc) {
+//   console.log("Post-save middleware triggered");
+//   console.log("Post-save  Course ID:", doc);
+//   console.log(
+//     `Post-save  Query took ${Date.now() - doc.instructor} ${doc._id}`,
+//   );
+//   const instructor = await Instructor.findOne({
+//     instructorId: doc.instructor,
+//   });
+
+//   console.log("Post-save middleware instructor:", instructor);
+// });
+
+// Method to update the instructor's courses array
+courseSchema.methods.updateInstructorCourses = async function () {
+  try {
+    if (!this.instructor) {
+      console.error("Instructor ID is undefined");
+      return;
+    }
+
+    // Update the instructor's courses array
+    await Instructor.findOneAndUpdate(
+      { instructorId: this.instructor },
+      { $addToSet: { courses: this._id } }, // Use $addToSet to avoid duplicates
+      { upsert: true }, // Create the document if it doesn't exist
+    );
+  } catch (error) {
+    console.error("Error in updateInstructorCourses method:", error);
+    throw error;
+  }
+};
+
 // Post-save middleware to update the instructor's average rating
 courseSchema.post("update", async function () {
   const Course = mongoose.model("Course");
@@ -107,7 +141,6 @@ courseSchema.post("update", async function () {
 
 // Middleware to add a student to the course and instructor when a course is purchased
 courseSchema.methods.enrollment = async function (studentId, instructorId) {
-  console.log(this.instructor, studentId, instructorId);
   try {
     // Add the student to the course's students array if not already added
     if (!this.students.includes(studentId)) {
@@ -118,6 +151,7 @@ courseSchema.methods.enrollment = async function (studentId, instructorId) {
 
     // Add the student to the instructor's students array if not already added
     const instructorUpdate = await Instructor.findOneAndUpdate(
+      { instructorId: instructorId },
       { instructorId: instructorId },
       { $addToSet: { students: studentId } }, // Use $addToSet to avoid duplicates
       { upsert: true },

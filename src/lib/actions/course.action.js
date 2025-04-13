@@ -14,7 +14,7 @@ export async function getCourses({
   level,
   search,
   page = 1,
-  limit = 5,
+  limit = 10,
   sort,
   instructor,
   excludeSlug, // New parameter to exclude a specific course
@@ -236,6 +236,7 @@ export async function createCourse({ data, path }) {
     // Add the userId as the instructor for the course
     const newCourse = new Course({ ...data, instructor: userId });
     await newCourse.save();
+    await newCourse.updateInstructorCourses();
 
     revalidatePath(path);
     return JSON.parse(JSON.stringify(newCourse));
