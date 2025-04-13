@@ -1,5 +1,7 @@
+import Student from "@/app/(dashboard)/instructor/students/page";
 import mongoose from "mongoose";
 import Course from "./Course";
+import Instructor from "./Instructor";
 import User from "./User";
 
 const paymentSchema = new mongoose.Schema(
@@ -37,7 +39,26 @@ paymentSchema.post("save", async function (doc) {
     }
 
     // Use the addStudent method from the Course schema
-    await course.enrollment(doc.student);
+    const instructorId = course.instructor;
+    const studentId = doc.student;
+    await Course.findOneAndUpdate(
+      { _id: course._id },
+      { $addToSet: { students: studentId } }, // Use $addToSet to avoid duplicates
+      { upsert: true },
+    );
+
+    await Instructor.findOneAndUpdate(
+      { instructorId: instructorId },
+      { $addToSet: { students: studentId } }, // Use $addToSet to avoid duplicates
+      { upsert: true },
+    );
+
+    await Student.findOneAndUpdate(
+      { _id: studentId },
+      { $addToSet: { courses: course._id } }, // Use $addToSet to avoid duplicates
+      { upsert: true },
+    );
+    console.log("Student added to course successfully");
   } catch (error) {
     console.error("Error adding student to course after payment:", error);
     throw error; // Optionally rethrow the error to handle it upstream

@@ -65,7 +65,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import TableContextMenu from "./dashboard/instructor/TableContextMenu";
 
 // Create a separate component for the drag handle
@@ -215,15 +217,18 @@ function DraggableRow({ row }) {
   );
 }
 
-export function DataTable({ data: initialData }) {
+export function DataTable({ data: initialData, pageSize, pageIndex, total }) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const [data, setData] = React.useState(() => initialData);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState({});
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [sorting, setSorting] = React.useState([]);
   const [pagination, setPagination] = React.useState({
-    pageIndex: 0,
-    pageSize: 10,
+    pageIndex: pageIndex,
+    pageSize: pageSize,
   });
   const sortableId = React.useId();
   const sensors = useSensors(
@@ -272,6 +277,10 @@ export function DataTable({ data: initialData }) {
       });
     }
   }
+
+  React.useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   return (
     <Tabs
@@ -393,35 +402,56 @@ export function DataTable({ data: initialData }) {
                 Rows per page
               </Label>
               <Select
-                value={`${table.getState().pagination.pageSize}`}
+                value={`${pageSize}`}
                 onValueChange={(value) => {
-                  table.setPageSize(Number(value));
+                  let newUrl = "";
+
+                  if (value) {
+                    newUrl = formUrlQuery({
+                      params: searchParams.toString(),
+                      key: "pageSize",
+                      value: value,
+                    });
+                  } else {
+                    newUrl = removeKeysFromQuery({
+                      params: searchParams.toString(),
+                      keysToRemove: ["pageSize"],
+                    });
+                  }
+                  router.push(newUrl, { scroll: false });
                 }}
               >
                 <SelectTrigger size="sm" className="w-20" id="rows-per-page">
-                  <SelectValue
-                    placeholder={table.getState().pagination.pageSize}
-                  />
+                  <SelectValue placeholder={pageSize} />
                 </SelectTrigger>
                 <SelectContent side="top">
-                  {[10, 20, 30, 40, 50].map((pageSize) => (
-                    <SelectItem key={pageSize} value={`${pageSize}`}>
-                      {pageSize}
+                  {[10, 20, 30, 40, 50].map((size) => (
+                    <SelectItem key={size} value={`${size}`}>
+                      {size}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
             <div className="flex w-fit items-center justify-center text-sm font-medium">
-              Page {table.getState().pagination.pageIndex + 1} of{" "}
-              {table.getPageCount()}
+              Page {pageIndex} of {Math.ceil(total / pageSize)}
             </div>
             <div className="ml-auto flex items-center gap-2 lg:ml-0">
               <Button
                 variant="outline"
                 className="hidden h-8 w-8 p-0 lg:flex"
-                onClick={() => table.setPageIndex(0)}
-                disabled={!table.getCanPreviousPage()}
+                onClick={() => {
+                  let newUrl = "";
+
+                  newUrl = formUrlQuery({
+                    params: searchParams.toString(),
+                    key: "pageIndex",
+                    value: 1,
+                  });
+                  router.push(newUrl, { scroll: false });
+                  () => table.setPageIndex(0);
+                }}
+                disabled={pageIndex === 1}
               >
                 <span className="sr-only">Go to first page</span>
                 <IconChevronsLeft />
@@ -430,8 +460,18 @@ export function DataTable({ data: initialData }) {
                 variant="outline"
                 className="size-8"
                 size="icon"
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
+                onClick={() => {
+                  let newUrl = "";
+
+                  newUrl = formUrlQuery({
+                    params: searchParams.toString(),
+                    key: "pageIndex",
+                    value: pageIndex - 1,
+                  });
+                  table.previousPage();
+                  router.push(newUrl, { scroll: false });
+                }}
+                disabled={pageIndex === 1}
               >
                 <span className="sr-only">Go to previous page</span>
                 <IconChevronLeft />
@@ -440,8 +480,17 @@ export function DataTable({ data: initialData }) {
                 variant="outline"
                 className="size-8"
                 size="icon"
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
+                onClick={() => {
+                  let newUrl = "";
+                  newUrl = formUrlQuery({
+                    params: searchParams.toString(),
+                    key: "pageIndex",
+                    value: pageIndex + 1,
+                  });
+                  () => table.nextPage();
+                  router.push(newUrl, { scroll: false });
+                }}
+                disabled={pageIndex === Math.ceil(total / pageSize)}
               >
                 <span className="sr-only">Go to next page</span>
                 <IconChevronRight />
@@ -450,8 +499,17 @@ export function DataTable({ data: initialData }) {
                 variant="outline"
                 className="hidden size-8 lg:flex"
                 size="icon"
-                onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                disabled={!table.getCanNextPage()}
+                onClick={() => {
+                  let newUrl = "";
+                  newUrl = formUrlQuery({
+                    params: searchParams.toString(),
+                    key: "pageIndex",
+                    value: Math.ceil(total / pageSize),
+                  });
+                  table.setPageIndex(table.getPageCount() - 1);
+                  router.push(newUrl, { scroll: false });
+                }}
+                disabled={pageIndex === Math.ceil(total / pageSize)}
               >
                 <span className="sr-only">Go to last page</span>
                 <IconChevronsRight />

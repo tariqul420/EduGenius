@@ -1,5 +1,6 @@
 "use server";
 
+import Instructor from "@/models/Instructor";
 import User from "@/models/User";
 import dbConnect from "../dbConnect";
 
@@ -32,12 +33,20 @@ export async function getInstructorBySlug(slug) {
 export async function getStudentsByInstructorCoursesId(instructorId) {
   try {
     await dbConnect();
-    const students = await User.find({
-      instructor: instructorId,
-      courses: courseId,
+
+    // Find the instructor by their ID and populate the students field
+    const instructor = await Instructor.findOne({ instructorId }).populate({
+      path: "students",
+      select: "name email", // Select specific fields if needed
     });
-    return JSON.parse(JSON.stringify(students));
+
+    if (!instructor) {
+      throw new Error("Instructor not found");
+    }
+
+    return JSON.parse(JSON.stringify(instructor.students));
   } catch (error) {
-    console.error("Error getting students by instructor and course ID:", error);
+    console.error("Error getting students by instructor courses ID:", error);
+    throw error;
   }
 }
