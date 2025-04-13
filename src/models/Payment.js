@@ -1,7 +1,7 @@
-import Student from "@/app/(dashboard)/instructor/students/page";
 import mongoose from "mongoose";
 import Course from "./Course";
 import Instructor from "./Instructor";
+import Student from "./Student";
 import User from "./User";
 
 const paymentSchema = new mongoose.Schema(
@@ -54,7 +54,7 @@ paymentSchema.post("save", async function (doc) {
     );
 
     await Student.findOneAndUpdate(
-      { _id: studentId },
+      { student: studentId },
       { $addToSet: { courses: course._id } }, // Use $addToSet to avoid duplicates
       { upsert: true },
     );
