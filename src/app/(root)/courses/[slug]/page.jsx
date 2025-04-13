@@ -18,7 +18,6 @@ import Link from "next/link";
 
 const CourseDetails = async ({ params }) => {
   const { sessionClaims } = await auth();
-  const userId = sessionClaims?.userId;
   const { slug } = await params;
   const course = await getCourseBySlug(slug);
 
@@ -145,7 +144,7 @@ const CourseDetails = async ({ params }) => {
                 </Link>
 
                 <SignedIn>
-                  <PaymentModal course={course} userId={userId} />
+                  <PaymentModal course={course} user={sessionClaims} />
                 </SignedIn>
                 <SignedOut>
                   <Link

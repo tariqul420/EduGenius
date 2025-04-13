@@ -14,10 +14,12 @@ import { useState } from "react";
 import CheckOutForm from "./CheckOutForm";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY);
-export default function PaymentModal({ course, userId }) {
+export default function PaymentModal({ course, user }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const alreadyPayment = course?.students?.includes(userId);
+  const alreadyPayment = course?.students?.includes(user?.userId);
+
+  const notStudent = !(user?.role === "student");
 
   return (
     <Elements stripe={stripePromise}>
@@ -33,8 +35,13 @@ export default function PaymentModal({ course, userId }) {
             </Link>
           ) : (
             <button
-              className="bg-main hover:bg-main mt-5 inline-block cursor-pointer rounded px-4 py-1.5 text-white transition-colors"
-              variant="outline"
+              className={`${
+                notStudent
+                  ? "dark:bg-dark-hover mt-5 inline-block cursor-not-allowed rounded bg-gray-400 px-4 py-1.5 text-white transition-colors"
+                  : "bg-main hover:bg-main mt-5 inline-block cursor-pointer rounded px-4 py-1.5 text-white transition-colors"
+              }`}
+              variant={notStudent ? "secondary" : "outline"}
+              disabled={notStudent}
               onClick={() => setIsOpen(true)}
             >
               Enrollment
@@ -52,7 +59,7 @@ export default function PaymentModal({ course, userId }) {
           </AlertDialogHeader>
           <CheckOutForm
             course={course}
-            userId={userId}
+            userId={user?.userId}
             onPaymentSuccess={() => setIsOpen(false)}
           />
         </AlertDialogContent>
