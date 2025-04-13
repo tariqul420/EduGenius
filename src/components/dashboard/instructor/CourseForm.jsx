@@ -80,9 +80,9 @@ export default function CourseForm({ course }) {
       thumbnail: course?.thumbnail || "",
       language: course?.language || "",
       level: course?.level || "Beginner",
-      discount: course?.discount || 0,
-      price: course?.price || 0,
-      duration: course?.duration || 0,
+      discount: course?.discount || "",
+      price: course?.price || "",
+      duration: course?.duration || "",
     },
   });
 
@@ -296,7 +296,7 @@ export default function CourseForm({ course }) {
                   type="number"
                   placeholder="Enter discount percentage"
                   {...field}
-                  value={field.value || 0}
+                  value={field.value}
                   onChange={(e) => field.onChange(Number(e.target.value))}
                 />
               </FormControl>
@@ -317,7 +317,7 @@ export default function CourseForm({ course }) {
                   type="number"
                   placeholder="Enter course price"
                   {...field}
-                  value={field.value || 0}
+                  value={field.value}
                   onChange={(e) => field.onChange(Number(e.target.value))}
                 />
               </FormControl>
@@ -338,7 +338,7 @@ export default function CourseForm({ course }) {
                   type="number"
                   placeholder="Enter course duration"
                   {...field}
-                  value={field.value || 0}
+                  value={field.value}
                   onChange={(e) => field.onChange(Number(e.target.value))}
                 />
               </FormControl>
