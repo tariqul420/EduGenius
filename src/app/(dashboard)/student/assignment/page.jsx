@@ -1,16 +1,26 @@
 import AssignmentStats from "@/components/dashboard/student/AssignmentStats";
-import CertificateTable from "@/components/dashboard/student/CertificateTable";
-import { getCertificateByStudent } from "@/lib/actions/certificate.action";
+import AssignmentTable from "@/components/dashboard/student/AssignmentTable";
 import { auth } from "@clerk/nextjs/server";
 
 export default async function StudentHome({ searchParams }) {
   const { sessionClaims } = await auth();
   const { page } = await searchParams;
-  const { certificates = [] } = await getCertificateByStudent({
-    studentId: sessionClaims?.userId,
-    page: Number(page) || 1,
-    limit: 6,
-  });
+  // const { certificates = [] } = await getCertificateByStudent({
+  //   studentId: sessionClaims?.userId,
+  //   page: Number(page) || 1,
+  //   limit: 6,
+  // });
+
+  const assignment = [
+    {
+      id: 1,
+      title: "Web Developer",
+      startDate: "30 Dec",
+      dateLine: "5 Jan",
+      mark: 50,
+      status: "not submit",
+    },
+  ];
 
   return (
     <section className="min-h-screen py-8">
@@ -32,7 +42,7 @@ export default async function StudentHome({ searchParams }) {
         <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-100">
           My Assignment
         </h2>
-        <CertificateTable certificates={certificates} />
+        <AssignmentTable assignment={assignment} />
       </div>
     </section>
   );
