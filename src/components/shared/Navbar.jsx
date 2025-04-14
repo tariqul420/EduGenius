@@ -65,7 +65,7 @@ function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 text-3xl">
           <GraduationCap size={26} className="text-main" />
-          <h2 className="text-2xl font-semibold">EduGenius</h2>
+          <h2 className="text-2xl font-semibold">Edu<span className="text-main">Genius</span></h2>
         </Link>
 
         {/* Right Side */}

@@ -74,8 +74,18 @@ export const admins = [
     icon: "BookText",
   },
   {
-    title: "Instructors",
+    title: "Instructor List",
     url: "/admin/instructors",
+    icon: "UsersRound",
+  },
+  {
+    title: "Course List",
+    url: "/admin/courseList",
+    icon: "UsersRound",
+  },
+  {
+    title: "Category",
+    url: "/admin/category",
     icon: "UsersRound",
   },
   {
@@ -88,9 +98,5 @@ export const admins = [
     url: "/admin/certificates",
     icon: "Medal",
   },
-  {
-    title: "Quiz & Assignment",
-    url: "/admin/quiz-assignment",
-    icon: "BookOpenCheck",
-  },
+
 ];

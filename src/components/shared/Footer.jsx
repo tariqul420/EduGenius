@@ -28,7 +28,7 @@ const Footer = () => {
           <div className="lg:w-1/2">
             <div className="flex items-center justify-center gap-2 text-3xl lg:justify-start">
               <GraduationCap className="text-main" />
-              <h2 className="text-2xl font-medium">EduGenius</h2>
+              <h2 className="text-2xl font-semibold">Edu<span className="text-main">Genius</span></h2>
             </div>
             <p className="mt-2 text-center lg:mt-0 lg:pr-36 lg:text-left">
               We are a forward-thinking software company dedicated to crafting

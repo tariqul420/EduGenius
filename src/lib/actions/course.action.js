@@ -4,6 +4,7 @@ import Category from "@/models/Category";
 import Course from "@/models/Course";
 import Lesson from "@/models/Lesson";
 import Module from "@/models/Module";
+import Student from "@/models/Student";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
@@ -17,7 +18,7 @@ export async function getCourses({
   limit = 10,
   sort,
   instructor,
-  excludeSlug, // New parameter to exclude a specific course
+  excludeSlug,
 } = {}) {
   try {
     await dbConnect();
@@ -45,7 +46,7 @@ export async function getCourses({
               { level: { $regex: search, $options: "i" } },
             ],
           }),
-          ...(excludeSlug && { slug: { $ne: excludeSlug } }), // Exclude the course with the given slug
+          ...(excludeSlug && { slug: { $ne: excludeSlug } }),
         },
       },
       // Lookup instructor details
@@ -57,6 +58,7 @@ export async function getCourses({
           as: "instructorDetails",
         },
       },
+      // Lookup category details
       {
         $lookup: {
           from: "categories",
@@ -65,14 +67,25 @@ export async function getCourses({
           as: "categoryDetails",
         },
       },
+      // Lookup ratings
+      {
+        $lookup: {
+          from: "ratings",
+          localField: "_id", // Assuming ratings references course by course _id
+          foreignField: "course",
+          as: "ratingsData",
+        },
+      },
+      // Unwind instructor and category (single values)
       { $unwind: "$instructorDetails" },
       { $unwind: "$categoryDetails" },
+      // Add field for average rating
       {
         $addFields: {
           averageRating: {
             $cond: {
-              if: { $gt: [{ $size: "$ratings" }, 0] },
-              then: { $avg: "$ratings.rating" },
+              if: { $gt: [{ $size: "$ratingsData" }, 0] },
+              then: { $avg: "$ratingsData.rating" },
               else: 0,
             },
           },
@@ -94,6 +107,10 @@ export async function getCourses({
             _id: "$categoryDetails._id",
             name: "$categoryDetails.name",
             slug: "$categoryDetails.slug",
+          },
+          instructor: {
+            _id: "$instructorDetails._id",
+            name: "$instructorDetails.name",
           },
         },
       },
@@ -163,14 +180,22 @@ export async function getCourseBySlug(slug) {
           as: "categoryDetails",
         },
       },
+      {
+        $lookup: {
+          from: "ratings",
+          localField: "_id",
+          foreignField: "course",
+          as: "ratingsData",
+        },
+      },
       { $unwind: "$instructorDetails" },
       { $unwind: "$categoryDetails" },
       {
         $addFields: {
           averageRating: {
             $cond: {
-              if: { $gt: [{ $size: "$ratings" }, 0] },
-              then: { $avg: "$ratings.rating" },
+              if: { $gt: [{ $size: "$ratingsData" }, 0] },
+              then: { $avg: "$ratingsData.rating" },
               else: 0,
             },
           },
@@ -417,5 +442,43 @@ export async function updateCourseCurriculum({
     revalidatePath(path);
   } catch (error) {
     console.error("Error updating course curriculum:", error);
+  }
+}
+
+export async function getCourseForEnrollStudent(studentId) {
+  try {
+    await dbConnect();
+
+    const id = objectId(studentId);
+
+    const student = await Student.findOne({ student: id }).populate({
+      path: "courses",
+      select: "title thumbnail slug instructor",
+      populate: {
+        path: "instructor",
+        select: "firstName lastName",
+      },
+    });
+
+    if (!student) {
+      return { courses: [] };
+    }
+
+    // Transform instructor names if needed
+    const result = JSON.parse(JSON.stringify(student));
+    result.courses = result.courses.map((course) => ({
+      ...course,
+      instructor: course.instructor
+        ? {
+            _id: course.instructor._id,
+            name: `${course.instructor.firstName} ${course.instructor.lastName || ""}`.trim(),
+          }
+        : null,
+    }));
+
+    return result;
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    throw error;
   }
 }

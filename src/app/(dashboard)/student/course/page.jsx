@@ -1,44 +1,16 @@
 import CourseCard from "@/components/dashboard/student/CourseCard";
+import NoResult from "@/components/shared/NoResult";
+import { getCourseForEnrollStudent } from "@/lib/actions/course.action";
+import { auth } from "@clerk/nextjs/server";
 
-export default function StudentCourse() {
-  const courses = [
-    {
-      id: 1,
-      title: "Introduction to Web Development",
-      instructor: "Jane Doe",
-      image:
-        "https://cdn.pixabay.com/photo/2021/08/04/13/06/software-developer-6521720_1280.jpg",
-      progress: 50,
-    },
-    {
-      id: 1,
-      title: "Introduction to Web Development",
-      instructor: "Jane Doe",
-      image:
-        "https://cdn.pixabay.com/photo/2021/08/04/13/06/software-developer-6521720_1280.jpg",
-      progress: 75,
-    },
-    {
-      id: 1,
-      title: "Introduction to Web Development",
-      instructor: "Jane Doe",
-      image:
-        "https://cdn.pixabay.com/photo/2021/08/04/13/06/software-developer-6521720_1280.jpg",
-      progress: 75,
-    },
-    {
-      id: 1,
-      title: "Introduction to Web Development",
-      instructor: "Jane Doe",
-      image:
-        "https://cdn.pixabay.com/photo/2021/08/04/13/06/software-developer-6521720_1280.jpg",
-      progress: 75,
-    },
-  ];
+export default async function StudentCourse() {
+  const { sessionClaims } = await auth();
+
+  const courses = await getCourseForEnrollStudent(sessionClaims?.userId);
 
   return (
     <section className="min-h-screen py-8">
-      <div className="container mx-auto px-4 md:px-6 lg:px-8">
+      <div className="@container/main mx-auto px-4 md:px-6 lg:px-8">
         {/* Page Header */}
         <div className="mb-8">
           <h1 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-gray-100">
@@ -51,9 +23,15 @@ export default function StudentCourse() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {courses.map((course, index) => (
-            <CourseCard key={index} course={course} />
-          ))}
+          {courses?.courses?.length > 0 ? (
+            courses?.courses?.map((course, index) => (
+              <CourseCard key={index} course={course} />
+            ))
+          ) : (
+            <div className="sm:col-span-2 lg:col-span-3">
+              <NoResult />
+            </div>
+          )}
         </div>
       </div>
     </section>
