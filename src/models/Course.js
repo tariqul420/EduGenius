@@ -100,12 +100,63 @@ courseSchema.post("findOneAndDelete", async function (doc) {
     try {
       await Instructor.findOneAndUpdate(
         { courses: doc._id },
-        { $pull: { courses: doc._id } },
+        {
+          $pull: {
+            courses: doc._id, // Remove the course ID from the courses array
+          },
+        },
       );
       console.log("Removed course from instructor's courses array");
     } catch (error) {
       console.error(
         "Error removing course from instructor's courses array:",
+        error,
+      );
+    }
+
+    // Remove students only if they are not enrolled in other courses of the same instructor
+    try {
+      const CourseModel = mongoose.model("Course");
+      const otherCourses = await CourseModel.find({
+        instructor: doc.instructor,
+        _id: { $ne: doc._id },
+        students: { $in: doc.students },
+      });
+
+      console.log("Other courses found for instructor:", otherCourses);
+
+      const studentsToKeep = new Set();
+      otherCourses.forEach((course) => {
+        course.students.forEach((studentId) =>
+          studentsToKeep.add(studentId.toString()),
+        );
+      });
+
+      console.log("Students to keep:", studentsToKeep);
+
+      const studentsToRemove = doc.students.filter(
+        (studentId) => !studentsToKeep.has(studentId.toString()),
+      );
+
+      console.log("Students to remove:", studentsToRemove);
+
+      if (studentsToRemove.length > 0) {
+        await Instructor.findOneAndUpdate(
+          { instructorId: doc.instructor },
+          { $pull: { students: { $in: studentsToRemove } } },
+        );
+        console.log(
+          "Removed students from instructor's students array:",
+          studentsToRemove,
+        );
+      } else {
+        console.log(
+          "No students were removed as they are enrolled in other courses.",
+        );
+      }
+    } catch (error) {
+      console.error(
+        "Error removing students from instructor's students array:",
         error,
       );
     }
@@ -123,7 +174,6 @@ courseSchema.post("findOneAndDelete", async function (doc) {
         error,
       );
     }
-
     // Delete lessons associated with the course
     try {
       await Lesson.deleteMany({ course: doc._id });

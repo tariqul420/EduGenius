@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataSource name="edugenius@tariqul-islam.mchvj.mongodb.net">
+<dataSource name="edu-genius@tariqul-islam.mchvj.mongodb.net">
   <database-model serializer="dbm" dbms="MONGO" family-id="MONGO" format-version="4.51">
     <root id="1">
-      <ServerVersion>8.0.5</ServerVersion>
+      <ServerVersion>8.0.6</ServerVersion>
     </root>
     <schema id="2" parent="1" name="Bistro_Boss"/>
     <schema id="3" parent="1" name="CoffeesData"/>
@@ -18,12 +18,124 @@
     <schema id="13" parent="1" name="task-management"/>
     <schema id="14" parent="1" name="test"/>
     <schema id="15" parent="1" name="ticket-management"/>
-    <schema id="16" parent="1" name="admin"/>
-    <schema id="17" parent="1" name="local"/>
-    <schema id="18" parent="1" name="edugenius">
-      <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2025-03-16.03:38:38</LastIntrospectionLocalTimestamp>
+    <schema id="16" parent="1" name="admin">
+      <LastIntrospectionLocalTimestamp>2025-04-14.07:04:12</LastIntrospectionLocalTimestamp>
     </schema>
-    <table id="19" parent="18" name="users"/>
+    <schema id="17" parent="1" name="local"/>
+    <schema id="18" parent="1" name="edu-genius">
+      <Current>1</Current>
+      <LastIntrospectionLocalTimestamp>2025-04-14.07:25:56</LastIntrospectionLocalTimestamp>
+    </schema>
+    <table id="19" parent="18" name="assignments"/>
+    <table id="20" parent="18" name="blogs"/>
+    <table id="21" parent="18" name="categories"/>
+    <table id="22" parent="18" name="certificates"/>
+    <table id="23" parent="18" name="comments"/>
+    <table id="24" parent="18" name="courses"/>
+    <table id="25" parent="18" name="instructors"/>
+    <table id="26" parent="18" name="lessons"/>
+    <table id="27" parent="18" name="modules"/>
+    <table id="28" parent="18" name="payments"/>
+    <table id="29" parent="18" name="progresses"/>
+    <table id="30" parent="18" name="quizzes"/>
+    <table id="31" parent="18" name="ratings"/>
+    <table id="32" parent="18" name="students"/>
+    <table id="33" parent="18" name="users"/>
+    <column id="34" parent="21" name="_id">
+      <DasType>ObjectId|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="35" parent="21" name="__v">
+      <DasType>Int32|4s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="36" parent="21" name="createdAt">
+      <DasType>ISODate|91s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="37" parent="21" name="name">
+      <DasType>String|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="38" parent="21" name="slug">
+      <DasType>String|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="39" parent="21" name="updatedAt">
+      <DasType>ISODate|91s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="40" parent="25" name="_id">
+      <DasType>ObjectId|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="41" parent="25" name="courses">
+      <DasType>list|4999545s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="42" parent="25" name="instructorId">
+      <DasType>ObjectId|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="43" parent="25" name="students">
+      <DasType>list|4999545s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="44" parent="25" name="__v">
+      <DasType>Int32|4s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="45" parent="25" name="createdAt">
+      <DasType>ISODate|91s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="46" parent="25" name="updatedAt">
+      <DasType>ISODate|91s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="47" parent="33" name="_id">
+      <DasType>ObjectId|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="48" parent="33" name="__v">
+      <DasType>Int32|4s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="49" parent="33" name="clerkUserId">
+      <DasType>String|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="50" parent="33" name="createdAt">
+      <DasType>ISODate|91s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="51" parent="33" name="email">
+      <DasType>String|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="52" parent="33" name="lastName">
+      <DasType>String|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="53" parent="33" name="profilePicture">
+      <DasType>String|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="54" parent="33" name="updatedAt">
+      <DasType>ISODate|91s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="55" parent="33" name="firstName">
+      <DasType>String|12s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="56" parent="33" name="role">
+      <DasType>String|12s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="57" parent="33" name="slug">
+      <DasType>String|12s</DasType>
+      <Position>3</Position>
+    </column>
   </database-model>
 </dataSource>
