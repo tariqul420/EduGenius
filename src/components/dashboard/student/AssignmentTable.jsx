@@ -148,7 +148,9 @@ export default function AssignmentTable({
           </TableBody>
         </Table>
       </div>
-      <PagePagination total={total} limit={10} hasNextPage={hasNextPage} />
+      {assignment?.length > 0 && (
+        <PagePagination total={total} limit={10} hasNextPage={hasNextPage} />
+      )}
     </section>
   );
 }
