@@ -2,6 +2,7 @@
 
 import {
   AlertDialog,
+  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -9,7 +10,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { saveRating } from "@/lib/actions/rating.action";
+import { saveReview, updateReview } from "@/lib/actions/review.action";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, MessagesSquare } from "lucide-react";
 import { useState } from "react";
@@ -37,15 +37,15 @@ const formSchema = z.object({
     .nonempty({ message: "Review is required." }),
 });
 
-export function RatingModal({ course }) {
-  const [rating, setRating] = useState(0);
+export function ReviewModal({ course, review }) {
+  const [rating, setRating] = useState(review?.rating || 0);
   const [hoverRating, setHoverRating] = useState(0);
   const [open, setOpen] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      review: "",
+      review: review?.review || "",
     },
   });
 
@@ -61,34 +61,37 @@ export function RatingModal({ course }) {
     setHoverRating(0);
   };
 
-  const onSubmit = async ({ review }) => {
+  const onSubmit = async ({ review: reviewText }) => {
     if (rating === 0) return;
 
-    const ratingData = {
+    const reviewData = {
       course,
       rating,
-      review,
+      review: reviewText,
     };
 
-    // console.log(ratingData);
+    try {
+      if (!review) {
+        await saveReview({ reviewData });
+      } else {
+        await updateReview({ rating, review: reviewText, course });
+      }
 
-    await saveRating({ reviewData: ratingData });
-    form.reset();
-    setRating(0);
-    setHoverRating(0);
-    setOpen(false);
-
-    toast.success("Review Successfully!");
+      setRating(review?.rating || 0);
+      setHoverRating(0);
+      setOpen(false);
+      toast.success(review ? "Review Updated!" : "Review Submitted!");
+    } catch (error) {
+      toast.error("Failed to save review.");
+    }
   };
 
   const handleCancel = () => {
-    form.reset();
-    setRating(0);
+    setRating(review?.rating || 0);
     setHoverRating(0);
     setOpen(false);
   };
 
-  // Define rating descriptions
   const getRatingDescription = (rating, hoverRating) => {
     const activeRating = hoverRating || rating;
     switch (activeRating) {
@@ -112,18 +115,20 @@ export function RatingModal({ course }) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <button className="border-green bg-main hover:bg-dark-main hover:text-medium-bg flex cursor-pointer items-center gap-2 rounded border px-3 py-1.5 text-white duration-200"><MessagesSquare size={18} />Feedback</button>
+        <button className="border-green bg-main hover:bg-dark-main hover:text-medium-bg flex cursor-pointer items-center gap-2 rounded border px-3 py-1.5 text-white duration-200">
+          <MessagesSquare size={18} />
+          Feedback
+        </button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle className="text-center">
-            Why did you leave this rating?
+            {review ? "Edit Your Review" : "Why did you leave this rating?"}
           </AlertDialogTitle>
           <AlertDialogDescription className="text-center">
             {getRatingDescription(rating, hoverRating)}
           </AlertDialogDescription>
         </AlertDialogHeader>
-
         <div className="rating flex justify-center">
           <Rating
             onClick={handleRating}
@@ -132,7 +137,6 @@ export function RatingModal({ course }) {
             onPointerLeave={handlePointerLeave}
           />
         </div>
-
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -152,7 +156,6 @@ export function RatingModal({ course }) {
                 </FormItem>
               )}
             />
-
             <div className="flex justify-end gap-2">
               <AlertDialogCancel
                 type="button"
@@ -162,20 +165,22 @@ export function RatingModal({ course }) {
               >
                 Cancel
               </AlertDialogCancel>
-              <Button
+              <AlertDialogAction
                 type="submit"
                 disabled={form.formState.isSubmitting || rating === 0}
-                className="dark:bg-dark-bg rounded w-full cursor-pointer text-white sm:w-auto"
+                className="dark:bg-dark-bg w-full cursor-pointer rounded text-white sm:w-auto"
               >
                 {form.formState.isSubmitting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Posting...
                   </>
+                ) : review ? (
+                  "Update Review"
                 ) : (
                   "Post Review"
                 )}
-              </Button>
+              </AlertDialogAction>
             </div>
           </form>
         </Form>

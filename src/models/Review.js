@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import Course from "./Course";
 
-const ratingSchema = new mongoose.Schema(
+const reviewSchema = new mongoose.Schema(
   {
     student: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     course: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
@@ -20,7 +20,7 @@ const ratingSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-ratingSchema.post("save", async function (doc) {
+reviewSchema.post("save", async function (doc) {
   try {
     await Course.findOneAndUpdate(
       { _id: doc.course },
@@ -31,5 +31,5 @@ ratingSchema.post("save", async function (doc) {
   }
 });
 
-export default mongoose.models?.Rating ||
-  mongoose.model("Rating", ratingSchema);
+export default mongoose.models?.Review ||
+  mongoose.model("Review", reviewSchema);
