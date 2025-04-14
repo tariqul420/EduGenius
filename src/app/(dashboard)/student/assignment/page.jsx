@@ -1,7 +1,6 @@
+import AssignmentStats from "@/components/dashboard/student/AssignmentStats";
 import CertificateTable from "@/components/dashboard/student/CertificateTable";
-import DashboardStats from "@/components/dashboard/student/StudentDashboard";
 import { getCertificateByStudent } from "@/lib/actions/certificate.action";
-import { getStudentDashboardStats } from "@/lib/actions/stats.action";
 import { auth } from "@clerk/nextjs/server";
 
 export default async function StudentHome({ searchParams }) {
@@ -12,8 +11,6 @@ export default async function StudentHome({ searchParams }) {
     page: Number(page) || 1,
     limit: 6,
   });
-
-  const stats = await getStudentDashboardStats();
 
   return (
     <section className="min-h-screen py-8">
@@ -29,11 +26,11 @@ export default async function StudentHome({ searchParams }) {
         </div>
 
         {/* Stats Cards */}
-        <DashboardStats stats={stats} />
+        <AssignmentStats />
 
         {/* Certificates Section */}
         <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-100">
-          My Certificates
+          My Assignment
         </h2>
         <CertificateTable certificates={certificates} />
       </div>
