@@ -69,7 +69,6 @@ export default function CourseForm({ course }) {
 
   // Get a specific query parameter
   const category = searchParams.get("cq");
-  console.log(course);
 
   // 1. Define your form.
   const form = useForm({

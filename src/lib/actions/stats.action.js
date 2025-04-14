@@ -1,6 +1,10 @@
 "use server";
 
+import Assignment from "@/models/Assignment";
+import Certificate from "@/models/Certificate";
 import Course from "@/models/Course";
+import Quiz from "@/models/Quiz";
+import Student from "@/models/Student";
 import { auth } from "@clerk/nextjs/server";
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
@@ -381,6 +385,48 @@ export async function getGrowthRate() {
     };
   } catch (error) {
     console.error("Error getting growth rate:", error);
+    throw error;
+  }
+}
+
+export async function getStudentDashboardStats() {
+  try {
+    await dbConnect();
+
+    const { sessionClaims } = await auth();
+    const studentId = objectId(sessionClaims?.userId);
+
+    if (!studentId) {
+      throw new Error("User not authenticated");
+    }
+
+    // Get course count from Student document
+    const student = await Student.findOne({ student: studentId });
+    const course = student?.courses?.length || 0;
+
+    // Count assignments submitted by student
+    const assignment = await Assignment.countDocuments({
+      "submissions.student": studentId,
+    });
+
+    // Count quizzes in student's enrolled courses
+    const quiz = await Quiz.countDocuments({
+      course: { $in: student?.courses || [] },
+    });
+
+    // Count certificates for student
+    const certificate = await Certificate.countDocuments({
+      student: studentId,
+    });
+
+    return {
+      course,
+      assignment,
+      quiz,
+      certificate,
+    };
+  } catch (error) {
+    console.error(error);
     throw error;
   }
 }

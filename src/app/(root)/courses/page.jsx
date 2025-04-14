@@ -28,8 +28,6 @@ export default async function Course({ searchParams }) {
     limit: 4,
   });
 
-  console.log(courses);
-
   return (
     <section className="py-5">
       <div className="container mx-auto px-2 md:px-5 lg:max-w-6xl">

@@ -58,7 +58,6 @@ paymentSchema.post("save", async function (doc) {
       { $addToSet: { courses: course._id } }, // Use $addToSet to avoid duplicates
       { upsert: true },
     );
-    console.log("Student added to course successfully");
   } catch (error) {
     console.error("Error adding student to course after payment:", error);
     throw error; // Optionally rethrow the error to handle it upstream
