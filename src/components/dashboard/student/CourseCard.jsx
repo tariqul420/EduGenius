@@ -4,14 +4,18 @@ import { getReview } from "@/lib/actions/review.action";
 import { Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { RatingModal } from "./RatingModal";
+import { ReviewModal } from "./ReviewModal";
 
 export default async function CourseCard({ course }) {
   const { thumbnail, title, instructor, progress, _id } = course || {};
 
-  const review = await getReview({ course: _id });
-
-  console.log("review", review);
+  let review = null;
+  try {
+    const reviewData = await getReview({ course: _id });
+    if (reviewData) review = reviewData;
+  } catch (error) {
+    console.error("Failed to fetch review:", error);
+  }
 
   return (
     <Card
@@ -30,8 +34,6 @@ export default async function CourseCard({ course }) {
             loading="lazy"
             sizes={"100vw"}
           />
-
-          {/* Play Icon */}
           <div
             className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100"
             aria-hidden="true"
@@ -40,17 +42,14 @@ export default async function CourseCard({ course }) {
           </div>
         </CardHeader>
       </Link>
-
-      {/* Course Content */}
       <CardContent className={`flex w-full flex-col`}>
         <CardTitle className="text-lg font-semibold">{title}</CardTitle>
         <p>{instructor?.name}</p>
         <div className="mt-1">
           <Progress value={progress || 0} className="mt-2 h-[2px]" />
-
           <div className="mt-2.5 flex items-center justify-between text-sm">
             <p>{progress || 0}% Complete</p>
-            <RatingModal course={_id} />
+            <ReviewModal course={_id} review={review} />
           </div>
         </div>
       </CardContent>

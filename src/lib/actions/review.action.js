@@ -2,10 +2,11 @@
 
 import Review from "@/models/Review";
 import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
 
-export async function saveReview({ reviewData, path }) {
+export async function saveReview({ reviewData }) {
   try {
     await dbConnect();
 
@@ -26,7 +27,7 @@ export async function saveReview({ reviewData, path }) {
 
     await newCourse.save();
 
-    // revalidatePath(path);
+    revalidatePath("/student/course");
     return JSON.parse(JSON.stringify(newCourse));
   } catch (error) {
     console.error("Error creating course:", error);
@@ -47,10 +48,13 @@ export async function getReview({ course }) {
       throw new Error("User not authenticated");
     }
 
-    const review = await Review.findOne({
-      student: objectId(userId),
-      course: objectId(course),
-    });
+    const review = await Review.findOne(
+      {
+        student: objectId(userId),
+        course: objectId(course),
+      },
+      { review: 1, rating: 1, _id: 0 },
+    );
 
     return JSON.parse(JSON.stringify(review));
   } catch (error) {
@@ -93,7 +97,7 @@ export async function updateReview({ rating, review, course }) {
       };
     }
 
-    // revalidatePath(path);
+    revalidatePath("/student/course");
 
     return {
       success: true,
