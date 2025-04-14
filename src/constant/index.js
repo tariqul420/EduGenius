@@ -89,10 +89,6 @@ export const admins = [
     url: "/admin/students",
     icon: "UsersRound",
   },
-  {
-    title: "Certificates",
-    url: "/admin/certificates",
-    icon: "Medal",
-  },
+ 
 
 ];

@@ -141,7 +141,7 @@ const columns = [
   },
   {
     accessorKey: "contact",
-    header: "Contact",
+    header: "Contact Number",
     cell: ({ row }) => <div>{row.getValue("contact")}</div>,
   },
   {
