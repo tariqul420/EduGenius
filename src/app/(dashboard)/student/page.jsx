@@ -1,7 +1,7 @@
-import ApplyInstructorForm from "@/components/dashboard/student/ApplyInstructorForm";
 import CertificateTable from "@/components/dashboard/student/CertificateTable";
 import StudentDashboard from "@/components/StudentDashboard";
 import { getCertificateByStudent } from "@/lib/actions/certificate.action";
+import { getStudentDashboardStats } from "@/lib/actions/stats.action";
 import { auth } from "@clerk/nextjs/server";
 
 export default async function StudentHome({ searchParams }) {
@@ -13,10 +13,11 @@ export default async function StudentHome({ searchParams }) {
     limit: 6,
   });
 
+  const stats = await getStudentDashboardStats();
+
   return (
-    <section className="min-h-screen grid grid-cols-4 gap-4 py-8">
-     
-     <div className="container lg:col-span-2 col-span-4  mx-auto px-4 md:px-6 lg:px-8">
+    <section className="min-h-screen py-8">
+      <div className="@container/main mx-auto px-4 md:px-6 lg:px-8">
         {/* Page Header */}
         <div className="mb-8">
           <h1 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-gray-100">
@@ -26,9 +27,9 @@ export default async function StudentHome({ searchParams }) {
             View and manage your certificates
           </p>
         </div>
-      
+
         {/* Stats Cards */}
-        <StudentDashboard />
+        <StudentDashboard stats={stats} />
 
         {/* Certificates Section */}
         <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-100">
@@ -36,10 +37,6 @@ export default async function StudentHome({ searchParams }) {
         </h2>
         <CertificateTable certificates={certificates} />
       </div>
-      <div className="lg:col-span-2 col-span-4">
-        <ApplyInstructorForm></ApplyInstructorForm>
-      
-     </div>
     </section>
   );
 }
