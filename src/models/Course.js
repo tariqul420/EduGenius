@@ -8,7 +8,7 @@ import Module from "./Module";
 import Payment from "./Payment";
 import Progress from "./Progress";
 import Quiz from "./Quiz";
-import Rating from "./Rating";
+import Rating from "./Review";
 import Student from "./Student";
 
 const courseSchema = new mongoose.Schema(

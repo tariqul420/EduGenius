@@ -1,12 +1,17 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { getReview } from "@/lib/actions/review.action";
 import { Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { RatingModal } from "./RatingModal";
 
-export default function CourseCard({ course }) {
+export default async function CourseCard({ course }) {
   const { thumbnail, title, instructor, progress, _id } = course || {};
+
+  const review = await getReview({ course: _id });
+
+  console.log("review", review);
 
   return (
     <Card
