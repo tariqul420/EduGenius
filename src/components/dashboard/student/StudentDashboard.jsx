@@ -5,7 +5,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-const StudentDashboard = ({ stats }) => {
+const DashboardStats = ({ stats }) => {
   const { course, assignment, quiz, certificate } = stats || {};
 
   return (
@@ -48,4 +48,4 @@ const StudentDashboard = ({ stats }) => {
   );
 };
 
-export default StudentDashboard;
+export default DashboardStats;

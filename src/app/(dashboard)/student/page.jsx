@@ -1,5 +1,5 @@
 import CertificateTable from "@/components/dashboard/student/CertificateTable";
-import StudentDashboard from "@/components/StudentDashboard";
+import StudentDashboard from "@/components/dashboard/student/StudentDashboard";
 import { getCertificateByStudent } from "@/lib/actions/certificate.action";
 import { getStudentDashboardStats } from "@/lib/actions/stats.action";
 import { auth } from "@clerk/nextjs/server";
