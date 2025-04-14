@@ -7,8 +7,8 @@ import User from "./User";
 const paymentSchema = new mongoose.Schema(
   {
     transactionId: { type: String, required: true, unique: true },
-    course: { type: mongoose.Schema.Types.ObjectId, ref: Course },
-    student: { type: mongoose.Schema.Types.ObjectId, ref: User },
+    course: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
+    student: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true },
 );
