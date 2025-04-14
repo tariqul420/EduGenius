@@ -84,9 +84,8 @@ export default async function StudentHome({ searchParams }) {
         </h2>
         <AssignmentTable
           assignment={assignment}
-          pageSize={2}
-          pageIndex={1}
           total={assignment.length}
+          hasNextPage={false}
         />
       </div>
     </section>

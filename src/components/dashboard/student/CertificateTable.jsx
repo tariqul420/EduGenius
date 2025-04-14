@@ -78,39 +78,33 @@ export default function CertificateTable({
 
   return (
     <section>
-      <div className="dark:bg-dark-bg rounded-lg bg-white shadow">
-        <Table aria-label="Certificates table">
-          <TableHeader>
+      <div className="overflow-hidden rounded-lg border">
+        <Table>
+          <TableHeader className="bg-muted sticky top-0 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
                     className={`font-semibold text-gray-900 dark:text-gray-200 ${
-                      header.column.columnDef.accessorKey === "createdAt" &&
-                      "text-center"
-                    } ${
-                      header.column.columnDef.accessorKey === "action" &&
-                      "text-right"
+                      header.id === "action" && "text-right"
                     }`}
                   >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext(),
+                    )}
                   </TableHead>
                 ))}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
-            {certificates.length > 0 ? (
+            {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className="dark:bg-dark-bg rounded-t-lg border-b bg-gray-100"
+                  className="dark:bg-dark-bg border-b bg-gray-100"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -126,7 +120,7 @@ export default function CertificateTable({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="py-10 text-center"
+                  className="h-24 text-center"
                 >
                   No certificates found.
                 </TableCell>
@@ -135,10 +129,8 @@ export default function CertificateTable({
           </TableBody>
         </Table>
       </div>
-
-      {/* Pagination */}
-      {total > 0 && (
-        <PagePagination total={total} limit={6} hasNextPage={hasNextPage} />
+      {certificates.length > 0 && (
+        <PagePagination total={total} limit={10} hasNextPage={hasNextPage} />
       )}
     </section>
   );

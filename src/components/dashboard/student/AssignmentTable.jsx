@@ -1,5 +1,6 @@
 "use client";
 
+import { PagePagination } from "@/components/shared/PagePagination";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,16 +11,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formUrlQuery } from "@/lib/utils";
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import {
   flexRender,
   getCoreRowModel,
-  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useRouter, useSearchParams } from "next/navigation";
-import * as React from "react";
 
 // Columns Definition
 const columns = [
@@ -90,33 +86,19 @@ const columns = [
 // Main Component
 export default function AssignmentTable({
   assignment = [],
-  pageSize = 10,
-  pageIndex = 1,
   total = 0,
+  hasNextPage,
 }) {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
-  const [pagination, setPagination] = React.useState({
-    pageIndex: pageIndex - 1,
-    pageSize: pageSize,
-  });
-
   const table = useReactTable({
     data: assignment,
     columns,
-    state: { pagination },
-    onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    manualPagination: true,
-    pageCount: Math.ceil(total / pageSize),
   });
 
   return (
-    <section className="flex w-full flex-col gap-6 px-4 lg:px-6">
+    <section>
       <div className="overflow-hidden rounded-lg border">
-        <Table aria-label="Assignments table">
+        <Table>
           <TableHeader className="bg-muted sticky top-0 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -166,53 +148,7 @@ export default function AssignmentTable({
           </TableBody>
         </Table>
       </div>
-      {total > 0 && (
-        <div className="flex items-center justify-between">
-          <div className="flex w-fit items-center justify-center text-sm font-medium">
-            Page {pageIndex} of {Math.ceil(total / pageSize)}
-          </div>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              className="size-8"
-              size="icon"
-              onClick={() => {
-                const newPageIndex = pageIndex - 1;
-                const newUrl = formUrlQuery({
-                  params: searchParams.toString(),
-                  key: "pageIndex",
-                  value: newPageIndex.toString(),
-                });
-                table.previousPage();
-                router.push(newUrl, { scroll: false });
-              }}
-              disabled={!table.getCanPreviousPage()}
-            >
-              <span className="sr-only">Go to previous page</span>
-              <IconChevronLeft />
-            </Button>
-            <Button
-              variant="outline"
-              className="size-8"
-              size="icon"
-              onClick={() => {
-                const newPageIndex = pageIndex + 1;
-                const newUrl = formUrlQuery({
-                  params: searchParams.toString(),
-                  key: "pageIndex",
-                  value: newPageIndex.toString(),
-                });
-                table.nextPage();
-                router.push(newUrl, { scroll: false });
-              }}
-              disabled={!table.getCanNextPage()}
-            >
-              <span className="sr-only">Go to next page</span>
-              <IconChevronRight />
-            </Button>
-          </div>
-        </div>
-      )}
+      <PagePagination total={total} limit={10} hasNextPage={hasNextPage} />
     </section>
   );
 }
