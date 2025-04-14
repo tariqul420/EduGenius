@@ -20,6 +20,46 @@ export default async function StudentHome({ searchParams }) {
       mark: 50,
       status: "not submit",
     },
+    {
+      id: 1,
+      title: "Web Developer",
+      startDate: "30 Dec",
+      dateLine: "5 Jan",
+      mark: 50,
+      status: "not submit",
+    },
+    {
+      id: 1,
+      title: "Web Developer",
+      startDate: "30 Dec",
+      dateLine: "5 Jan",
+      mark: 50,
+      status: "not submit",
+    },
+    {
+      id: 1,
+      title: "Web Developer",
+      startDate: "30 Dec",
+      dateLine: "5 Jan",
+      mark: 50,
+      status: "not submit",
+    },
+    {
+      id: 1,
+      title: "Web Developer",
+      startDate: "30 Dec",
+      dateLine: "5 Jan",
+      mark: 50,
+      status: "not submit",
+    },
+    {
+      id: 1,
+      title: "Web Developer",
+      startDate: "30 Dec",
+      dateLine: "5 Jan",
+      mark: 50,
+      status: "not submit",
+    },
   ];
 
   return (
@@ -42,7 +82,12 @@ export default async function StudentHome({ searchParams }) {
         <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-100">
           My Assignment
         </h2>
-        <AssignmentTable assignment={assignment} />
+        <AssignmentTable
+          assignment={assignment}
+          pageSize={2}
+          pageIndex={1}
+          total={assignment.length}
+        />
       </div>
     </section>
   );
