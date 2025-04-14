@@ -161,19 +161,20 @@ courseSchema.post("findOneAndDelete", async function (doc) {
       );
     }
 
-    // Remove the course from all students' enrolled courses
+    // Remove the course from all students' courses array
     try {
       await Student.updateMany(
         { courses: doc._id },
         { $pull: { courses: doc._id } },
       );
-      console.log("Removed course from students' enrolled courses");
+      console.log("Removed course from students' courses array");
     } catch (error) {
       console.error(
-        "Error removing course from students' enrolled courses:",
+        "Error removing course from students' courses array:",
         error,
       );
     }
+
     // Delete lessons associated with the course
     try {
       await Lesson.deleteMany({ course: doc._id });
