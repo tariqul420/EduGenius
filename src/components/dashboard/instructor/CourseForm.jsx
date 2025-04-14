@@ -77,7 +77,9 @@ export default function CourseForm({ course }) {
       title: course?.title || "",
       description: course?.description || "",
       category: course?.category?._id || "",
-      thumbnail: course?.thumbnail || "",
+      thumbnail:
+        course?.thumbnail ||
+        "https://res.cloudinary.com/dbjlihrjj/image/upload/v1744612722/zwu9nokdh0zlwwjrvpa8.jpg",
       language: course?.language || "",
       level: course?.level || "Beginner",
       discount: course?.discount ?? "",
