@@ -69,7 +69,7 @@ export const admins = [
     icon: "LayoutDashboard",
   },
   {
-    title: "Courses",
+    title: "Course List",
     url: "/admin/courses",
     icon: "BookText",
   },
@@ -78,11 +78,7 @@ export const admins = [
     url: "/admin/instructors",
     icon: "UsersRound",
   },
-  {
-    title: "Course List",
-    url: "/admin/courseList",
-    icon: "UsersRound",
-  },
+
   {
     title: "Category",
     url: "/admin/category",
