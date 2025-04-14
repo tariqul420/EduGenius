@@ -22,7 +22,7 @@ export default async function Courses({ searchParams }) {
     <section className="py-6">
       <div className="@container/main flex flex-1 flex-col gap-2">
         <DataTable
-          pageIndex={Number(pageIndex || "0")}
+          pageIndex={Number(pageIndex || "1")}
           pageSize={Number(pageSize || "10")}
           total={result?.total || 0}
           data={courses || []}

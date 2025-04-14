@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-import Course from "./Course";
-import User from "./User";
 
 const certificateSchema = new mongoose.Schema(
   {
@@ -9,8 +7,8 @@ const certificateSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    student: { type: mongoose.Schema.Types.ObjectId, ref: User },
-    course: { type: mongoose.Schema.Types.ObjectId, ref: Course },
+    student: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    course: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
   },
   { timestamps: true },
 );
