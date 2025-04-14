@@ -1,6 +1,15 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
+import Assignment from "./Assignment";
+import Certificate from "./Certificate";
 import Instructor from "./Instructor";
+import Lesson from "./Lesson";
+import Module from "./Module";
+import Payment from "./Payment";
+import Progress from "./Progress";
+import Quiz from "./Quiz";
+import Rating from "./Rating";
+import Student from "./Student";
 
 const courseSchema = new mongoose.Schema(
   {
@@ -74,6 +83,137 @@ courseSchema.post("save", async function (doc) {
     { $addToSet: { courses: doc._id } }, // Use $addToSet to avoid duplicates
     { upsert: true }, // Create the document if it doesn't exist
   );
+});
+
+// Post middleware trigger when findOneAndDelete to update and delete related documents
+courseSchema.post("findOneAndDelete", async function (doc) {
+  try {
+    if (!doc) {
+      console.error("No document found to delete.");
+      return;
+    }
+
+    console.log("Post-findOneAndDelete middleware triggered");
+    console.log("Deleted Course ID:", doc._id);
+
+    // Remove the course from the instructor's courses array
+    try {
+      await Instructor.findOneAndUpdate(
+        { courses: doc._id },
+        { $pull: { courses: doc._id } },
+      );
+      console.log("Removed course from instructor's courses array");
+    } catch (error) {
+      console.error(
+        "Error removing course from instructor's courses array:",
+        error,
+      );
+    }
+
+    // Remove the course from all students' enrolled courses
+    try {
+      await Student.updateMany(
+        { courses: doc._id },
+        { $pull: { courses: doc._id } },
+      );
+      console.log("Removed course from students' enrolled courses");
+    } catch (error) {
+      console.error(
+        "Error removing course from students' enrolled courses:",
+        error,
+      );
+    }
+
+    // Delete lessons associated with the course
+    try {
+      await Lesson.deleteMany({ course: doc._id });
+      console.log("Deleted lessons associated with the course");
+    } catch (error) {
+      console.error(
+        "Error deleting lessons associated with the course:",
+        error,
+      );
+    }
+
+    // Delete modules associated with the course
+    try {
+      await Module.deleteMany({ course: doc._id });
+      console.log("Deleted modules associated with the course");
+    } catch (error) {
+      console.error(
+        "Error deleting modules associated with the course:",
+        error,
+      );
+    }
+
+    // Delete payments associated with the course
+    try {
+      await Payment.deleteMany({ course: doc._id });
+      console.log("Deleted payments associated with the course");
+    } catch (error) {
+      console.error(
+        "Error deleting payments associated with the course:",
+        error,
+      );
+    }
+
+    // Delete progress associated with the course
+    try {
+      await Progress.deleteMany({ course: doc._id });
+      console.log("Deleted progress associated with the course");
+    } catch (error) {
+      console.error(
+        "Error deleting progress associated with the course:",
+        error,
+      );
+    }
+
+    // Delete ratings associated with the course
+    try {
+      await Rating.deleteMany({ course: doc._id });
+      console.log("Deleted ratings associated with the course");
+    } catch (error) {
+      console.error(
+        "Error deleting ratings associated with the course:",
+        error,
+      );
+    }
+
+    // Delete certificates associated with the course
+    try {
+      await Certificate.deleteMany({ course: doc._id });
+      console.log("Deleted certificates associated with the course");
+    } catch (error) {
+      console.error(
+        "Error deleting certificates associated with the course:",
+        error,
+      );
+    }
+
+    // Delete quizzes associated with the course
+    try {
+      await Quiz.deleteMany({ course: doc._id });
+      console.log("Deleted quizzes associated with the course");
+    } catch (error) {
+      console.error(
+        "Error deleting quizzes associated with the course:",
+        error,
+      );
+    }
+
+    // Delete assignments associated with the course
+    try {
+      await Assignment.deleteMany({ course: doc._id });
+      console.log("Deleted assignments associated with the course");
+    } catch (error) {
+      console.error(
+        "Error deleting assignments associated with the course:",
+        error,
+      );
+    }
+  } catch (error) {
+    console.error("Error in post-findOneAndDelete middleware:", error);
+  }
 });
 
 export default mongoose.models?.Course ||

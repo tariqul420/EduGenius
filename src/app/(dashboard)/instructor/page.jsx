@@ -35,7 +35,7 @@ export default async function Home({ searchParams }) {
               <ChartAreaInteractive data={data} />
             </div>
             <DataTable
-              pageIndex={Number(pageIndex || "0")}
+              pageIndex={Number(pageIndex || "1")}
               pageSize={Number(pageSize || "10")}
               total={result?.total || 0}
               data={courses || []}

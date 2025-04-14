@@ -227,7 +227,7 @@ export function DataTable({ data: initialData, pageSize, pageIndex, total }) {
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [sorting, setSorting] = React.useState([]);
   const [pagination, setPagination] = React.useState({
-    pageIndex: pageIndex,
+    pageIndex: pageIndex ? pageIndex - 1 : 0,
     pageSize: pageSize,
   });
   const sortableId = React.useId();
@@ -449,9 +449,9 @@ export function DataTable({ data: initialData, pageSize, pageIndex, total }) {
                     value: 1,
                   });
                   router.push(newUrl, { scroll: false });
-                  () => table.setPageIndex(0);
+                  () => table.setPageIndex(1);
                 }}
-                disabled={pageIndex === 1}
+                disabled={!table.getCanPreviousPage()}
               >
                 <span className="sr-only">Go to first page</span>
                 <IconChevronsLeft />
@@ -466,12 +466,12 @@ export function DataTable({ data: initialData, pageSize, pageIndex, total }) {
                   newUrl = formUrlQuery({
                     params: searchParams.toString(),
                     key: "pageIndex",
-                    value: pageIndex - 1,
+                    value: pageIndex--,
                   });
                   table.previousPage();
                   router.push(newUrl, { scroll: false });
                 }}
-                disabled={pageIndex === 1}
+                disabled={!table.getCanPreviousPage()}
               >
                 <span className="sr-only">Go to previous page</span>
                 <IconChevronLeft />
@@ -485,12 +485,12 @@ export function DataTable({ data: initialData, pageSize, pageIndex, total }) {
                   newUrl = formUrlQuery({
                     params: searchParams.toString(),
                     key: "pageIndex",
-                    value: pageIndex + 1,
+                    value: pageIndex++,
                   });
                   () => table.nextPage();
                   router.push(newUrl, { scroll: false });
                 }}
-                disabled={pageIndex === Math.ceil(total / pageSize)}
+                disabled={!table.getCanNextPage()}
               >
                 <span className="sr-only">Go to next page</span>
                 <IconChevronRight />
@@ -504,12 +504,12 @@ export function DataTable({ data: initialData, pageSize, pageIndex, total }) {
                   newUrl = formUrlQuery({
                     params: searchParams.toString(),
                     key: "pageIndex",
-                    value: Math.ceil(total / pageSize),
+                    value: table.getPageCount(),
                   });
-                  table.setPageIndex(table.getPageCount() - 1);
+                  table.setPageIndex(table.getPageCount());
                   router.push(newUrl, { scroll: false });
                 }}
-                disabled={pageIndex === Math.ceil(total / pageSize)}
+                disabled={!table.getCanNextPage()}
               >
                 <span className="sr-only">Go to last page</span>
                 <IconChevronsRight />
