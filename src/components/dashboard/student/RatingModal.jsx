@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { saveRating } from "@/lib/actions/rating.action";
+import { saveReview } from "@/lib/actions/review.action";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, MessagesSquare } from "lucide-react";
 import { useState } from "react";
@@ -72,7 +72,7 @@ export function RatingModal({ course }) {
 
     // console.log(ratingData);
 
-    await saveRating({ reviewData: ratingData });
+    await saveReview({ reviewData: ratingData });
     form.reset();
     setRating(0);
     setHoverRating(0);
@@ -112,7 +112,10 @@ export function RatingModal({ course }) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <button className="border-green bg-main hover:bg-dark-main hover:text-medium-bg flex cursor-pointer items-center gap-2 rounded border px-3 py-1.5 text-white duration-200"><MessagesSquare size={18} />Feedback</button>
+        <button className="border-green bg-main hover:bg-dark-main hover:text-medium-bg flex cursor-pointer items-center gap-2 rounded border px-3 py-1.5 text-white duration-200">
+          <MessagesSquare size={18} />
+          Feedback
+        </button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -165,7 +168,7 @@ export function RatingModal({ course }) {
               <Button
                 type="submit"
                 disabled={form.formState.isSubmitting || rating === 0}
-                className="dark:bg-dark-bg rounded w-full cursor-pointer text-white sm:w-auto"
+                className="dark:bg-dark-bg w-full cursor-pointer rounded text-white sm:w-auto"
               >
                 {form.formState.isSubmitting ? (
                   <>

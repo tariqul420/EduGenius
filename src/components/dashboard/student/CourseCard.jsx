@@ -10,7 +10,7 @@ export default function CourseCard({ course }) {
 
   return (
     <Card
-      className={`group dark:border-t-[3px] dark:border-b-0 dark:bg-dark-bg rounded-md border shadow-md transition-all duration-300 hover:-translate-y-2`}
+      className={`group dark:bg-dark-bg rounded-md border shadow-md transition-all duration-300 hover:-translate-y-2 dark:border-t-[3px] dark:border-b-0`}
     >
       <Link href={"#"}>
         <CardHeader className={`relative w-full rounded-lg`}>
@@ -20,7 +20,7 @@ export default function CourseCard({ course }) {
             width={400}
             height={200}
             blurDataURL={thumbnail}
-            className={`h-full w-full border min-h-[170px] rounded-md object-cover`}
+            className={`h-full min-h-[170px] w-full rounded-md border object-cover`}
             placeholder="blur"
             loading="lazy"
             sizes={"100vw"}

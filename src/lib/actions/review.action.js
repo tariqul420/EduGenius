@@ -4,7 +4,7 @@ import Rating from "@/models/Rating";
 import { auth } from "@clerk/nextjs/server";
 import dbConnect from "../dbConnect";
 
-export async function saveRating({ reviewData, path }) {
+export async function saveReview({ reviewData, path }) {
   try {
     await dbConnect();
 
