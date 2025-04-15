@@ -25,12 +25,9 @@ export default async function Home({ searchParams }) {
     sort: "top-rated",
   });
 
-  const bestInstructorsResult = await getInstructors({
-    role: "instructor",
-    limit: 5,
+  const { instructors: bestInstructors = [] } = await getInstructors({
+    limit: 6,
   });
-
-  const bestInstructors = bestInstructorsResult?.users || [];
 
   const categories = await getCategory();
 

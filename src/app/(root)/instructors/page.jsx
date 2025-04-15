@@ -6,22 +6,18 @@ import { getInstructors } from "@/lib/actions/instructor.action";
 export default async function Instructors({ searchParams }) {
   const { page } = await searchParams;
 
-  // Fetch instructors for the current page
-  const instructorsResult = await getInstructors({
-    role: "instructor",
+  const {
+    instructors = [],
+    total = 0,
+    hasNextPage = false,
+  } = await getInstructors({
     page: Number(page) || 1,
     limit: 6,
   });
-  const instructors = instructorsResult?.users || [];
-  const total = instructorsResult?.total || 0;
-  const hasNextPage = instructorsResult?.hasNextPage || false;
 
-  const bestInstructorsResult = await getInstructors({
-    role: "instructor",
-    limit: 5,
+  const { instructors: bestInstructors = [] } = await getInstructors({
+    limit: 6,
   });
-
-  const bestInstructors = bestInstructorsResult?.users || [];
 
   return (
     <>

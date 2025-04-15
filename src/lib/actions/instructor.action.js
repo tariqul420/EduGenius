@@ -7,15 +7,21 @@ import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
 
-export async function getInstructors({ role, page = 1, limit = 5 }) {
+export async function getInstructors({ page = 1, limit = 5 }) {
   try {
     await dbConnect();
-    const users = await User.find({ role }).limit(limit * page);
-    const total = await User.countDocuments({ role });
+    const instructors = await Instructor.find(
+      {},
+      { _id: 0, instructorId: 1, social: 1 },
+    )
+      .populate("instructorId", "profilePicture firstName lastName slug")
+      .limit(limit * page)
+      .lean();
+    const total = await Instructor.estimatedDocumentCount();
     const hasNextPage = total > limit * page;
 
     return {
-      users: JSON.parse(JSON.stringify(users)),
+      instructors: JSON.parse(JSON.stringify(instructors)),
       total,
       hasNextPage,
     };

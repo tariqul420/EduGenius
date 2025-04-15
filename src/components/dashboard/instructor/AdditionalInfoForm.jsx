@@ -274,7 +274,7 @@ export default function AdditionalInfoForm() {
 
             <Button
               type="submit"
-              className="w-full"
+              className="w-full cursor-pointer"
               disabled={form.formState.isSubmitting}
             >
               Save Information
