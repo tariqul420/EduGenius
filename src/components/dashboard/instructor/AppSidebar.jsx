@@ -13,6 +13,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { SignedIn, UserButton } from "@clerk/nextjs";
+import { IconInfoCircleFilled } from "@tabler/icons-react";
 import {
   Award,
   BookOpenCheck,
@@ -27,6 +28,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense } from "react";
+import AdditionalInfoForm from "./AdditionalInfoForm";
 
 // Map of icon names to their corresponding components
 const iconMap = {
@@ -40,7 +42,7 @@ const iconMap = {
   Award: Award,
 };
 
-export function AppSidebar({ menu = [] }) {
+export function AppSidebar({ role, menu = [] }) {
   const pathname = usePathname();
 
   // Function to determine if a menu item is active
@@ -59,7 +61,9 @@ export function AppSidebar({ menu = [] }) {
       <SidebarHeader className="bg-light-bg dark:bg-dark-bg">
         <Link href="/" className="flex items-center gap-2 text-3xl">
           <GraduationCap size={26} className="text-main" />
-          <h2 className="text-2xl font-semibold">Edu<span className="text-main">Genius</span></h2>
+          <h2 className="text-2xl font-semibold">
+            Edu<span className="text-main">Genius</span>
+          </h2>
         </Link>
       </SidebarHeader>
       <SidebarContent className="bg-light-bg dark:bg-dark-bg">
@@ -98,12 +102,26 @@ export function AppSidebar({ menu = [] }) {
           >
             <UserButton
               showName={true}
+              // userProfileMode="navigation"
+              // userProfileUrl="/user-profile"
               appearance={{
                 elements: {
                   userButtonBox: "flex !flex-row-reverse items-center gap-2",
                 },
               }}
-            />
+            >
+              <UserButton.UserProfilePage
+                url="/user-additional-info"
+                label="Additional info"
+                labelIcon={<IconInfoCircleFilled size={16} />}
+                alongside={true}
+              >
+                {role === "instructor" && <AdditionalInfoForm />}
+                {role === "student" && (
+                  <div>make it student info form here</div>
+                )}
+              </UserButton.UserProfilePage>
+            </UserButton>
           </Suspense>
         </SignedIn>
       </SidebarFooter>
