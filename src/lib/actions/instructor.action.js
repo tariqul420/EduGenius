@@ -33,7 +33,20 @@ export async function getInstructors({ page = 1, limit = 5 }) {
 export async function getInstructorBySlug(slug) {
   try {
     await dbConnect();
-    return JSON.parse(JSON.stringify(await User.findOne({ slug })));
+
+    const id = await User.findOne({ slug });
+
+    const instructor = await Instructor.findOne({
+      instructorId: id?._id,
+    })
+      .populate(
+        "instructorId",
+        "profilePicture firstName lastName address phone email",
+      )
+      .populate("students")
+      .populate("courses");
+
+    return JSON.parse(JSON.stringify(instructor));
   } catch (error) {
     console.error("Error getting instructor by slug:", error);
   }
