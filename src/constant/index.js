@@ -9,25 +9,21 @@ export const instructor = [
     url: "/instructor/courses",
     icon: "BookText",
   },
-
   {
     title: "Students",
     url: "/instructor/students",
     icon: "UsersRound",
   },
-
   {
     title: "My Blogs",
     url: "/instructor/my-blogs",
     icon: "BookOpenText",
   },
-
   {
     title: "Quiz",
     url: "/instructor/quiz",
     icon: "ListTodo",
   },
-
   {
     title: "Assignment",
     url: "/instructor/assignment",
