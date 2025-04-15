@@ -2,7 +2,7 @@ import { AppSidebar } from "@/components/dashboard/instructor/AppSidebar";
 import Notification from "@/components/shared/Notification";
 import ThemeBtn from "@/components/shared/ThemeBtn";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { admins, instructors, students } from "@/constant";
+import { sidebar } from "@/constant";
 import { auth } from "@clerk/nextjs/server";
 
 export const metadata = {
@@ -16,11 +16,7 @@ export default async function Layout({ children }) {
 
   return (
     <SidebarProvider>
-      {role === "instructor" && (
-        <AppSidebar variant="inset" menu={instructors} />
-      )}
-      {role === "student" && <AppSidebar variant="inset" menu={students} />}
-      {role === "admin" && <AppSidebar variant="inset" menu={admins} />}
+      <AppSidebar role={role} variant="inset" menu={sidebar[role]} />
       <main className="flex-1">
         <nav className="dark:from-dark-bg dark:to-dark-bg sticky top-0 z-[20] flex w-full items-center justify-between gap-4 bg-gradient-to-r from-white to-white px-4 py-3 text-black shadow-sm dark:text-white">
           <SidebarTrigger className="cursor-pointer" />

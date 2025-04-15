@@ -42,7 +42,7 @@ const iconMap = {
   Award: Award,
 };
 
-export function AppSidebar({ menu = [] }) {
+export function AppSidebar({ role, menu = [] }) {
   const pathname = usePathname();
 
   // Function to determine if a menu item is active
@@ -116,7 +116,10 @@ export function AppSidebar({ menu = [] }) {
                 labelIcon={<IconInfoCircleFilled size={16} />}
                 alongside={true}
               >
-                <AdditionalInfoForm />
+                {role === "instructor" && <AdditionalInfoForm />}
+                {role === "student" && (
+                  <div>make it student info form here</div>
+                )}
               </UserButton.UserProfilePage>
             </UserButton>
           </Suspense>

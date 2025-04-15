@@ -1,4 +1,4 @@
-export const instructors = [
+export const instructor = [
   {
     title: "Dashboard",
     url: "/instructor",
@@ -34,7 +34,7 @@ export const instructors = [
   // },
 ];
 
-export const students = [
+export const student = [
   {
     title: "Dashboard",
     url: "/student",
@@ -62,7 +62,7 @@ export const students = [
   },
 ];
 
-export const admins = [
+export const admin = [
   {
     title: "Dashboard",
     url: "/admin",
@@ -89,6 +89,10 @@ export const admins = [
     url: "/admin/students",
     icon: "UsersRound",
   },
- 
-
 ];
+
+export const sidebar = {
+  instructor,
+  student,
+  admin,
+};
