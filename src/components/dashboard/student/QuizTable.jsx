@@ -1,6 +1,8 @@
 "use client";
 
 import { PagePagination } from "@/components/shared/PagePagination";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -8,74 +10,97 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"; // ShadCN table components
-import { PDFDownloadLink } from "@react-pdf/renderer";
+} from "@/components/ui/table";
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { format } from "date-fns";
-import { useMemo } from "react";
-import CertificatePDF from "./CertificatePDF";
 
-export default function CertificateTable({
-  certificates = [],
-  hasNextPage = false,
+// Columns Definition
+const columns = [
+  {
+    accessorKey: "title",
+    header: "Title",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original.title}
+      </h1>
+    ),
+  },
+  {
+    accessorKey: "course",
+    header: "Course",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.course}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "startDate",
+    header: "Created At",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.startDate}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "totalQuiz",
+    header: "Total Quiz",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.totalQuiz}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "totalMark",
+    header: "Total Mark",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.totalQuiz}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "yourMark",
+    header: "Your Mark",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.yourMark}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.status}
+      </Badge>
+    ),
+  },
+  {
+    id: "action",
+    header: "Action",
+    cell: ({ row }) => (
+      <div className="flex justify-end">
+        <Button variant="default">Enroll</Button>
+      </div>
+    ),
+  },
+];
+
+// Main Component
+export default function QuizTable({
+  quiz = [],
   total = 0,
+  hasNextPage = false,
 }) {
-  const columns = useMemo(
-    () => [
-      {
-        accessorKey: "course.title",
-        header: "Course",
-        cell: ({ row }) => (
-          <div className="max-w-xs truncate">
-            {row.original.course?.title || "N/A"}
-          </div>
-        ),
-      },
-      {
-        accessorKey: "createdAt",
-        header: "Issue Date",
-        cell: ({ row }) => {
-          const date = row.original.createdAt
-            ? format(new Date(row.original.createdAt), "MMMM dd, yyyy")
-            : "N/A";
-          return (
-            <Badge variant="outline" className="text-muted-foreground px-1.5">
-              {date}
-            </Badge>
-          );
-        },
-      },
-      {
-        accessorKey: "action",
-        header: "Action",
-        cell: ({ row }) => {
-          const formattedFileName =
-            (row.original.course?.title?.toLowerCase().replaceAll(" ", "-") ||
-              "certificate") + ".pdf";
-
-          return (
-            <div className="flex justify-end">
-              <PDFDownloadLink
-                document={<CertificatePDF certificateData={row.original} />}
-                fileName={formattedFileName}
-                className="bg-main rounded px-3 py-1 text-sm font-medium text-white"
-              >
-                {({ loading }) => (loading ? "Generating..." : "Download")}
-              </PDFDownloadLink>
-            </div>
-          );
-        },
-      },
-    ],
-    [],
-  );
-
   const table = useReactTable({
-    data: certificates,
+    data: quiz,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -126,14 +151,14 @@ export default function CertificateTable({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No certificates found.
+                  No quiz found.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      {certificates.length > 0 && (
+      {quiz?.length > 0 && (
         <PagePagination total={total} limit={10} hasNextPage={hasNextPage} />
       )}
     </div>

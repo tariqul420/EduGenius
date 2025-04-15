@@ -1,6 +1,7 @@
 "use client";
 
 import { PagePagination } from "@/components/shared/PagePagination";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -15,48 +16,89 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo } from "react";
 
+// Columns Definition
+const columns = [
+  {
+    accessorKey: "title",
+    header: "Title",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original.title}
+      </h1>
+    ),
+  },
+  {
+    accessorKey: "course",
+    header: "Course",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.course}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "startDate",
+    header: "Start Date",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.startDate}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "dateLine",
+    header: "Date Line",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.dateLine}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "mark",
+    header: "Mark",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.mark}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "yourMark",
+    header: "Your Mark",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.yourMark}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.status}
+      </Badge>
+    ),
+  },
+  {
+    id: "action",
+    header: "Action",
+    cell: ({ row }) => (
+      <div className="flex justify-end">
+        <Button variant="default">Enroll</Button>
+      </div>
+    ),
+  },
+];
+
+// Main Component
 export default function AssignmentTable({
   assignment = [],
-  hasNextPage = false,
   total = 0,
+  hasNextPage,
 }) {
-  const columns = useMemo(
-    () => [
-      {
-        accessorKey: "title",
-        header: "Title",
-      },
-      {
-        accessorKey: "startDate",
-        header: "Start Date",
-      },
-      {
-        accessorKey: "dateLine",
-        header: "Date Line",
-      },
-      {
-        accessorKey: "mark",
-        header: "Mark",
-      },
-      {
-        accessorKey: "status",
-        header: "Status",
-      },
-      {
-        accessorKey: "action",
-        header: "Action",
-        cell: ({ row }) => (
-          <div className="flex justify-end">
-            <Button variant="default">Enroll</Button>
-          </div>
-        ),
-      },
-    ],
-    [],
-  );
-
   const table = useReactTable({
     data: assignment,
     columns,
@@ -64,18 +106,17 @@ export default function AssignmentTable({
   });
 
   return (
-    <section>
-      <div className="dark:bg-dark-bg rounded-lg bg-white shadow">
-        <Table aria-label="Certificates table">
-          <TableHeader>
+    <div>
+      <div className="overflow-hidden rounded-lg border">
+        <Table>
+          <TableHeader className="bg-muted sticky top-0 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
                     className={`font-semibold text-gray-900 dark:text-gray-200 ${
-                      header.column.columnDef.accessorKey === "action" &&
-                      "text-right"
+                      header.id === "action" && "text-right"
                     }`}
                   >
                     {flexRender(
@@ -88,11 +129,11 @@ export default function AssignmentTable({
             ))}
           </TableHeader>
           <TableBody>
-            {assignment?.length > 0 ? (
+            {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className="dark:bg-dark-bg rounded-t-lg border-b bg-gray-100"
+                  className="dark:bg-dark-bg border-b bg-gray-100"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -108,20 +149,18 @@ export default function AssignmentTable({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="py-10 text-center"
+                  className="h-24 text-center"
                 >
-                  No certificates found.
+                  No assignments found.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-
-      {/* Pagination */}
-      {total > 0 && (
-        <PagePagination total={total} limit={6} hasNextPage={hasNextPage} />
+      {assignment?.length > 0 && (
+        <PagePagination total={total} limit={10} hasNextPage={hasNextPage} />
       )}
-    </section>
+    </div>
   );
 }

@@ -2,7 +2,7 @@ import AssignmentStats from "@/components/dashboard/student/AssignmentStats";
 import AssignmentTable from "@/components/dashboard/student/AssignmentTable";
 import { auth } from "@clerk/nextjs/server";
 
-export default async function StudentHome({ searchParams }) {
+export default async function StudentAssignment({ searchParams }) {
   const { sessionClaims } = await auth();
   const { page } = await searchParams;
   // const { certificates = [] } = await getCertificateByStudent({
@@ -15,9 +15,61 @@ export default async function StudentHome({ searchParams }) {
     {
       id: 1,
       title: "Web Developer",
+      course: "Complete Web Development",
       startDate: "30 Dec",
       dateLine: "5 Jan",
       mark: 50,
+      yourMark: 40,
+      status: "not submit",
+    },
+    {
+      id: 1,
+      title: "Web Developer",
+      course: "Complete Web Development",
+      startDate: "30 Dec",
+      dateLine: "5 Jan",
+      mark: 50,
+      yourMark: 40,
+      status: "not submit",
+    },
+    {
+      id: 1,
+      title: "Web Developer",
+      course: "Complete Web Development",
+      startDate: "30 Dec",
+      dateLine: "5 Jan",
+      mark: 50,
+      yourMark: 40,
+      status: "not submit",
+    },
+    {
+      id: 1,
+      title: "Web Developer",
+      course: "Complete Web Development",
+      startDate: "30 Dec",
+      dateLine: "5 Jan",
+      mark: 50,
+      yourMark: 40,
+      status: "not submit",
+    },
+    {
+      id: 1,
+      title: "Web Developer",
+      course: "Complete Web Development",
+      startDate: "30 Dec",
+      dateLine: "5 Jan",
+      mark: 50,
+      yourMark: 40,
+      status: "not submit",
+    },
+    {
+      id: 1,
+      title: "Web Developer",
+      course: "Complete Web Development",
+      startDate: "30 Dec",
+      dateLine: "5 Jan",
+      mark: 50,
+      yourMark: 40,
       status: "not submit",
     },
   ];
@@ -42,7 +94,11 @@ export default async function StudentHome({ searchParams }) {
         <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-100">
           My Assignment
         </h2>
-        <AssignmentTable assignment={assignment} />
+        <AssignmentTable
+          assignment={assignment}
+          total={assignment.length}
+          hasNextPage={false}
+        />
       </div>
     </section>
   );
