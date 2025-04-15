@@ -65,6 +65,7 @@ export async function updateQuiz({ quizId, data, path }) {
     throw new Error("Failed to update quiz");
   }
 }
+
 export async function deleteQuiz(quizId) {
   try {
     await dbConnect();
@@ -124,5 +125,62 @@ export async function getQuizById(courseId) {
   } catch (error) {
     console.error("Error fetching quiz:", error);
     throw new Error("Failed to fetch quiz");
+  }
+}
+
+export async function getQuizzesByCourseId({ page = 1, limit = 10 } = {}) {
+  try {
+    await dbConnect();
+
+    const { sessionClaims } = await auth();
+
+    const userId = sessionClaims?.userId;
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    // Get total count
+    const totalQuizzes = await Quiz.countDocuments({
+      instructor: objectId(userId),
+    });
+
+    // Calculate total pages
+    const totalPages = Math.ceil(totalQuizzes / limit);
+
+    // Get paginated quizzes
+    const quizzes = await Quiz.find({ instructor: objectId(userId) })
+      .populate({
+        path: "course",
+        select: "title students category",
+        populate: [
+          {
+            path: "students",
+            select: "students",
+          },
+          {
+            path: "category",
+            select: "name",
+          },
+        ],
+      })
+      .select("title")
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    return JSON.parse(
+      JSON.stringify({
+        quizzes,
+        pagination: {
+          currentPage: page,
+          totalPages,
+          totalItems: totalQuizzes,
+          hasNextPage: page < totalPages,
+          hasPrevPage: page > 1,
+        },
+      }),
+    );
+  } catch (error) {
+    console.error("Error fetching quizzes:", error);
+    throw new Error("Failed to fetch quizzes");
   }
 }

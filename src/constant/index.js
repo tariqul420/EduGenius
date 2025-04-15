@@ -22,15 +22,22 @@ export const instructor = [
     icon: "BookOpenText",
   },
 
+  {
+    title: "Quiz",
+    url: "/instructor/quiz",
+    icon: "BookOpenCheck",
+  },
+
+  // {
+  //   title: "Assignment",
+  //   url: "/instructor/assignment",
+  //   icon: "BookOpenCheck",
+  // },
+
   // {
   //   title: "Certificates",
   //   url: "/instructor/certificates",
   //   icon: "Medal",
-  // },
-  // {
-  //   title: "Quiz & Assignment",
-  //   url: "/instructor/quiz-assignment",
-  //   icon: "BookOpenCheck",
   // },
 ];
 

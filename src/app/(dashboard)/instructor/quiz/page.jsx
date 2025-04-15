@@ -1,0 +1,24 @@
+import QuizTable from "@/components/dashboard/instructor/QuizTable";
+import { getQuizzesByCourseId } from "@/lib/actions/quiz.action";
+
+export default async function Quiz({ searchParams }) {
+  const { pageSize, pageIndex } = await searchParams;
+
+  const { quizzes, pagination } = await getQuizzesByCourseId({
+    limit: Number(pageSize || 10),
+    page: Number(pageIndex || 1),
+  });
+
+  return (
+    <section>
+      <div className="@container/main flex flex-1 flex-col gap-2">
+        <QuizTable
+          pageIndex={Number(pageIndex || "1")}
+          pageSize={Number(pageSize || "10")}
+          total={pagination?.totalItems || 0}
+          data={quizzes || []}
+        />
+      </div>
+    </section>
+  );
+}
