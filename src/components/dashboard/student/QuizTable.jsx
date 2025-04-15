@@ -39,7 +39,7 @@ const columns = [
   },
   {
     accessorKey: "startDate",
-    header: "Start Date",
+    header: "Created At",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
         {row.original.startDate}
@@ -47,20 +47,20 @@ const columns = [
     ),
   },
   {
-    accessorKey: "dateLine",
-    header: "Date Line",
+    accessorKey: "totalQuiz",
+    header: "Total Quiz",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.dateLine}
+        {row.original.totalQuiz}
       </Badge>
     ),
   },
   {
-    accessorKey: "mark",
-    header: "Mark",
+    accessorKey: "totalMark",
+    header: "Total Mark",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.mark}
+        {row.original.totalQuiz}
       </Badge>
     ),
   },
@@ -94,13 +94,13 @@ const columns = [
 ];
 
 // Main Component
-export default function AssignmentTable({
-  assignment = [],
+export default function QuizTable({
+  quiz = [],
   total = 0,
-  hasNextPage,
+  hasNextPage = false,
 }) {
   const table = useReactTable({
-    data: assignment,
+    data: quiz,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -151,14 +151,14 @@ export default function AssignmentTable({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No assignments found.
+                  No quiz found.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      {assignment?.length > 0 && (
+      {quiz?.length > 0 && (
         <PagePagination total={total} limit={10} hasNextPage={hasNextPage} />
       )}
     </div>

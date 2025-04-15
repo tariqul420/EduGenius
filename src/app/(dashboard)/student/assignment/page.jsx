@@ -2,7 +2,7 @@ import AssignmentStats from "@/components/dashboard/student/AssignmentStats";
 import AssignmentTable from "@/components/dashboard/student/AssignmentTable";
 import { auth } from "@clerk/nextjs/server";
 
-export default async function StudentHome({ searchParams }) {
+export default async function StudentAssignment({ searchParams }) {
   const { sessionClaims } = await auth();
   const { page } = await searchParams;
   // const { certificates = [] } = await getCertificateByStudent({
@@ -19,6 +19,7 @@ export default async function StudentHome({ searchParams }) {
       startDate: "30 Dec",
       dateLine: "5 Jan",
       mark: 50,
+      yourMark: 40,
       status: "not submit",
     },
     {
@@ -28,6 +29,7 @@ export default async function StudentHome({ searchParams }) {
       startDate: "30 Dec",
       dateLine: "5 Jan",
       mark: 50,
+      yourMark: 40,
       status: "not submit",
     },
     {
@@ -37,6 +39,7 @@ export default async function StudentHome({ searchParams }) {
       startDate: "30 Dec",
       dateLine: "5 Jan",
       mark: 50,
+      yourMark: 40,
       status: "not submit",
     },
     {
@@ -46,6 +49,7 @@ export default async function StudentHome({ searchParams }) {
       startDate: "30 Dec",
       dateLine: "5 Jan",
       mark: 50,
+      yourMark: 40,
       status: "not submit",
     },
     {
@@ -55,6 +59,7 @@ export default async function StudentHome({ searchParams }) {
       startDate: "30 Dec",
       dateLine: "5 Jan",
       mark: 50,
+      yourMark: 40,
       status: "not submit",
     },
     {
@@ -64,6 +69,7 @@ export default async function StudentHome({ searchParams }) {
       startDate: "30 Dec",
       dateLine: "5 Jan",
       mark: 50,
+      yourMark: 40,
       status: "not submit",
     },
   ];
