@@ -11,8 +11,10 @@ import {
 import { Input } from "@/components/ui/input";
 import {
   addCourseCurriculum,
+  deleteCourseCurriculum,
   updateCourseCurriculum,
-} from "@/lib/actions/course.action";
+} from "@/lib/actions/curriculum.action";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Minus, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -37,6 +39,7 @@ const formSchema = z.object({
 });
 
 export default function ModuleForm({ curriculum, courseId, slug }) {
+  console.log(curriculum);
   const router = useRouter();
 
   // 1. Define your form.
@@ -60,7 +63,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
         updateCourseCurriculum({
           moduleId: curriculum._id,
           lessonIds: curriculum.lessons.map((lesson) => lesson._id),
-          data: values,
+          data: {...curriculum.lessons, ...values},
           path: `/instructor/courses/${slug}`,
         }),
         {
@@ -98,6 +101,31 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
       );
     }
   }
+  function handleDeleteCourseCurriculum(lessonId, index) {
+    try {
+      toast.promise(
+        deleteCourseCurriculum({
+          lessonId: lessonId,
+          path: `/instructor/courses/${slug}`,
+        }),
+        {
+          loading: "Deleting curriculum...",
+          success: () => {
+            router.refresh(`/instructor/courses/${slug}`);
+            router.push(`/instructor/courses/${slug}`);
+            return "Curriculum Deleted successfully!";
+          },
+          error: (err) => {
+            console.error(err);
+            return "Failed to Delete curriculum.";
+          },
+        },
+      );
+      remove(index);
+    } catch (error) {
+      console.error("Failed to delete curriculum:", error);
+    }
+  }
 
   return (
     <Form {...form}>
@@ -129,6 +157,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
           {fields.map((lesson, index) => (
             <div key={lesson.id} className="flex w-full items-end gap-5">
               {/* Lesson Title */}
+              {console.log(lesson)}
               <FormField
                 control={form.control}
                 name={`lessons.${index}.title`} // Dynamic field name
@@ -161,7 +190,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => remove(index)} // Remove the lesson
+                onClick={()=>handleDeleteCourseCurriculum(lesson._id, index)}
                 className="w-fit"
               >
                 <Minus strokeWidth={1} />
