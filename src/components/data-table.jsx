@@ -164,7 +164,7 @@ const columns = [
         <Badge variant="outline" className="text-muted-foreground px-1.5">
           $
           {row.original.price > 0 ? (
-            row.original.price - row.original.discount
+            row.original.price
           ) : (
             <span className="text-green-500">Free</span>
           )}
