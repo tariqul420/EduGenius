@@ -1,6 +1,9 @@
+import ReviewCard from "@/components/course/ReviewCard";
 import PaymentModal from "@/components/payment/PaymentModal";
 import CourseCard from "@/components/shared/CourseCard";
+import LoadMore from "@/components/shared/LoadMore";
 import { getCourseBySlug, getCourses } from "@/lib/actions/course.action";
+import { getSingleCourseReview } from "@/lib/actions/review.action";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import {
@@ -9,6 +12,7 @@ import {
   Clock,
   DollarSign,
   Globe,
+  MessageCircle,
   RefreshCcw,
   Star,
   Tag,
@@ -17,10 +21,20 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-const CourseDetails = async ({ params }) => {
+const CourseDetails = async ({ params, searchParams }) => {
   const { sessionClaims } = await auth();
+  const { page } = await searchParams;
   const { slug } = await params;
   const course = await getCourseBySlug(slug);
+  const {
+    reviews = [],
+    hasNextPage = false,
+    total = 0,
+  } = await getSingleCourseReview({
+    course: course?._id,
+    page: Number(page) || 1,
+    limit: 10,
+  });
 
   // Get the category slug of the current course
   const categorySlug = course?.category?.slug;
@@ -74,6 +88,7 @@ const CourseDetails = async ({ params }) => {
         <div className="container mx-auto grid max-w-6xl grid-cols-12 justify-center gap-5 md:gap-4">
           {/* Main Content */}
           <div className="col-span-12 mx-auto h-fit rounded-lg md:w-7/8 lg:col-span-8 lg:w-full">
+            {/* Course Details Card */}
             <div className="dark:bg-dark-bg bg-light-bg rounded-lg border p-6 px-2.5 shadow-md">
               <Image
                 src={thumbnail}
@@ -158,6 +173,7 @@ const CourseDetails = async ({ params }) => {
               </div>
             </div>
 
+            {/* Author Info Section with better design */}
             <Link href={`/instructors/${instructor?.slug}`}>
               <div className="group dark:bg-dark-bg relative mt-12 rounded-xl border bg-white p-4 transition-shadow hover:shadow-lg">
                 <div className="flex flex-col items-center gap-6 sm:flex-row">
@@ -193,6 +209,36 @@ const CourseDetails = async ({ params }) => {
                 </div>
               </div>
             </Link>
+
+            {/* Student Review Section with enhanced UI */}
+            {total > 0 && (
+              <div className="mt-14">
+                <div className="mb-8 flex items-center justify-between">
+                  <h2 className="text-dark-bg dark:text-light-bg flex items-center gap-2 text-2xl font-bold">
+                    <MessageCircle
+                      size={24}
+                      className="text-main dark:text-dark-btn"
+                    />
+                    Student Review ({total || 0})
+                  </h2>
+                  <p>
+                    Show {reviews?.length} of {total} Result
+                  </p>
+                </div>
+                <div className="space-y-6">
+                  {reviews.map((review, index) => (
+                    <div
+                      key={index}
+                      className="dark:bg-dark-bg relative rounded-lg border bg-white p-5 shadow transition-shadow duration-200 hover:shadow-md"
+                    >
+                      <ReviewCard review={review} />
+                    </div>
+                  ))}
+
+                  {hasNextPage && <LoadMore />}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Sidebar */}
@@ -201,7 +247,7 @@ const CourseDetails = async ({ params }) => {
               <h2 className="text-dark-bg dark:text-light-bg mb-6 border-b pb-2 text-xl font-bold">
                 Recommended Courses
               </h2>
-              {/* ================== Recommended Courses Card ===================== */}
+              {/* Recommended Courses Card  */}
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
                 {relatedCourses.map((course) => (
                   <CourseCard key={course._id} course={course} />
