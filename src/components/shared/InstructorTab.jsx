@@ -1,9 +1,22 @@
+"use client"; // Ensure this runs on the client-side
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Mail, MapPin, Phone } from "lucide-react";
 import InstructorContactForm from "./InstructorContactForm";
 
 export default function InstructorTab({ instructor }) {
   const { instructorId } = instructor || {};
+
+  // Sanitize aboutMe safely
+  // const aboutMe = instructorId?.aboutMe
+  //   ? sanitizeHtml(instructorId.aboutMe, {
+  //       allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]), // Customize allowed tags
+  //       allowedAttributes: {
+  //         ...sanitizeHtml.defaults.allowedAttributes,
+  //         img: ["src", "alt", "title"],
+  //       },
+  //     })
+  //   : "";
 
   return (
     <Tabs defaultValue="about" className="mt-8 w-full">
@@ -32,24 +45,15 @@ export default function InstructorTab({ instructor }) {
         <div className="space-y-6 text-gray-700 dark:text-gray-300">
           <div className="dark:bg-dark-bg rounded-lg bg-white p-6 shadow-sm">
             <h3 className="mb-4 text-lg font-semibold">About Me</h3>
-            <p className="mb-4">
-              Hi, I&apos;m Denis – a passionate educator with over 7 years of
-              experience in teaching web development and design.
-            </p>
-            <p className="mb-4">
-              My goal is to help students build real-world skills through
-              practical, hands-on courses. I focus on simplifying complex topics
-              so that learning is enjoyable and effective.
-            </p>
-            <p>
-              Outside of teaching, I work on freelance projects and mentor new
-              developers entering the tech world.
-            </p>
+            <p className="mt-4">{instructorId?.aboutMe}</p>
           </div>
 
           <div className="dark:bg-dark-bg rounded-lg bg-white p-6 shadow-sm">
             <h3 className="mb-4 text-lg font-semibold">Education</h3>
-            <p>MSc in Computer Science - Stanford University</p>
+            <p>
+              {instructorId?.education ||
+                "MSc in Computer Science - Stanford University"}
+            </p>
           </div>
         </div>
       </TabsContent>
@@ -57,7 +61,7 @@ export default function InstructorTab({ instructor }) {
       <TabsContent value="course" className="mt-6">
         <div className="grid gap-6 md:grid-cols-2">
           <div className="dark:bg-dark-bg rounded-lg bg-white p-6 shadow-sm transition-all hover:shadow-md">
-            <h3 className="text-main dark:text-main-dark mb-3 text-lg font-semibold">
+            <h3 className="text-main dark:text-main-dark,公司mb-3 text-lg font-semibold">
               Full-Stack Web Development
             </h3>
             <p className="text-gray-600 dark:text-gray-400">

@@ -38,7 +38,7 @@ export default async function Instructor({ params }) {
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
                 {instructorId?.firstName} {instructorId?.lastName}
               </h2>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm">
                 {instructorId?.profession || "Instructor"}
               </p>
             </div>

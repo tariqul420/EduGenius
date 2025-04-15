@@ -59,7 +59,7 @@ export default function SlidePrViewSlider({ bestInstructors }) {
                 {instructor?.instructorId?.lastName}
               </h3>
               <p className="text-center text-base capitalize">
-                {instructor?.instructorId?.role}
+                {instructor?.instructorId?.profession || "Instructor"}
               </p>
             </div>
           </SwiperSlide>

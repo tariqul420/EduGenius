@@ -17,13 +17,13 @@ export default function InstructorCard({ instructor }) {
       />
       <div className="flex flex-wrap justify-between gap-4 sm:block">
         <div>
-          <h2 className="mt-4 text-xl font-semibold">
+          <h2 className="text-xl font-semibold">
             {instructorId?.firstName} {instructorId?.lastName}
           </h2>
-          <p className="text-gray-600">{instructorId?.profession}</p>
+          <p>{instructorId?.profession || "Instructor"}</p>
         </div>
         {social && (
-          <div className="mt-4 flex items-center gap-2.5">
+          <div className="mt-2 flex items-center gap-2.5">
             {social?.linkedin && (
               <a
                 href={social?.linkedin}

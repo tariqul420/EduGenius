@@ -14,7 +14,10 @@ export async function getInstructors({ page = 1, limit = 5 }) {
       {},
       { _id: 0, instructorId: 1, social: 1 },
     )
-      .populate("instructorId", "profilePicture firstName lastName slug")
+      .populate(
+        "instructorId",
+        "profilePicture firstName lastName slug profession",
+      )
       .limit(limit * page)
       .lean();
     const total = await Instructor.estimatedDocumentCount();
@@ -41,7 +44,7 @@ export async function getInstructorBySlug(slug) {
     })
       .populate(
         "instructorId",
-        "profilePicture firstName lastName address phone email",
+        "profilePicture firstName lastName address phone email aboutMe education profession",
       )
       .populate("students")
       .populate("courses");
@@ -193,6 +196,9 @@ export async function updateInstructor({ data, path }) {
         {
           phone: data.phone,
           address: data.address,
+          profession: data.profession,
+          education: data.education,
+          aboutMe: data.aboutMe,
         },
         { new: true },
       ),
@@ -201,6 +207,7 @@ export async function updateInstructor({ data, path }) {
     return revalidatePath(path);
   } catch (error) {
     console.error("Error updating instructor:", error);
+    throw error;
   }
 }
 
@@ -218,7 +225,10 @@ export async function getAdditionalInfo() {
 
     const instructor = await Instructor.findOne({
       instructorId: objectId(userId),
-    }).populate("instructorId", "phone address social");
+    }).populate(
+      "instructorId",
+      "phone address social profession education aboutMe",
+    );
 
     if (!instructor) {
       return null;
