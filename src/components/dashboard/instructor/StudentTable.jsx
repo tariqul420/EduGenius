@@ -17,16 +17,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import {
-  IconChevronDown,
-  IconChevronLeft,
-  IconChevronRight,
-  IconChevronsLeft,
-  IconChevronsRight,
-  IconGripVertical,
-  IconLayoutColumns,
-  IconPlus,
-} from "@tabler/icons-react";
+import { IconGripVertical } from "@tabler/icons-react";
 import {
   flexRender,
   getCoreRowModel,
@@ -38,24 +29,13 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+import DataTableColumnSelector from "@/components/shared/DataTableColumnSelector";
+import DataTableFooter from "@/components/shared/DataTableFooter";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -65,9 +45,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
 // Create a separate component for the drag handle
@@ -185,7 +162,7 @@ const columns = [
 
 function DraggableRow({ row }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
-    id: row.original._id,
+    id: row.original.studentId,
   });
 
   return (
@@ -214,9 +191,6 @@ export default function StudentTable({
   pageIndex,
   total,
 }) {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
   const [data, setData] = React.useState(() => initialData);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState({});
@@ -234,7 +208,7 @@ export default function StudentTable({
   );
 
   const dataIds = React.useMemo(
-    () => data?.map(({ _id }) => _id) || [],
+    () => data?.map(({ studentId }) => studentId) || [],
     [data],
   );
 
@@ -288,49 +262,7 @@ export default function StudentTable({
           View
         </Label>
 
-        <div className="flex items-center gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
-                <IconLayoutColumns />
-                <span className="hidden lg:inline">Customize Columns</span>
-                <span className="lg:hidden">Columns</span>
-                <IconChevronDown />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-              {table
-                .getAllColumns()
-                .filter(
-                  (column) =>
-                    typeof column.accessorFn !== "undefined" &&
-                    column.getCanHide(),
-                )
-                .map((column) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  );
-                })}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <Link
-            href="/instructor/courses/add-course"
-            className="bg-background hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 flex h-8 items-center gap-1.5 rounded-md border px-3 text-sm font-medium shadow-xs has-[>svg]:px-2.5"
-          >
-            <IconPlus size={16} />
-            <span>Add course</span>
-            {/* <CourseForm /> */}
-          </Link>
-        </div>
+        <DataTableColumnSelector table={table} />
       </div>
       <TabsContent
         value="outline"
@@ -387,147 +319,13 @@ export default function StudentTable({
             </Table>
           </DndContext>
         </div>
-        <div className="flex items-center justify-between px-4">
-          <div className="text-muted-foreground hidden flex-1 text-sm lg:flex">
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
-          </div>
-          <div className="flex w-full items-center gap-8 lg:w-fit">
-            <div className="hidden items-center gap-2 lg:flex">
-              <Label htmlFor="rows-per-page" className="text-sm font-medium">
-                Rows per page
-              </Label>
-              <Select
-                value={`${pageSize}`}
-                onValueChange={(value) => {
-                  let newUrl = "";
 
-                  if (value) {
-                    newUrl = formUrlQuery({
-                      params: searchParams.toString(),
-                      key: "pageSize",
-                      value: value,
-                    });
-                  } else {
-                    newUrl = removeKeysFromQuery({
-                      params: searchParams.toString(),
-                      keysToRemove: ["pageSize"],
-                    });
-                  }
-                  router.push(newUrl, { scroll: false });
-                }}
-              >
-                <SelectTrigger size="sm" className="w-20" id="rows-per-page">
-                  <SelectValue placeholder={pageSize} />
-                </SelectTrigger>
-                <SelectContent side="top">
-                  {[10, 20, 30, 40, 50].map((size) => (
-                    <SelectItem key={size} value={`${size}`}>
-                      {size}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex w-fit items-center justify-center text-sm font-medium">
-              Page {pageIndex} of {Math.ceil(total / pageSize)}
-            </div>
-            <div className="ml-auto flex items-center gap-2 lg:ml-0">
-              <Button
-                variant="outline"
-                className="hidden h-8 w-8 p-0 lg:flex"
-                onClick={() => {
-                  let newUrl = "";
-
-                  newUrl = formUrlQuery({
-                    params: searchParams.toString(),
-                    key: "pageIndex",
-                    value: 1,
-                  });
-                  router.push(newUrl, { scroll: false });
-                  () => table.setPageIndex(1);
-                }}
-                disabled={!table.getCanPreviousPage()}
-              >
-                <span className="sr-only">Go to first page</span>
-                <IconChevronsLeft />
-              </Button>
-              <Button
-                variant="outline"
-                className="size-8"
-                size="icon"
-                onClick={() => {
-                  let newUrl = "";
-
-                  newUrl = formUrlQuery({
-                    params: searchParams.toString(),
-                    key: "pageIndex",
-                    value: pageIndex--,
-                  });
-                  table.previousPage();
-                  router.push(newUrl, { scroll: false });
-                }}
-                disabled={!table.getCanPreviousPage()}
-              >
-                <span className="sr-only">Go to previous page</span>
-                <IconChevronLeft />
-              </Button>
-              <Button
-                variant="outline"
-                className="size-8"
-                size="icon"
-                onClick={() => {
-                  let newUrl = "";
-                  newUrl = formUrlQuery({
-                    params: searchParams.toString(),
-                    key: "pageIndex",
-                    value: pageIndex++,
-                  });
-                  () => table.nextPage();
-                  router.push(newUrl, { scroll: false });
-                }}
-                disabled={!table.getCanNextPage()}
-              >
-                <span className="sr-only">Go to next page</span>
-                <IconChevronRight />
-              </Button>
-              <Button
-                variant="outline"
-                className="hidden size-8 lg:flex"
-                size="icon"
-                onClick={() => {
-                  let newUrl = "";
-                  newUrl = formUrlQuery({
-                    params: searchParams.toString(),
-                    key: "pageIndex",
-                    value: table.getPageCount(),
-                  });
-                  table.setPageIndex(table.getPageCount());
-                  router.push(newUrl, { scroll: false });
-                }}
-                disabled={!table.getCanNextPage()}
-              >
-                <span className="sr-only">Go to last page</span>
-                <IconChevronsRight />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </TabsContent>
-      <TabsContent
-        value="past-performance"
-        className="flex flex-col px-4 lg:px-6"
-      >
-        <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
-      </TabsContent>
-      <TabsContent value="key-personnel" className="flex flex-col px-4 lg:px-6">
-        <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
-      </TabsContent>
-      <TabsContent
-        value="focus-documents"
-        className="flex flex-col px-4 lg:px-6"
-      >
-        <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
+        <DataTableFooter
+          table={table}
+          pageIndex={pageIndex}
+          pageSize={pageSize}
+          total={total}
+        />
       </TabsContent>
     </Tabs>
   );
