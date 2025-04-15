@@ -37,8 +37,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import * as React from "react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -68,7 +68,7 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import TableContextMenu from "./dashboard/instructor/TableContextMenu";
+import React from "react";
 
 // Create a separate component for the drag handle
 function DragHandle({ id }) {
@@ -94,7 +94,7 @@ const columns = [
   {
     id: "drag",
     header: () => null,
-    cell: ({ row }) => <DragHandle id={row.original._id} />,
+    cell: ({ row }) => <DragHandle id={row.original.studentId} />,
   },
   {
     id: "select",
@@ -123,72 +123,63 @@ const columns = [
     enableHiding: false,
   },
   {
-    accessorKey: "title",
-    header: "Title",
+    accessorKey: "name",
+    header: "	Name & Mail",
     cell: ({ row }) => (
-      <h1 className="max-w-xs truncate text-sm font-medium">
-        {row.original.title}
-      </h1>
+      <div className="flex items-center gap-2">
+        <Avatar>
+          <AvatarImage
+            src={row.original.profilePicture}
+            alt={row.original.name}
+          />
+          <AvatarFallback>{row.original.name}</AvatarFallback>
+        </Avatar>
+
+        <div>
+          <h1 className="max-w-xs truncate text-sm font-medium">
+            {row.original.name}
+          </h1>
+          <p className="text-muted-foreground text-sm">{row.original.email}</p>
+        </div>
+      </div>
     ),
     filterFn: "includesString",
     enableHiding: false,
   },
   {
-    accessorKey: "category.name",
-    header: "Category",
+    accessorKey: "phone",
+    header: "Phone",
     cell: ({ row }) => (
       <div className="w-32">
         <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {row.original.category.name}
+          {row.original.phone}
         </Badge>
       </div>
     ),
   },
   {
-    accessorKey: "language",
-    header: "Language",
+    accessorKey: "address",
+    header: "Address",
+
     cell: ({ row }) => (
       <div className="w-32">
         <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {row.original.language}
+          {row.original.address}
         </Badge>
       </div>
     ),
   },
 
   {
-    accessorKey: "price",
-    header: "Price",
+    accessorKey: "Enrolled Courses",
+    header: "Enrolled Course",
     cell: ({ row }) => (
       <div className="w-32">
         <Badge variant="outline" className="text-muted-foreground px-1.5">
-          $
-          {row.original.price > 0 ? (
-            row.original.price - row.original.discount
-          ) : (
-            <span className="text-green-500">Free</span>
-          )}
+          {row.original.enrolledCourses}
         </Badge>
       </div>
     ),
-  },
-
-  {
-    accessorKey: "averageRating",
-    header: "Rating",
-    cell: ({ row }) => (
-      <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {row.original.averageRating.toFixed(1)} / 5
-        </Badge>
-      </div>
-    ),
-  },
-
-  {
-    id: "actions",
-    header: "Actions",
-    cell: ({ row }) => <TableContextMenu row={row} />,
   },
 ];
 
@@ -217,7 +208,12 @@ function DraggableRow({ row }) {
   );
 }
 
-export function DataTable({ data: initialData, pageSize, pageIndex, total }) {
+export default function StudentTable({
+  data: initialData,
+  pageSize,
+  pageIndex,
+  total,
+}) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -252,7 +248,7 @@ export function DataTable({ data: initialData, pageSize, pageIndex, total }) {
       columnFilters,
       pagination,
     },
-    getRowId: (row) => row._id.toString(),
+    getRowId: (row) => row.studentId.toString(),
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
