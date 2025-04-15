@@ -31,7 +31,7 @@ export default function PaymentModal({ course, user }) {
               className="bg-main hover:bg-main mt-5 inline-block cursor-pointer rounded px-4 py-1.5 text-white transition-colors"
               variant="outline"
             >
-              Go To Course
+              Start Course
             </Link>
           ) : (
             <button

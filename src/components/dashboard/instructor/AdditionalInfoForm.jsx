@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   getAdditionalInfo,
   updateInstructor,
@@ -283,10 +284,46 @@ export default function AdditionalInfoForm() {
       </div>
     </div>
   ) : (
-    <div>
-      <h2 className="text-lg font-semibold">Loading...</h2>
-      <div className="mt-4 border-t border-neutral-300/50 py-4 dark:border-neutral-700/50">
-        <p>Loading additional information...</p>
+    <div className="space-y-4">
+      {/* Skeleton for the title */}
+      <Skeleton className="h-7 w-1/4" />
+
+      {/* Skeleton for the form section */}
+      <div className="mt-4 border-t py-4">
+        {/* Skeleton for phone and address fields */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-1/3" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-1/3" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+        </div>
+
+        {/* Skeleton for social media fields */}
+        <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-1/3" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-1/3" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-1/3" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-1/3" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+        </div>
+
+        {/* Skeleton for the submit button */}
+        <Skeleton className="mt-6 h-10 w-full" />
       </div>
     </div>
   );

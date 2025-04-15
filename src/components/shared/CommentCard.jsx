@@ -163,7 +163,7 @@ export default function CommentCard({ comment, path }) {
   const isMenuActive = activeMenu === comment?._id;
 
   return (
-    <div className="group relative mx-auto w-full max-w-3xl px-4 py-2 sm:px-6">
+    <div className="group relative mx-auto w-full max-w-3xl py-2">
       <div className="flex items-start gap-3 sm:gap-4">
         <Image
           src={comment?.user?.profilePicture}

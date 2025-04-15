@@ -28,7 +28,7 @@ const BlogDetails = async ({ params, searchParams }) => {
   const commentsResult = await getCommentsByBlogId({
     blogId: blog?._id,
     page: Number(page) || 1,
-    limit: 3,
+    limit: 10,
   });
 
   const comments = commentsResult?.comments || [];

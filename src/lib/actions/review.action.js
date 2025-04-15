@@ -107,3 +107,29 @@ export async function updateReview({ rating, review, course }) {
     throw error;
   }
 }
+
+export async function getSingleCourseReview({ course, page = 1, limit = 3 }) {
+  try {
+    await dbConnect();
+
+    const review = await Review.find({
+      course: objectId(course),
+    })
+      .populate("student", "email profilePicture firstName lastName")
+      .sort({ createdAt: -1 })
+      .limit(limit * page)
+      .lean();
+
+    const total = await Review.countDocuments({ course: objectId(course) });
+    const hasNextPage = total > limit * page;
+
+    return {
+      reviews: JSON.parse(JSON.stringify(review)),
+      total,
+      hasNextPage,
+    };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
