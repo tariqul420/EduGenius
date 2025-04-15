@@ -25,14 +25,14 @@ export const instructor = [
   {
     title: "Quiz",
     url: "/instructor/quiz",
-    icon: "BookOpenCheck",
+    icon: "ListTodo",
   },
 
-  // {
-  //   title: "Assignment",
-  //   url: "/instructor/assignment",
-  //   icon: "BookOpenCheck",
-  // },
+  {
+    title: "Assignment",
+    url: "/instructor/assignment",
+    icon: "BookCheck",
+  },
 
   // {
   //   title: "Certificates",

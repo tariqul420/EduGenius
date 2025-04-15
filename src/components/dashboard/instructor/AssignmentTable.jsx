@@ -45,6 +45,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { format } from "date-fns";
 
 // Create a separate component for the drag handle
 function DragHandle({ id }) {
@@ -131,6 +132,42 @@ const columns = [
       </div>
     ),
   },
+
+  {
+    accessorKey: "Deadline",
+    header: "Deadline",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {format(new Date(row.original.deadline), "PPP")}
+        </Badge>
+      </div>
+    ),
+  },
+
+  {
+    accessorKey: "Total Marks",
+    header: "Total Marks",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {row.original.totalMarks}
+        </Badge>
+      </div>
+    ),
+  },
+
+  {
+    accessorKey: "Submissions Count",
+    header: "Submissions Count",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {row.original.submissionsCount}
+        </Badge>
+      </div>
+    ),
+  },
 ];
 
 function DraggableRow({ row }) {
@@ -158,7 +195,7 @@ function DraggableRow({ row }) {
   );
 }
 
-export default function QuizTable({
+export default function AssignmentTable({
   data: initialData,
   pageSize,
   pageIndex,
