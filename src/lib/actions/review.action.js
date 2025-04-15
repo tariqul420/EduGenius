@@ -107,3 +107,21 @@ export async function updateReview({ rating, review, course }) {
     throw error;
   }
 }
+
+export async function getSingleCourseReview({ course }) {
+  try {
+    await dbConnect();
+
+    const review = await Review.findOne(
+      {
+        course: objectId(course),
+      },
+      { review: 1, rating: 1, _id: 0 },
+    );
+
+    return JSON.parse(JSON.stringify(review));
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
