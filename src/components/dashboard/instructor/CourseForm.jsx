@@ -208,32 +208,35 @@ export default function CourseForm({ course }) {
                 <FormControl>
                   <CldUploadWidget
                     uploadPreset="edu-genius"
-                    onSuccess={(result, { widget }) => {
-                      // setResource(result?.info); // { public_id, secure_url, etc }
-                      form.setValue("thumbnail", result?.info?.secure_url); // Set the thumbnail URL in the form state
+                    onSuccess={(result) => {
+                      console.log(result);
+                      const info = result.info;
+                      form.setValue("thumbnail", info.secure_url); // Set the thumbnail URL in the form state
+                    }}
+                    options={{
+                      maxFiles: 1,
+                      resourceType: "image",
                     }}
                   >
-                    {({ open }) => {
-                      return (
-                        <div className="flex items-center gap-2">
-                          <Input
-                            placeholder="Upload thumbnail"
-                            value={field.value}
-                            onChange={(e) => field.onChange(e.target.value)}
-                            className="mb-2"
-                            disabled
-                          />
-                          <Button
-                            type="button"
-                            variant="outline"
-                            onClick={open}
-                            className="w-fit"
-                          >
-                            <ImageUp strokeWidth={1} />
-                          </Button>
-                        </div>
-                      );
-                    }}
+                    {({ open }) => (
+                      <div className="flex items-center gap-2">
+                        <Input
+                          placeholder="Upload thumbnail"
+                          value={field.value}
+                          onChange={(e) => field.onChange(e.target.value)}
+                          className="mb-2"
+                          disabled
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => (open ? open() : null)}
+                          className="w-fit"
+                        >
+                          <ImageUp strokeWidth={1} />
+                        </Button>
+                      </div>
+                    )}
                   </CldUploadWidget>
                 </FormControl>
                 <FormMessage />
