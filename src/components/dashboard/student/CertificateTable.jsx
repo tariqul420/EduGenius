@@ -77,7 +77,7 @@ export default function CertificateTable({
   });
 
   return (
-    <section>
+    <div>
       <div className="overflow-hidden rounded-lg border">
         <Table>
           <TableHeader className="bg-muted sticky top-0 z-10">
@@ -132,6 +132,6 @@ export default function CertificateTable({
       {certificates.length > 0 && (
         <PagePagination total={total} limit={10} hasNextPage={hasNextPage} />
       )}
-    </section>
+    </div>
   );
 }

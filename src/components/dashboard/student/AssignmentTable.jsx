@@ -96,7 +96,7 @@ export default function AssignmentTable({
   });
 
   return (
-    <section>
+    <div>
       <div className="overflow-hidden rounded-lg border">
         <Table>
           <TableHeader className="bg-muted sticky top-0 z-10">
@@ -151,6 +151,6 @@ export default function AssignmentTable({
       {assignment?.length > 0 && (
         <PagePagination total={total} limit={10} hasNextPage={hasNextPage} />
       )}
-    </section>
+    </div>
   );
 }
