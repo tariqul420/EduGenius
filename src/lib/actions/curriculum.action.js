@@ -129,7 +129,7 @@ export async function updateCourseCurriculum({
     console.error("Error updating course curriculum:", error);
   }
 }
-export async function deleteCourseCurriculum({ lessonId, path }) {
+export async function deleteCurriculumLesson({ lessonId, path }) {
   try {
     await dbConnect();
 
@@ -141,6 +141,23 @@ export async function deleteCourseCurriculum({ lessonId, path }) {
       throw new Error("User not authenticated");
     }
     await Lesson.findOneAndDelete({_id: lessonId});
+    revalidatePath(path);
+  } catch (error) {
+    console.error("Error deleting course curriculum:", error);
+  }
+}
+export async function deleteCurriculumModule({ curriculumId, path }) {
+  try {
+    await dbConnect();
+
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+
+    const userId = sessionClaims?.userId;
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+    await Module.findOneAndDelete({_id: curriculumId});
     revalidatePath(path);
   } catch (error) {
     console.error("Error deleting course curriculum:", error);

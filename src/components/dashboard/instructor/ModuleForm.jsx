@@ -11,7 +11,8 @@ import {
 import { Input } from "@/components/ui/input";
 import {
   addCourseCurriculum,
-  deleteCourseCurriculum,
+  deleteCurriculumLesson,
+  deleteCurriculumModule,
   updateCourseCurriculum,
 } from "@/lib/actions/curriculum.action";
 
@@ -63,7 +64,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
         updateCourseCurriculum({
           moduleId: curriculum._id,
           lessonIds: curriculum.lessons.map((lesson) => lesson._id),
-          data: {...curriculum.lessons, ...values},
+          data: { ...curriculum.lessons, ...values },
           path: `/instructor/courses/${slug}`,
         }),
         {
@@ -101,10 +102,10 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
       );
     }
   }
-  function handleDeleteCourseCurriculum(lessonId, index) {
+  function handleDeleteLesson(lessonId, index) {
     try {
       toast.promise(
-        deleteCourseCurriculum({
+        deleteCurriculumLesson({
           lessonId: lessonId,
           path: `/instructor/courses/${slug}`,
         }),
@@ -126,6 +127,30 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
       console.error("Failed to delete curriculum:", error);
     }
   }
+  function handleDeleteModule(curriculumId) {
+    try {
+      toast.promise(
+        deleteCurriculumModule({
+          curriculumId: curriculumId,
+          path: `/instructor/courses/${slug}`,
+        }),
+        {
+          loading: "Deleting curriculum...",
+          success: () => {
+            router.refresh(`/instructor/courses/${slug}`);
+            router.push(`/instructor/courses/${slug}`);
+            return "Curriculum Deleted successfully!";
+          },
+          error: (err) => {
+            console.error(err);
+            return "Failed to Delete curriculum.";
+          },
+        },
+      );
+    } catch (error) {
+      console.error("Failed to delete curriculum:", error);
+    }
+  }
 
   return (
     <Form {...form}>
@@ -133,12 +158,13 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8"
       >
-        {/* Module Title */}
+        <div className="col-span-2 flex items-end gap-5">
+          {/* Module Title */}
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
-            <FormItem className="col-span-2">
+            <FormItem className="flex-1">
               <FormLabel>Module Title</FormLabel>
               <FormControl>
                 <Input
@@ -151,6 +177,16 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
             </FormItem>
           )}
         />
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => handleDeleteModule(curriculum._id)}
+          className="w-fit"
+        >
+          <Minus strokeWidth={1} />
+        </Button>
+        </div>
+        
 
         {/* Dynamic Lessons */}
         <div className="col-span-2 space-y-5">
@@ -190,7 +226,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
               <Button
                 type="button"
                 variant="outline"
-                onClick={()=>handleDeleteCourseCurriculum(lesson._id, index)}
+                onClick={() => handleDeleteLesson(lesson._id, index)}
                 className="w-fit"
               >
                 <Minus strokeWidth={1} />
