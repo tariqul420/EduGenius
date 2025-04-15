@@ -73,6 +73,7 @@ export function AppSidebar({ role, menu = [] }) {
             <SidebarMenu>
               {menu.map((item) => {
                 const IconComponent = iconMap[item?.icon];
+
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
