@@ -2,6 +2,8 @@
 
 import Instructor from "@/models/Instructor";
 import User from "@/models/User";
+import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
 
@@ -146,5 +148,65 @@ export async function getStudents({ instructorId, page = 1, limit = 10 }) {
   } catch (error) {
     console.error("Error getting students by instructor courses ID:", error);
     throw error;
+  }
+}
+
+export async function updateInstructor({ data, path }) {
+  try {
+    await dbConnect();
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+
+    const userId = sessionClaims?.userId;
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    await Promise.all([
+      Instructor.findOneAndUpdate(
+        { instructorId: objectId(userId) },
+        { social: data.social },
+        { new: true, upsert: true },
+      ),
+
+      User.findOneAndUpdate(
+        { _id: objectId(userId) },
+        {
+          phone: data.phone,
+          address: data.address,
+        },
+        { new: true },
+      ),
+    ]);
+
+    return revalidatePath(path);
+  } catch (error) {
+    console.error("Error updating instructor:", error);
+  }
+}
+
+export async function getAdditionalInfo() {
+  try {
+    await dbConnect();
+
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+    const userId = sessionClaims?.userId;
+
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    const instructor = await Instructor.findOne({
+      instructorId: objectId(userId),
+    }).populate("instructorId", "phone address social");
+
+    if (!instructor) {
+      return null;
+    }
+
+    return JSON.parse(JSON.stringify(instructor));
+  } catch (error) {
+    console.error("Error getting additional info:", error);
   }
 }
