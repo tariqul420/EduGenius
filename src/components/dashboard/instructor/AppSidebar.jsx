@@ -16,12 +16,14 @@ import { SignedIn, UserButton } from "@clerk/nextjs";
 import { IconInfoCircleFilled } from "@tabler/icons-react";
 import {
   Award,
+  BookCopy,
   BookOpenCheck,
   BookOpenText,
   BookText,
   ClipboardCheck,
   GraduationCap,
   LayoutDashboard,
+  ListTodo,
   Medal,
   UsersRound,
 } from "lucide-react";
@@ -40,6 +42,8 @@ const iconMap = {
   BookOpenText: BookOpenText,
   ClipboardCheck: ClipboardCheck,
   Award: Award,
+  ListTodo: ListTodo,
+  BookCopy: BookCopy,
 };
 
 export function AppSidebar({ role, menu = [] }) {

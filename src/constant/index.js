@@ -31,14 +31,8 @@ export const instructor = [
   {
     title: "Assignment",
     url: "/instructor/assignment",
-    icon: "BookCheck",
+    icon: "BookCopy",
   },
-
-  // {
-  //   title: "Certificates",
-  //   url: "/instructor/certificates",
-  //   icon: "Medal",
-  // },
 ];
 
 export const student = [
