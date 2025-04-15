@@ -4,6 +4,7 @@ import Assignment from "@/models/Assignment";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
+import { objectId } from "../utils";
 
 export async function createAssignment({ courseId, data }) {
   try {
@@ -70,5 +71,108 @@ export async function getAssignmentById(courseId) {
   } catch (error) {
     console.error("Error fetching assignment:", error);
     throw new Error("Failed to fetch assignment.");
+  }
+}
+
+export async function getAssignment({ page = 1, limit = 10 } = {}) {
+  try {
+    await dbConnect();
+
+    const { sessionClaims } = await auth();
+    const userId = sessionClaims?.userId;
+
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    const aggregationPipeline = [
+      // Match assignments by instructor
+      {
+        $match: {
+          instructor: objectId(userId),
+        },
+      },
+      // Lookup course data
+      {
+        $lookup: {
+          from: "courses",
+          localField: "course",
+          foreignField: "_id",
+          as: "course",
+        },
+      },
+      // Unwind course array
+      {
+        $unwind: "$course",
+      },
+      // Lookup category data
+      {
+        $lookup: {
+          from: "categories",
+          localField: "course.category",
+          foreignField: "_id",
+          as: "course.category",
+        },
+      },
+      // Unwind category array
+      {
+        $unwind: "$course.category",
+      },
+      // Project final shape
+      {
+        $project: {
+          _id: 1,
+          title: 1,
+          totalMarks: 1,
+          deadline: 1,
+          "course.title": 1,
+          "course.category.name": 1,
+          studentsCount: { $size: "$course.students" },
+          submissionsCount: { $size: "$submissions" },
+        },
+      },
+      // Skip for pagination
+      {
+        $skip: (page - 1) * limit,
+      },
+      // Limit results
+      {
+        $limit: limit,
+      },
+    ];
+
+    // Get total count using the same match condition
+    const [totalCount] = await Assignment.aggregate([
+      {
+        $match: {
+          instructor: objectId(userId),
+        },
+      },
+      {
+        $count: "total",
+      },
+    ]);
+
+    const totalAssignments = totalCount?.total || 0;
+    const totalPages = Math.ceil(totalAssignments / limit);
+
+    // Execute main aggregation
+    const assignments = await Assignment.aggregate(aggregationPipeline);
+
+    return JSON.parse(
+      JSON.stringify({
+        assignments,
+        pagination: {
+          currentPage: page,
+          totalPages,
+          totalItems: totalAssignments,
+          hasNextPage: page < totalPages,
+          hasPrevPage: page > 1,
+        },
+      }),
+    );
+  } catch (error) {
+    console.error("Error fetching assignments:", error);
+    throw new Error("Failed to fetch assignments");
   }
 }

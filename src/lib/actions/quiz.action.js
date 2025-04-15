@@ -128,44 +128,87 @@ export async function getQuizById(courseId) {
   }
 }
 
-export async function getQuizzesByCourseId({ page = 1, limit = 10 } = {}) {
+export async function getQuizzes({ page = 1, limit = 10 } = {}) {
   try {
     await dbConnect();
 
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
+
     if (!userId) {
       throw new Error("User not authenticated");
     }
 
-    // Get total count
-    const totalQuizzes = await Quiz.countDocuments({
-      instructor: objectId(userId),
-    });
+    const aggregationPipeline = [
+      // Match quizzes by instructor
+      {
+        $match: {
+          instructor: objectId(userId),
+        },
+      },
+      // Lookup course data
+      {
+        $lookup: {
+          from: "courses",
+          localField: "course",
+          foreignField: "_id",
+          as: "course",
+        },
+      },
+      // Unwind course array
+      {
+        $unwind: "$course",
+      },
+      // Lookup category data
+      {
+        $lookup: {
+          from: "categories",
+          localField: "course.category",
+          foreignField: "_id",
+          as: "course.category",
+        },
+      },
+      // Unwind category array
+      {
+        $unwind: "$course.category",
+      },
+      // Project final shape
+      {
+        $project: {
+          _id: 1,
+          title: 1,
+          "course.title": 1,
+          "course.category.name": 1,
+          studentsCount: { $size: "$course.students" },
+        },
+      },
+      // Skip for pagination
+      {
+        $skip: (page - 1) * limit,
+      },
+      // Limit results
+      {
+        $limit: limit,
+      },
+    ];
 
-    // Calculate total pages
+    // Get total count using the same match condition
+    const [totalCount] = await Quiz.aggregate([
+      {
+        $match: {
+          instructor: objectId(userId),
+        },
+      },
+      {
+        $count: "total",
+      },
+    ]);
+
+    const totalQuizzes = totalCount?.total || 0;
     const totalPages = Math.ceil(totalQuizzes / limit);
 
-    // Get paginated quizzes
-    const quizzes = await Quiz.find({ instructor: objectId(userId) })
-      .populate({
-        path: "course",
-        select: "title students category",
-        populate: [
-          {
-            path: "students",
-            select: "students",
-          },
-          {
-            path: "category",
-            select: "name",
-          },
-        ],
-      })
-      .select("title")
-      .skip((page - 1) * limit)
-      .limit(limit);
+    // Execute main aggregation
+    const quizzes = await Quiz.aggregate(aggregationPipeline);
 
     return JSON.parse(
       JSON.stringify({

@@ -1,10 +1,10 @@
 import QuizTable from "@/components/dashboard/instructor/QuizTable";
-import { getQuizzesByCourseId } from "@/lib/actions/quiz.action";
+import { getQuizzes } from "@/lib/actions/quiz.action";
 
 export default async function Quiz({ searchParams }) {
   const { pageSize, pageIndex } = await searchParams;
 
-  const { quizzes, pagination } = await getQuizzesByCourseId({
+  const { quizzes, pagination } = await getQuizzes({
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
   });
