@@ -5,18 +5,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import InstructorContactForm from "./InstructorContactForm";
 
 export default function InstructorTab({ instructor }) {
-  const { instructorId } = instructor || {};
-
-  // Sanitize aboutMe safely
-  // const aboutMe = instructorId?.aboutMe
-  //   ? sanitizeHtml(instructorId.aboutMe, {
-  //       allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]), // Customize allowed tags
-  //       allowedAttributes: {
-  //         ...sanitizeHtml.defaults.allowedAttributes,
-  //         img: ["src", "alt", "title"],
-  //       },
-  //     })
-  //   : "";
+  const { instructorId, courses } = instructor || {};
 
   return (
     <Tabs defaultValue="about" className="mt-8 w-full">
@@ -60,68 +49,27 @@ export default function InstructorTab({ instructor }) {
 
       <TabsContent value="course" className="mt-6">
         <div className="grid gap-6 md:grid-cols-2">
-          <div className="dark:bg-dark-bg rounded-lg bg-white p-6 shadow-sm transition-all hover:shadow-md">
-            <h3 className="text-main dark:text-main-dark,公司mb-3 text-lg font-semibold">
-              Full-Stack Web Development
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              Learn to build dynamic web applications using modern technologies
-              like React, Node.js, and MongoDB.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                12 Weeks
-              </span>
-              <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                45 Lessons
-              </span>
-              <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                Projects
-              </span>
+          {courses?.map((course, inx) => (
+            <div className="dark:bg-dark-bg rounded-lg bg-white p-6 shadow-sm transition-all hover:shadow-md">
+              <h3 className="text-main dark:text-main-dark mb-3 text-lg font-semibold">
+                {course?.title}
+              </h3>
+              <p className="line-clamp-2 text-gray-600 dark:text-gray-400">
+                {course?.description} ...
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                  12 Weeks
+                </span>
+                <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                  45 Lessons
+                </span>
+                <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                  Projects
+                </span>
+              </div>
             </div>
-          </div>
-
-          <div className="dark:bg-dark-bg rounded-lg bg-white p-6 shadow-sm transition-all hover:shadow-md">
-            <h3 className="text-main dark:text-main-dark mb-3 text-lg font-semibold">
-              UI/UX Design Principles
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              Understand the fundamentals of user-centered design and how to
-              create visually appealing interfaces.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                8 Weeks
-              </span>
-              <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                30 Lessons
-              </span>
-              <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                Case Studies
-              </span>
-            </div>
-          </div>
-
-          <div className="dark:bg-dark-bg rounded-lg bg-white p-6 shadow-sm transition-all hover:shadow-md">
-            <h3 className="text-main dark:text-main-dark mb-3 text-lg font-semibold">
-              JavaScript Mastery
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              Deep dive into JavaScript, covering everything from basics to
-              advanced concepts.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                6 Weeks
-              </span>
-              <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                25 Lessons
-              </span>
-              <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                Exercises
-              </span>
-            </div>
-          </div>
+          ))}
         </div>
       </TabsContent>
 

@@ -15,7 +15,11 @@ export default async function Instructor({ params }) {
   const { slug } = await params;
   const instructor = await getInstructorBySlug(slug);
 
+  // console.log(instructor);
+
   const { instructorId, social, students, courses } = instructor || {};
+
+  console.log(courses);
 
   return (
     <section>
