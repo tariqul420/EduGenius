@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -24,7 +25,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { PagePagination } from "@/components/shared/PagePagination";
 
+// Sample data
 const data = [
   {
     id: 1,
@@ -82,149 +85,172 @@ const data = [
   },
 ];
 
-// Updated columns with serial number (SL) column
+// Updated columns
 const columns = [
   {
     id: "serial",
     header: "SL",
-    cell: ({ row }) => row.index + 1, // Dynamically display serial number
+    cell: ({ row }) => (
+      <div className="text-sm font-medium">{row.index + 1}</div>
+    ),
   },
   {
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) => (
-      <div className="font-medium text-gray-900 dark:text-white">
+      <h1 className="max-w-xs truncate text-sm font-medium">
         {row.getValue("name")}
-      </div>
+      </h1>
     ),
   },
   {
     accessorKey: "title",
     header: "Course Title",
-    cell: ({ row }) => <div>{row.getValue("title")}</div>,
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.getValue("title")}
+      </h1>
+    ),
   },
   {
     accessorKey: "category",
     header: "Category",
-    cell: ({ row }) => <div>{row.getValue("category")}</div>,
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.getValue("category")}
+      </Badge>
+    ),
   },
   {
     accessorKey: "salary",
     header: "Salary",
-    cell: ({ row }) => {
-      const price = parseFloat(row.getValue("salary").replace("$", ""));
-      return (
-        <div>
-          {new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-          }).format(price)}
-        </div>
-      );
-    },
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.getValue("salary")}
+      </Badge>
+    ),
   },
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) => {
-      const status = row.getValue("status");
-      return (
-        <div
-          className={`${
-            status === "Active" ? "text-green-600" : "text-red-600"
-          } font-semibold capitalize`}
-        >
-          {status}
-        </div>
-      );
-    },
+    cell: ({ row }) => (
+      <Badge variant="outline" className={`px-1.5 ${
+        row.original.status === "Active"
+          ? "text-green-600 border-green-600"
+          : "text-red-600 border-red-600"
+      }`}>
+        {row.getValue("status")}
+      </Badge>
+    ),
   },
   {
     accessorKey: "contact",
     header: "Contact Number",
-    cell: ({ row }) => <div>{row.getValue("contact")}</div>,
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.getValue("contact")}
+      </Badge>
+    ),
   },
   {
     id: "actions",
-    enableHiding: false,
+    header: "Action",
     cell: ({ row }) => {
       const course = row.original;
-
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(course.id)}
-            >
-              Copy course ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View details</DropdownMenuItem>
-            <DropdownMenuItem>Edit Information</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex justify-end">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(course.id)}
+              >
+                Copy course ID
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>View details</DropdownMenuItem>
+              <DropdownMenuItem>Edit Information</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       );
     },
   },
 ];
 
-export default function InstructorListTable() {
+export default function InstructorListTable({
+  instructors = data,
+  total = data.length,
+  hasNextPage = false,
+}) {
   const table = useReactTable({
-    data,
+    data: instructors,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
 
   return (
-    <div className="rounded-md border p-4">
-      <h1 className="text-center text-2xl md:text-5xl m-2">Instructor List</h1>
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
+    <div>
+      <div className="overflow-hidden rounded-lg border">
+        <Table>
+          <TableHeader className="bg-muted sticky top-0 z-10">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead
+                    key={header.id}
+                    className={`font-semibold text-gray-900 dark:text-gray-200 ${
+                      header.id === "actions" && "text-right"
+                    }`}
+                  >
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext(),
+                    )}
+                  </TableHead>
                 ))}
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  className="dark:bg-dark-bg border-b bg-gray-100"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No instructors found.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      {instructors?.length > 0 && (
+        <PagePagination total={total} limit={10} hasNextPage={hasNextPage} />
+      )}
     </div>
   );
 }
