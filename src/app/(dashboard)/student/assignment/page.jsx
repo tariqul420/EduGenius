@@ -15,6 +15,7 @@ export default async function StudentHome({ searchParams }) {
     {
       id: 1,
       title: "Web Developer",
+      course: "Complete Web Development",
       startDate: "30 Dec",
       dateLine: "5 Jan",
       mark: 50,
@@ -23,6 +24,7 @@ export default async function StudentHome({ searchParams }) {
     {
       id: 1,
       title: "Web Developer",
+      course: "Complete Web Development",
       startDate: "30 Dec",
       dateLine: "5 Jan",
       mark: 50,
@@ -31,6 +33,7 @@ export default async function StudentHome({ searchParams }) {
     {
       id: 1,
       title: "Web Developer",
+      course: "Complete Web Development",
       startDate: "30 Dec",
       dateLine: "5 Jan",
       mark: 50,
@@ -39,6 +42,7 @@ export default async function StudentHome({ searchParams }) {
     {
       id: 1,
       title: "Web Developer",
+      course: "Complete Web Development",
       startDate: "30 Dec",
       dateLine: "5 Jan",
       mark: 50,
@@ -47,6 +51,7 @@ export default async function StudentHome({ searchParams }) {
     {
       id: 1,
       title: "Web Developer",
+      course: "Complete Web Development",
       startDate: "30 Dec",
       dateLine: "5 Jan",
       mark: 50,
@@ -55,6 +60,7 @@ export default async function StudentHome({ searchParams }) {
     {
       id: 1,
       title: "Web Developer",
+      course: "Complete Web Development",
       startDate: "30 Dec",
       dateLine: "5 Jan",
       mark: 50,

@@ -28,7 +28,7 @@ export default function CertificateTable({
     () => [
       {
         accessorKey: "course.title",
-        header: "Course Name",
+        header: "Course",
         cell: ({ row }) => (
           <div className="max-w-xs truncate">
             {row.original.course?.title || "N/A"}
@@ -42,7 +42,11 @@ export default function CertificateTable({
           const date = row.original.createdAt
             ? format(new Date(row.original.createdAt), "MMMM dd, yyyy")
             : "N/A";
-          return <div className="text-center">{date}</div>;
+          return (
+            <Badge variant="outline" className="text-muted-foreground px-1.5">
+              {date}
+            </Badge>
+          );
         },
       },
       {

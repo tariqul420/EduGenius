@@ -29,47 +29,48 @@ const columns = [
     ),
   },
   {
+    accessorKey: "course",
+    header: "Course",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.course}
+      </Badge>
+    ),
+  },
+  {
     accessorKey: "startDate",
     header: "Start Date",
     cell: ({ row }) => (
-      <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {row.original.startDate}
-        </Badge>
-      </div>
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.startDate}
+      </Badge>
     ),
   },
   {
     accessorKey: "dateLine",
     header: "Date Line",
     cell: ({ row }) => (
-      <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {row.original.dateLine}
-        </Badge>
-      </div>
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.dateLine}
+      </Badge>
     ),
   },
   {
     accessorKey: "mark",
     header: "Mark",
     cell: ({ row }) => (
-      <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {row.original.mark}
-        </Badge>
-      </div>
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.mark}
+      </Badge>
     ),
   },
   {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => (
-      <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {row.original.status}
-        </Badge>
-      </div>
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.status}
+      </Badge>
     ),
   },
   {

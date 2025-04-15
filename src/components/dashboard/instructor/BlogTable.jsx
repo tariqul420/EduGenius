@@ -30,13 +30,6 @@ export default function BlogTable({
 }) {
   const columns = [
     {
-      id: "index",
-      header: "No",
-      cell: ({ row }) => (
-        <div className="text-gray-700 dark:text-gray-200">{row.index + 1}.</div>
-      ),
-    },
-    {
       accessorKey: "thumbnail",
       header: "Thumbnail",
       cell: ({ row }) => (
@@ -64,37 +57,31 @@ export default function BlogTable({
       accessorKey: "category.name",
       header: "Category",
       cell: ({ row }) => (
-        <div className="w-32">
-          <Badge variant="outline" className="text-muted-foreground px-1.5">
-            {row.original.category?.name || "N/A"}
-          </Badge>
-        </div>
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {row.original.category?.name || "N/A"}
+        </Badge>
       ),
     },
     {
       accessorKey: "createdAt",
       header: "Created At",
       cell: ({ row }) => (
-        <div className="w-32">
-          <Badge variant="outline" className="text-muted-foreground px-1.5">
-            {row.original.createdAt
-              ? format(new Date(row.original.createdAt), "MMMM dd, yyyy")
-              : "N/A"}
-          </Badge>
-        </div>
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {row.original.createdAt
+            ? format(new Date(row.original.createdAt), "MMMM dd, yyyy")
+            : "N/A"}
+        </Badge>
       ),
     },
     {
       accessorKey: "updatedAt",
       header: "Updated At",
       cell: ({ row }) => (
-        <div className="w-32">
-          <Badge variant="outline" className="text-muted-foreground px-1.5">
-            {row.original.updatedAt
-              ? format(new Date(row.original.updatedAt), "MMMM dd, yyyy")
-              : "N/A"}
-          </Badge>
-        </div>
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {row.original.updatedAt
+            ? format(new Date(row.original.updatedAt), "MMMM dd, yyyy")
+            : "N/A"}
+        </Badge>
       ),
     },
     {
