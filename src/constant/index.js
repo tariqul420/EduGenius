@@ -38,14 +38,14 @@ export const student = [
     icon: "LayoutDashboard",
   },
   {
-    title: "Course",
-    url: "/student/course",
+    title: "Courses",
+    url: "/student/courses",
     icon: "BookText",
   },
   {
     title: "Assignment",
     url: "/student/assignment",
-    icon: "BookOpenCheck",
+    icon: "BookCopy",
   },
   {
     title: "Quiz",
@@ -66,25 +66,29 @@ export const admin = [
     icon: "LayoutDashboard",
   },
   {
-    title: "Course List",
+    title: "Courses",
     url: "/admin/courses",
     icon: "BookText",
   },
   {
-    title: "Instructor List",
+    title: "Instructors",
     url: "/admin/instructors",
     icon: "UsersRound",
   },
-
   {
-    title: "Category",
-    url: "/admin/category",
-    icon: "UsersRound",
+    title: "Categories",
+    url: "/admin/categories",
+    icon: "tag",
   },
   {
     title: "Students",
     url: "/admin/students",
-    icon: "UsersRound",
+    icon: "graduation-cap",
+  },
+  {
+    title: "Become Instructor",
+    url: "/admin/become-instructor",
+    icon: "user-round-plus",
   },
 ];
 
