@@ -15,7 +15,7 @@ export default async function Instructor({ params }) {
   const { slug } = await params;
   const instructor = await getInstructorBySlug(slug);
 
-  const { instructorId, social, students, courses, avgRating } =
+  const { instructorId, social, students, courses, avgRating, profession } =
     instructor || {};
 
   return (
@@ -39,9 +39,7 @@ export default async function Instructor({ params }) {
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
                 {instructorId?.firstName} {instructorId?.lastName}
               </h2>
-              <p className="text-sm">
-                {instructorId?.profession || "Instructor"}
-              </p>
+              <p className="text-sm">{profession || "Instructor"}</p>
             </div>
 
             <AvgRating avgRating={avgRating} />
