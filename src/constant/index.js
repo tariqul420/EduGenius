@@ -78,17 +78,17 @@ export const admin = [
   {
     title: "Categories",
     url: "/admin/categories",
-    icon: "tag",
+    icon: "Tag",
   },
   {
     title: "Students",
     url: "/admin/students",
-    icon: "graduation-cap",
+    icon: "GraduationCap",
   },
   {
     title: "Become Instructor",
     url: "/admin/become-instructor",
-    icon: "user-round-plus",
+    icon: "UserRoundPlus",
   },
 ];
 

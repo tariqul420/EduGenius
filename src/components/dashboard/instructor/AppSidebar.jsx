@@ -25,7 +25,9 @@ import {
   LayoutDashboard,
   ListTodo,
   Medal,
+  Tag,
   UserPlus,
+  UserRoundPlus,
   UsersRound,
 } from "lucide-react";
 import Link from "next/link";
@@ -46,6 +48,9 @@ const iconMap = {
   Award: Award,
   ListTodo: ListTodo,
   BookCopy: BookCopy,
+  Tag: Tag,
+  GraduationCap: GraduationCap,
+  UserRoundPlus: UserRoundPlus,
 };
 
 export function AppSidebar({ role, menu = [] }) {

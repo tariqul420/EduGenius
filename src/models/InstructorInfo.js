@@ -79,7 +79,10 @@ instructorInfoSchema.post("findOneAndUpdate", async function (doc) {
         await mongoose.model("Instructor").create({ instructorId: user._id });
       }
     }
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 });
 
 // Check if the model already exists, if not create it
