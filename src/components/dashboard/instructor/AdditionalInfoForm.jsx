@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Textarea } from "@/components/ui/textarea"; // Added Textarea import
 import {
   getAdditionalInfo,
   updateInstructor,
@@ -40,6 +41,27 @@ const formSchema = z.object({
     .min(1, "Address is required")
     .min(5, "Address must be at least 5 characters")
     .max(100, "Address must not exceed 100 characters")
+    .optional()
+    .or(z.literal("")),
+
+  profession: z
+    .string()
+    .min(1, "Profession is required")
+    .max(50, "Profession must not exceed 50 characters")
+    .optional()
+    .or(z.literal("")),
+
+  education: z
+    .string()
+    .min(1, "Education is required")
+    .max(100, "Education must not exceed 100 characters")
+    .optional()
+    .or(z.literal("")),
+
+  aboutMe: z
+    .string()
+    .min(1, "About me is required")
+    .max(500, "About me must not exceed 500 characters")
     .optional()
     .or(z.literal("")),
 
@@ -85,12 +107,14 @@ export default function AdditionalInfoForm() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       phone: "",
       address: "",
+      profession: "",
+      education: "",
+      aboutMe: "",
       social: {
         facebook: "",
         twitter: "",
@@ -100,7 +124,6 @@ export default function AdditionalInfoForm() {
     },
   });
 
-  // 2. Define a submit handler.
   function onSubmit(values) {
     toast.promise(
       updateInstructor({
@@ -129,6 +152,9 @@ export default function AdditionalInfoForm() {
           form.reset({
             phone: info.instructorId.phone || "",
             address: info.instructorId.address || "",
+            profession: info.instructorId.profession || "",
+            education: info.instructorId.education || "",
+            aboutMe: info.instructorId.aboutMe || "",
             social: {
               facebook: info.social.facebook || "",
               twitter: info.social.twitter || "",
@@ -154,7 +180,7 @@ export default function AdditionalInfoForm() {
       <div className="mt-4 border-t border-neutral-300/50 py-4 dark:border-neutral-700/50">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* Phone and Address Section */}
+            {/* Personal Information Section */}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <FormField
                 control={form.control}
@@ -191,11 +217,65 @@ export default function AdditionalInfoForm() {
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="profession"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-xs">Profession</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your profession"
+                        {...field}
+                        className="placeholder:text-xs"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="education"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-xs">Education</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your education"
+                        {...field}
+                        className="placeholder:text-xs"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
+
+            {/* About Me Section */}
+            <FormField
+              control={form.control}
+              name="aboutMe"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-xs">About Me</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Tell us about yourself"
+                      {...field}
+                      className="min-h-[100px] placeholder:text-xs"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             {/* Social Media Section */}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              {/* Facebook */}
               <FormField
                 control={form.control}
                 name="social.facebook"
@@ -214,7 +294,6 @@ export default function AdditionalInfoForm() {
                 )}
               />
 
-              {/* Twitter */}
               <FormField
                 control={form.control}
                 name="social.twitter"
@@ -233,7 +312,6 @@ export default function AdditionalInfoForm() {
                 )}
               />
 
-              {/* LinkedIn */}
               <FormField
                 control={form.control}
                 name="social.linkedin"
@@ -252,7 +330,6 @@ export default function AdditionalInfoForm() {
                 )}
               />
 
-              {/* Instagram */}
               <FormField
                 control={form.control}
                 name="social.instagram"
@@ -274,7 +351,7 @@ export default function AdditionalInfoForm() {
 
             <Button
               type="submit"
-              className="w-full"
+              className="w-full cursor-pointer"
               disabled={form.formState.isSubmitting}
             >
               Save Information
@@ -285,12 +362,8 @@ export default function AdditionalInfoForm() {
     </div>
   ) : (
     <div className="space-y-4">
-      {/* Skeleton for the title */}
       <Skeleton className="h-7 w-1/4" />
-
-      {/* Skeleton for the form section */}
       <div className="mt-4 border-t py-4">
-        {/* Skeleton for phone and address fields */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div className="space-y-2">
             <Skeleton className="h-4 w-1/3" />
@@ -300,9 +373,19 @@ export default function AdditionalInfoForm() {
             <Skeleton className="h-4 w-1/3" />
             <Skeleton className="h-10 w-full" />
           </div>
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-1/3" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-1/3" />
+            <Skeleton className="h-10 w-full" />
+          </div>
         </div>
-
-        {/* Skeleton for social media fields */}
+        <div className="mt-6 space-y-2">
+          <Skeleton className="h-4 w-1/3" />
+          <Skeleton className="h-24 w-full" />
+        </div>
         <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div className="space-y-2">
             <Skeleton className="h-4 w-1/3" />
@@ -321,8 +404,6 @@ export default function AdditionalInfoForm() {
             <Skeleton className="h-10 w-full" />
           </div>
         </div>
-
-        {/* Skeleton for the submit button */}
         <Skeleton className="mt-6 h-10 w-full" />
       </div>
     </div>
