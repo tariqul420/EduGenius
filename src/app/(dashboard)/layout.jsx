@@ -5,6 +5,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { sidebar } from "@/constant";
 import { auth } from "@clerk/nextjs/server";
 
+
 export const metadata = {
   title: "Dashboard | Welcome Our Dashboard.",
   description: "Welcome Our Dashboard.",
@@ -13,6 +14,7 @@ export const metadata = {
 export default async function Layout({ children }) {
   const { sessionClaims } = await auth();
   const role = sessionClaims?.role;
+
 
   return (
     <SidebarProvider>
