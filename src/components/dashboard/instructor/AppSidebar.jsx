@@ -109,33 +109,35 @@ export function AppSidebar({ role, menu = [] }) {
           >
             <UserButton
               showName={true}
-              // userProfileMode="navigation"
-              // userProfileUrl="/user-profile"
               appearance={{
                 elements: {
                   userButtonBox: "flex !flex-row-reverse items-center gap-2",
                 },
               }}
             >
-              <UserButton.UserProfilePage
-                url="/user-additional-info"
-                label="Additional info"
-                labelIcon={<IconInfoCircleFilled size={16} />}
-                alongside={true}
-              >
-                {role === "instructor" && <AdditionalInfoForm />}
-                {role === "student" && (
-                  <div>make it student info form here</div>
-                )}
-              </UserButton.UserProfilePage>
-              <UserButton.UserProfilePage
-                url="/request-instructor-role"
-                label="Become Instructor"
-                labelIcon={<UserPlus size={16} />}
-                alongside={true}
-              >
-                {role === "student" && <BecomeInstructorForm />}
-              </UserButton.UserProfilePage>
+              {/* Only show Additional Info section for instructors */}
+              {role === "instructor" && (
+                <UserButton.UserProfilePage
+                  url="/user-additional-info"
+                  label="Additional info"
+                  labelIcon={<IconInfoCircleFilled size={16} />}
+                  alongside={true}
+                >
+                  <AdditionalInfoForm />
+                </UserButton.UserProfilePage>
+              )}
+
+              {/* Only show Become Instructor section for students */}
+              {role === "student" && (
+                <UserButton.UserProfilePage
+                  url="/request-instructor-role"
+                  label="Become Instructor"
+                  labelIcon={<UserPlus size={16} />}
+                  alongside={true}
+                >
+                  <BecomeInstructorForm />
+                </UserButton.UserProfilePage>
+              )}
             </UserButton>
           </Suspense>
         </SignedIn>
