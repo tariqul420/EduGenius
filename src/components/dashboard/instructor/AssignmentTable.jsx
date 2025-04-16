@@ -333,7 +333,7 @@ export default function AssignmentTable({
         </div>
         <DataTableFooter
           table={table}
-          pageIndex={pageIndex}
+          pageIndex={pagination.pageIndex}
           pageSize={pageSize}
           total={total}
         />

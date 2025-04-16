@@ -322,7 +322,7 @@ export default function StudentTable({
 
         <DataTableFooter
           table={table}
-          pageIndex={pageIndex}
+          pageIndex={pagination.pageIndex}
           pageSize={pageSize}
           total={total}
         />
