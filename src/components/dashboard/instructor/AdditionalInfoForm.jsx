@@ -150,11 +150,11 @@ export default function AdditionalInfoForm() {
         const info = await getAdditionalInfo();
         if (info) {
           form.reset({
-            phone: info.instructorId.phone || "",
-            address: info.instructorId.address || "",
-            profession: info.instructorId.profession || "",
-            education: info.instructorId.education || "",
-            aboutMe: info.instructorId.aboutMe || "",
+            phone: info.phone || "",
+            address: info.address || "",
+            profession: info.profession || "",
+            education: info.education || "",
+            aboutMe: info.aboutMe || "",
             social: {
               facebook: info.social.facebook || "",
               twitter: info.social.twitter || "",

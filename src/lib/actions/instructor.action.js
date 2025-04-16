@@ -74,12 +74,7 @@ export async function getInstructorBySlug(slug) {
             profilePicture: "$instructorId.profilePicture",
             firstName: "$instructorId.firstName",
             lastName: "$instructorId.lastName",
-            address: "$instructorId.address",
-            phone: "$instructorId.phone",
             email: "$instructorId.email",
-            aboutMe: "$instructorId.aboutMe",
-            education: "$instructorId.education",
-            profession: "$instructorId.profession",
           },
         },
       },
@@ -123,6 +118,11 @@ export async function getInstructorBySlug(slug) {
           _id: "$_id",
           instructorId: { $first: "$instructorId" },
           social: { $first: "$social" },
+          phone: { $first: "$phone" },
+          address: { $first: "$address" },
+          profession: { $first: "$profession" },
+          education: { $first: "$education" },
+          aboutMe: { $first: "$aboutMe" },
           students: { $first: "$students" },
           courses: {
             $push: {
@@ -423,20 +423,15 @@ export async function updateInstructor({ data, path }) {
     await Promise.all([
       Instructor.findOneAndUpdate(
         { instructorId: objectId(userId) },
-        { social: data.social },
-        { new: true, upsert: true },
-      ),
-
-      User.findOneAndUpdate(
-        { _id: objectId(userId) },
         {
+          social: data.social,
           phone: data.phone,
           address: data.address,
           profession: data.profession,
           education: data.education,
           aboutMe: data.aboutMe,
         },
-        { new: true },
+        { new: true, upsert: true },
       ),
     ]);
 

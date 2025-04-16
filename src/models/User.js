@@ -13,12 +13,7 @@ const userSchema = new mongoose.Schema(
       default: "student",
       required: true,
     }, // User role
-    phone: { type: String },
-    address: { type: String },
     profilePicture: { type: String },
-    profession: { type: String },
-    education: { type: String },
-    aboutMe: { type: String, trim: true },
     slug: { type: String, unique: true },
   },
   { timestamps: true },

@@ -1,3 +1,4 @@
+import { clerkClient } from "@clerk/nextjs/server";
 import mongoose from "mongoose";
 
 // Define the additional instructor information schema
@@ -54,6 +55,32 @@ const instructorInfoSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+instructorInfoSchema.post("findOneAndUpdate", async function (doc) {
+  try {
+    if (doc.status === "approved") {
+      const user = await mongoose
+        .model("User")
+        .findByIdAndUpdate(
+          { _id: doc.student },
+          { role: "instructor" },
+          { new: true },
+        );
+
+      if (user) {
+        const client = await clerkClient();
+
+        await client.users.updateUser(user.clerkUserId, {
+          publicMetadata: {
+            role: "instructor",
+          },
+        });
+
+        await mongoose.model("Instructor").create({ instructorId: user._id });
+      }
+    }
+  } catch (error) {}
+});
 
 // Check if the model already exists, if not create it
 export default mongoose.models?.InstructorInfo ||

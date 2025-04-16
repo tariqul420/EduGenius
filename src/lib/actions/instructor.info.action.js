@@ -89,11 +89,11 @@ export async function saveInstructorInfo({ data, path }) {
   }
 }
 
-export async function updateInstructorStatus({ instructorId, status, path }) {
+export async function updateStudentStatus({ instructorId, status, path }) {
   try {
     await dbConnect();
 
-    await InstructorInfo.findByIdAndUpdate(
+    await InstructorInfo.findOneAndUpdate(
       instructorId,
       { status },
       { new: true },

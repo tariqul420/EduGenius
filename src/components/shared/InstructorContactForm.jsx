@@ -107,7 +107,7 @@ export default function InstructorContactForm({ email }) {
         />
         <Button
           type="submit"
-          className="bg-main w-full rounded-none px-4 py-6 text-sm"
+          className="bg-main w-full rounded-none px-4 py-6 text-sm text-white hover:text-black"
         >
           Send Message
         </Button>
