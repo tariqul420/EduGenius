@@ -18,34 +18,34 @@ export default async function CourseCard({ course }) {
   }
 
   return (
-    <Card
-      className={`group dark:bg-dark-bg rounded-md border shadow-md transition-all duration-300 hover:-translate-y-2 dark:border-t-[3px] dark:border-b-0`}
-    >
+    <Card className="flex h-full min-h-[300px] gap-2 py-2.5 px-2 flex-col">
+      {" "}
+      {/* Optional height */}
       <Link href={"#"}>
-        <CardHeader className={`relative w-full rounded-lg`}>
+        <CardHeader className="relative w-full px-2.5 rounded-lg">
           <Image
             src={thumbnail}
             alt={title}
             width={400}
             height={200}
             blurDataURL={thumbnail}
-            className={`h-full min-h-[170px] w-full rounded-md border object-cover`}
+            className="h-full min-h-[170px] w-full rounded-md border object-cover"
             placeholder="blur"
             loading="lazy"
-            sizes={"100vw"}
+            sizes="100vw"
           />
-          <div
-            className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-            aria-hidden="true"
-          >
-            <Play className="bg-main h-12 w-12 rounded-full p-3 text-white shadow-md" />
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <Play className="bg-main h-12 w-12 rounded-full text-white shadow-md" />
           </div>
         </CardHeader>
       </Link>
-      <CardContent className={`flex w-full flex-col`}>
-        <CardTitle className="text-lg font-semibold">{title}</CardTitle>
-        <p>{instructor?.name}</p>
-        <div className="mt-1">
+      <CardContent className="flex flex-1 px-2.5 flex-col">
+        <div>
+          <CardTitle className="text-lg font-semibold mb-1.5">{title}</CardTitle>
+          <p>{instructor?.name}</p>
+        </div>
+
+        <div className="bottom-part mt-auto flex flex-col">
           <Progress value={progress || 0} className="mt-2 h-[2px]" />
           <div className="mt-2.5 flex items-center justify-between text-sm">
             <p>{progress || 0}% Complete</p>
