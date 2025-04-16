@@ -137,8 +137,8 @@ const StudentList = () => {
   const hasNextPage = false; // Set to true if you have more pages
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl lg:text-5xl font-bold mb-4 text-center">
+    <div className="p-6">
+      <h2 className="text-2xl lg:text-4xl font-bold mb-4 text-center">
         Student List
       </h2>
       <div className="overflow-hidden rounded-lg border">
