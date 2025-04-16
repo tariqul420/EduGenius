@@ -1,22 +1,16 @@
 import BlogForm from "@/components/dashboard/instructor/BlogForm";
 import BlogTable from "@/components/dashboard/instructor/BlogTable";
-import { getBlogsByUser } from "@/lib/actions/blog.action";
+import { getBlogsByInstructor } from "@/lib/actions/blog.action";
 import { getCategory } from "@/lib/actions/category.action";
 import { auth } from "@clerk/nextjs/server";
 
 export default async function MyBlogs({ searchParams }) {
-  const { page } = await searchParams;
+  const { pageSize, pageIndex } = await searchParams;
+
   const { sessionClaims } = await auth();
   const categories = await getCategory();
-  const {
-    blogs = [],
-    total = 0,
-    hasNextPage = false,
-  } = await getBlogsByUser({
-    userId: sessionClaims?.userId,
-    page: Number(page) || 1,
-    limit: 6,
-  });
+
+  const { blogs, pagination } = await getBlogsByInstructor();
 
   const pathname = "/instructor/my-blogs";
 
@@ -36,16 +30,14 @@ export default async function MyBlogs({ searchParams }) {
             My Blogs
           </h1>
           <p className="dark:text-medium-bg text-sm font-medium text-gray-600">
-            Showing {blogs?.length} Of {total} Results
+            {/* Showing {blogs?.length} Of {total} Results */}
           </p>
         </div>
         <BlogTable
-          blog={blogs}
-          userId={sessionClaims?.userId}
-          categories={categories}
-          pathname={pathname}
-          hasNextPage={hasNextPage}
-          total={total}
+          pageIndex={Number(pageIndex || "1")}
+          pageSize={Number(pageSize || "10")}
+          total={pagination?.totalItems || 0}
+          data={blogs || []}
         />
       </section>
     </div>
