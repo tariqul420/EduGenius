@@ -10,7 +10,7 @@ export default async function Quiz({ searchParams }) {
   });
 
   return (
-    <section>
+    <section className="py-6">
       <div className="@container/main flex flex-1 flex-col gap-2">
         <QuizTable
           pageIndex={Number(pageIndex || 1)}
