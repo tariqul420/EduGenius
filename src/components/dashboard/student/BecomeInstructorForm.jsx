@@ -163,18 +163,18 @@ export default function BecomeInstructorForm() {
     switch (status) {
       case "approved":
         return {
-          color: "bg-green-50 border-green-200 text-green-800",
+          color: "bg-light-bg dark:bg-dark-hover border text-green-600",
           message: "Your instructor application has been approved!",
         };
       case "rejected":
         return {
-          color: "bg-red-50 border-red-200 text-red-800",
+          color: "bg-light-bg dark:bg-dark-hover border text-red-600",
           message: "Your instructor application was not approved at this time.",
         };
       case "pending":
       default:
         return {
-          color: "bg-yellow-50 border-yellow-200 text-yellow-800",
+          color: "bg-light-bg dark:bg-dark-hover border text-yellow-600",
           message: "Your instructor application is currently under review.",
         };
     }
