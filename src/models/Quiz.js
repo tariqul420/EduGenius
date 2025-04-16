@@ -28,19 +28,4 @@ const quizSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-quizSchema.post("findByIdAndUpdate", async function (doc) {
-  console.log("Quiz updated:", doc);
-  try {
-    if (doc) {
-      const quiz = await mongoose.model("Quiz").findById(doc._id);
-      if (!quiz) return;
-      const questions = quiz.questions.length > 0;
-      if (questions) return;
-      await mongoose.model("Quiz").findByIdAndDelete(doc.module);
-    }
-  } catch (error) {
-    console.error("Error deleting module:", error);
-  }
-});
-
 export default mongoose.models?.Quiz || mongoose.model("Quiz", quizSchema);
