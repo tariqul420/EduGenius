@@ -89,14 +89,10 @@ export default function QuizForm({ quiz, courseId, slug }) {
         }),
         {
           loading: "Updating quiz...",
-          success: (data) => {
-            if (data.success) {
-              router.push(`/instructor/courses/${slug}`, { scroll: false }); // Redirect to the courses page
-              router.refresh(`/instructor/courses/${slug}`); // Refresh the page to reflect changes
-              return "Quiz updated successfully!";
-            } else {
-              throw new Error(data.message || "Failed to update quiz.");
-            }
+          success: () => {
+            router.push(`/instructor/courses/${slug}`, { scroll: false }); // Redirect to the courses page
+            router.refresh(`/instructor/courses/${slug}`); // Refresh the page to reflect changes
+            return "Quiz updated successfully!";
           },
           error: (error) => error.message,
         },
@@ -195,10 +191,6 @@ export default function QuizForm({ quiz, courseId, slug }) {
                             name={`questions.${index}.options.${optionIndex}.isCorrect`} // Bind to the correct field
                             render={({ field, formState }) => (
                               <FormItem className="flex items-center gap-2">
-                                {console.log(
-                                  formState.errors?.questions?.[index]?.options
-                                    ?.root?.message,
-                                )}
                                 <FormControl>
                                   <Checkbox
                                     checked={field.value} // Bind the checkbox state to the form field value

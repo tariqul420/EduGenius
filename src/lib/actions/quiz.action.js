@@ -49,17 +49,13 @@ export async function updateQuiz({ quizId, data, path }) {
 
     const quiz = await Quiz.findByIdAndUpdate(quizId, data, { new: true });
 
-    if (String(quiz.instructor) !== String(userId)) {
-      throw new Error("You are not authorized to update this quiz");
-    }
+    if (!quiz) return;
+    const questions = quiz.questions.length > 0;
+    if (questions) return;
+    await Quiz.findByIdAndDelete(quiz._id);
 
     revalidatePath(path);
-    return JSON.parse(
-      JSON.stringify({
-        success: true,
-        message: "Quiz updated successfully",
-      }),
-    );
+    return { success: true, message: "Quiz updated successfully" };
   } catch (error) {
     console.error("Error updating quiz:", error);
     throw new Error("Failed to update quiz");
@@ -88,12 +84,8 @@ export async function deleteQuiz(quizId) {
     }
 
     await Quiz.findByIdAndDelete(quizId);
-    return JSON.parse(
-      JSON.stringify({
-        success: true,
-        message: "Quiz deleted successfully",
-      }),
-    );
+    revalidatePath(path);
+    return { success: true };
   } catch (error) {
     console.error("Error deleting quiz:", error);
     throw new Error("Failed to delete quiz");
