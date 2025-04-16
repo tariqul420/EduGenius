@@ -1,6 +1,7 @@
 "use client";
 
 import { InputPhone } from "@/components/shared/InputPhone";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,10 +15,9 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  getAdditionalInfo,
-  updateInstructor,
-} from "@/lib/actions/instructor.action";
-
+  getInstructorInfo,
+  saveInstructorInfo,
+} from "@/lib/actions/instructor.info.action";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -80,6 +80,8 @@ const formSchema = z.object({
 export default function BecomeInstructorForm() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [instructorStatus, setInstructorStatus] = useState(null);
+  const [formDisabled, setFormDisabled] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -98,15 +100,20 @@ export default function BecomeInstructorForm() {
     },
   });
 
-  function onSubmit(values) {
+  async function onSubmit(values) {
     toast.promise(
-      updateInstructor({
+      saveInstructorInfo({
         data: values,
-        path: "/instructor",
+        path: "/student",
       }),
       {
         loading: "Saving information...",
-        success: () => {
+        success: (response) => {
+          if (response.exists) {
+            setInstructorStatus(response.status);
+            setFormDisabled(true);
+            return "You already have an instructor profile.";
+          }
           router.refresh();
           return "Information saved successfully!";
         },
@@ -121,20 +128,24 @@ export default function BecomeInstructorForm() {
     const getInfo = async () => {
       setIsLoading(true);
       try {
-        const info = await getAdditionalInfo();
+        const info = await getInstructorInfo();
         if (info) {
+          // If info exists, disable the form and show status
+          setFormDisabled(true);
+          setInstructorStatus(info.status);
+
           form.reset({
-            phone: info.instructorId?.phone || "",
-            expertise: info.instructorId?.expertise || "",
-            profession: info.instructorId?.profession || "",
-            education: info.instructorId?.education || "",
+            phone: info?.phone || "",
+            expertise: info?.expertise || "",
+            profession: info?.profession || "",
+            education: info?.education || "",
             address: {
-              city: info.instructorId?.address?.city || "",
-              country: info.instructorId?.address?.country || "",
+              city: info?.address?.city || "",
+              country: info?.address?.country || "",
             },
-            experience: info.instructorId?.experience || "",
-            motivation: info.instructorId?.motivation || "",
-            teachingStyle: info.instructorId?.teachingStyle || "",
+            experience: info?.experience || "",
+            motivation: info?.motivation || "",
+            teachingStyle: info?.teachingStyle || "",
           });
         }
       } catch (error) {
@@ -147,11 +158,46 @@ export default function BecomeInstructorForm() {
     getInfo();
   }, []);
 
+  // Function to get status color and message
+  const getStatusInfo = (status) => {
+    switch (status) {
+      case "approved":
+        return {
+          color: "bg-green-50 border-green-200 text-green-800",
+          message: "Your instructor application has been approved!",
+        };
+      case "rejected":
+        return {
+          color: "bg-red-50 border-red-200 text-red-800",
+          message: "Your instructor application was not approved at this time.",
+        };
+      case "pending":
+      default:
+        return {
+          color: "bg-yellow-50 border-yellow-200 text-yellow-800",
+          message: "Your instructor application is currently under review.",
+        };
+    }
+  };
+
   return !isLoading ? (
     <div>
       <h2 className="text-lg font-semibold">Become an Instructor</h2>
 
       <div className="mt-4 border-t border-neutral-300/50 py-4 dark:border-neutral-700/50">
+        {instructorStatus && (
+          <Alert className={`mb-6 ${getStatusInfo(instructorStatus).color}`}>
+            <AlertTitle>
+              Application Status:{" "}
+              {instructorStatus.charAt(0).toUpperCase() +
+                instructorStatus.slice(1)}
+            </AlertTitle>
+            <AlertDescription>
+              {getStatusInfo(instructorStatus).message}
+            </AlertDescription>
+          </Alert>
+        )}
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             {/* Personal Information Section */}
@@ -167,6 +213,7 @@ export default function BecomeInstructorForm() {
                         placeholder="Enter phone number"
                         className="outline-none placeholder:text-xs"
                         {...field}
+                        disabled={formDisabled}
                       />
                     </FormControl>
                     <FormMessage />
@@ -187,6 +234,7 @@ export default function BecomeInstructorForm() {
                         placeholder="E.g. Web Development, Data Science, Design"
                         {...field}
                         className="placeholder:text-xs"
+                        disabled={formDisabled}
                       />
                     </FormControl>
                     <FormMessage />
@@ -207,6 +255,7 @@ export default function BecomeInstructorForm() {
                         placeholder="E.g. Software Engineer, UX Designer"
                         {...field}
                         className="placeholder:text-xs"
+                        disabled={formDisabled}
                       />
                     </FormControl>
                     <FormMessage />
@@ -225,6 +274,7 @@ export default function BecomeInstructorForm() {
                         placeholder="E.g. Master's in Computer Science"
                         {...field}
                         className="placeholder:text-xs"
+                        disabled={formDisabled}
                       />
                     </FormControl>
                     <FormMessage />
@@ -243,6 +293,7 @@ export default function BecomeInstructorForm() {
                         placeholder="Your City"
                         {...field}
                         className="placeholder:text-xs"
+                        disabled={formDisabled}
                       />
                     </FormControl>
                     <FormMessage />
@@ -260,6 +311,7 @@ export default function BecomeInstructorForm() {
                         placeholder="Your Country"
                         {...field}
                         className="placeholder:text-xs"
+                        disabled={formDisabled}
                       />
                     </FormControl>
                     <FormMessage />
@@ -282,6 +334,7 @@ export default function BecomeInstructorForm() {
                       placeholder="Describe your previous teaching or industry experience."
                       {...field}
                       className="min-h-[100px] placeholder:text-xs"
+                      disabled={formDisabled}
                     />
                   </FormControl>
                   <FormMessage />
@@ -303,6 +356,7 @@ export default function BecomeInstructorForm() {
                       placeholder="Tell us about your motivation to teach."
                       {...field}
                       className="min-h-[100px] placeholder:text-xs"
+                      disabled={formDisabled}
                     />
                   </FormControl>
                   <FormMessage />
@@ -321,6 +375,7 @@ export default function BecomeInstructorForm() {
                       placeholder="Describe your approach to teaching."
                       {...field}
                       className="min-h-[80px] placeholder:text-xs"
+                      disabled={formDisabled}
                     />
                   </FormControl>
                   <FormMessage />
@@ -328,13 +383,15 @@ export default function BecomeInstructorForm() {
               )}
             />
 
-            <Button
-              type="submit"
-              className="w-full cursor-pointer"
-              disabled={form.formState.isSubmitting}
-            >
-              Save Information
-            </Button>
+            {!formDisabled && (
+              <Button
+                type="submit"
+                className="w-full cursor-pointer"
+                disabled={form.formState.isSubmitting}
+              >
+                Save Information
+              </Button>
+            )}
           </form>
         </Form>
       </div>
