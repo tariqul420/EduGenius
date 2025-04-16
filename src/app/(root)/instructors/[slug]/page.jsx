@@ -1,5 +1,5 @@
+import AvgRating from "@/components/shared/AvgRating";
 import InstructorTab from "@/components/shared/InstructorTab";
-import Rating from "@/components/shared/Rating";
 import { getInstructorBySlug } from "@/lib/actions/instructor.action";
 import {
   BookOpenText,
@@ -15,11 +15,10 @@ export default async function Instructor({ params }) {
   const { slug } = await params;
   const instructor = await getInstructorBySlug(slug);
 
-  // console.log(instructor);
+  console.log(instructor);
 
-  const { instructorId, social, students, courses } = instructor || {};
-
-  console.log(courses);
+  const { instructorId, social, students, courses, avgRating } =
+    instructor || {};
 
   return (
     <section>
@@ -47,7 +46,7 @@ export default async function Instructor({ params }) {
               </p>
             </div>
 
-            <Rating />
+            <AvgRating avgRating={avgRating} />
 
             {/* Statistics */}
             <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
