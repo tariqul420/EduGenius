@@ -220,7 +220,7 @@ const Category = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl lg:text-5xl font-bold text-center mb-4">
+      <h2 className="text-2xl lg:text-4xl font-bold text-center mb-4">
         Course Categories
       </h2>
       <div className="overflow-hidden rounded-lg border">

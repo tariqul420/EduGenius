@@ -201,7 +201,10 @@ export default function CoursesAdminTable({
   });
 
   return (
-    <div>
+    <div className="p-6">
+      <h2 className="text-2xl lg:text-4xl font-bold m-4 text-center">
+        Course List
+      </h2>
       <div className="overflow-hidden rounded-lg border">
         <Table>
           <TableHeader className="bg-muted sticky top-0 z-10">
