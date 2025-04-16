@@ -18,6 +18,7 @@ const lessonSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
 lessonSchema.post("findOneAndDelete", async function (doc) {
   try {
     if (doc) {

@@ -92,43 +92,61 @@ export async function getCourseCurriculum(courseId) {
 }
 
 export async function updateCourseCurriculum({
+  courseId,
   moduleId,
-  lessonIds,
   data,
   path,
 }) {
   try {
     await dbConnect();
 
-    // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
+
     if (!userId) {
       throw new Error("User not authenticated");
     }
 
+    // Update module name
     await Module.findOneAndUpdate(
       { _id: objectId(moduleId) },
-      { name: data.name, isFinished: false },
+      { name: data.name },
       { new: true },
     );
 
-    await Lesson.updateMany(
-      { _id: { $in: lessonIds } },
-      {
-        $set: {
-          ...data.lessons,
-          isFinished: false,
-        },
-      },
-    );
+    // Handle existing lessons updates
+    const existingLessons = data.lessons.filter((lesson) => lesson._id);
+    for (const lesson of existingLessons) {
+      await Lesson.findByIdAndUpdate(lesson._id, {
+        title: lesson.title,
+        videoUrl: lesson.videoUrl,
+        module: objectId(moduleId),
+        course: objectId(courseId),
+      });
+    }
+
+    // Handle new lessons creation
+    const newLessons = data.lessons.filter((lesson) => !lesson._id);
+    if (newLessons.length > 0) {
+      const lessonsToCreate = newLessons.map((lesson) => ({
+        title: lesson.title,
+        videoUrl: lesson.videoUrl,
+        module: objectId(moduleId),
+        course: objectId(courseId),
+        isFinished: false,
+      }));
+
+      await Lesson.insertMany(lessonsToCreate);
+    }
 
     revalidatePath(path);
+    return { success: true };
   } catch (error) {
     console.error("Error updating course curriculum:", error);
+    throw error;
   }
 }
+
 export async function deleteCurriculumLesson({ lessonId, path }) {
   try {
     await dbConnect();
@@ -140,8 +158,9 @@ export async function deleteCurriculumLesson({ lessonId, path }) {
     if (!userId) {
       throw new Error("User not authenticated");
     }
-    await Lesson.findOneAndDelete({_id: lessonId});
+    await Lesson.findOneAndDelete({ _id: lessonId });
     revalidatePath(path);
+    return { success: true };
   } catch (error) {
     console.error("Error deleting course curriculum:", error);
   }
@@ -157,11 +176,10 @@ export async function deleteCurriculumModule({ curriculumId, path }) {
     if (!userId) {
       throw new Error("User not authenticated");
     }
-    await Module.findOneAndDelete({_id: curriculumId});
+    await Module.findOneAndDelete({ _id: curriculumId });
     revalidatePath(path);
+    return { success: true };
   } catch (error) {
     console.error("Error deleting course curriculum:", error);
   }
 }
-
-
