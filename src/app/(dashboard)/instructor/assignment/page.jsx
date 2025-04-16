@@ -7,7 +7,7 @@ export default async function Assignment({ searchParams }) {
   const { assignments, pagination } = await getAssignment();
 
   return (
-    <section>
+    <section className="py-6">
       <div className="@container/main flex flex-1 flex-col gap-2">
         <AssignmentTable
           pageIndex={Number(pageIndex || "1")}
