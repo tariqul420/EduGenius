@@ -25,11 +25,13 @@ import {
   LayoutDashboard,
   ListTodo,
   Medal,
+  UserPlus,
   UsersRound,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense } from "react";
+import BecomeInstructorForm from "../student/BecomeInstructorForm";
 import AdditionalInfoForm from "./AdditionalInfoForm";
 
 // Map of icon names to their corresponding components
@@ -125,6 +127,14 @@ export function AppSidebar({ role, menu = [] }) {
                 {role === "student" && (
                   <div>make it student info form here</div>
                 )}
+              </UserButton.UserProfilePage>
+              <UserButton.UserProfilePage
+                url="/request-instructor-role"
+                label="Become Instructor"
+                labelIcon={<UserPlus size={16} />}
+                alongside={true}
+              >
+                {role === "student" && <BecomeInstructorForm />}
               </UserButton.UserProfilePage>
             </UserButton>
           </Suspense>

@@ -85,7 +85,7 @@ export default function InstructorTab({ instructor }) {
       <TabsContent value="contact" className="mt-6">
         <div className="flex flex-col gap-8 lg:flex-row">
           <div className="flex-1">
-            <InstructorContactForm />
+            <InstructorContactForm email={instructorId?.email} />
           </div>
 
           <div className="dark:bg-dark-bg flex-1 rounded-lg bg-white p-6 shadow-sm lg:max-w-md">

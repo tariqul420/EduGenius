@@ -29,7 +29,7 @@ const formSchema = z.object({
   }),
 });
 
-export default function InstructorContactForm() {
+export default function InstructorContactForm({ email }) {
   // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(formSchema),
