@@ -41,7 +41,7 @@ export const categoryColumns = [
     header: "Created At",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge variant="outline" className="text-muted-foreground py-1 rounded px-1.5">
           {format(new Date(row.original?.createdAt), "PPP")}
         </Badge>
       </div>
@@ -52,7 +52,7 @@ export const categoryColumns = [
     header: "Updated At",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge variant="outline" className="text-muted-foreground py-1 rounded px-1.5">
           {format(new Date(row.original?.updatedAt), "PPP")}
         </Badge>
       </div>
@@ -125,7 +125,7 @@ export const blogColumns = [
     header: "Category",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge variant="outline" className="text-muted-foreground py-1 rounded px-1.5">
           {row.original.category?.name}
         </Badge>
       </div>
@@ -136,7 +136,7 @@ export const blogColumns = [
     header: "Created At",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge variant="outline" className="text-muted-foreground py-1 rounded px-1.5">
           {format(new Date(row.original?.createdAt), "PPP")}
         </Badge>
       </div>
@@ -147,7 +147,7 @@ export const blogColumns = [
     header: "Updated At",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge variant="outline" className="text-muted-foreground py-1 rounded px-1.5">
           {format(new Date(row.original?.updatedAt), "PPP")}
         </Badge>
       </div>
@@ -229,7 +229,7 @@ export const instructorQuizColumns = [
     header: "Category",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge variant="outline" className="text-muted-foreground py-1 rounded px-1.5">
           {row.original.course.category.name}
         </Badge>
       </div>
@@ -240,7 +240,7 @@ export const instructorQuizColumns = [
     header: "Enrolled Student",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge variant="outline" className="text-muted-foreground py-1 rounded px-1.5">
           {row.original.studentsCount}
         </Badge>
       </div>
@@ -267,7 +267,7 @@ export const instructorAssignmentColumns = [
     header: "Category",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge variant="outline" className="text-muted-foreground py-1 rounded px-1.5">
           {row.original.course.category.name}
         </Badge>
       </div>
@@ -278,7 +278,7 @@ export const instructorAssignmentColumns = [
     header: "Enrolled Student",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge variant="outline" className="text-muted-foreground py-1 rounded px-1.5">
           {row.original.studentsCount}
         </Badge>
       </div>
@@ -289,7 +289,7 @@ export const instructorAssignmentColumns = [
     header: "Deadline",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge variant="outline" className="text-muted-foreground py-1 rounded px-1.5">
           {format(new Date(row.original.deadline), "PPP")}
         </Badge>
       </div>
@@ -300,7 +300,7 @@ export const instructorAssignmentColumns = [
     header: "Total Marks",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge variant="outline" className="text-muted-foreground py-1 rounded px-1.5">
           {row.original.totalMarks}
         </Badge>
       </div>
@@ -311,7 +311,7 @@ export const instructorAssignmentColumns = [
     header: "Submissions Count",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge variant="outline" className="text-muted-foreground py-1 rounded px-1.5">
           {row.original.submissionsCount}
         </Badge>
       </div>
@@ -708,7 +708,7 @@ export const becomeInstructorsColumns = [
     accessorKey: "email",
     header: "Email",
     cell: ({ row }) => (
-      <Badge variant="outline" className="text-muted-foreground px-1.5">
+      <Badge variant="outline" className="text-muted-foreground py-1 rounded px-1.5">
         {row.original.student.email}
       </Badge>
     ),
@@ -717,7 +717,7 @@ export const becomeInstructorsColumns = [
     accessorKey: "phone",
     header: "Phone",
     cell: ({ row }) => (
-      <Badge variant="outline" className="text-muted-foreground px-1.5">
+      <Badge variant="outline" className="text-muted-foreground py-1 rounded px-1.5">
         {row.original.phone}
       </Badge>
     ),
@@ -726,7 +726,7 @@ export const becomeInstructorsColumns = [
     accessorKey: "experience",
     header: "Experience",
     cell: ({ row }) => (
-      <Badge variant="outline" className="text-muted-foreground px-1.5">
+      <Badge variant="outline" className="text-muted-foreground py-1 rounded px-1.5">
         {row.original.experience}
       </Badge>
     ),
@@ -735,7 +735,7 @@ export const becomeInstructorsColumns = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => (
-      <Badge variant="outline" className="text-muted-foreground px-1.5">
+      <Badge variant="outline" className="text-muted-foreground py-1 rounded px-1.5">
         {row.original.status}
       </Badge>
     ),
@@ -744,7 +744,7 @@ export const becomeInstructorsColumns = [
     accessorKey: "creartedAt",
     header: "Created At",
     cell: ({ row }) => (
-      <Badge variant="outline" className="text-muted-foreground px-1.5">
+      <Badge variant="outline" className="text-muted-foreground py-1 rounded px-1.5">
         {format(new Date(row.original.createdAt), "PPP")}
       </Badge>
     ),
