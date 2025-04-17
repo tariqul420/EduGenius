@@ -1,16 +1,15 @@
-import CertificateTable from "@/components/dashboard/student/CertificateTable";
+import DataTable from "@/components/dashboard/data-table";
 import StudentDashboard from "@/components/dashboard/student/DashboardStats";
+import { studentCertificateColumns } from "@/constant/columns";
 import { getCertificateByStudent } from "@/lib/actions/certificate.action";
 import { getStudentDashboardStats } from "@/lib/actions/stats.action";
-import { auth } from "@clerk/nextjs/server";
 
 export default async function StudentHome({ searchParams }) {
-  const { sessionClaims } = await auth();
-  const { page } = await searchParams;
-  const { certificates = [] } = await getCertificateByStudent({
-    studentId: sessionClaims?.userId,
-    page: Number(page) || 1,
-    limit: 6,
+  const { pageSize, pageIndex } = await searchParams;
+
+  const { certificates, pagination } = await getCertificateByStudent({
+    limit: Number(pageSize || 10),
+    page: Number(pageIndex || 1),
   });
 
   const stats = await getStudentDashboardStats();
@@ -35,7 +34,15 @@ export default async function StudentHome({ searchParams }) {
         <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-100">
           My Certificates
         </h2>
-        <CertificateTable certificates={certificates} />
+
+        <DataTable
+          pageIndex={Number(pageIndex || "1")}
+          pageSize={Number(pageSize || "10")}
+          total={pagination?.totalItems || 0}
+          data={certificates || []}
+          columns={studentCertificateColumns || []}
+          uniqueIdProperty="_id"
+        />
       </div>
     </section>
   );

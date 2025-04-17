@@ -17,14 +17,14 @@ const certificateSchema = new mongoose.Schema(
 certificateSchema.pre("save", async function (next) {
   // Only generate if certificateId is not already set
   if (!this.certificateId) {
-    const prefix = "EG-";
+    const prefix = "CERT-";
     let isUnique = false;
     let newCertificateId;
 
     // Keep generating until we find a unique ID
     while (!isUnique) {
       // Generate a random 5-digit number (10000 to 99999)
-      const randomNum = Math.floor(10000 + Math.random() * 90000);
+      const randomNum = Math.floor(10000000000 + Math.random() * 90000000000);
       newCertificateId = `${prefix}${randomNum}`;
 
       // Check if this ID already exists in the database
