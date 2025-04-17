@@ -1,4 +1,5 @@
-import StudentTable from "@/components/dashboard/instructor/StudentTable";
+import DataTable from "@/components/dashboard/data-table";
+import { instructorStudentColumns } from "@/constant/columns";
 import { getStudents } from "@/lib/actions/instructor.action";
 import { auth } from "@clerk/nextjs/server";
 
@@ -19,12 +20,14 @@ export default async function Student({ searchParams }) {
 
   return (
     <section className="py-6">
-      <div className="@container/main flex flex-1 flex-col gap-2">
-        <StudentTable
+      <div className="@container/main flex flex-1 flex-col gap-2 px-4 lg:px-6">
+        <DataTable
           pageIndex={Number(pageIndex || "1")}
           pageSize={Number(pageSize || "10")}
-          total={pagination?.total || 0}
+          total={pagination?.totalItems || 0}
           data={students || []}
+          columns={instructorStudentColumns || []}
+          uniqueIdProperty="studentId"
         />
       </div>
     </section>

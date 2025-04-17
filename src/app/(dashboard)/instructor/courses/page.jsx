@@ -1,4 +1,5 @@
-import { DataTable } from "@/components/data-table";
+import DataTable from "@/components/dashboard/data-table";
+import { instructorCourseColumns } from "@/constant/columns";
 import { getCourses } from "@/lib/actions/course.action";
 import { auth } from "@clerk/nextjs/server";
 
@@ -20,12 +21,14 @@ export default async function Courses({ searchParams }) {
 
   return (
     <section className="py-6">
-      <div className="@container/main flex flex-1 flex-col gap-2">
+      <div className="@container/main flex flex-1 flex-col gap-2 px-4 lg:px-6">
         <DataTable
           pageIndex={Number(pageIndex || "1")}
           pageSize={Number(pageSize || "10")}
           total={result?.total || 0}
           data={courses || []}
+          columns={instructorCourseColumns || []}
+          uniqueIdProperty="_id"
         />
       </div>
     </section>
