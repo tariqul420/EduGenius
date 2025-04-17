@@ -2,9 +2,11 @@
 import Blog from "@/models/Blog";
 import Category from "@/models/Category";
 import Comments from "@/models/Comments";
+import { auth } from "@clerk/nextjs/server";
 import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
+import { objectId } from "../utils";
 
 export async function createBlog({ blog, path }) {
   try {
@@ -157,58 +159,62 @@ export async function getBlogBySlug(slug) {
   }
 }
 
-export async function getBlogsByUser({ userId, page = 1, limit = 6 }) {
+export async function getBlogsByInstructor({ page = 1, limit = 10 } = {}) {
   try {
     await dbConnect();
 
-    // Validate userId
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-      return { blogs: [], total: 0, hasNextPage: false };
+    const { sessionClaims } = await auth();
+    const userRole = sessionClaims?.role;
+    const userId = sessionClaims?.userId;
+
+    if (userRole !== "instructor") {
+      throw new Error("Don't have permission perform this action!");
     }
 
-    // Convert string ID to ObjectId
-    const objectId = new mongoose.Types.ObjectId(userId);
-
-    // Calculate skip value for pagination
-    const skip = (page - 1) * limit;
-
     // Find blogs with pagination
-    const blogs = await Blog.find({ author: objectId })
+    const blogs = await Blog.find({ author: userId })
       .populate("category", "name")
       .sort({ createdAt: -1 })
-      .skip(skip)
+      .skip((page - 1) * limit)
       .limit(limit)
       .lean();
 
-    // Get total count
-    const total = await Blog.countDocuments({ author: objectId });
-    // const hasNextPage = skip + blogs.length < total;
-    const hasNextPage = total > limit * page;
+    // Get total count using the same match condition
+    const totalBlogs = await Blog.estimatedDocumentCount({
+      author: userId,
+    });
 
-    return {
-      blogs: JSON.parse(JSON.stringify(blogs)),
-      total,
-      hasNextPage,
-    };
+    const totalPages = Math.ceil(totalBlogs / limit);
+
+    return JSON.parse(
+      JSON.stringify({
+        blogs,
+        pagination: {
+          currentPage: page,
+          totalPages,
+          totalItems: totalBlogs,
+          hasNextPage: page < totalPages,
+          hasPrevPage: page > 1,
+        },
+      }),
+    );
   } catch (error) {
     console.error("Error fetching blogs by user:", error);
     return { blogs: [], total: 0, hasNextPage: false };
   }
 }
 
-export async function deleteBlogById(blogId, path) {
+export async function deleteBlogById(blogId) {
   try {
     await dbConnect();
 
-    const blogObjectId = new mongoose.Types.ObjectId(blogId);
-
     const commentDeletionResult = await Comments.deleteMany({
-      blog: blogObjectId,
+      blog: objectId(blogId),
     });
 
     // Delete the blog
     const blogDeletionResult = await Blog.findOneAndDelete({
-      _id: blogObjectId,
+      _id: objectId(blogId),
     });
 
     // Check if the blog was found and deleted
@@ -221,7 +227,7 @@ export async function deleteBlogById(blogId, path) {
     }
 
     // Revalidate the cache for the given path
-    revalidatePath(path);
+    revalidatePath("/instructor/my-blogs");
 
     return {
       delete: true,

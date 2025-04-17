@@ -28,16 +28,25 @@ const formSchema = z.object({
     z.object({
       question: z
         .string()
-        .min(2, { message: "Lesson title must be at least 2 characters." })
-        .max(100, { message: "Lesson title must be at most 100 characters." }),
+        .min(2, { message: "Question must be at least 2 characters." })
+        .max(100, { message: "Question must be at most 100 characters." }),
       options: z
         .array(
           z.object({
             option: z.string().min(1, { message: "Option cannot be empty." }),
-            isCorrect: z.boolean(),
+            isCorrect: z.boolean().default(false),
           }),
         )
-        .min(2, { message: "At least two options are required." }),
+        .min(2, { message: "At least two options are required." })
+        .refine(
+          (options) => {
+            const correctOptions = options.filter((opt) => opt.isCorrect);
+            return correctOptions.length >= 1;
+          },
+          {
+            message: "At least one option must be marked as correct",
+          },
+        ),
     }),
   ),
 });
@@ -80,13 +89,10 @@ export default function QuizForm({ quiz, courseId, slug }) {
         }),
         {
           loading: "Updating quiz...",
-          success: (data) => {
-            if (data.success) {
-              router.push(`/instructor/courses/${slug}`);
-              return "Quiz updated successfully!";
-            } else {
-              throw new Error(data.message || "Failed to update quiz.");
-            }
+          success: () => {
+            router.push(`/instructor/courses/${slug}`, { scroll: false }); // Redirect to the courses page
+            router.refresh(`/instructor/courses/${slug}`); // Refresh the page to reflect changes
+            return "Quiz updated successfully!";
           },
           error: (error) => error.message,
         },
@@ -101,7 +107,8 @@ export default function QuizForm({ quiz, courseId, slug }) {
           loading: "Creating quiz...",
           success: (data) => {
             if (data.success) {
-              router.push("/instructor/courses");
+              router.push(`/instructor/courses/${slug}`, { scroll: false }); // Redirect to the courses page
+              router.refresh(`/instructor/courses/${slug}`); // Refresh the page to reflect changes
               return "Quiz created successfully!";
             } else {
               throw new Error(data.message || "Failed to create quiz.");
@@ -182,7 +189,7 @@ export default function QuizForm({ quiz, courseId, slug }) {
                           <FormField
                             control={form.control}
                             name={`questions.${index}.options.${optionIndex}.isCorrect`} // Bind to the correct field
-                            render={({ field }) => (
+                            render={({ field, formState }) => (
                               <FormItem className="flex items-center gap-2">
                                 <FormControl>
                                   <Checkbox
@@ -191,7 +198,12 @@ export default function QuizForm({ quiz, courseId, slug }) {
                                   />
                                 </FormControl>
                                 <FormLabel>Option-{optionIndex + 1}</FormLabel>
-                                <FormMessage />
+                                <FormMessage>
+                                  {
+                                    formState.errors?.questions?.[index]
+                                      ?.options?.root?.message
+                                  }
+                                </FormMessage>
                               </FormItem>
                             )}
                           />

@@ -10,11 +10,11 @@ export default async function Quiz({ searchParams }) {
   });
 
   return (
-    <section>
+    <section className="py-6">
       <div className="@container/main flex flex-1 flex-col gap-2">
         <QuizTable
-          pageIndex={Number(pageIndex || "1")}
-          pageSize={Number(pageSize || "10")}
+          pageIndex={Number(pageIndex || 1)}
+          pageSize={Number(pageSize || 10)}
           total={pagination?.totalItems || 0}
           data={quizzes || []}
         />

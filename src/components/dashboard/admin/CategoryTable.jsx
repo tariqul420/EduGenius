@@ -54,9 +54,8 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { format } from "date-fns";
-import { Monitor, MonitorPlay, MoreHorizontal } from "lucide-react";
-import Image from "next/image";
-import DeleteBlogModal from "./DeleteBlogModal";
+import { MoreHorizontal } from "lucide-react";
+import { EditCategoryModal } from "./EditCategoryModal";
 
 // Create a separate component for the drag handle
 function DragHandle({ id }) {
@@ -111,41 +110,15 @@ const columns = [
     enableHiding: false,
   },
   {
-    accessorKey: "thumbnail",
-    header: "Thumbnail",
+    accessorKey: "name",
+    header: "name",
     cell: ({ row }) => (
-      <div className="relative h-10 w-16">
-        <Image
-          src={row.original.thumbnail}
-          alt={row.original.title}
-          fill
-          sizes="64px"
-          className="rounded object-cover"
-        />
-      </div>
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original?.name}
+      </h1>
     ),
     filterFn: "includesString",
     enableHiding: false,
-  },
-  {
-    accessorKey: "title",
-    header: "title",
-    cell: ({ row }) => (
-      <h1 className="max-w-xs truncate text-sm font-medium">
-        {row.original?.title}
-      </h1>
-    ),
-  },
-  {
-    accessorKey: "category.name",
-    header: "Category",
-    cell: ({ row }) => (
-      <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {row.original.category?.name}
-        </Badge>
-      </div>
-    ),
   },
   {
     accessorKey: "createdAt",
@@ -170,33 +143,10 @@ const columns = [
     ),
   },
   {
-    accessorKey: "liveNow",
-    header: "Live Now",
-    cell: ({ row }) => (
-      <div className="flex items-center">
-        <a
-          target="_blank"
-          href={row.original.slug ? `/blogs/${row.original.slug}` : "#"}
-          className="group relative inline-flex items-center"
-          rel="noopener noreferrer"
-        >
-          <Monitor
-            size={20}
-            className="text-gray-700 transition-opacity duration-300 ease-in-out group-hover:opacity-0 dark:text-gray-200"
-          />
-          <MonitorPlay
-            size={20}
-            className="absolute text-gray-700 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100 dark:text-gray-200"
-          />
-        </a>
-      </div>
-    ),
-  },
-  {
     id: "actions",
     header: "Action",
     cell: ({ row }) => {
-      const blog = row.original;
+      const category = row.original;
       return (
         <div className="flex justify-end">
           <DropdownMenu>
@@ -209,14 +159,13 @@ const columns = [
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(blog._id)}
+                onClick={() => navigator.clipboard.writeText(category._id)}
               >
-                Copy Blog ID
+                Copy category ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                {/* <BlogAction /> */}
-                <DeleteBlogModal blogId={blog._id} />
+                <EditCategoryModal category={category} />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -251,7 +200,7 @@ function DraggableRow({ row }) {
   );
 }
 
-export default function BlogTable({
+export default function CategoryTable({
   data: initialData,
   pageSize,
   pageIndex,
@@ -323,7 +272,7 @@ export default function BlogTable({
       defaultValue="outline"
       className="w-full flex-col justify-start gap-6"
     >
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between px-4 lg:px-6">
         <Label htmlFor="view-selector" className="sr-only">
           View
         </Label>
@@ -334,7 +283,7 @@ export default function BlogTable({
       </div>
       <TabsContent
         value="outline"
-        className="relative flex flex-col gap-4 overflow-auto"
+        className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
       >
         <div className="overflow-hidden rounded-lg border">
           <DndContext

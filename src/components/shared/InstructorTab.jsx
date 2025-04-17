@@ -7,7 +7,8 @@ import AvgRating from "./AvgRating";
 import InstructorContactForm from "./InstructorContactForm";
 
 export default function InstructorTab({ instructor }) {
-  const { instructorId, courses } = instructor || {};
+  const { instructorId, courses, aboutMe, education, phone, address } =
+    instructor || {};
 
   return (
     <Tabs defaultValue="about" className="mt-8 w-full">
@@ -37,17 +38,13 @@ export default function InstructorTab({ instructor }) {
           <div className="dark:bg-dark-bg rounded-lg bg-white p-6 shadow-sm">
             <h3 className="mb-4 text-lg font-semibold">About Me</h3>
             <p className="mt-4">
-              {instructorId?.aboutMe ||
-                "No information available at this time."}
+              {aboutMe || "No information available at this time."}
             </p>
           </div>
 
           <div className="dark:bg-dark-bg rounded-lg bg-white p-6 shadow-sm">
             <h3 className="mb-4 text-lg font-semibold">Education</h3>
-            <p>
-              {instructorId?.education ||
-                "No information available at this time."}
-            </p>
+            <p>{education || "No information available at this time."}</p>
           </div>
         </div>
       </TabsContent>
@@ -107,7 +104,7 @@ export default function InstructorTab({ instructor }) {
                   </p>
                 </div>
               </div>
-              {instructorId?.phone && (
+              {phone && (
                 <div className="flex items-start gap-4">
                   <div className="bg-main/10 text-main dark:bg-main-dark/10 dark:text-main-dark flex h-10 w-10 items-center justify-center rounded-full">
                     <Phone size={18} />
@@ -116,13 +113,11 @@ export default function InstructorTab({ instructor }) {
                     <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
                       Phone
                     </h3>
-                    <p className="text-gray-800 dark:text-gray-200">
-                      {instructorId?.phone}
-                    </p>
+                    <p className="text-gray-800 dark:text-gray-200">{phone}</p>
                   </div>
                 </div>
               )}
-              {instructorId?.address && (
+              {address && (
                 <div className="flex items-start gap-4">
                   <div className="bg-main/10 text-main dark:bg-main-dark/10 dark:text-main-dark flex h-10 w-10 items-center justify-center rounded-full">
                     <MapPin size={18} />
@@ -132,7 +127,7 @@ export default function InstructorTab({ instructor }) {
                       Location
                     </h3>
                     <p className="text-gray-800 dark:text-gray-200">
-                      {instructorId?.address}
+                      {address}
                     </p>
                   </div>
                 </div>

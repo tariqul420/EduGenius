@@ -336,7 +336,7 @@ export function DataTable({ data: initialData, pageSize, pageIndex, total }) {
         </div>
         <DataTableFooter
           table={table}
-          pageIndex={pageIndex}
+          pageIndex={pagination.pageIndex}
           pageSize={pageSize}
           total={total}
         />

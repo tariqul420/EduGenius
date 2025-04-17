@@ -173,6 +173,7 @@ export default function QuizTable({
     pageIndex: pageIndex ? pageIndex - 1 : 0,
     pageSize: pageSize,
   });
+
   const sortableId = React.useId();
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
@@ -296,7 +297,7 @@ export default function QuizTable({
         </div>
         <DataTableFooter
           table={table}
-          pageIndex={pageIndex}
+          pageIndex={pagination.pageIndex}
           pageSize={pageSize}
           total={total}
         />
