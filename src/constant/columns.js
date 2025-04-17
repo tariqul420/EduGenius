@@ -531,3 +531,82 @@ export const studentCertificateColumns = [
     },
   },
 ];
+
+export const studentAssignmentColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
+  {
+    accessorKey: "title",
+    header: "Title",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original.title}
+      </h1>
+    ),
+    filterFn: "includesString",
+    enableHiding: false,
+  },
+  {
+    accessorKey: "course",
+    header: "Course",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.course}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "startDate",
+    header: "Start Date",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.startDate}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "dateLine",
+    header: "Date Line",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.dateLine}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "mark",
+    header: "Mark",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.mark}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "yourMark",
+    header: "Your Mark",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.yourMark}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.status}
+      </Badge>
+    ),
+  },
+  {
+    id: "action",
+    header: "Action",
+    cell: ({ row }) => (
+      <div className="flex justify-end">
+        <Button variant="default">Enroll</Button>
+      </div>
+    ),
+  },
+];
