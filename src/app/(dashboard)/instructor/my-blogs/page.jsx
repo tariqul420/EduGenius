@@ -1,4 +1,4 @@
-import ReusableDataTable from "@/components/dashboard/data-table";
+import DataTable from "@/components/dashboard/data-table";
 import BlogForm from "@/components/dashboard/instructor/BlogForm";
 import { blogColumns } from "@/constant/columns";
 import { getBlogsByInstructor } from "@/lib/actions/blog.action";
@@ -26,7 +26,7 @@ export default async function MyBlogs({ searchParams }) {
         />
       </section>
       <section className="mt-4">
-        <ReusableDataTable
+        <DataTable
           pageIndex={Number(pageIndex || "1")}
           pageSize={Number(pageSize || "10")}
           total={pagination?.totalItems || 0}

@@ -146,7 +146,6 @@ const columns = [
       </div>
     ),
   },
-
   {
     accessorKey: "Enrolled Courses",
     header: "Enrolled Course",
