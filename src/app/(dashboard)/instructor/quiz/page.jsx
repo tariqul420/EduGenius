@@ -18,6 +18,13 @@ export default async function Quiz({ searchParams }) {
           total={pagination?.totalItems || 0}
           data={quizzes || []}
         />
+        {/* <DashboardTable
+          pageIndex={Number(pageIndex || 1)}
+          pageSize={Number(pageSize || 10)}
+          total={pagination?.totalItems || 0}
+          data={quizzes || []}
+          customColumns={"" || []}
+        /> */}
       </div>
     </section>
   );

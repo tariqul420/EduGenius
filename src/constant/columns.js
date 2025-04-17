@@ -1,6 +1,10 @@
 "use client";
 
 import { EditCategoryModal } from "@/components/dashboard/admin/EditCategoryModal";
+import {
+  createDragColumn,
+  createSelectionColumn,
+} from "@/components/dashboard/data-table";
 import DeleteBlogModal from "@/components/dashboard/instructor/DeleteBlogModal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -84,6 +88,8 @@ export const categoryColumns = [
 ];
 
 export const blogColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
   {
     accessorKey: "thumbnail",
     header: "Thumbnail",
@@ -199,3 +205,5 @@ export const blogColumns = [
     },
   },
 ];
+
+export const instructorQuizColumns = [];
