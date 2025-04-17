@@ -206,4 +206,40 @@ export const blogColumns = [
   },
 ];
 
-export const instructorQuizColumns = [];
+export const instructorQuizColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
+  {
+    accessorKey: "title",
+    header: "Title",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original.title}
+      </h1>
+    ),
+    filterFn: "includesString",
+    enableHiding: false,
+  },
+  {
+    accessorKey: "Category",
+    header: "Category",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {row.original.course.category.name}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "Enrolled Student",
+    header: "Enrolled Student",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {row.original.studentsCount}
+        </Badge>
+      </div>
+    ),
+  },
+];

@@ -1,4 +1,5 @@
-import QuizTable from "@/components/dashboard/instructor/QuizTable";
+import ReusableDataTable from "@/components/dashboard/data-table";
+import { instructorQuizColumns } from "@/constant/columns";
 import { getQuizzes } from "@/lib/actions/quiz.action";
 
 export default async function Quiz({ searchParams }) {
@@ -12,19 +13,14 @@ export default async function Quiz({ searchParams }) {
   return (
     <section className="py-6">
       <div className="@container/main flex flex-1 flex-col gap-2">
-        <QuizTable
-          pageIndex={Number(pageIndex || 1)}
-          pageSize={Number(pageSize || 10)}
+        <ReusableDataTable
+          pageIndex={Number(pageIndex || "1")}
+          pageSize={Number(pageSize || "10")}
           total={pagination?.totalItems || 0}
           data={quizzes || []}
+          columns={instructorQuizColumns || []}
+          uniqueIdProperty="_id"
         />
-        {/* <DashboardTable
-          pageIndex={Number(pageIndex || 1)}
-          pageSize={Number(pageSize || 10)}
-          total={pagination?.totalItems || 0}
-          data={quizzes || []}
-          customColumns={"" || []}
-        /> */}
       </div>
     </section>
   );
