@@ -5,34 +5,43 @@ import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
-
-export async function getInstructorInfo() {
+// getInstructorInfo ==========================
+export async function getInstructorInfo({ page = 1, limit = 10 } = {}) {
   try {
     await dbConnect();
 
-    // Get the current logged-in user
     const { sessionClaims } = await auth();
-    const userId = sessionClaims?.userId;
+    const role = sessionClaims?.role;
 
-    if (!userId) {
-      throw new Error("User not authenticated");
+    if (role !== "admin") {
+      throw new Error("User not authorized to view this data");
     }
+    const becomeInstructor = await InstructorInfo.find({})
+      .populate("student", "firstName lastName email")
+      .skip((page - 1) * limit)
+      .limit(limit);
 
-    const instructorInfo = await InstructorInfo.findOne({
-      student: objectId(userId),
-    });
+    const totalRequest = await InstructorInfo.estimatedDocumentCount() || 0;
+    const totalPages = Math.ceil(totalRequest / limit);
 
-    if (!instructorInfo) {
-      return null;
-    }
-
-    return JSON.parse(JSON.stringify(instructorInfo));
+    return JSON.parse(
+      JSON.stringify({
+        becomeInstructor,
+        pagination: {
+          currentPage: page,
+          totalPages,
+          totalItems: totalRequest,
+          hasNextPage: page < totalPages,
+          hasPrevPage: page > 1,
+        },
+      }),
+    );
   } catch (error) {
-    console.error("Error getting instructor info:", error);
-    throw error;
+    console.error("Error fetching quizzes:", error);
+    throw new Error("Failed to fetch quizzes");
   }
 }
-
+// saveInstructorInfo ==========================
 export async function saveInstructorInfo({ data, path }) {
   try {
     await dbConnect();
@@ -88,7 +97,7 @@ export async function saveInstructorInfo({ data, path }) {
     throw error;
   }
 }
-
+// updateStudentStatus ==========================
 export async function updateStudentStatus({ instructorId, status, path }) {
   try {
     await dbConnect();

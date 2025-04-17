@@ -689,3 +689,73 @@ export const studentQuizColumns = [
     ),
   },
 ];
+
+export const becomeInstructorsColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original.student.firstName} {row.original.student.lastName}
+      </h1>
+    ),
+    filterFn: "includesString",
+    enableHiding: false,
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.student.email}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "phone",
+    header: "Phone",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.phone}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "experience",
+    header: "Experience",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.experience}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.status}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "creartedAt",
+    header: "Created At",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {format(new Date(row.original.createdAt), "PPP")}
+      </Badge>
+    ),
+  },
+  {
+    id: "action",
+    header: "Action",
+    cell: ({ row }) => (
+      <div className="flex justify-end">
+        <Button variant="default">Enroll</Button>
+      </div>
+    ),
+  },
+];
