@@ -69,8 +69,8 @@ export default async function StudentAssignment({ searchParams }) {
   ];
 
   return (
-    <section className="min-h-screen py-8">
-      <div className="@container/main mx-auto px-4 md:px-6 lg:px-8">
+    <section className="py-6">
+      <div className="@container/main flex flex-1 flex-col gap-2 px-4 lg:px-6">
         {/* Page Header */}
         <div className="mb-8">
           <h1 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-gray-100">
