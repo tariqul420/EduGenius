@@ -19,10 +19,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { updateStudentStatus } from "@/lib/actions/instructor.info.action";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { format } from "date-fns";
 import { Monitor, MonitorPlay, MoreHorizontal } from "lucide-react";
 import Image from "next/image";
+import { toast } from "sonner";
 
 export const categoryColumns = [
   {
@@ -687,5 +689,138 @@ export const studentQuizColumns = [
         <Button variant="default">Enroll</Button>
       </div>
     ),
+  },
+];
+
+export const becomeInstructorsColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original.student.firstName} {row.original.student.lastName}
+      </h1>
+    ),
+    filterFn: "includesString",
+    enableHiding: false,
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.student.email}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "phone",
+    header: "Phone",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.phone}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "experience",
+    header: "Experience",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.experience}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original.status}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created At",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {format(new Date(row.original.createdAt), "PPP")}
+      </Badge>
+    ),
+  },
+  {
+    id: "actions",
+    header: "Action",
+    cell: ({ row }) => {
+      const blog = row.original;
+      return (
+        <div className="flex justify-end">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Actions</span>
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() =>
+                  navigator.clipboard.writeText(blog.student.email)
+                }
+              >
+                Copy studentId ID
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => {
+                  toast.promise(
+                    updateStudentStatus({
+                      studentId: row.original.student._id,
+                      status: "approved",
+                    }),
+                    {
+                      loading: "Status updating...",
+                      success: () => {
+                        return "Status update successfully!";
+                      },
+                      error: (err) => {
+                        return "Error update status. Please try again.";
+                      },
+                    },
+                  );
+                }}
+              >
+                Approved
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  toast.promise(
+                    updateStudentStatus({
+                      studentId: row.original.student._id,
+                      status: "rejected",
+                    }),
+                    {
+                      loading: "Status updating...",
+                      success: () => {
+                        return "Status update successfully!";
+                      },
+                      error: (err) => {
+                        return "Error update status. Please try again.";
+                      },
+                    },
+                  );
+                }}
+              >
+                Rejected
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      );
+    },
   },
 ];
