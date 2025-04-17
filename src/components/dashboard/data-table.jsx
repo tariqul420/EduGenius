@@ -32,17 +32,8 @@ import * as React from "react";
 
 import DataTableColumnSelector from "@/components/shared/DataTableColumnSelector";
 import DataTableFooter from "@/components/shared/DataTableFooter";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
 import {
   Table,
@@ -53,9 +44,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { format } from "date-fns";
-import { MoreHorizontal } from "lucide-react";
-import { EditCategoryModal } from "./EditCategoryModal";
 
 // Create a separate component for the drag handle
 function DragHandle({ id }) {
@@ -77,7 +65,7 @@ function DragHandle({ id }) {
   );
 }
 
-const columns = [
+const fixedColumns = [
   {
     id: "drag",
     header: () => null,
@@ -109,70 +97,6 @@ const columns = [
     enableSorting: false,
     enableHiding: false,
   },
-  {
-    accessorKey: "name",
-    header: "name",
-    cell: ({ row }) => (
-      <h1 className="max-w-xs truncate text-sm font-medium">
-        {row.original?.name}
-      </h1>
-    ),
-    filterFn: "includesString",
-    enableHiding: false,
-  },
-  {
-    accessorKey: "createdAt",
-    header: "Created At",
-    cell: ({ row }) => (
-      <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {format(new Date(row.original?.createdAt), "PPP")}
-        </Badge>
-      </div>
-    ),
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
-    cell: ({ row }) => (
-      <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {format(new Date(row.original?.updatedAt), "PPP")}
-        </Badge>
-      </div>
-    ),
-  },
-  {
-    id: "actions",
-    header: "Action",
-    cell: ({ row }) => {
-      const category = row.original;
-      return (
-        <div className="flex justify-end">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Actions</span>
-                <MoreHorizontal />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(category._id)}
-              >
-                Copy category ID
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <EditCategoryModal category={category} />
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      );
-    },
-  },
 ];
 
 function DraggableRow({ row }) {
@@ -200,11 +124,12 @@ function DraggableRow({ row }) {
   );
 }
 
-export default function CategoryTable({
+export default function DashboardTable({
   data: initialData,
   pageSize,
   pageIndex,
   total,
+  customColumns = [],
 }) {
   const [data, setData] = React.useState(() => initialData);
   const [rowSelection, setRowSelection] = React.useState({});
@@ -221,6 +146,10 @@ export default function CategoryTable({
     useSensor(TouchSensor, {}),
     useSensor(KeyboardSensor, {}),
   );
+
+  const columns = React.useMemo(() => {
+    return [...fixedColumns, ...customColumns];
+  }, [customColumns]);
 
   const dataIds = React.useMemo(
     () => data?.map(({ _id }) => _id) || [],
@@ -272,7 +201,7 @@ export default function CategoryTable({
       defaultValue="outline"
       className="w-full flex-col justify-start gap-6"
     >
-      <div className="flex items-center justify-between px-4 lg:px-6">
+      <div className="flex items-center justify-between">
         <Label htmlFor="view-selector" className="sr-only">
           View
         </Label>
@@ -283,7 +212,7 @@ export default function CategoryTable({
       </div>
       <TabsContent
         value="outline"
-        className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
+        className="relative flex flex-col gap-4 overflow-auto"
       >
         <div className="overflow-hidden rounded-lg border">
           <DndContext
