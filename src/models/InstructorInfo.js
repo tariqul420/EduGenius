@@ -73,6 +73,7 @@ instructorInfoSchema.post("findOneAndUpdate", async function (doc) {
         await client.users.updateUser(user.clerkUserId, {
           publicMetadata: {
             role: "instructor",
+            userId: user._id,
           },
         });
 
