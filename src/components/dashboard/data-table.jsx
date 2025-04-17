@@ -17,7 +17,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { IconGripVertical } from "@tabler/icons-react";
+import { IconGripVertical, IconPlus } from "@tabler/icons-react";
 import {
   flexRender,
   getCoreRowModel,
@@ -43,6 +43,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Checkbox } from "../ui/checkbox";
 
 // Create a separate component for the drag handle
@@ -181,6 +183,8 @@ export default function DataTable({
     setData(initialData || []);
   }, [initialData]);
 
+  const pathName = usePathname();
+
   return (
     <Tabs
       defaultValue="outline"
@@ -191,7 +195,19 @@ export default function DataTable({
           View
         </Label>
 
-        <DataTableColumnSelector table={table} />
+        <div className="flex items-center gap-2">
+          <DataTableColumnSelector table={table} />
+
+          {pathName === "/instructor/courses" || pathName === "/instructor" ? (
+            <Link
+              href="/instructor/courses/add-course"
+              className="bg-background hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 flex h-8 items-center gap-1.5 rounded-md border px-3 text-sm font-medium shadow-xs has-[>svg]:px-2.5"
+            >
+              <IconPlus size={16} />
+              <span>Add course</span>
+            </Link>
+          ) : null}
+        </div>
       </div>
       <TabsContent
         value="outline"

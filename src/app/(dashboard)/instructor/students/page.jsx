@@ -18,8 +18,6 @@ export default async function Student({ searchParams }) {
     page: Number(pageIndex || 1),
   });
 
-  console.log(students, pagination);
-
   return (
     <section className="py-6">
       <div className="@container/main flex flex-1 flex-col gap-2 px-4 lg:px-6">

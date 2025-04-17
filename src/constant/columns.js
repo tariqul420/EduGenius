@@ -6,6 +6,7 @@ import {
   createSelectionColumn,
 } from "@/components/dashboard/data-table";
 import DeleteBlogModal from "@/components/dashboard/instructor/DeleteBlogModal";
+import TableContextMenu from "@/components/dashboard/instructor/TableContextMenu";
 import CertificatePDF from "@/components/dashboard/student/CertificatePDF";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -378,6 +379,76 @@ export const instructorStudentColumns = [
         </Badge>
       </div>
     ),
+  },
+];
+
+export const instructorCourseColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
+  {
+    accessorKey: "title",
+    header: "Title",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original.title}
+      </h1>
+    ),
+    filterFn: "includesString",
+    enableHiding: false,
+  },
+  {
+    accessorKey: "category.name",
+    header: "Category",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {row.original.category.name}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "language",
+    header: "Language",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {row.original.language}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "price",
+    header: "Price",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          $
+          {row.original.price > 0 ? (
+            row.original.price
+          ) : (
+            <span className="text-green-500">Free</span>
+          )}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "averageRating",
+    header: "Rating",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {row.original.averageRating.toFixed(1)} / 5
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => <TableContextMenu row={row} />,
   },
 ];
 
