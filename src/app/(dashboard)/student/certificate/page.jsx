@@ -10,13 +10,8 @@ export default async function StudentCertificate({ searchParams }) {
     page: Number(pageIndex || 1),
   });
 
-  console.log(certificates, pagination);
-
   return (
-    <section className="@container/main mx-auto p-4 md:p-6 lg:p-8">
-      <h1 className="dark:text-medium-bg text-dark-bg mb-6 text-2xl font-semibold">
-        Certificate of Completion
-      </h1>
+    <section className="@container/main flex flex-1 flex-col gap-2 px-4 py-6 lg:px-6">
       <DataTable
         pageIndex={Number(pageIndex || "1")}
         pageSize={Number(pageSize || "10")}

@@ -288,6 +288,7 @@ export function createSelectionColumn() {
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
+          className={`border-[#e9e4e4] dark:border-[#383838]`}
         />
       </div>
     ),

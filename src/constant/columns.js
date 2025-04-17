@@ -407,6 +407,17 @@ export const studentCertificateColumns = [
     ),
   },
   {
+    accessorKey: "updatedAt",
+    header: "Updated At",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {format(new Date(row.original?.updatedAt), "PPP")}
+        </Badge>
+      </div>
+    ),
+  },
+  {
     id: "actions",
     header: "Action",
     cell: ({ row }) => {
