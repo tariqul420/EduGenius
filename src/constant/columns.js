@@ -6,6 +6,7 @@ import {
   createSelectionColumn,
 } from "@/components/dashboard/data-table";
 import DeleteBlogModal from "@/components/dashboard/instructor/DeleteBlogModal";
+import CertificatePDF from "@/components/dashboard/student/CertificatePDF";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import { format } from "date-fns";
 import { Monitor, MonitorPlay, MoreHorizontal } from "lucide-react";
 import Image from "next/image";
@@ -376,5 +378,74 @@ export const instructorStudentColumns = [
         </Badge>
       </div>
     ),
+  },
+];
+
+export const studentCertificateColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
+  {
+    accessorKey: "course.title",
+    header: "Course",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original?.course?.title}
+      </h1>
+    ),
+    filterFn: "includesString",
+    enableHiding: false,
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created At",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {format(new Date(row.original?.createdAt), "PPP")}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    id: "actions",
+    header: "Action",
+    cell: ({ row }) => {
+      const category = row.original;
+      return (
+        <div className="flex justify-end">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Actions</span>
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() =>
+                  navigator.clipboard.writeText(category?.certificateId)
+                }
+              >
+                Copy certificate ID
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <PDFDownloadLink
+                  document={<CertificatePDF certificateData={row.original} />}
+                  fileName={
+                    (row.original.course?.title
+                      ?.toLowerCase()
+                      .replaceAll(" ", "-") || "certificate") + ".pdf"
+                  }
+                >
+                  {({ loading }) => (loading ? "Generating..." : "Download")}
+                </PDFDownloadLink>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      );
+    },
   },
 ];

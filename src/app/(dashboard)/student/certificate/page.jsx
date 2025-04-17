@@ -1,30 +1,29 @@
-import CertificateTable from "@/components/dashboard/student/CertificateTable";
+import DataTable from "@/components/dashboard/data-table";
+import { studentCertificateColumns } from "@/constant/columns";
 import { getCertificateByStudent } from "@/lib/actions/certificate.action";
-import { auth } from "@clerk/nextjs/server";
 
 export default async function StudentCertificate({ searchParams }) {
-  const { sessionClaims } = await auth();
-  const { page } = await searchParams;
-  const {
-    certificates = [],
-    total = 0,
-    hasNextPage = false,
-  } = await getCertificateByStudent({
-    studentId: sessionClaims?.userId,
-    page: Number(page) || 1,
-    limit: 6,
+  const { pageSize, pageIndex } = await searchParams;
+
+  const { certificates, pagination } = await getCertificateByStudent({
+    limit: Number(pageSize || 10),
+    page: Number(pageIndex || 1),
   });
+
+  console.log(certificates, pagination);
 
   return (
     <section className="@container/main mx-auto p-4 md:p-6 lg:p-8">
       <h1 className="dark:text-medium-bg text-dark-bg mb-6 text-2xl font-semibold">
         Certificate of Completion
       </h1>
-
-      <CertificateTable
-        certificates={certificates}
-        hasNextPage={hasNextPage}
-        total={total}
+      <DataTable
+        pageIndex={Number(pageIndex || "1")}
+        pageSize={Number(pageSize || "10")}
+        total={pagination?.totalItems || 0}
+        data={certificates || []}
+        columns={studentCertificateColumns || []}
+        uniqueIdProperty="_id"
       />
     </section>
   );

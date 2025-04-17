@@ -1,4 +1,3 @@
-import CertificateTable from "@/components/dashboard/student/CertificateTable";
 import StudentDashboard from "@/components/dashboard/student/DashboardStats";
 import { getCertificateByStudent } from "@/lib/actions/certificate.action";
 import { getStudentDashboardStats } from "@/lib/actions/stats.action";
@@ -35,7 +34,6 @@ export default async function StudentHome({ searchParams }) {
         <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-100">
           My Certificates
         </h2>
-        <CertificateTable certificates={certificates} />
       </div>
     </section>
   );
