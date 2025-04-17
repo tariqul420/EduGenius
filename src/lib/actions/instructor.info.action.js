@@ -5,7 +5,8 @@ import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
-// getInstructorInfo ==========================
+
+// getInstructorInfo for admin
 export async function getInstructorInfo({ page = 1, limit = 10 } = {}) {
   try {
     await dbConnect();
@@ -41,7 +42,36 @@ export async function getInstructorInfo({ page = 1, limit = 10 } = {}) {
     throw new Error("Failed to fetch quizzes");
   }
 }
-// saveInstructorInfo ==========================
+
+// getInstructorInfo for Instructor ==============
+export async function getInstructorInfoUser() {
+  try {
+    await dbConnect();
+
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+    const userId = sessionClaims?.userId;
+
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    const instructorInfo = await InstructorInfo.findOne({
+      student: objectId(userId),
+    });
+
+    if (!instructorInfo) {
+      return null;
+    }
+
+    return JSON.parse(JSON.stringify(instructorInfo));
+  } catch (error) {
+    console.error("Error getting instructor info:", error);
+    throw error;
+  }
+}
+
+// saveInstructorInfo
 export async function saveInstructorInfo({ data, path }) {
   try {
     await dbConnect();
