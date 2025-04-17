@@ -1,30 +1,27 @@
 "use server";
 
 import Certificate from "@/models/Certificate";
-import mongoose from "mongoose";
+import { auth } from "@clerk/nextjs/server";
 import dbConnect from "../dbConnect";
+import { objectId } from "../utils";
 
-export async function getCertificateByStudent({
-  studentId,
-  page = 1,
-  limit = 6,
-}) {
+export async function getCertificateByStudent({ page = 1, limit = 10 } = {}) {
   try {
     await dbConnect();
 
-    // Validate studentId
-    if (!mongoose.Types.ObjectId.isValid(studentId)) {
-      return { certificates: [], total: 0, hasNextPage: false };
+    const { sessionClaims } = await auth();
+    const role = sessionClaims?.role;
+    const studentId = sessionClaims?.userId;
+
+    if (role !== "student") {
+      throw new Error("Don't have permission perform this action!");
     }
 
-    // Convert string ID to ObjectId
-    const objectId = new mongoose.Types.ObjectId(studentId);
-
-    // Calculate skip value for pagination
     const skip = (page - 1) * limit;
 
-    // Find certificate with pagination
-    const certificates = await Certificate.find({ student: objectId })
+    const certificates = await Certificate.find({
+      student: objectId(studentId),
+    })
       .populate("student", "firstName lastName")
       .populate({
         path: "course",
@@ -36,18 +33,27 @@ export async function getCertificateByStudent({
       .limit(limit)
       .lean();
 
-    // Get total count
-    const total = await Certificate.countDocuments({ student: objectId });
-    // const hasNextPage = skip + certificate.length < total;
-    const hasNextPage = total > limit * page;
+    // Get total count using the same match condition
+    const totalCertificates = await Certificate.countDocuments({
+      student: objectId(studentId),
+    });
 
-    return {
-      certificates: JSON.parse(JSON.stringify(certificates)),
-      total,
-      hasNextPage,
-    };
+    const totalPages = Math.ceil(totalCertificates / limit);
+
+    return JSON.parse(
+      JSON.stringify({
+        certificates,
+        pagination: {
+          currentPage: page,
+          totalPages,
+          totalItems: totalCertificates,
+          hasNextPage: page < totalPages,
+          hasPrevPage: page > 1,
+        },
+      }),
+    );
   } catch (error) {
-    console.error("Error fetching certificate by student:", error);
-    return { certificates: [], total: 0, hasNextPage: false };
+    console.error("Error fetching assignments:", error);
+    throw new Error("Failed to fetch assignments");
   }
 }

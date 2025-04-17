@@ -19,5 +19,18 @@ const lessonSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+lessonSchema.post("findOneAndDelete", async function (doc) {
+  try {
+    if (doc) {
+      const lessons = await mongoose
+        .model("Lesson")
+        .findOne({ module: doc.module });
+      if (lessons) return;
+      await mongoose.model("Module").findOneAndDelete({ _id: doc.module });
+    }
+  } catch (error) {
+    console.error("Error deleting module:", error);
+  }
+});
 export default mongoose.models?.Lesson ||
   mongoose.model("Lesson", lessonSchema);

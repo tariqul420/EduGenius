@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const studentSchema = new mongoose.Schema(
   {
-    studentId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    student: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     courses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
   },
   { timestamps: true },

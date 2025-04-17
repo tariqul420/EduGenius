@@ -3,13 +3,20 @@ import mongoose from "mongoose";
 const assignmentSchema = new mongoose.Schema(
   {
     title: { type: String, required: true }, // Assignment title
+    deadline: { type: Date, required: true }, // Assignment deadline
     description: { type: String, required: true }, // Assignment description
     course: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
       required: true,
     }, // Course ID
-    dueDate: { type: Date, required: true }, // Due date
+    instructor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    }, // Instructor ID
+    totalMarks: { type: Number, required: true }, // Total marks for the assignment
+    passMarks: { type: Number }, // Marks required to pass
     submissions: [
       {
         student: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Student ID

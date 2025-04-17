@@ -100,7 +100,7 @@ export async function POST(req) {
     const user = {
       firstName: first_name,
       lastName: last_name,
-      photo: image_url,
+      profilePicture: image_url,
     };
 
     try {

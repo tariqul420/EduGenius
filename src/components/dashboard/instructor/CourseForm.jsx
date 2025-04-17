@@ -80,9 +80,9 @@ export default function CourseForm({ course }) {
       thumbnail: course?.thumbnail || "",
       language: course?.language || "",
       level: course?.level || "Beginner",
-      discount: course?.discount || 0,
-      price: course?.price || 0,
-      duration: course?.duration || 0,
+      discount: course?.discount ?? "",
+      price: course?.price || "",
+      duration: course?.duration || "",
     },
   });
 
@@ -208,32 +208,35 @@ export default function CourseForm({ course }) {
                 <FormControl>
                   <CldUploadWidget
                     uploadPreset="edu-genius"
-                    onSuccess={(result, { widget }) => {
-                      // setResource(result?.info); // { public_id, secure_url, etc }
-                      form.setValue("thumbnail", result?.info?.secure_url); // Set the thumbnail URL in the form state
+                    onSuccess={(result) => {
+                      console.log(result);
+                      const info = result.info;
+                      form.setValue("thumbnail", info.secure_url); // Set the thumbnail URL in the form state
+                    }}
+                    options={{
+                      maxFiles: 1,
+                      resourceType: "image",
                     }}
                   >
-                    {({ open }) => {
-                      return (
-                        <div className="flex items-center gap-2">
-                          <Input
-                            placeholder="Upload thumbnail"
-                            value={field.value}
-                            onChange={(e) => field.onChange(e.target.value)}
-                            className="mb-2"
-                            disabled
-                          />
-                          <Button
-                            type="button"
-                            variant="outline"
-                            onClick={open}
-                            className="w-fit"
-                          >
-                            <ImageUp strokeWidth={1} />
-                          </Button>
-                        </div>
-                      );
-                    }}
+                    {({ open }) => (
+                      <div className="flex items-center gap-2">
+                        <Input
+                          placeholder="Upload thumbnail"
+                          value={field.value}
+                          onChange={(e) => field.onChange(e.target.value)}
+                          className="mb-2"
+                          disabled
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => (open ? open() : null)}
+                          className="w-fit"
+                        >
+                          <ImageUp strokeWidth={1} />
+                        </Button>
+                      </div>
+                    )}
                   </CldUploadWidget>
                 </FormControl>
                 <FormMessage />
@@ -296,7 +299,7 @@ export default function CourseForm({ course }) {
                   type="number"
                   placeholder="Enter discount percentage"
                   {...field}
-                  value={field.value || 0}
+                  value={field.value}
                   onChange={(e) => field.onChange(Number(e.target.value))}
                 />
               </FormControl>
@@ -317,7 +320,7 @@ export default function CourseForm({ course }) {
                   type="number"
                   placeholder="Enter course price"
                   {...field}
-                  value={field.value || 0}
+                  value={field.value}
                   onChange={(e) => field.onChange(Number(e.target.value))}
                 />
               </FormControl>
@@ -338,7 +341,7 @@ export default function CourseForm({ course }) {
                   type="number"
                   placeholder="Enter course duration"
                   {...field}
-                  value={field.value || 0}
+                  value={field.value}
                   onChange={(e) => field.onChange(Number(e.target.value))}
                 />
               </FormControl>

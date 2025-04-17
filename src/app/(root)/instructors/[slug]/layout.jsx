@@ -12,8 +12,8 @@ export async function generateMetadata({ params }) {
   }
 
   return {
-    title: `${instructor.firstName} ${instructor.lastName} | Meet our instructors`,
-    description: `Learn more about ${instructor.firstName} ${instructor.lastName}, ${instructor?.title || ""}`,
+    title: `${instructor?.instructorId?.firstName} ${instructor?.instructorId?.lastName} | Meet our instructors`,
+    description: `Learn more about ${instructor?.instructorId?.firstName} ${instructor?.instructorId?.lastName}, ${instructor?.title || ""}`,
   };
 }
 

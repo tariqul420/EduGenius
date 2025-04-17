@@ -1,8 +1,32 @@
 import Heading from "@/components/shared/Heading";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react"; // Or any other icon library you prefer
+import { AvatarCircles } from "../magicui/avatar-circles";
 
 const BecomeInstructor = () => {
+  const avatars = [
+    {
+      imageUrl: "https://avatars.githubusercontent.com/u/16860528",
+      profileUrl: "https://github.com/dillionverma",
+    },
+    {
+      imageUrl: "https://avatars.githubusercontent.com/u/20110627",
+      profileUrl: "https://github.com/tomonarifeehan",
+    },
+    {
+      imageUrl: "https://avatars.githubusercontent.com/u/106103625",
+      profileUrl: "https://github.com/BankkRoll",
+    },
+    {
+      imageUrl: "https://avatars.githubusercontent.com/u/59228569",
+      profileUrl: "https://github.com/safethecode",
+    },
+    {
+      imageUrl: "https://avatars.githubusercontent.com/u/59442788",
+      profileUrl: "https://github.com/sanjay-mali",
+    },
+   
+  ];
   return (
     <section className="bg-gradient-to-t pt-20 dark:from-black dark:to-dark-bg pb-16 px-4 sm:px-6 lg:px-8">
       <div className="mx-auto lg:max-w-6xl">
@@ -30,11 +54,7 @@ const BecomeInstructor = () => {
             </div>
             
             <div className="flex mt-5 items-center gap-2 text-sm">
-              <div className="flex -space-x-2">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="w-8 h-8 rounded-full border bg-light-bg border-black" />
-                ))}
-              </div>
+            <AvatarCircles numPeople={99} avatarUrls={avatars} />
               <span>Join 5,000+ instructors worldwide</span>
             </div>
           </div>

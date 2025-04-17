@@ -1,32 +1,46 @@
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
-import { DataTable } from "@/components/data-table";
+import DataTable from "@/components/dashboard/data-table";
 import { SectionCards } from "@/components/section-cards";
 import { SidebarInset } from "@/components/ui/sidebar";
+import { instructorCourseColumns } from "@/constant/columns";
 import { getCourses } from "@/lib/actions/course.action";
+import { courseSellingData } from "@/lib/actions/stats.action";
 import { auth } from "@clerk/nextjs/server";
 
-export default async function Home() {
+export default async function Home({ searchParams }) {
+  const { pageSize, pageIndex } = await searchParams;
+
   const { sessionClaims } = await auth();
   const instructor = sessionClaims?.userId;
   if (!instructor) {
     throw new Error("User not authenticated");
   }
 
-  const result = await getCourses({ instructor, limit: 5 });
-
+  const result = await getCourses({
+    instructor,
+    limit: Number(pageSize || 10),
+    page: Number(pageIndex || 1),
+  });
   const courses = result?.courses || [];
+
+  const data = await courseSellingData();
 
   return (
     <SidebarInset>
       {/* <SiteHeader /> */}
       <div className="flex flex-1 flex-col">
-        <div className="@container/main flex flex-1 flex-col gap-2">
+        <div className="@container/main flex flex-1 flex-col gap-2 px-4 lg:px-6">
           <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
             <SectionCards />
-            <div className="px-4 lg:px-6">
-              <ChartAreaInteractive />
-            </div>
-            <DataTable data={courses} />
+            <ChartAreaInteractive data={data} />
+            <DataTable
+              pageIndex={Number(pageIndex || "1")}
+              pageSize={Number(pageSize || "10")}
+              total={result?.total || 0}
+              data={courses || []}
+              columns={instructorCourseColumns || []}
+              uniqueIdProperty="_id"
+            />
           </div>
         </div>
       </div>

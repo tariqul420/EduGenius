@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Lesson from "./Lesson";
 
 const moduleSchema = new mongoose.Schema(
   {
@@ -13,6 +14,16 @@ const moduleSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+moduleSchema.post("findOneAndDelete", async function (doc) {
+  try {
+    if (doc) {
+      await Lesson.deleteMany({ module: doc._id });
+    }
+  } catch (error) {
+    console.error("Error deleting module:", error);
+  }
+});
 
 export default mongoose.models?.Module ||
   mongoose.model("Module", moduleSchema);

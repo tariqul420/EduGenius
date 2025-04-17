@@ -9,15 +9,11 @@ const instructorSchema = new mongoose.Schema(
       linkedin: { type: String },
       instagram: { type: String },
     },
-
-    rating: {
-      type: Number,
-      required: true,
-      min: [1, "Rating must be above 1.0"],
-      max: [5, "Rating must be below 5.0"],
-      set: (val) => Math.round(val * 10) / 10,
-    },
-
+    phone: { type: String },
+    address: { type: String },
+    profession: { type: String },
+    education: { type: String },
+    aboutMe: { type: String, trim: true },
     students: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     courses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
   },

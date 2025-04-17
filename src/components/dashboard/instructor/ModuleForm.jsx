@@ -11,8 +11,11 @@ import {
 import { Input } from "@/components/ui/input";
 import {
   addCourseCurriculum,
+  deleteCurriculumLesson,
+  deleteCurriculumModule,
   updateCourseCurriculum,
-} from "@/lib/actions/course.action";
+} from "@/lib/actions/curriculum.action";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Minus, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -27,6 +30,7 @@ const formSchema = z.object({
     .max(100, { message: "Title must be at most 100 characters." }),
   lessons: z.array(
     z.object({
+      _id: z.string().optional(),
       title: z
         .string()
         .min(2, { message: "Lesson title must be at least 2 characters." })
@@ -44,7 +48,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: curriculum?.name || "",
-      lessons: curriculum?.lessons || [{ title: "", videoUrl: "" }], // Default to one empty lesson
+      lessons: curriculum?.lessons || [{ id: "", title: "", videoUrl: "" }], // Default to one empty lesson
     },
   });
 
@@ -59,6 +63,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
       toast.promise(
         updateCourseCurriculum({
           moduleId: curriculum._id,
+          courseId,
           lessonIds: curriculum.lessons.map((lesson) => lesson._id),
           data: values,
           path: `/instructor/courses/${slug}`,
@@ -66,8 +71,9 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
         {
           loading: "Updating curriculum...",
           success: () => {
-            router.refresh(`/instructor/courses/${slug}`); // Refresh the page to reflect changes
             router.push(`/instructor/courses/${slug}`); // Redirect to the courses page
+            router.refresh(`/instructor/courses/${slug}`); // Refresh the page to reflect changes
+
             return "Curriculum updated successfully!";
           },
           error: (err) => {
@@ -86,8 +92,8 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
         {
           loading: "Adding curriculum...",
           success: () => {
-            form.reset(); // Reset the form after successful submission
-            router.push("/instructor/courses"); // Redirect to the courses page
+            router.push(`/instructor/courses/${slug}`); // Redirect to the courses pagepage
+            router.refresh(`/instructor/courses/${slug}`); // Refresh the page to reflect changes
             return "Curriculum added successfully!";
           },
           error: (err) => {
@@ -99,36 +105,106 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
     }
   }
 
+  function handleDeleteLesson(lessonId, index) {
+    try {
+      toast.promise(
+        deleteCurriculumLesson({
+          lessonId: lessonId,
+          path: `/instructor/courses/${slug}`,
+        }),
+        {
+          loading: "Deleting curriculum...",
+          success: () => {
+            router.refresh(`/instructor/courses/${slug}`);
+            router.push(`/instructor/courses/${slug}`);
+            return "Curriculum Deleted successfully!";
+          },
+          error: (err) => {
+            console.error(err);
+            router.refresh(`/instructor/courses/${slug}`);
+            router.push(`/instructor/courses/${slug}`);
+            return "Failed to Delete curriculum.";
+          },
+        },
+      );
+      remove(index);
+    } catch (error) {
+      console.error("Failed to delete curriculum:", error);
+    }
+  }
+
+  function handleDeleteModule(curriculumId) {
+    try {
+      toast.promise(
+        deleteCurriculumModule({
+          curriculumId: curriculumId,
+          path: `/instructor/courses/${slug}`,
+        }),
+        {
+          loading: "Deleting curriculum...",
+          success: () => {
+            form.reset({
+              name: "",
+              lessons: [{ id: "", title: "", videoUrl: "" }], // Reset to one empty lesson
+            }); // Reset the form after deletion
+            router.refresh(`/instructor/courses/${slug}`);
+            router.push(`/instructor/courses/${slug}`);
+            return "Curriculum Deleted successfully!";
+          },
+          error: (err) => {
+            console.error(err);
+            router.refresh(`/instructor/courses/${slug}`);
+            router.push(`/instructor/courses/${slug}`);
+            return "Failed to Delete curriculum.";
+          },
+        },
+      );
+    } catch (error) {
+      console.error("Failed to delete curriculum:", error);
+    }
+  }
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8"
       >
-        {/* Module Title */}
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem className="col-span-2">
-              <FormLabel>Module Title</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Enter module title"
-                  {...field}
-                  className="w-full"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="col-span-2 flex items-end gap-5">
+          {/* Module Title */}
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Module Title</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter module title"
+                    {...field}
+                    className="w-full"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => handleDeleteModule(curriculum._id)}
+            className="w-fit"
+          >
+            <Minus strokeWidth={1} />
+          </Button>
+        </div>
 
         {/* Dynamic Lessons */}
         <div className="col-span-2 space-y-5">
           {fields.map((lesson, index) => (
             <div key={lesson.id} className="flex w-full items-end gap-5">
               {/* Lesson Title */}
+
               <FormField
                 control={form.control}
                 name={`lessons.${index}.title`} // Dynamic field name
@@ -161,7 +237,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => remove(index)} // Remove the lesson
+                onClick={() => handleDeleteLesson(lesson._id, index)}
                 className="w-fit"
               >
                 <Minus strokeWidth={1} />

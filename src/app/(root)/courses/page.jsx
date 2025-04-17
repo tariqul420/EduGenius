@@ -34,9 +34,9 @@ export default async function Course({ searchParams }) {
         {/* Filter Bar */}
         <FilterBar total={total} courses={courses} categories={categories} />
         {/* Courses Content Section */}
-        <div className="mt-6 grid grid-cols-12 gap-5 md:mt-8">
+        <div className="mt-6 flex justify-between gap-5 md:mt-8">
           <CoursesContent courses={courses} hasNextPage={hasNextPage} />
-          <div className="courses-filter col-span-3 hidden rounded px-4 py-1.5 shadow-md lg:block">
+          <div className="courses-filter hidden min-w-[250px] rounded px-4 py-1.5 shadow-md lg:block">
             <FilterItem categories={categories} />
           </div>
         </div>

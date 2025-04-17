@@ -4,6 +4,7 @@ import Category from "@/models/Category";
 import Course from "@/models/Course";
 import Lesson from "@/models/Lesson";
 import Module from "@/models/Module";
+import Student from "@/models/Student";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
@@ -14,27 +15,30 @@ export async function getCourses({
   level,
   search,
   page = 1,
-  limit = 5,
+  limit = 10,
   sort,
   instructor,
+  excludeSlug,
 } = {}) {
   try {
     await dbConnect();
 
     // Find categories matching the provided slugs
-    const categories = await Category.find({
-      slug: { $in: categorySlugs },
-    });
+    const categories = categorySlugs.length
+      ? await Category.find({
+          slug: { $in: categorySlugs },
+        })
+      : [];
     const categoryIds = categories.map((category) => category._id);
 
     const skip = (page - 1) * limit;
 
     const pipeline = [
-      // Match courses based on categorySlug or search query
+      // Match courses based on criteria
       {
         $match: {
-          ...(instructor && { instructor: objectId(instructor) }), // Match instructor by ObjectId
-          ...(categoryIds.length > 0 && { category: { $in: categoryIds } }), // Match multiple categories
+          ...(instructor && { instructor: objectId(instructor) }),
+          ...(categoryIds.length > 0 && { category: { $in: categoryIds } }),
           ...(level && { level }),
           ...(search && {
             $or: [
@@ -42,6 +46,7 @@ export async function getCourses({
               { level: { $regex: search, $options: "i" } },
             ],
           }),
+          ...(excludeSlug && { slug: { $ne: excludeSlug } }),
         },
       },
       // Lookup instructor details
@@ -53,6 +58,7 @@ export async function getCourses({
           as: "instructorDetails",
         },
       },
+      // Lookup category details
       {
         $lookup: {
           from: "categories",
@@ -61,20 +67,30 @@ export async function getCourses({
           as: "categoryDetails",
         },
       },
+      // Lookup ratings
+      {
+        $lookup: {
+          from: "ratings",
+          localField: "_id", // Assuming ratings references course by course _id
+          foreignField: "course",
+          as: "ratingsData",
+        },
+      },
+      // Unwind instructor and category (single values)
       { $unwind: "$instructorDetails" },
       { $unwind: "$categoryDetails" },
+      // Add field for average rating
       {
         $addFields: {
           averageRating: {
             $cond: {
-              if: { $gt: [{ $size: "$ratings" }, 0] },
-              then: { $avg: "$ratings.rating" },
+              if: { $gt: [{ $size: "$ratingsData" }, 0] },
+              then: { $avg: "$ratingsData.rating" },
               else: 0,
             },
           },
         },
       },
-
       // Project specific fields
       {
         $project: {
@@ -92,6 +108,10 @@ export async function getCourses({
             name: "$categoryDetails.name",
             slug: "$categoryDetails.slug",
           },
+          instructor: {
+            _id: "$instructorDetails._id",
+            name: "$instructorDetails.name",
+          },
         },
       },
     ];
@@ -100,9 +120,10 @@ export async function getCourses({
     if (sort) {
       pipeline.push({
         $sort: {
-          ...(sort === "top-rated" && { averageRating: -1 }), // Sort by highest rating
-          ...(sort === "latest" && { createdAt: -1 }), // Sort by latest
-          ...(sort === "oldest" && { createdAt: 1 }), // Sort by oldest
+          ...(sort === "top-rated" && { averageRating: -1 }),
+          ...(sort === "latest" && { createdAt: -1 }),
+          ...(sort === "oldest" && { createdAt: 1 }),
+          ...(sort === "category-related" && { "category.slug": -1 }),
         },
       });
     }
@@ -113,13 +134,25 @@ export async function getCourses({
     const courses = await Course.aggregate(pipeline);
 
     // Count total documents matching the query
-    const total = await Course.estimatedDocumentCount();
+    const total = await Course.countDocuments({
+      ...(instructor && { instructor: objectId(instructor) }),
+      ...(categoryIds.length > 0 && { category: { $in: categoryIds } }),
+      ...(level && { level }),
+      ...(search && {
+        $or: [
+          { title: { $regex: search, $options: "i" } },
+          { level: { $regex: search, $options: "i" } },
+        ],
+      }),
+      ...(excludeSlug && { slug: { $ne: excludeSlug } }),
+    });
 
     const hasNextPage = total > page * limit;
 
     return { courses: JSON.parse(JSON.stringify(courses)), total, hasNextPage };
   } catch (error) {
     console.error(error);
+    return { courses: [], total: 0, hasNextPage: false };
   }
 }
 
@@ -147,14 +180,22 @@ export async function getCourseBySlug(slug) {
           as: "categoryDetails",
         },
       },
+      {
+        $lookup: {
+          from: "ratings",
+          localField: "_id",
+          foreignField: "course",
+          as: "ratingsData",
+        },
+      },
       { $unwind: "$instructorDetails" },
       { $unwind: "$categoryDetails" },
       {
         $addFields: {
           averageRating: {
             $cond: {
-              if: { $gt: [{ $size: "$ratings" }, 0] },
-              then: { $avg: "$ratings.rating" },
+              if: { $gt: [{ $size: "$ratingsData" }, 0] },
+              then: { $avg: "$ratingsData.rating" },
               else: 0,
             },
           },
@@ -172,11 +213,16 @@ export async function getCourseBySlug(slug) {
           duration: 1,
           averageRating: 1,
           slug: 1,
-          students: { $size: "$students" },
+          students: 1,
           instructor: {
             _id: "$instructorDetails._id",
             name: "$instructorDetails.name",
             email: "$instructorDetails.email",
+            firstName: "$instructorDetails.firstName",
+            lastName: "$instructorDetails.lastName",
+            profilePicture: "$instructorDetails.profilePicture",
+            role: "$instructorDetails.role",
+            slug: "$instructorDetails.slug",
           },
           category: {
             _id: "$categoryDetails._id",
@@ -318,7 +364,7 @@ export async function getCourseCurriculum(courseId) {
 
     const courseCurriculum = await Module.aggregate([
       {
-        $match: { course: courseId }, // Match modules for the given course
+        $match: { course: objectId(courseId) }, // Match modules for the given course
       },
       {
         $lookup: {
@@ -396,5 +442,43 @@ export async function updateCourseCurriculum({
     revalidatePath(path);
   } catch (error) {
     console.error("Error updating course curriculum:", error);
+  }
+}
+
+export async function getCourseForEnrollStudent(studentId) {
+  try {
+    await dbConnect();
+
+    const id = objectId(studentId);
+
+    const student = await Student.findOne({ student: id }).populate({
+      path: "courses",
+      select: "title thumbnail slug instructor",
+      populate: {
+        path: "instructor",
+        select: "firstName lastName",
+      },
+    });
+
+    if (!student) {
+      return { courses: [] };
+    }
+
+    // Transform instructor names if needed
+    const result = JSON.parse(JSON.stringify(student));
+    result.courses = result.courses.map((course) => ({
+      ...course,
+      instructor: course.instructor
+        ? {
+            _id: course.instructor._id,
+            name: `${course.instructor.firstName} ${course.instructor.lastName || ""}`.trim(),
+          }
+        : null,
+    }));
+
+    return result;
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    throw error;
   }
 }

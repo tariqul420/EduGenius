@@ -13,9 +13,7 @@ const userSchema = new mongoose.Schema(
       default: "student",
       required: true,
     }, // User role
-    phone: { type: String },
-    address: { type: String },
-    profilePicture: { type: String }, // Clerk profile picture URL
+    profilePicture: { type: String },
     slug: { type: String, unique: true },
   },
   { timestamps: true },

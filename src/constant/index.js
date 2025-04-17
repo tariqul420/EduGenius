@@ -1,4 +1,4 @@
-export const instructors = [
+export const instructor = [
   {
     title: "Dashboard",
     url: "/instructor",
@@ -10,27 +10,42 @@ export const instructors = [
     icon: "BookText",
   },
   {
+    title: "Students",
+    url: "/instructor/students",
+    icon: "UsersRound",
+  },
+  {
     title: "My Blogs",
     url: "/instructor/my-blogs",
     icon: "BookOpenText",
   },
+  {
+    title: "Quiz",
+    url: "/instructor/quiz",
+    icon: "ListTodo",
+  },
+  {
+    title: "Assignment",
+    url: "/instructor/assignment",
+    icon: "BookCopy",
+  },
 ];
 
-export const students = [
+export const student = [
   {
     title: "Dashboard",
     url: "/student",
     icon: "LayoutDashboard",
   },
   {
-    title: "Course",
-    url: "/student/course",
+    title: "Courses",
+    url: "/student/courses",
     icon: "BookText",
   },
   {
     title: "Assignment",
     url: "/student/assignment",
-    icon: "BookOpenCheck",
+    icon: "BookCopy",
   },
   {
     title: "Quiz",
@@ -44,7 +59,7 @@ export const students = [
   },
 ];
 
-export const admins = [
+export const admin = [
   {
     title: "Dashboard",
     url: "/admin",
@@ -61,18 +76,24 @@ export const admins = [
     icon: "UsersRound",
   },
   {
+    title: "Categories",
+    url: "/admin/categories",
+    icon: "Tag",
+  },
+  {
     title: "Students",
     url: "/admin/students",
-    icon: "UsersRound",
+    icon: "GraduationCap",
   },
   {
-    title: "Certificates",
-    url: "/admin/certificates",
-    icon: "Medal",
-  },
-  {
-    title: "Quiz & Assignment",
-    url: "/admin/quiz-assignment",
-    icon: "BookOpenCheck",
+    title: "Become Instructor",
+    url: "/admin/become-instructor",
+    icon: "UserRoundPlus",
   },
 ];
+
+export const sidebar = {
+  instructor,
+  student,
+  admin,
+};

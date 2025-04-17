@@ -3,25 +3,21 @@
 import { savePayment, savePaymentIntent } from "@/lib/actions/payment.action";
 import { useUser } from "@clerk/nextjs";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { AlertTriangle, CheckCircle, LoaderCircle } from "lucide-react";
+import { AlertTriangle, LoaderCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { AlertDialogCancel } from "../ui/alert-dialog";
 
-export default function CheckOutForm({
-  course,
-  userId,
-  path,
-  onPaymentSuccess,
-}) {
+export default function CheckOutForm({ course, userId, onPaymentSuccess }) {
   const { user } = useUser();
   const [clientSecret, setClientSecret] = useState("");
-  const [transactionId, setTransactionId] = useState("");
   const { discount, price, title, _id: courseId } = course;
-
   const [error, setError] = useState("");
   const stripe = useStripe();
   const elements = useElements();
   const [paymentLoading, setPaymentLoading] = useState(false);
+  const router = useRouter();
 
   // Calculate discounted price
   const discountedPrice = discount > 0 ? price * (1 - discount / 100) : price;
@@ -43,8 +39,7 @@ export default function CheckOutForm({
             discountApplied: discount,
           },
         });
-
-        setClientSecret(paymentInfo.clientSecret);
+        setClientSecret(paymentInfo?.client_secret);
       } catch (err) {
         setError("Failed to initialize payment");
       }
@@ -88,8 +83,8 @@ export default function CheckOutForm({
           payment_method: {
             card: card,
             billing_details: {
-              email: user?.primaryEmailAddress?.emailAddress || "anonymous",
-              name: user?.fullName || "anonymous",
+              email: user?.primaryEmailAddress?.emailAddress,
+              name: user?.fullName,
             },
           },
         });
@@ -98,9 +93,7 @@ export default function CheckOutForm({
         throw confirmError;
       }
 
-      if (paymentIntent.status === "succeeded") {
-        setTransactionId(paymentIntent.id);
-
+      if (paymentIntent?.status === "succeeded") {
         // Save payment data to your database
         const paymentData = {
           transactionId: paymentIntent.id,
@@ -110,13 +103,18 @@ export default function CheckOutForm({
 
         await savePayment({
           paymentData,
-          path,
         });
 
         // Close the modal on success
         if (onPaymentSuccess) {
           onPaymentSuccess();
         }
+
+        toast.success("Payment Successful!", {
+          position: "top-center",
+        });
+
+        router.push("/student/course");
       }
     } catch (err) {
       setError(err.message);
@@ -185,15 +183,6 @@ export default function CheckOutForm({
             <AlertTriangle className="mt-0.5 h-5 w-5 text-red-600 dark:text-red-400" />
             <div className="text-sm text-red-600 dark:text-red-400">
               <strong>Error:</strong> <span>{error}</span>
-            </div>
-          </div>
-        )}
-
-        {transactionId && (
-          <div className="flex items-start gap-2 rounded-lg bg-green-50 p-3 dark:bg-green-900/20">
-            <CheckCircle className="mt-0.5 h-5 w-5 text-green-600 dark:text-green-400" />
-            <div className="text-sm text-green-600 dark:text-green-400">
-              <strong>Transaction ID:</strong> <span>{transactionId}</span>
             </div>
           </div>
         )}

@@ -1,12 +1,14 @@
 import mongoose from "mongoose";
 import Course from "./Course";
+import Instructor from "./Instructor";
+import Student from "./Student";
 import User from "./User";
 
 const paymentSchema = new mongoose.Schema(
   {
     transactionId: { type: String, required: true, unique: true },
-    course: { type: mongoose.Schema.Types.ObjectId, ref: Course },
-    student: { type: mongoose.Schema.Types.ObjectId, ref: User },
+    course: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
+    student: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true },
 );
@@ -37,7 +39,25 @@ paymentSchema.post("save", async function (doc) {
     }
 
     // Use the addStudent method from the Course schema
-    await course.addStudent(doc.student);
+    const instructorId = course.instructor;
+    const studentId = doc.student;
+    await Course.findOneAndUpdate(
+      { _id: course._id },
+      { $addToSet: { students: studentId } }, // Use $addToSet to avoid duplicates
+      { upsert: true },
+    );
+
+    await Instructor.findOneAndUpdate(
+      { instructorId: instructorId },
+      { $addToSet: { students: studentId } }, // Use $addToSet to avoid duplicates
+      { upsert: true },
+    );
+
+    await Student.findOneAndUpdate(
+      { student: studentId },
+      { $addToSet: { courses: course._id } }, // Use $addToSet to avoid duplicates
+      { upsert: true },
+    );
   } catch (error) {
     console.error("Error adding student to course after payment:", error);
     throw error; // Optionally rethrow the error to handle it upstream

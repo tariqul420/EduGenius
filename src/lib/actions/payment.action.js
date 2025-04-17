@@ -1,9 +1,9 @@
 "use server";
 import Payment from "@/models/Payment";
-import mongoose from "mongoose";
-import { revalidatePath } from "next/cache";
+import { auth } from "@clerk/nextjs/server";
 import Stripe from "stripe";
 import dbConnect from "../dbConnect";
+import { objectId } from "../utils";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -27,11 +27,7 @@ export async function savePaymentIntent({ amount, currency, metadata }) {
       },
     });
 
-    return {
-      success: true,
-      clientSecret: paymentIntent.client_secret,
-      paymentIntentId: paymentIntent.id,
-    };
+    return JSON.parse(JSON.stringify(paymentIntent));
   } catch (error) {
     console.error("Error creating payment intent:", error);
     return {
@@ -41,14 +37,21 @@ export async function savePaymentIntent({ amount, currency, metadata }) {
   }
 }
 
-export async function savePayment({ paymentData, path }) {
+export async function savePayment({ paymentData }) {
   try {
     await dbConnect();
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+
+    const userId = sessionClaims?.userId;
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
 
     const paymentInfo = {
       ...paymentData,
-      student: new mongoose.Types.ObjectId(paymentData.student),
-      course: new mongoose.Types.ObjectId(paymentData.course),
+      student: objectId(userId),
+      course: objectId(paymentData.course),
     };
 
     // Check if payment already exists for this student and course
@@ -58,25 +61,25 @@ export async function savePayment({ paymentData, path }) {
     });
 
     if (existingPayment) {
-      return {
-        success: true,
-        message: "Student already enrolled in this course",
-        data: existingPayment,
-      };
+      return JSON.parse(
+        JSON.stringify({
+          status: 400,
+          message: "Student already enrolled in this course",
+        }),
+      );
     }
 
     // If no existing payment found, create new one
-    const newPayment = await Payment.create(paymentInfo);
+    const newPayment = Payment(paymentInfo);
+    await newPayment.save();
 
-    if (path) {
-      revalidatePath(path);
-    }
-
-    return {
-      success: true,
-      message: "Payment created successfully",
-      data: newPayment,
-    };
+    return JSON.parse(
+      JSON.stringify({
+        success: true,
+        message: "Payment successful",
+        data: newPayment,
+      }),
+    );
   } catch (error) {
     console.error("Something is Wrong", error);
     return {

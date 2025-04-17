@@ -6,8 +6,7 @@ const CoursePageSkeleton = () => {
       <div className="container mx-auto px-2 md:px-5 lg:max-w-6xl">
         {/* Filter Bar Skeleton */}
         <div className="space-y-2">
-          <Skeleton className="h-10 w-full max-w-[300px]" />
-          <Skeleton className="h-4 w-full max-w-[150px]" />
+          <Skeleton className="h-15 w-full" />
         </div>
 
         {/* Main Content Skeleton */}

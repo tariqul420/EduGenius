@@ -13,20 +13,28 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { SignedIn, UserButton } from "@clerk/nextjs";
+import { IconInfoCircleFilled } from "@tabler/icons-react";
 import {
   Award,
+  BookCopy,
   BookOpenCheck,
   BookOpenText,
   BookText,
   ClipboardCheck,
   GraduationCap,
   LayoutDashboard,
+  ListTodo,
   Medal,
+  Tag,
+  UserPlus,
+  UserRoundPlus,
   UsersRound,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense } from "react";
+import BecomeInstructorForm from "../student/BecomeInstructorForm";
+import AdditionalInfoForm from "./AdditionalInfoForm";
 
 // Map of icon names to their corresponding components
 const iconMap = {
@@ -38,9 +46,14 @@ const iconMap = {
   BookOpenText: BookOpenText,
   ClipboardCheck: ClipboardCheck,
   Award: Award,
+  ListTodo: ListTodo,
+  BookCopy: BookCopy,
+  Tag: Tag,
+  GraduationCap: GraduationCap,
+  UserRoundPlus: UserRoundPlus,
 };
 
-export function AppSidebar({ menu = [] }) {
+export function AppSidebar({ role, menu = [] }) {
   const pathname = usePathname();
 
   // Function to determine if a menu item is active
@@ -59,7 +72,9 @@ export function AppSidebar({ menu = [] }) {
       <SidebarHeader className="bg-light-bg dark:bg-dark-bg">
         <Link href="/" className="flex items-center gap-2 text-3xl">
           <GraduationCap size={26} className="text-main" />
-          <h2 className="text-2xl font-semibold">EduGenius</h2>
+          <h2 className="text-2xl font-semibold">
+            Edu<span className="text-main">Genius</span>
+          </h2>
         </Link>
       </SidebarHeader>
       <SidebarContent className="bg-light-bg dark:bg-dark-bg">
@@ -69,6 +84,7 @@ export function AppSidebar({ menu = [] }) {
             <SidebarMenu>
               {menu.map((item) => {
                 const IconComponent = iconMap[item?.icon];
+
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
@@ -103,7 +119,31 @@ export function AppSidebar({ menu = [] }) {
                   userButtonBox: "flex !flex-row-reverse items-center gap-2",
                 },
               }}
-            />
+            >
+              {/* Only show Additional Info section for instructors */}
+              {role === "instructor" && (
+                <UserButton.UserProfilePage
+                  url="/user-additional-info"
+                  label="Additional info"
+                  labelIcon={<IconInfoCircleFilled size={16} />}
+                  alongside={true}
+                >
+                  <AdditionalInfoForm />
+                </UserButton.UserProfilePage>
+              )}
+
+              {/* Only show Become Instructor section for students */}
+              {role === "student" && (
+                <UserButton.UserProfilePage
+                  url="/request-instructor-role"
+                  label="Become Instructor"
+                  labelIcon={<UserPlus size={16} />}
+                  alongside={true}
+                >
+                  <BecomeInstructorForm />
+                </UserButton.UserProfilePage>
+              )}
+            </UserButton>
           </Suspense>
         </SignedIn>
       </SidebarFooter>

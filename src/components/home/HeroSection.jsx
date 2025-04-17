@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+// import { AuroraText } from "../magicui/aurora-text";
 
 function HeroSection() {
   return (
@@ -16,7 +17,8 @@ function HeroSection() {
               <span className="blaze absolute top-[40px] h-[10px] w-[100px] rotate-60 bg-white blur-xl md:h-[10px] dark:hidden"></span>
               grow up{" "}
             </span>
-            your skills today!
+            {/* <AuroraText  colors={["#673de5", "#ed187b"]}>Grow Up</AuroraText> */}
+            {" "}your skills today!
           </h2>
           <p className="dark:text-medium-bg text-sm md:pr-10 md:text-base">
             Step beyond the limits of knowledge and embrace the art of
