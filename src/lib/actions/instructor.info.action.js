@@ -21,7 +21,7 @@ export async function getInstructorInfo({ page = 1, limit = 10 } = {}) {
       .skip((page - 1) * limit)
       .limit(limit);
 
-    const totalRequest = await InstructorInfo.estimatedDocumentCount() || 0;
+    const totalRequest = (await InstructorInfo.estimatedDocumentCount()) || 0;
     const totalPages = Math.ceil(totalRequest / limit);
 
     return JSON.parse(
@@ -97,18 +97,17 @@ export async function saveInstructorInfo({ data, path }) {
     throw error;
   }
 }
-// updateStudentStatus ==========================
-export async function updateStudentStatus({ instructorId, status, path }) {
+
+export async function updateStudentStatus({ studentId, status }) {
   try {
     await dbConnect();
 
     await InstructorInfo.findOneAndUpdate(
-      instructorId,
+      { student: objectId(studentId) },
       { status },
-      { new: true },
     );
 
-    revalidatePath(path);
+    revalidatePath("/admin/become-instructor");
     return { success: true };
   } catch (error) {
     console.error("Error updating instructor status:", error);

@@ -19,10 +19,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { updateStudentStatus } from "@/lib/actions/instructor.info.action";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { format } from "date-fns";
 import { Monitor, MonitorPlay, MoreHorizontal } from "lucide-react";
 import Image from "next/image";
+import { toast } from "sonner";
 
 export const categoryColumns = [
   {
@@ -741,7 +743,7 @@ export const becomeInstructorsColumns = [
     ),
   },
   {
-    accessorKey: "creartedAt",
+    accessorKey: "createdAt",
     header: "Created At",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
@@ -750,12 +752,75 @@ export const becomeInstructorsColumns = [
     ),
   },
   {
-    id: "action",
+    id: "actions",
     header: "Action",
-    cell: ({ row }) => (
-      <div className="flex justify-end">
-        <Button variant="default">Enroll</Button>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const blog = row.original;
+      return (
+        <div className="flex justify-end">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Actions</span>
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() =>
+                  navigator.clipboard.writeText(blog.student.email)
+                }
+              >
+                Copy studentId ID
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => {
+                  toast.promise(
+                    updateStudentStatus({
+                      studentId: row.original.student._id,
+                      status: "approved",
+                    }),
+                    {
+                      loading: "Status updating...",
+                      success: () => {
+                        return "Status update successfully!";
+                      },
+                      error: (err) => {
+                        return "Error update status. Please try again.";
+                      },
+                    },
+                  );
+                }}
+              >
+                Approved
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  toast.promise(
+                    updateStudentStatus({
+                      studentId: row.original.student._id,
+                      status: "rejected",
+                    }),
+                    {
+                      loading: "Status updating...",
+                      success: () => {
+                        return "Status update successfully!";
+                      },
+                      error: (err) => {
+                        return "Error update status. Please try again.";
+                      },
+                    },
+                  );
+                }}
+              >
+                Rejected
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      );
+    },
   },
 ];
