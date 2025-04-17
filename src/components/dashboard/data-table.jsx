@@ -17,7 +17,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { IconGripVertical } from "@tabler/icons-react";
+import { IconGripVertical, IconPlus } from "@tabler/icons-react";
 import {
   flexRender,
   getCoreRowModel,
@@ -28,21 +28,11 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import * as React from "react";
+import React from "react";
 
 import DataTableColumnSelector from "@/components/shared/DataTableColumnSelector";
 import DataTableFooter from "@/components/shared/DataTableFooter";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
 import {
   Table,
@@ -53,9 +43,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { format } from "date-fns";
-import { MoreHorizontal } from "lucide-react";
-import { EditCategoryModal } from "./EditCategoryModal";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Checkbox } from "../ui/checkbox";
 
 // Create a separate component for the drag handle
 function DragHandle({ id }) {
@@ -77,107 +67,12 @@ function DragHandle({ id }) {
   );
 }
 
-const columns = [
-  {
-    id: "drag",
-    header: () => null,
-    cell: ({ row }) => <DragHandle id={row.original._id} />,
-  },
-  {
-    id: "select",
-    header: ({ table }) => (
-      <div className="flex items-center justify-center">
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      </div>
-    ),
-    cell: ({ row }) => (
-      <div className="flex items-center justify-center">
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      </div>
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "name",
-    header: "name",
-    cell: ({ row }) => (
-      <h1 className="max-w-xs truncate text-sm font-medium">
-        {row.original?.name}
-      </h1>
-    ),
-    filterFn: "includesString",
-    enableHiding: false,
-  },
-  {
-    accessorKey: "createdAt",
-    header: "Created At",
-    cell: ({ row }) => (
-      <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {format(new Date(row.original?.createdAt), "PPP")}
-        </Badge>
-      </div>
-    ),
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
-    cell: ({ row }) => (
-      <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {format(new Date(row.original?.updatedAt), "PPP")}
-        </Badge>
-      </div>
-    ),
-  },
-  {
-    id: "actions",
-    header: "Action",
-    cell: ({ row }) => {
-      const category = row.original;
-      return (
-        <div className="flex justify-end">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Actions</span>
-                <MoreHorizontal />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(category._id)}
-              >
-                Copy category ID
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <EditCategoryModal category={category} />
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      );
-    },
-  },
-];
+// Pass uniqueIdProperty directly to DraggableRow
+function DraggableRow({ row, uniqueIdProperty }) {
+  const id = row.original[uniqueIdProperty];
 
-function DraggableRow({ row }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
-    id: row.original.id,
+    id,
   });
 
   return (
@@ -200,21 +95,27 @@ function DraggableRow({ row }) {
   );
 }
 
-export default function CategoryTable({
-  data: initialData,
-  pageSize,
-  pageIndex,
-  total,
+export default function DataTable({
+  data: initialData = [],
+  columns = [],
+  pageSize = 10,
+  pageIndex = 0,
+  total = 0,
+  uniqueIdProperty = "_id",
+  defaultSort = [],
+  enableRowSelection = true,
 }) {
-  const [data, setData] = React.useState(() => initialData);
+  // States for table functionality
+  const [data, setData] = React.useState(initialData);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState({});
   const [columnFilters, setColumnFilters] = React.useState([]);
-  const [sorting, setSorting] = React.useState([]);
+  const [sorting, setSorting] = React.useState(defaultSort);
   const [pagination, setPagination] = React.useState({
     pageIndex: pageIndex ? pageIndex - 1 : 0,
     pageSize: pageSize,
   });
+
   const sortableId = React.useId();
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
@@ -222,11 +123,18 @@ export default function CategoryTable({
     useSensor(KeyboardSensor, {}),
   );
 
-  const dataIds = React.useMemo(
-    () => data?.map(({ _id }) => _id) || [],
-    [data],
-  );
+  // Store uniqueIdProperty in a ref to avoid it being undefined during renders
+  const uniqueIdRef = React.useRef(uniqueIdProperty);
+  uniqueIdRef.current = uniqueIdProperty;
 
+  // Generate draggable IDs
+  const dataIds = React.useMemo(() => {
+    // Add safety checks
+    if (!data || !Array.isArray(data)) return [];
+    return data.map((item) => item?.[uniqueIdRef.current]).filter(Boolean);
+  }, [data]);
+
+  // Set up table
   const table = useReactTable({
     data,
     columns,
@@ -237,8 +145,11 @@ export default function CategoryTable({
       columnFilters,
       pagination,
     },
-    getRowId: (row) => row._id.toString(),
-    enableRowSelection: true,
+    getRowId: (row) => {
+      const id = row[uniqueIdRef.current];
+      return id ? id.toString() : "";
+    },
+    enableRowSelection,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -252,38 +163,55 @@ export default function CategoryTable({
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
+  // Handle drag and drop reordering
   function handleDragEnd(event) {
     const { active, over } = event;
     if (active && over && active.id !== over.id) {
       setData((data) => {
         const oldIndex = dataIds.indexOf(active.id);
         const newIndex = dataIds.indexOf(over.id);
-        return arrayMove(data, oldIndex, newIndex);
+        if (oldIndex !== -1 && newIndex !== -1) {
+          return arrayMove(data, oldIndex, newIndex);
+        }
+        return data;
       });
     }
   }
 
+  // Update data when initialData changes
   React.useEffect(() => {
-    setData(initialData);
+    setData(initialData || []);
   }, [initialData]);
+
+  const pathName = usePathname();
 
   return (
     <Tabs
       defaultValue="outline"
       className="w-full flex-col justify-start gap-6"
     >
-      <div className="flex items-center justify-between px-4 lg:px-6">
+      <div className="flex items-center justify-between">
         <Label htmlFor="view-selector" className="sr-only">
           View
         </Label>
 
         <div className="flex items-center gap-2">
           <DataTableColumnSelector table={table} />
+
+          {pathName === "/instructor/courses" || pathName === "/instructor" ? (
+            <Link
+              href="/instructor/courses/add-course"
+              className="bg-background hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 flex h-8 items-center gap-1.5 rounded-md border px-3 text-sm font-medium shadow-xs has-[>svg]:px-2.5"
+            >
+              <IconPlus size={16} />
+              <span>Add course</span>
+            </Link>
+          ) : null}
         </div>
       </div>
       <TabsContent
         value="outline"
-        className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
+        className="relative flex flex-col gap-4 overflow-auto"
       >
         <div className="overflow-hidden rounded-lg border">
           <DndContext
@@ -297,18 +225,16 @@ export default function CategoryTable({
               <TableHeader className="bg-muted sticky top-0 z-10">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <TableHead key={header.id} colSpan={header.colSpan}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext(),
-                              )}
-                        </TableHead>
-                      );
-                    })}
+                    {headerGroup.headers.map((header) => (
+                      <TableHead key={header.id} colSpan={header.colSpan}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
+                      </TableHead>
+                    ))}
                   </TableRow>
                 ))}
               </TableHeader>
@@ -319,7 +245,11 @@ export default function CategoryTable({
                     strategy={verticalListSortingStrategy}
                   >
                     {table.getRowModel().rows.map((row) => (
-                      <DraggableRow key={row.id} row={row} />
+                      <DraggableRow
+                        key={row.id}
+                        row={row}
+                        uniqueIdProperty={uniqueIdRef.current}
+                      />
                     ))}
                   </SortableContext>
                 ) : (
@@ -336,6 +266,7 @@ export default function CategoryTable({
             </Table>
           </DndContext>
         </div>
+
         <DataTableFooter
           table={table}
           pageIndex={pagination.pageIndex}
@@ -345,4 +276,48 @@ export default function CategoryTable({
       </TabsContent>
     </Tabs>
   );
+}
+
+// Helper function to create a drag column
+export function createDragColumn() {
+  return {
+    id: "drag",
+    header: () => null,
+    cell: ({ row }) => {
+      // Access the id directly from the row original data
+      const id = row.original._id || row.id;
+      return <DragHandle id={id} />;
+    },
+  };
+}
+
+// Helper function to create a selection checkbox column
+export function createSelectionColumn() {
+  return {
+    id: "select",
+    header: ({ table }) => (
+      <div className="flex items-center justify-center">
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+          className={`border-[#e9e4e4] dark:border-[#383838]`}
+        />
+      </div>
+    ),
+    cell: ({ row }) => (
+      <div className="flex items-center justify-center">
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      </div>
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  };
 }
