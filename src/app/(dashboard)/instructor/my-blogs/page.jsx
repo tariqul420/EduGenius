@@ -1,5 +1,6 @@
+import DashboardTable from "@/components/dashboard/data-table";
 import BlogForm from "@/components/dashboard/instructor/BlogForm";
-import BlogTable from "@/components/dashboard/instructor/BlogTable";
+import { blogColumns } from "@/constant/columns";
 import { getBlogsByInstructor } from "@/lib/actions/blog.action";
 import { getCategory } from "@/lib/actions/category.action";
 import { auth } from "@clerk/nextjs/server";
@@ -25,19 +26,12 @@ export default async function MyBlogs({ searchParams }) {
         />
       </section>
       <section className="mt-4">
-        <div className="flex items-center justify-between">
-          <h1 className="mb-6 text-2xl font-semibold text-gray-800 dark:text-gray-100">
-            My Blogs
-          </h1>
-          <p className="dark:text-medium-bg text-sm font-medium text-gray-600">
-            {/* Showing {blogs?.length} Of {total} Results */}
-          </p>
-        </div>
-        <BlogTable
+        <DashboardTable
           pageIndex={Number(pageIndex || "1")}
           pageSize={Number(pageSize || "10")}
           total={pagination?.totalItems || 0}
           data={blogs || []}
+          customColumns={blogColumns || []}
         />
       </section>
     </div>
