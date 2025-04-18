@@ -32,26 +32,26 @@ export default function InstructorTab({ instructor }) {
           Contact
         </TabsTrigger>
       </TabsList>
-
+    {/* about ===================== */}
       <TabsContent value="about" className="mt-6">
-        <div className="space-y-6 text-gray-700 dark:text-gray-300">
-          <div className="dark:bg-dark-bg rounded-lg bg-white p-6 shadow-sm">
+        <div className="space-y-6 text-dark-hover dark:text-gray-300">
+          <div className="dark:bg-dark-bg rounded-lg dark:border-t-[3px] dark:border-b-0 border bg-light-bg p-6 shadow">
             <h3 className="mb-4 text-lg font-semibold">About Me</h3>
             <p className="mt-4">
               {aboutMe || "No information available at this time."}
             </p>
           </div>
 
-          <div className="dark:bg-dark-bg rounded-lg bg-white p-6 shadow-sm">
+          <div className="dark:bg-dark-bg rounded-lg dark:border-t-[3px] dark:border-b-0 border bg-light-bg p-6 shadow">
             <h3 className="mb-4 text-lg font-semibold">Education</h3>
             <p>{education || "No information available at this time."}</p>
           </div>
         </div>
       </TabsContent>
-
+      {/* course =================== */}
       <TabsContent value="course" className="mt-6">
-        {courses?.length === 0 ? (
-          <div className="dark:bg-dark-bg mx-auto max-w-lg rounded-lg bg-light-bg p-6 text-center shadow w-full dark:text-gray-300">
+        {courses.length === 0 ? (
+          <div className="dark:bg-dark-bg mx-auto max-w-lg dark:border-t-[3px] dark:border-b-0 border rounded-lg bg-light-bg p-6 text-center shadow w-full dark:text-gray-300">
             <h3 className="text-main dark:text-main-dark mb-2 text-xl font-semibold">
               No Courses Available
             </h3>
@@ -65,7 +65,7 @@ export default function InstructorTab({ instructor }) {
               <Link
                 href={`/courses/${course?.slug}`}
                 key={inx}
-                className="dark:bg-dark-bg rounded-lg bg-white p-6 shadow-sm transition-all hover:shadow-md"
+                className="dark:bg-dark-bg rounded-lg bg-light-bg p-6 shadow transition-all hover:shadow-md dark:border-t-[3px] dark:border-b-0 border"
               >
                 <h3 className="text-main dark:text-main-dark mb-3 text-lg font-semibold">
                   {course?.title}
@@ -89,25 +89,25 @@ export default function InstructorTab({ instructor }) {
           </div>
         )}
       </TabsContent>
-
+        {/* contact=================== */}
       <TabsContent value="contact" className="mt-6">
         <div className="flex flex-col gap-8 lg:flex-row">
           <div className="flex-1">
             <InstructorContactForm email={instructorId?.email} />
           </div>
 
-          <div className="dark:bg-dark-bg flex-1 rounded-lg bg-white p-6 shadow-sm lg:max-w-md">
-            <h2 className="mb-6 text-2xl font-bold text-gray-800 dark:text-white">
+          <div className="dark:bg-dark-bg flex-1 dark:border-t-[3px] dark:border-b-0 border rounded-lg bg-light-bg p-6 shadow-sm lg:max-w-md">
+            <h2 className="mb-6 text-2xl font-bold text-dark-hover dark:text-white dark:text-lightbg-light-bg">
               Contact Information
             </h2>
 
             <div className="space-y-6">
               <div className="flex items-start gap-4">
-                <div className="bg-main/10 text-main dark:bg-main-dark/10 dark:text-main-dark flex h-10 w-10 items-center justify-center rounded-full">
+                <div className="bg-white border border-main dark:border-dark-hover dark:bg-dark-hover text-main dark:bg-main-dark/10 dark:text-main-dark flex h-10 w-10 items-center justify-center rounded-full">
                   <Mail size={18} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  <h3 className="text-sm font-medium text-dark-bg dark:text-gray-400">
                     Email
                   </h3>
                   <p className="text-gray-800 dark:text-gray-200">
@@ -145,7 +145,7 @@ export default function InstructorTab({ instructor }) {
               )}
 
               <div className="pt-4">
-                <h3 className="mb-3 text-sm font-medium text-gray-500 dark:text-gray-400">
+                <h3 className="mb-3 text-sm font-medium text-dark-bg dark:text-gray-400">
                   Office Hours
                 </h3>
                 <p className="text-gray-800 dark:text-gray-200">
