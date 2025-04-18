@@ -2,6 +2,7 @@
 
 import BecomeInstructorInfoModal from "@/components/dashboard/admin/BecomeInstructorInfoModal";
 import { EditCategoryModal } from "@/components/dashboard/admin/EditCategoryModal";
+import TerminateInstructor from "@/components/dashboard/admin/TerminateInstructor";
 import {
   createDragColumn,
   createSelectionColumn,
@@ -971,8 +972,17 @@ export const adminInstructorColumns = [
                 Copy Email
               </DropdownMenuItem>
               <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <a
+                  href={`/instructors/${info.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View Details
+                </a>
+              </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <BecomeInstructorInfoModal becomeInstructorInfo={info} />
+                <TerminateInstructor />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
