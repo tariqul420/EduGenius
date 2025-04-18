@@ -1,22 +1,18 @@
+"use client";
 import { Star } from "lucide-react";
+import { Rating } from "react-simple-star-rating";
 
 export default function AvgRating({ avgRating = 2 }) {
-  const normalizedRating = Math.round(avgRating);
-
   return (
-    <div className="flex items-center space-x-1">
-      {Array.from({ length: 5 }).map((_, index) => {
-        const fill =
-          index < normalizedRating ? "text-yellow-500" : "text-gray-300";
-        return (
-          <div key={index} className="flex items-center">
-            <Star className={`h-4 w-4 ${fill}`} />
-          </div>
-        );
-      })}
-      <span className="text-xs font-bold text-gray-400">
-        {avgRating.toFixed(1)}
-      </span>
-    </div>
+    <>
+      <div className="flex items-center gap-1.5">
+        <div className="rating">
+          <Rating readonly size={20} allowFraction  initialValue={4.5} />
+        </div>
+        <div className="text-sm font-bold text-gray-400">
+          {avgRating.toFixed(1)}
+        </div>
+      </div>
+    </>
   );
 }
