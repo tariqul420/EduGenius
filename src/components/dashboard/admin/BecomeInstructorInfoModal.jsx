@@ -135,7 +135,9 @@ export default function BecomeInstructorInfoModal({ becomeInstructorInfo }) {
           <Button
             variant="default"
             className="w-full bg-green-600 hover:bg-green-700 sm:w-auto dark:bg-green-500 dark:hover:bg-green-600"
-            onClick={() => handleStatusUpdate("approved")}
+            onClick={() => {
+              handleStatusUpdate("approved"), setOpen(false);
+            }}
           >
             Approve
           </Button>
@@ -143,7 +145,9 @@ export default function BecomeInstructorInfoModal({ becomeInstructorInfo }) {
             variant="destructive"
             disabled={becomeInstructorInfo.status === "approved"}
             className={`w-full sm:w-auto ${becomeInstructorInfo.status === "approved" && "cursor-not-allowed"}`}
-            onClick={() => handleStatusUpdate("rejected")}
+            onClick={() => {
+              handleStatusUpdate("rejected"), setOpen(false);
+            }}
           >
             Reject
           </Button>
