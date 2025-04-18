@@ -4,7 +4,7 @@ import { getCourses } from "@/lib/actions/course.action";
 import { auth } from "@clerk/nextjs/server";
 
 export default async function Courses({ searchParams }) {
-  const { pageSize, pageIndex } = await searchParams;
+  const { pageSize, pageIndex, search } = await searchParams;
 
   const { sessionClaims } = await auth();
   const instructor = sessionClaims?.userId;
@@ -16,6 +16,7 @@ export default async function Courses({ searchParams }) {
     instructor,
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
+    search,
   });
   const courses = result?.courses || [];
 

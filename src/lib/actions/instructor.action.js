@@ -291,25 +291,28 @@ export async function getInstructorBySlug(slug) {
   }
 }
 
-export async function getStudents({ instructorId, page = 1, limit = 10 }) {
+export async function getStudents({
+  instructorId,
+  page = 1,
+  limit = 10,
+  search = "",
+} = {}) {
   try {
     await dbConnect();
 
-    // Get total count of students before pagination
-    const totalCount = await Instructor.aggregate([
-      {
-        $match: {
-          instructorId: objectId(instructorId),
-        },
-      },
-      {
-        $project: {
-          studentCount: { $size: "$students" },
-        },
-      },
-    ]);
+    const skip = (page - 1) * limit;
 
-    const total = totalCount[0]?.studentCount || 0;
+    // Create search match stage
+    const searchMatch = search
+      ? {
+          $match: {
+            $or: [
+              { "userData.firstName": { $regex: search, $options: "i" } },
+              { "userData.lastName": { $regex: search, $options: "i" } },
+            ],
+          },
+        }
+      : { $match: {} };
 
     const students = await Instructor.aggregate([
       // Match the instructor
@@ -348,6 +351,8 @@ export async function getStudents({ instructorId, page = 1, limit = 10 }) {
       {
         $unwind: "$userData",
       },
+      // Apply search filter on student names
+      searchMatch,
       // Filter courses to only include those from this instructor
       {
         $addFields: {
@@ -381,17 +386,67 @@ export async function getStudents({ instructorId, page = 1, limit = 10 }) {
           enrolledCourses: { $size: "$filteredCourses" },
         },
       },
+      // Sort by name for consistent ordering
+      {
+        $sort: { name: 1 },
+      },
       // Add pagination
       {
-        $skip: (page - 1) * limit,
+        $skip: skip,
       },
       {
         $limit: limit,
       },
     ]);
 
-    // Calculate if there's a next page
-    const hasNextPage = total > page * limit;
+    // Get total count with the same match and search conditions
+    const totalCount = await Instructor.aggregate([
+      // Match the instructor
+      {
+        $match: {
+          instructorId: objectId(instructorId),
+        },
+      },
+      // Unwind the students array
+      {
+        $unwind: "$students",
+      },
+      // Lookup students collection
+      {
+        $lookup: {
+          from: "students",
+          localField: "students",
+          foreignField: "student",
+          as: "studentData",
+        },
+      },
+      // Unwind the studentData array
+      {
+        $unwind: "$studentData",
+      },
+      // Lookup users collection
+      {
+        $lookup: {
+          from: "users",
+          localField: "studentData.student",
+          foreignField: "_id",
+          as: "userData",
+        },
+      },
+      // Unwind the userData array
+      {
+        $unwind: "$userData",
+      },
+      // Apply search filter
+      searchMatch,
+      // Count the matching documents
+      {
+        $count: "total",
+      },
+    ]);
+
+    const total = totalCount[0]?.total || 0;
+    const totalPages = Math.ceil(total / limit);
 
     return {
       students: JSON.parse(JSON.stringify(students)),
@@ -399,13 +454,13 @@ export async function getStudents({ instructorId, page = 1, limit = 10 }) {
         total,
         page,
         limit,
-        hasNextPage,
-        totalPages: Math.ceil(total / limit),
+        hasNextPage: page < totalPages,
+        totalPages,
       },
     };
   } catch (error) {
     console.error("Error getting students by instructor courses ID:", error);
-    throw error;
+    throw new Error("Failed to fetch students");
   }
 }
 
