@@ -61,22 +61,26 @@ instructorInfoSchema.post("findOneAndUpdate", async function (doc) {
     if (doc.status === "approved") {
       const user = await mongoose
         .model("User")
-        .findByIdAndUpdate(
-          { _id: doc.student },
-          { role: "instructor" },
-          { new: true },
-        );
+        .findByIdAndUpdate({ _id: doc.student }, { role: "instructor" });
 
       if (user) {
         const client = await clerkClient();
 
         await client.users.updateUser(user.clerkUserId, {
           publicMetadata: {
-            role: "instructor",
+            role: user.role,
             userId: user._id,
           },
         });
 
+        // Check if instructor already exists
+        const existingInstructor = await mongoose
+          .model("Instructor")
+          .findOne({ instructorId: user._id });
+
+        if (existingInstructor) return;
+
+        // Create new instructor if it doesn't exist
         await mongoose.model("Instructor").create({ instructorId: user._id });
       }
     }

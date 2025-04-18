@@ -18,6 +18,7 @@ export async function getInstructorInfo({ page = 1, limit = 10 } = {}) {
       throw new Error("User not authorized to view this data");
     }
     const becomeInstructor = await InstructorInfo.find({})
+      .sort({ createdAt: -1 })
       .populate("student", "firstName lastName email")
       .skip((page - 1) * limit)
       .limit(limit);
