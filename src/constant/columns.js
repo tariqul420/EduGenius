@@ -790,14 +790,14 @@ export const becomeInstructorsColumns = [
     ),
   },
   {
-    accessorKey: "experience",
-    header: "Experience",
+    accessorKey: "profession",
+    header: "Profession",
     cell: ({ row }) => (
       <Badge
         variant="outline"
         className="text-muted-foreground rounded px-1.5 py-1"
       >
-        {row.original.experience}
+        {row.original.profession}
       </Badge>
     ),
   },
