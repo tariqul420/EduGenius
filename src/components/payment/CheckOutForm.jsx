@@ -114,7 +114,7 @@ export default function CheckOutForm({ course, userId, onPaymentSuccess }) {
           position: "top-center",
         });
 
-        router.push("/student/course");
+        router.push("/student/courses");
       }
     } catch (err) {
       setError(err.message);
