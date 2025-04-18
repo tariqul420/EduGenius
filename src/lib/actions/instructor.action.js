@@ -471,7 +471,11 @@ export async function getAdditionalInfo() {
   }
 }
 
-export async function getInstructorByAdmin({ page = 1, limit = 10 } = {}) {
+export async function getInstructorByAdmin({
+  page = 1,
+  limit = 10,
+  search = "",
+} = {}) {
   try {
     await dbConnect();
 
@@ -484,8 +488,19 @@ export async function getInstructorByAdmin({ page = 1, limit = 10 } = {}) {
 
     const skip = (page - 1) * limit;
 
+    // Create match stage for search
+    const matchStage = search
+      ? {
+          $match: {
+            $or: [
+              { "instructor.firstName": { $regex: search, $options: "i" } },
+              { "instructor.lastName": { $regex: search, $options: "i" } },
+            ],
+          },
+        }
+      : { $match: {} };
+
     const instructors = await Instructor.aggregate([
-      // Lookup User details for instructorId
       {
         $lookup: {
           from: "users",
@@ -500,6 +515,8 @@ export async function getInstructorByAdmin({ page = 1, limit = 10 } = {}) {
           preserveNullAndEmptyArrays: true,
         },
       },
+      // Apply search filter after lookup to access instructor fields
+      matchStage,
       // Lookup courses using instructorId to match Course.instructor
       {
         $lookup: {
@@ -548,8 +565,28 @@ export async function getInstructorByAdmin({ page = 1, limit = 10 } = {}) {
       },
     ]);
 
-    // Get total count of instructors
-    const totalInstructors = await Instructor.estimatedDocumentCount();
+    // Get total count of instructors matching the search
+    const totalInstructors = search
+      ? await Instructor.aggregate([
+          {
+            $lookup: {
+              from: "users",
+              localField: "instructorId",
+              foreignField: "_id",
+              as: "instructor",
+            },
+          },
+          {
+            $unwind: {
+              path: "$instructor",
+              preserveNullAndEmptyArrays: true,
+            },
+          },
+          matchStage,
+          { $count: "total" },
+        ]).then((result) => result[0]?.total || 0)
+      : await Instructor.estimatedDocumentCount();
+
     const totalPages = Math.ceil(totalInstructors / limit);
 
     return JSON.parse(
