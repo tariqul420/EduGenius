@@ -131,17 +131,34 @@ export async function saveInstructorInfo({ data, path }) {
 
 export async function updateStudentStatus({ studentId, status }) {
   try {
+    // Connect to the database
     await dbConnect();
 
-    await InstructorInfo.findOneAndUpdate(
+    const { sessionClaims } = await auth();
+    const role = sessionClaims?.role;
+
+    if (role !== "admin") {
+      throw new Error("Action not permitted!");
+    }
+
+    // Update InstructorInfo document
+    const updatedDoc = await InstructorInfo.findOneAndUpdate(
       { student: objectId(studentId) },
       { status },
+      { new: true, runValidators: true },
     );
 
+    // Check if a document was found and updated
+    if (!updatedDoc) {
+      throw new Error(`No InstructorInfo found for studentId: ${studentId}`);
+    }
+
+    // Revalidate the Next.js cache
     revalidatePath("/admin/become-instructor");
+
     return { success: true };
   } catch (error) {
-    console.error("Error updating instructor status:", error);
-    throw error;
+    console.error("Error updating instructor status:", error.message);
+    throw new Error(`Failed to update status: ${error.message}`);
   }
 }

@@ -1,7 +1,6 @@
 import { clerkClient } from "@clerk/nextjs/server";
 import mongoose from "mongoose";
 
-// Define the additional instructor information schema
 const instructorInfoSchema = new mongoose.Schema(
   {
     student: {
@@ -9,44 +8,17 @@ const instructorInfoSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    phone: {
-      type: String,
-      required: true,
-    },
-    expertise: {
-      type: String,
-      required: true,
-    },
-    profession: {
-      type: String,
-      required: true,
-    },
-    education: {
-      type: String,
-      required: true,
-    },
+    phone: { type: String, required: true },
+    expertise: { type: String, required: true },
+    profession: { type: String, required: true },
+    education: { type: String, required: true },
     address: {
-      city: {
-        type: String,
-        required: true,
-      },
-      country: {
-        type: String,
-        required: true,
-      },
+      city: { type: String, required: true },
+      country: { type: String, required: true },
     },
-    experience: {
-      type: String,
-      required: true,
-    },
-    motivation: {
-      type: String,
-      required: true,
-    },
-    teachingStyle: {
-      type: String,
-      required: true,
-    },
+    experience: { type: String, required: true },
+    motivation: { type: String, required: true },
+    teachingStyle: { type: String, required: true },
     status: {
       type: String,
       enum: ["pending", "approved", "rejected"],
@@ -58,38 +30,48 @@ const instructorInfoSchema = new mongoose.Schema(
 
 instructorInfoSchema.post("findOneAndUpdate", async function (doc) {
   try {
+    if (!doc) {
+      console.error("No document provided to middleware");
+      return;
+    }
+
     if (doc.status === "approved") {
       const user = await mongoose
         .model("User")
-        .findByIdAndUpdate({ _id: doc.student }, { role: "instructor" });
+        .findByIdAndUpdate(doc.student, { role: "instructor" }, { new: true });
 
-      if (user) {
-        const client = await clerkClient();
+      if (!user) {
+        console.error("User not found for student ID:", doc.student);
+        return;
+      }
 
-        await client.users.updateUser(user.clerkUserId, {
-          publicMetadata: {
-            role: user.role,
-            userId: user._id,
-          },
-        });
+      if (!user.clerkUserId) {
+        console.error("User missing clerkUserId:", user._id);
+        return;
+      }
 
-        // Check if instructor already exists
-        const existingInstructor = await mongoose
-          .model("Instructor")
-          .findOne({ instructorId: user._id });
+      const client = await clerkClient();
+      await client.users.updateUser(user.clerkUserId, {
+        publicMetadata: {
+          userId: user._id,
+          role: user.role || "student",
+        },
+      });
 
-        if (existingInstructor) return;
+      const existingInstructor = await mongoose
+        .model("Instructor")
+        .findOne({ instructorId: user._id });
 
-        // Create new instructor if it doesn't exist
+      if (!existingInstructor) {
         await mongoose.model("Instructor").create({ instructorId: user._id });
+      } else {
       }
     }
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error("Middleware error:", error);
+    throw error; // Ensure errors are propagated
   }
 });
 
-// Check if the model already exists, if not create it
 export default mongoose.models?.InstructorInfo ||
   mongoose.model("InstructorInfo", instructorInfoSchema);

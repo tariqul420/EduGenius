@@ -209,7 +209,6 @@ export default function CourseForm({ course }) {
                   <CldUploadWidget
                     uploadPreset="edu-genius"
                     onSuccess={(result) => {
-                      console.log(result);
                       const info = result.info;
                       form.setValue("thumbnail", info.secure_url); // Set the thumbnail URL in the form state
                     }}
