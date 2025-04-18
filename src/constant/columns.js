@@ -27,6 +27,8 @@ import { Monitor, MonitorPlay, MoreHorizontal } from "lucide-react";
 import Image from "next/image";
 
 export const categoryColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
   {
     accessorKey: "name",
     header: "name",

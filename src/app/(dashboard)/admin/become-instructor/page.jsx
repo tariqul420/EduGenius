@@ -3,8 +3,12 @@ import { becomeInstructorsColumns } from "@/constant/columns";
 import { getInstructorInfo } from "@/lib/actions/instructor.info.action";
 
 export default async function BecomeInstructor({ searchParams }) {
-  const { pageSize, pageIndex } = await searchParams;
-  const { becomeInstructor, pagination } = await getInstructorInfo();
+  const { pageSize, pageIndex, search } = await searchParams;
+  const { becomeInstructor, pagination } = await getInstructorInfo({
+    limit: Number(pageSize || 10),
+    page: Number(pageIndex || 1),
+    search,
+  });
   return (
     <>
       <section className="py-6">
