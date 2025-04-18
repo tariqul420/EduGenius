@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
+import { PagePagination } from "@/components/shared/PagePagination";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,7 +26,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { PagePagination } from "@/components/shared/PagePagination";
 
 // Sample data
 const data = [
@@ -134,11 +134,14 @@ const columns = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => (
-      <Badge variant="outline" className={`px-1.5 ${
-        row.original.status === "Active"
-          ? "text-green-600 border-green-600"
-          : "text-red-600 border-red-600"
-      }`}>
+      <Badge
+        variant="outline"
+        className={`px-1.5 ${
+          row.original.status === "Active"
+            ? "border-green-600 text-green-600"
+            : "border-red-600 text-red-600"
+        }`}
+      >
         {row.getValue("status")}
       </Badge>
     ),
@@ -197,7 +200,7 @@ export default function InstructorListTable({
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl lg:text-4xl font-bold m-4 text-center">
+      <h2 className="m-4 text-center text-2xl font-bold lg:text-4xl">
         Instructor List
       </h2>
       <div className="overflow-hidden rounded-lg border">

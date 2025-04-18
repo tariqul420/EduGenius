@@ -1,5 +1,6 @@
 "use client";
 
+import BecomeInstructorInfoModal from "@/components/dashboard/admin/BecomeInstructorInfoModal";
 import { EditCategoryModal } from "@/components/dashboard/admin/EditCategoryModal";
 import {
   createDragColumn,
@@ -19,12 +20,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { updateStudentStatus } from "@/lib/actions/instructor.info.action";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { format } from "date-fns";
 import { Monitor, MonitorPlay, MoreHorizontal } from "lucide-react";
 import Image from "next/image";
-import { toast } from "sonner";
 
 export const categoryColumns = [
   {
@@ -808,7 +807,10 @@ export const becomeInstructorsColumns = [
     cell: ({ row }) => (
       <Badge
         variant="outline"
-        className="text-muted-foreground rounded px-1.5 py-1"
+        className={`text-muted-foreground rounded px-1.5 py-1 ${
+          row.original.status === "approved" &&
+          "border-green-600 text-green-600"
+        } ${row.original.status === "rejected" && "border-red-600 text-red-600"}`}
       >
         {row.original.status}
       </Badge>
@@ -830,7 +832,7 @@ export const becomeInstructorsColumns = [
     id: "actions",
     header: "Action",
     cell: ({ row }) => {
-      const blog = row.original;
+      const info = row.original;
       return (
         <div className="flex justify-end">
           <DropdownMenu>
@@ -844,53 +846,14 @@ export const becomeInstructorsColumns = [
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() =>
-                  navigator.clipboard.writeText(blog.student.email)
+                  navigator.clipboard.writeText(info.student.email)
                 }
               >
-                Copy studentId ID
+                Copy Email
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => {
-                  toast.promise(
-                    updateStudentStatus({
-                      studentId: row.original.student._id,
-                      status: "approved",
-                    }),
-                    {
-                      loading: "Status updating...",
-                      success: () => {
-                        return "Status update successfully!";
-                      },
-                      error: (err) => {
-                        return "Error update status. Please try again.";
-                      },
-                    },
-                  );
-                }}
-              >
-                Approved
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => {
-                  toast.promise(
-                    updateStudentStatus({
-                      studentId: row.original.student._id,
-                      status: "rejected",
-                    }),
-                    {
-                      loading: "Status updating...",
-                      success: () => {
-                        return "Status update successfully!";
-                      },
-                      error: (err) => {
-                        return "Error update status. Please try again.";
-                      },
-                    },
-                  );
-                }}
-              >
-                Rejected
+              <DropdownMenuItem asChild>
+                <BecomeInstructorInfoModal becomeInstructorInfo={info} />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
