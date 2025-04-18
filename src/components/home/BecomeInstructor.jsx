@@ -68,8 +68,8 @@ const BecomeInstructor = () => {
       {/* Image */}
       <div className="relative flex overflow-hidden justify-center">
         <Image
-          style={{ animationDuration: "60s" }}
-          className="absolute top-0 w-full min-w-[600px] animate-spin"
+          style={{ animationDuration: "30s" }}
+          className="absolute -top-[50px] w-full min-w-[600px] animate-spin"
           width={100}
           height={100}
           alt="Hero_Gradient"
