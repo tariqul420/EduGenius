@@ -10,6 +10,7 @@ export default function AvgRating({ avgRating = 2 }) {
           index < normalizedRating ? "text-yellow-500" : "text-gray-300";
         return (
           <div key={index} className="flex items-center">
+
             <Star stroke="#facc15" className={`h-4 w-4 ${fill}`} />
           </div>
         );
