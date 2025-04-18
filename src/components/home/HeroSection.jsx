@@ -4,10 +4,11 @@ import Image from "next/image";
 
 function HeroSection() {
   return (
-    <section className="dark:to-dark-bg min-h-[550px] bg-gradient-to-t from-white to-white dark:from-black">
-      <div className="container mx-auto flex flex-col items-center justify-between px-2 py-8 md:gap-5 md:px-5 md:py-5 lg:max-w-6xl lg:flex-row">
+    <section className="dark:to-dark-bg min-h-[650px] bg-gradient-to-t from-white to-white dark:from-black">
+      <div className="container overflow-hidden relative mx-auto flex flex-col items-center justify-between px-2 py-8 md:gap-5 md:px-5 md:py-10 lg:max-w-6xl lg:flex-row">
+        <Image style={{ animationDuration: '60s' }} className="w-full object-cover animate-spin absolute max-w-[1000]" width={100} height={100} alt="Hero_Gradient" src='/Hero-gradient-1.png'></Image>
         {/* Text Content */}
-        <div className="text-center lg:text-left">
+        <div className="text-center z-[5] lg:text-left">
           <p className="dark:text-light-bg text-xl font-semibold md:text-2xl">
             #1 Platform for Online Learning
           </p>
@@ -29,7 +30,7 @@ function HeroSection() {
             <button className="border-green bg-main hover:bg-dark-main hover:text-medium-bg flex cursor-pointer items-center gap-2 rounded border px-4 py-2.5 text-white duration-200 md:px-6">
               Start Learning <ArrowRight />
             </button>
-            <button className="bg-light-bg hover:bg-medium-bg cursor-pointer rounded border px-4 py-2.5 text-black duration-200 md:px-6">
+            <button className="bg-light-bg hover:bg-medium-bg cursor-pointer rounded border shadow px-4 py-2.5 text-black duration-200 md:px-6">
               Get Started
             </button>
           </div>
