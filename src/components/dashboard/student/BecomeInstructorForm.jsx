@@ -64,12 +64,12 @@ const formSchema = z.object({
   experience: z
     .string()
     .min(10, "Teaching experience must be at least 10 characters")
-    .max(1000, "Teaching experience must not exceed 1000 characters"),
+    .max(300, "Teaching experience must not exceed 300 characters"),
 
   motivation: z
     .string()
     .min(20, "Motivation statement must be at least 20 characters")
-    .max(1000, "Motivation statement must not exceed 1000 characters"),
+    .max(300, "Motivation statement must not exceed 300 characters"),
 
   teachingStyle: z
     .string()
