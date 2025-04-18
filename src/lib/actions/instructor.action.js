@@ -470,3 +470,100 @@ export async function getAdditionalInfo() {
     console.error("Error getting additional info:", error);
   }
 }
+
+export async function getInstructorByAdmin({ page = 1, limit = 10 } = {}) {
+  try {
+    await dbConnect();
+
+    const { sessionClaims } = await auth();
+    const role = sessionClaims?.role;
+
+    if (role !== "admin") {
+      throw new Error("Don't have permission to perform this action!");
+    }
+
+    const skip = (page - 1) * limit;
+
+    const instructors = await Instructor.aggregate([
+      // Lookup User details for instructorId
+      {
+        $lookup: {
+          from: "users",
+          localField: "instructorId",
+          foreignField: "_id",
+          as: "instructor",
+        },
+      },
+      {
+        $unwind: {
+          path: "$instructor",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      // Lookup courses using instructorId to match Course.instructor
+      {
+        $lookup: {
+          from: "courses",
+          localField: "instructorId",
+          foreignField: "instructor",
+          as: "courses",
+        },
+      },
+      // Project the required fields and calculate stats
+      {
+        $project: {
+          instructorId: "$instructorId",
+          firstName: "$instructor.firstName",
+          lastName: "$instructor.lastName",
+          email: "$instructor.email",
+          slug: "$instructor.slug",
+          phone: "$phone",
+          createdAt: "$createdAt",
+          studentCount: { $size: { $ifNull: ["$students", []] } },
+          courseCount: { $size: { $ifNull: ["$courses", []] } },
+          totalRevenue: {
+            $sum: {
+              $map: {
+                input: { $ifNull: ["$courses", []] },
+                as: "course",
+                in: {
+                  $multiply: [
+                    { $size: { $ifNull: ["$$course.students", []] } },
+                    { $ifNull: ["$$course.price", 0] },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
+      {
+        $sort: { createdAt: -1 },
+      },
+      {
+        $skip: skip,
+      },
+      {
+        $limit: limit,
+      },
+    ]);
+
+    // Get total count of instructors
+    const totalInstructors = await Instructor.estimatedDocumentCount();
+    const totalPages = Math.ceil(totalInstructors / limit);
+
+    return {
+      instructors,
+      pagination: {
+        currentPage: page,
+        totalPages,
+        totalItems: totalInstructors,
+        hasNextPage: page < totalPages,
+        hasPrevPage: page > 1,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching instructors:", error);
+    throw new Error("Failed to fetch instructors");
+  }
+}
