@@ -50,33 +50,44 @@ export default function InstructorTab({ instructor }) {
       </TabsContent>
 
       <TabsContent value="course" className="mt-6">
-        <div className="grid gap-6 md:grid-cols-2">
-          {courses?.map((course, inx) => (
-            <Link
-              href={`/courses/${course?.slug}`}
-              key={inx}
-              className="dark:bg-dark-bg rounded-lg bg-white p-6 shadow-sm transition-all hover:shadow-md"
-            >
-              <h3 className="text-main dark:text-main-dark mb-3 text-lg font-semibold">
-                {course?.title}
-              </h3>
-              <p className="line-clamp-2 text-gray-600 dark:text-gray-400">
-                {course?.description} ...
-              </p>
-              <div className="mt-4 flex items-center justify-between">
-                <div className="flex flex-wrap gap-2">
-                  <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                    {course?.students?.length || 0} Students
-                  </span>
-                  <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                    {course?.lessonCount || 0} Lesson
-                  </span>
+        {courses?.length !== 0 ? (
+          <div className="dark:bg-dark-bg mx-auto max-w-lg rounded-lg bg-light-bg p-6 text-center shadow w-full dark:text-gray-300">
+            <h3 className="text-main dark:text-main-dark mb-2 text-xl font-semibold">
+              No Courses Available
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              No courses have been published yet. Please check back soon!
+            </p>
+          </div>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2">
+            {courses?.map((course, inx) => (
+              <Link
+                href={`/courses/${course?.slug}`}
+                key={inx}
+                className="dark:bg-dark-bg rounded-lg bg-white p-6 shadow-sm transition-all hover:shadow-md"
+              >
+                <h3 className="text-main dark:text-main-dark mb-3 text-lg font-semibold">
+                  {course?.title}
+                </h3>
+                <p className="line-clamp-2 text-gray-600 dark:text-gray-400">
+                  {course?.description} ...
+                </p>
+                <div className="mt-4 flex items-center justify-between">
+                  <div className="flex flex-wrap gap-2">
+                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                      {course?.students?.length || 0} Students
+                    </span>
+                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                      {course?.lessonCount || 0} Lesson
+                    </span>
+                  </div>
+                  <AvgRating avgRating={course?.avgRating || 0} />
                 </div>
-                <AvgRating avgRating={course?.avgRating || 0} />
-              </div>
-            </Link>
-          ))}
-        </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </TabsContent>
 
       <TabsContent value="contact" className="mt-6">
