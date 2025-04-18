@@ -862,3 +862,122 @@ export const becomeInstructorsColumns = [
     },
   },
 ];
+
+export const adminInstructorColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original.firstName} {row.original.lastName}
+      </h1>
+    ),
+    filterFn: "includesString",
+    enableHiding: false,
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {row.original.email}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "phone",
+    header: "Phone",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {row.original.phone ? row.original.phone : "Not Submitted"}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "studentCount",
+    header: "Student Count",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {row.original.studentCount}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "courseCount",
+    header: "CourseCount",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {row.original.courseCount}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "totalRevenue",
+    header: "Total Revenue",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        ${row.original.totalRevenue}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created At",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {format(new Date(row.original.createdAt), "PPP")}
+      </Badge>
+    ),
+  },
+  {
+    id: "actions",
+    header: "Action",
+    cell: ({ row }) => {
+      const info = row.original;
+      return (
+        <div className="flex justify-end">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Actions</span>
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(info.email)}
+              >
+                Copy Email
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <BecomeInstructorInfoModal becomeInstructorInfo={info} />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      );
+    },
+  },
+];

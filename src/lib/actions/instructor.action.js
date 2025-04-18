@@ -552,16 +552,18 @@ export async function getInstructorByAdmin({ page = 1, limit = 10 } = {}) {
     const totalInstructors = await Instructor.estimatedDocumentCount();
     const totalPages = Math.ceil(totalInstructors / limit);
 
-    return {
-      instructors,
-      pagination: {
-        currentPage: page,
-        totalPages,
-        totalItems: totalInstructors,
-        hasNextPage: page < totalPages,
-        hasPrevPage: page > 1,
-      },
-    };
+    return JSON.parse(
+      JSON.stringify({
+        instructors,
+        pagination: {
+          currentPage: page,
+          totalPages,
+          totalItems: totalInstructors,
+          hasNextPage: page < totalPages,
+          hasPrevPage: page > 1,
+        },
+      }),
+    );
   } catch (error) {
     console.error("Error fetching instructors:", error);
     throw new Error("Failed to fetch instructors");
