@@ -93,8 +93,8 @@ courseSchema.post("findOneAndDelete", async function (doc) {
       return;
     }
 
-    console.log("Post-findOneAndDelete middleware triggered");
-    console.log("Deleted Course ID:", doc._id);
+    // console.log("Post-findOneAndDelete middleware triggered");
+    // console.log("Deleted Course ID:", doc._id);
 
     // Remove the course from the instructor's courses array
     try {
@@ -106,7 +106,7 @@ courseSchema.post("findOneAndDelete", async function (doc) {
           },
         },
       );
-      console.log("Removed course from instructor's courses array");
+      // console.log("Removed course from instructor's courses array");
     } catch (error) {
       console.error(
         "Error removing course from instructor's courses array:",
@@ -123,7 +123,7 @@ courseSchema.post("findOneAndDelete", async function (doc) {
         students: { $in: doc.students },
       });
 
-      console.log("Other courses found for instructor:", otherCourses);
+      // console.log("Other courses found for instructor:", otherCourses);
 
       const studentsToKeep = new Set();
       otherCourses.forEach((course) => {
@@ -132,27 +132,27 @@ courseSchema.post("findOneAndDelete", async function (doc) {
         );
       });
 
-      console.log("Students to keep:", studentsToKeep);
+      // console.log("Students to keep:", studentsToKeep);
 
       const studentsToRemove = doc.students.filter(
         (studentId) => !studentsToKeep.has(studentId.toString()),
       );
 
-      console.log("Students to remove:", studentsToRemove);
+      // console.log("Students to remove:", studentsToRemove);
 
       if (studentsToRemove.length > 0) {
         await Instructor.findOneAndUpdate(
           { instructorId: doc.instructor },
           { $pull: { students: { $in: studentsToRemove } } },
         );
-        console.log(
-          "Removed students from instructor's students array:",
-          studentsToRemove,
-        );
+        // console.log(
+        //   "Removed students from instructor's students array:",
+        //   studentsToRemove,
+        // );
       } else {
-        console.log(
-          "No students were removed as they are enrolled in other courses.",
-        );
+        // console.log(
+        //   "No students were removed as they are enrolled in other courses.",
+        // );
       }
     } catch (error) {
       console.error(
@@ -167,7 +167,7 @@ courseSchema.post("findOneAndDelete", async function (doc) {
         { courses: doc._id },
         { $pull: { courses: doc._id } },
       );
-      console.log("Removed course from students' courses array");
+      // console.log("Removed course from students' courses array");
     } catch (error) {
       console.error(
         "Error removing course from students' courses array:",
@@ -178,7 +178,7 @@ courseSchema.post("findOneAndDelete", async function (doc) {
     // Delete lessons associated with the course
     try {
       await Lesson.deleteMany({ course: doc._id });
-      console.log("Deleted lessons associated with the course");
+      // console.log("Deleted lessons associated with the course");
     } catch (error) {
       console.error(
         "Error deleting lessons associated with the course:",
@@ -189,7 +189,7 @@ courseSchema.post("findOneAndDelete", async function (doc) {
     // Delete modules associated with the course
     try {
       await Module.deleteMany({ course: doc._id });
-      console.log("Deleted modules associated with the course");
+      // console.log("Deleted modules associated with the course");
     } catch (error) {
       console.error(
         "Error deleting modules associated with the course:",
@@ -200,7 +200,7 @@ courseSchema.post("findOneAndDelete", async function (doc) {
     // Delete payments associated with the course
     try {
       await Payment.deleteMany({ course: doc._id });
-      console.log("Deleted payments associated with the course");
+      // console.log("Deleted payments associated with the course");
     } catch (error) {
       console.error(
         "Error deleting payments associated with the course:",
@@ -211,7 +211,7 @@ courseSchema.post("findOneAndDelete", async function (doc) {
     // Delete progress associated with the course
     try {
       await Progress.deleteMany({ course: doc._id });
-      console.log("Deleted progress associated with the course");
+      // console.log("Deleted progress associated with the course");
     } catch (error) {
       console.error(
         "Error deleting progress associated with the course:",
@@ -222,7 +222,7 @@ courseSchema.post("findOneAndDelete", async function (doc) {
     // Delete ratings associated with the course
     try {
       await Rating.deleteMany({ course: doc._id });
-      console.log("Deleted ratings associated with the course");
+      // console.log("Deleted ratings associated with the course");
     } catch (error) {
       console.error(
         "Error deleting ratings associated with the course:",
@@ -233,7 +233,7 @@ courseSchema.post("findOneAndDelete", async function (doc) {
     // Delete certificates associated with the course
     try {
       await Certificate.deleteMany({ course: doc._id });
-      console.log("Deleted certificates associated with the course");
+      // console.log("Deleted certificates associated with the course");
     } catch (error) {
       console.error(
         "Error deleting certificates associated with the course:",
@@ -244,7 +244,7 @@ courseSchema.post("findOneAndDelete", async function (doc) {
     // Delete quizzes associated with the course
     try {
       await Quiz.deleteMany({ course: doc._id });
-      console.log("Deleted quizzes associated with the course");
+      // console.log("Deleted quizzes associated with the course");
     } catch (error) {
       console.error(
         "Error deleting quizzes associated with the course:",
@@ -255,7 +255,7 @@ courseSchema.post("findOneAndDelete", async function (doc) {
     // Delete assignments associated with the course
     try {
       await Assignment.deleteMany({ course: doc._id });
-      console.log("Deleted assignments associated with the course");
+      // console.log("Deleted assignments associated with the course");
     } catch (error) {
       console.error(
         "Error deleting assignments associated with the course:",

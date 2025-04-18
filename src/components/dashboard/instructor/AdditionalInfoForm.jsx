@@ -171,7 +171,7 @@ export default function AdditionalInfoForm() {
       }
     };
     getInfo();
-  }, []);
+  }, [form]);
 
   return !isLoading ? (
     <div>
