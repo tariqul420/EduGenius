@@ -21,7 +21,8 @@ export default async function Instructor({ params }) {
   return (
     <section>
       <div className="container mx-auto px-4 py-10 lg:max-w-6xl">
-        <div className="grid w-fit grid-cols-1 gap-4 overflow-hidden rounded-2xl bg-white shadow-md lg:grid-cols-3 dark:bg-black">
+        <div className="grid grid-cols-1 gap-4 w-fit mx-auto sm:mx-0 overflow-hidden rounded-2xl bg-white shadow-md lg:grid-cols-3 dark:bg-black">
+     
           {/* Profile Picture */}
           <div className="dark:bg-dark-bg w-fit bg-gray-50 p-2.5">
             <Image
