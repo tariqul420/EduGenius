@@ -810,8 +810,8 @@ export const becomeInstructorsColumns = [
         variant="outline"
         className={`text-muted-foreground rounded px-1.5 py-1 ${
           row.original.status === "approved" &&
-          "border-green-600 text-green-600"
-        } ${row.original.status === "rejected" && "border-red-600 text-red-600"}`}
+          "border text-green-600 dark:bg-dark-bg bg-light-bg/70"
+        } ${row.original.status === "rejected" && "border text-red-600 dark:bg-dark-bg bg-light-bg/70"}`}
       >
         {row.original.status}
       </Badge>
