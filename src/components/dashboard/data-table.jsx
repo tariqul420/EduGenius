@@ -1,5 +1,6 @@
 "use client";
 
+import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import {
   DndContext,
   KeyboardSensor,
@@ -44,8 +45,9 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Checkbox } from "../ui/checkbox";
+import { Input } from "../ui/input";
 
 // Create a separate component for the drag handle
 function DragHandle({ id }) {
@@ -115,6 +117,9 @@ export default function DataTable({
     pageIndex: pageIndex ? pageIndex - 1 : 0,
     pageSize: pageSize,
   });
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = React.useState("");
 
   const sortableId = React.useId();
   const sensors = useSensors(
@@ -183,6 +188,28 @@ export default function DataTable({
     setData(initialData || []);
   }, [initialData]);
 
+  React.useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      let newUrl = "";
+
+      if (searchQuery) {
+        newUrl = formUrlQuery({
+          params: searchParams.toString(),
+          key: "search",
+          value: searchQuery,
+        });
+      } else {
+        newUrl = removeKeysFromQuery({
+          params: searchParams.toString(),
+          keysToRemove: ["search"],
+        });
+      }
+      router.push(newUrl, { scroll: false });
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchQuery, searchParams, router]);
+
   const pathName = usePathname();
 
   return (
@@ -195,18 +222,31 @@ export default function DataTable({
           View
         </Label>
 
-        <div className="flex items-center gap-2">
-          <DataTableColumnSelector table={table} />
+        <div className="flex items-center">
+          <div className="flex items-center gap-2">
+            <DataTableColumnSelector table={table} />
 
-          {pathName === "/instructor/courses" || pathName === "/instructor" ? (
-            <Link
-              href="/instructor/courses/add-course"
-              className="bg-background hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 flex h-8 items-center gap-1.5 rounded-md border px-3 text-sm font-medium shadow-xs has-[>svg]:px-2.5"
-            >
-              <IconPlus size={16} />
-              <span>Add course</span>
-            </Link>
-          ) : null}
+            {pathName === "/instructor/courses" ||
+            pathName === "/instructor" ? (
+              <Link
+                href="/instructor/courses/add-course"
+                className="bg-background hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 flex h-8 items-center gap-1.5 rounded-md border px-3 text-sm font-medium shadow-xs has-[>svg]:px-2.5"
+              >
+                <IconPlus size={16} />
+                <span>Add course</span>
+              </Link>
+            ) : null}
+
+            <div className="flex items-center gap-2">
+              <Input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="h-8 w-[200px] text-sm"
+                placeholder="Search by title or name"
+              />
+            </div>
+          </div>
         </div>
       </div>
       <TabsContent
