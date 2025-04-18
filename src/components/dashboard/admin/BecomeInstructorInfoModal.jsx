@@ -13,17 +13,25 @@ import { toast } from "sonner";
 
 const InfoSection = ({ title, children }) => (
   <div className="mb-6">
-    <h3 className="mb-3 border-b pb-2 text-lg font-semibold">{title}</h3>
+    <h3 className="mb-3 border-b pb-2 text-main text-xl font-semibold">{title}</h3>
     <div className="space-y-2">{children}</div>
   </div>
 );
 
 const InfoItem = ({ label, value }) => (
-  <div className="flex justify-between text-sm">
-    <span className="font-medium text-gray-700 dark:text-gray-300">
+  <div className="flex justify-between text-md">
+    <span className={`${label == "Status" ? 'mt-4' : ''} font-medium text-md text-gray-700 dark:text-gray-300` }>
       {label}:
     </span>
-    <span className="">{value || "N/A"}</span>
+    <span className={`${value=='pending' || value=='rejected' && 'text-dark-main mt-4 dark:text-dark-btn bg-white shadow dark:bg-dark-bg border rounded px-4 py-1.5'}`}>{value || "N/A"}</span>
+  </div>
+);
+const InfoItemDetails = ({ label, value }) => (
+  <div className="flex flex-col justify-between">
+    <span className="font-medium text-md text-gray-700 dark:text-gray-300">
+      {label}:
+    </span>
+    <span className="text-sm">{value || "N/A"}</span>
   </div>
 );
 
@@ -60,14 +68,14 @@ export default function BecomeInstructorInfoModal({ becomeInstructorInfo }) {
     <Dialog open={open} onOpenChange={setOpen}>
       <Button
         variant="ghost"
-        className="w-full text-left"
+        className="w-full pl-2.5 cursor-pointer text-main bg-light-bg dark:bg-dark-bg  hover:text-main rounded"
         onClick={() => setOpen(true)}
       >
         View Details
       </Button>
-      <DialogContent className="max-h-[80vh] w-full max-w-lg overflow-x-auto rounded-lg p-6 shadow-xl">
+      <DialogContent className="max-h-[80vh] w-full min-w-2xl overflow-x-auto rounded-lg p-6 shadow-xl">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">
+          <DialogTitle className="text-2xl text-main font-bold">
             Instructor Application
           </DialogTitle>
           <DialogDescription>
@@ -107,34 +115,34 @@ export default function BecomeInstructorInfoModal({ becomeInstructorInfo }) {
               label="Education"
               value={becomeInstructorInfo?.education}
             />
-            <InfoItem
+            <InfoItemDetails
               label="Experience"
               value={becomeInstructorInfo?.experience}
             />
           </InfoSection>
           <InfoSection title="Application Details">
-            <InfoItem
+            <InfoItemDetails
               label="Motivation"
               value={becomeInstructorInfo?.motivation}
             />
-            <InfoItem
+            <InfoItemDetails
               label="Teaching Style"
               value={becomeInstructorInfo?.teachingStyle}
             />
             <InfoItem label="Status" value={becomeInstructorInfo?.status} />
           </InfoSection>
         </div>
-        <DialogFooter className="mt-6 flex flex-col gap-3 sm:flex-row sm:gap-2">
+        <DialogFooter className="mt-6 flex flex-col gap-3 sm:flex-row md:gap-4">
           <Button
             variant="outline"
-            className="w-full sm:w-auto"
+            className="w-full bg-light-bg/70 shadow cursor-pointer dark:hover:text-medium-bg rounded sm:w-auto"
             onClick={() => setOpen(false)}
           >
             Cancel
           </Button>
           <Button
-            variant="default"
-            className="w-full bg-green-600 hover:bg-green-700 sm:w-auto dark:bg-green-500 dark:hover:bg-green-600"
+            variant="outline"
+            className="w-full bg-light-bg/70 shadow cursor-pointer rounded dark:bg-dark-bg border hover:text-green-700 text-green-600 sm:w-auto"
             onClick={() => {
               handleStatusUpdate("approved"), setOpen(false);
             }}
@@ -142,9 +150,9 @@ export default function BecomeInstructorInfoModal({ becomeInstructorInfo }) {
             Approve
           </Button>
           <Button
-            variant="destructive"
+            variant="outline"
             disabled={becomeInstructorInfo.status === "approved"}
-            className={`w-full sm:w-auto ${becomeInstructorInfo.status === "approved" && "cursor-not-allowed"}`}
+            className={`w-full bg-light-bg/70 shadow cursor-pointer px-4 text-red-600 dark:bg-dark-bg hover:text-red-700 border rounded sm:w-auto ${becomeInstructorInfo.status === "approved" && "cursor-not-allowed"}`}
             onClick={() => {
               handleStatusUpdate("rejected"), setOpen(false);
             }}
