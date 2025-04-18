@@ -50,7 +50,7 @@ export default function InstructorTab({ instructor }) {
       </TabsContent>
 
       <TabsContent value="course" className="mt-6">
-        {courses?.length !== 0 ? (
+        {courses?.length === 0 ? (
           <div className="dark:bg-dark-bg mx-auto max-w-lg rounded-lg bg-light-bg p-6 text-center shadow w-full dark:text-gray-300">
             <h3 className="text-main dark:text-main-dark mb-2 text-xl font-semibold">
               No Courses Available
