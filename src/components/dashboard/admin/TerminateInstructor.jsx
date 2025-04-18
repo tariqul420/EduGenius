@@ -15,8 +15,8 @@ export default function TerminateInstructor({ instructorId, instructorName }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <Button
-        variant="destructive"
-        className="w-full py-1 text-left"
+        variant="ghost"
+        className="w-full pl-2.5 cursor-pointer text-main bg-light-bg dark:bg-dark-bg  hover:text-main rounded"
         onClick={() => setOpen(true)}
       >
         Terminate

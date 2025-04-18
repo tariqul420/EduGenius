@@ -36,14 +36,14 @@ export default function InstructorTab({ instructor }) {
       <TabsContent value="about" className="mt-6">
         <div className="space-y-6 text-dark-hover dark:text-gray-300">
           <div className="dark:bg-dark-bg rounded-lg dark:border-t-[3px] dark:border-b-0 border bg-light-bg p-6 shadow">
-            <h3 className="mb-4 text-lg font-semibold">About Me</h3>
+            <h3 className="mb-4 text-lg text-main dark:text-white font-semibold">About Me</h3>
             <p className="mt-4">
               {aboutMe || "No information available at this time."}
             </p>
           </div>
 
           <div className="dark:bg-dark-bg rounded-lg dark:border-t-[3px] dark:border-b-0 border bg-light-bg p-6 shadow">
-            <h3 className="mb-4 text-lg font-semibold">Education</h3>
+            <h3 className="mb-4 text-lg font-semibold text-main dark:text-white ">Education</h3>
             <p>{education || "No information available at this time."}</p>
           </div>
         </div>
@@ -97,7 +97,7 @@ export default function InstructorTab({ instructor }) {
           </div>
 
           <div className="dark:bg-dark-bg flex-1 dark:border-t-[3px] dark:border-b-0 border rounded-lg bg-light-bg p-6 shadow-sm lg:max-w-md">
-            <h2 className="mb-6 text-2xl font-bold text-dark-hover dark:text-white dark:text-lightbg-light-bg">
+            <h2 className="mb-6 text-2xl font-bold text-main dark:text-white dark:text-lightbg-light-bg">
               Contact Information
             </h2>
 
