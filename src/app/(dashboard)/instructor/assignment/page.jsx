@@ -3,9 +3,13 @@ import { instructorAssignmentColumns } from "@/constant/columns";
 import { getAssignment } from "@/lib/actions/assignment.action";
 
 export default async function Assignment({ searchParams }) {
-  const { pageSize, pageIndex } = await searchParams;
+  const { pageSize, pageIndex, search } = await searchParams;
 
-  const { assignments, pagination } = await getAssignment();
+  const { assignments, pagination } = await getAssignment({
+    limit: Number(pageSize || 10),
+    page: Number(pageIndex || 1),
+    search,
+  });
 
   return (
     <section className="py-6">

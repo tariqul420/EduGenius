@@ -3,11 +3,12 @@ import { studentCertificateColumns } from "@/constant/columns";
 import { getCertificateByStudent } from "@/lib/actions/certificate.action";
 
 export default async function StudentCertificate({ searchParams }) {
-  const { pageSize, pageIndex } = await searchParams;
+  const { pageSize, pageIndex, search } = await searchParams;
 
   const { certificates, pagination } = await getCertificateByStudent({
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
+    search,
   });
 
   return (

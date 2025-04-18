@@ -4,7 +4,7 @@ import { getStudents } from "@/lib/actions/instructor.action";
 import { auth } from "@clerk/nextjs/server";
 
 export default async function Student({ searchParams }) {
-  const { pageSize, pageIndex } = await searchParams;
+  const { pageSize, pageIndex, search } = await searchParams;
 
   const { sessionClaims } = await auth();
   const instructor = sessionClaims?.userId;
@@ -16,6 +16,7 @@ export default async function Student({ searchParams }) {
     instructorId: instructor,
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
+    search,
   });
 
   return (
