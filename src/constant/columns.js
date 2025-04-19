@@ -1,5 +1,10 @@
 "use client";
 
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { format } from "date-fns";
+import { Monitor, MonitorPlay, MoreHorizontal } from "lucide-react";
+import Image from "next/image";
+
 import BecomeInstructorInfoModal from "@/components/dashboard/admin/BecomeInstructorInfoModal";
 import { EditCategoryModal } from "@/components/dashboard/admin/EditCategoryModal";
 import TerminateInstructor from "@/components/dashboard/admin/TerminateInstructor";
@@ -21,10 +26,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import { format } from "date-fns";
-import { Monitor, MonitorPlay, MoreHorizontal } from "lucide-react";
-import Image from "next/image";
 
 export const categoryColumns = [
   createDragColumn(),
@@ -1089,7 +1090,7 @@ export const adminCourseColumns = [
           variant="outline"
           className="text-muted-foreground rounded px-1.5 py-1"
         >
-          ${row.original.totalRevenue}
+          ${row.original.totalRevenue.toFixed(2)}
         </Badge>
       </div>
     ),
