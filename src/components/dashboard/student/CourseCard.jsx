@@ -9,7 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { getReview } from "@/lib/actions/review.action";
 
 export default async function CourseCard({ course }) {
-  const { thumbnail, title, instructor, progress, _id } = course || {};
+  const { thumbnail, title, instructor, progress, _id,slug } = course || {};
 
   let review = null;
   try {
@@ -23,7 +23,7 @@ export default async function CourseCard({ course }) {
     <Card className="flex h-full min-h-[300px] gap-2 py-2.5 px-2 flex-col">
  
       {/* Optional height */}
-      <Link href={"#"}>
+      <Link href={`${`courses/${slug}`}`} className="group relative flex h-full w-full">
         <CardHeader className="relative w-full px-2.5 rounded-lg">
           <Image
             src={thumbnail}

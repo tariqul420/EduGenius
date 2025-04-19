@@ -25,6 +25,49 @@ const eslintConfig = [
       "react/jsx-uses-vars": "error",
       "react/no-unused-prop-types": "warn",
 
+      // Enhanced undefined prevention rules
+      "no-undefined": "error",
+      "no-undef": "error",
+      "no-undef-init": "error",
+      "no-use-before-define": [
+        "error",
+        {
+          functions: false,
+          classes: true,
+          variables: true,
+        },
+      ],
+      "no-global-assign": "error",
+      "prefer-destructuring": [
+        "error",
+        {
+          object: true,
+          array: false,
+        },
+      ],
+      "no-shadow": [
+        "error",
+        {
+          builtinGlobals: true,
+          hoist: "all",
+          allow: [
+            "Image",
+            "Link",
+            "Head",
+            "Script",
+            "Document",
+            "Main",
+            "Error",
+            "Template",
+          ], // Add Image to allowed shadow variables
+        },
+      ],
+      "default-param-last": "error",
+
+      // Destructuring requirements
+      "object-curly-spacing": ["error", "always"],
+      "object-shorthand": "error",
+
       // General best practices
       "no-console": ["warn", { allow: ["error", "warn"] }],
       "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
