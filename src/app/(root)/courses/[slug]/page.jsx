@@ -1,42 +1,18 @@
-import ReviewCard from "@/components/course/ReviewCard";
-import PaymentModal from "@/components/payment/PaymentModal";
-import CourseCard from "@/components/shared/CourseCard";
-import LoadMore from "@/components/shared/LoadMore";
-import { getCourseBySlug, getCourses } from "@/lib/actions/course.action";
-import { getSingleCourseReview } from "@/lib/actions/review.action";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
-import {
-  BookOpen,
-  ChevronRight,
-  Clock,
-  DollarSign,
-  Globe,
-  MessageCircle,
-  RefreshCcw,
-  Star,
-  Tag,
-  Users,
-} from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
+
 import CoursesTab from "../../../../components/course/CoursesTab";
+
+import PaymentModal from "@/components/payment/PaymentModal";
+import CourseCard from "@/components/shared/CourseCard";
+import { getCourseBySlug, getCourses } from "@/lib/actions/course.action";
 
 const CourseDetails = async ({ params, searchParams }) => {
   const { sessionClaims } = await auth();
   const { page } = await searchParams;
   const { slug } = await params;
   const course = await getCourseBySlug(slug);
-  const {
-    reviews = [],
-    hasNextPage = false,
-    total = 0,
-  } = await getSingleCourseReview({
-    course: course?._id,
-    page: Number(page) || 1,
-    limit: 10,
-  });
-
   // Get the category slug of the current course
   const categorySlug = course?.category?.slug;
 
@@ -70,11 +46,7 @@ const CourseDetails = async ({ params, searchParams }) => {
     relatedCourses = popularCourses;
   }
 
-  const {
-    thumbnail,
-    category,
-    instructor,
-  } = course;
+  const { thumbnail, category, instructor } = course;
   return (
     <>
       <section className="px-2 py-10 md:px-5 dark:bg-black">
@@ -83,16 +55,28 @@ const CourseDetails = async ({ params, searchParams }) => {
           <div className="col-span-12 mx-auto h-fit rounded-lg md:w-7/8 lg:col-span-8 lg:w-full">
             {/* Course Details Card */}
             <div className="dark:bg-dark-bg bg-light-bg rounded-lg border p-6 px-2.5 shadow-md">
-              <Image
+              <iframe
+                className="h-[230px] w-full rounded-lg md:h-[300px] lg:h-[350px]"
+                thumbnail={thumbnail}
+                width="100"
+                height="100"
+                src="https://www.youtube.com/embed/bJzb-RuUcMU?si=pYoWj-NuXih5al6T"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                frameBorder="0"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
+              {/* <Image
                 src={thumbnail}
                 alt={category?.name}
                 width={600}
                 height={500}
                 className="h-[300px] w-full rounded object-cover"
-              />
+              /> */}
               <div className="flex items-center justify-between">
                 <Link
-                  href={`/courses`}
+                  href={"/courses"}
                   className="bg-main hover:bg-dark-main mt-5 inline-block rounded px-4 py-1.5 text-white transition-colors"
                 >
                   Go Back
@@ -103,7 +87,7 @@ const CourseDetails = async ({ params, searchParams }) => {
                 </SignedIn>
                 <SignedOut>
                   <Link
-                    href={`/sign-in`}
+                    href={"/sign-in"}
                     className="bg-main hover:bg-dark-main mt-5 inline-block cursor-pointer rounded px-4 py-1.5 text-white transition-colors"
                   >
                     Sign in to Enroll
@@ -112,43 +96,13 @@ const CourseDetails = async ({ params, searchParams }) => {
               </div>
             </div>
 
-            <CoursesTab course={course} instructor={instructor} />
-
-            {/* Student Review Section with enhanced UI */}
-            {total > 0 && (
-              <div className="mt-14">
-                <div className="mb-8 flex items-center justify-between">
-                  <h2 className="text-dark-bg dark:text-light-bg flex items-center gap-2 text-2xl font-bold">
-                    <MessageCircle
-                      size={24}
-                      className="text-main dark:text-dark-btn"
-                    />
-                    Student Review ({total || 0})
-                  </h2>
-                  <p>
-                    Show {reviews?.length} of {total} Result
-                  </p>
-                </div>
-                <div className="space-y-6">
-                  {reviews.map((review, index) => (
-                    <div
-                      key={index}
-                      className="dark:bg-dark-bg relative rounded-lg border bg-white p-5 shadow transition-shadow duration-200 hover:shadow-md"
-                    >
-                      <ReviewCard review={review} />
-                    </div>
-                  ))}
-
-                  {hasNextPage && <LoadMore />}
-                </div>
-              </div>
-            )}
+            <CoursesTab page={page} course={course} instructor={instructor} />
           </div>
 
           {/* Sidebar */}
-          <div className="bg-light-bg col-span-12 mt-10 lg:col-span-4 lg:mt-0 dark:bg-black">
-            <div className="dark:bg-dark-bg/50 rounded-xl border p-2 shadow-sm">
-              <h2 className="text-dark-bg dark:text-light-bg mb-6 border-b pb-2 text-xl font-bold">
+          <div className="col-span-12 mt-10 overflow-hidden lg:col-span-4 lg:mt-0 dark:bg-black">
+            <div className="dark:bg-dark-bg/50 min-h-full rounded-xl border p-2 shadow-sm">
+              <h2 className="text-dark-bg dark:text-light-bg mx-auto mb-6 w-fit border-b pb-2 text-xl font-bold">
                 Recommended Courses
               </h2>
               {/* Recommended Courses Card  */}

@@ -1,33 +1,46 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   BookOpen,
   ChevronRight,
   Clock,
   DollarSign,
   Globe,
-  RefreshCcw,
-  Star,
+  MessageCircle,
   Tag,
-  Users,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
-export default function CoursesTab({course}) {
-   const {
-     level,
-     discount,
-     price,
-     students,
-     thumbnail,
-     language,
-     description,
-     category,
-     duration,
-     averageRating,
-     instructor,
-   } = course;
+import LoadMore from "../shared/LoadMore";
+
+import ReviewCard from "./ReviewCard";
+
+import AvgRating from "@/components/shared/AvgRating";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getSingleCourseReview } from "@/lib/actions/review.action";
+
+export default async function CoursesTab({ course, page }) {
+  const {
+    level,
+    discount,
+    price,
+    language,
+    description,
+    category,
+    duration,
+    averageRating,
+    instructor,
+  } = course;
+  // console.log(course);
+  const {
+    reviews = [],
+    hasNextPage = false,
+    total = 0,
+  } = await getSingleCourseReview({
+    course: course?._id,
+    page: Number(page) || 1,
+    limit: 10,
+  });
+  // console.log(reviews);
   return (
     <>
       <Tabs defaultValue="about" className="mt-8 w-full">
@@ -42,13 +55,13 @@ export default function CoursesTab({course}) {
             value="course"
             className="data-[state=active]:text-main dark:from-dark-bg dark:to-dark-hover rounded from-white to-white px-6 py-4 text-sm font-medium text-gray-500 transition-all data-[state=active]:bg-gradient-to-b data-[state=active]:shadow-sm dark:data-[state=active]:bg-gradient-to-b dark:data-[state=active]:text-white"
           >
-            Courses
+            Reviews
           </TabsTrigger>
         </TabsList>
         {/* about ===================== */}
         <TabsContent value="about" className="mt-6">
           <div>
-            <div className="dark:bg-dark-bg bg-light-bg rounded-lg border p-6 px-2.5 shadow-md"> 
+            <div className="dark:bg-dark-bg bg-light-bg rounded-lg border p-6 px-2.5 shadow-md">
               <h1 className="text-2xl font-bold">{category.name}</h1>
               <p className="mt-2 text-lg text-gray-700 dark:text-gray-300">
                 {description}
@@ -77,7 +90,7 @@ export default function CoursesTab({course}) {
               </div>
             </div>
             <Link href={`/instructors/${instructor?.slug}`}>
-              <div className="group dark:bg-dark-bg relative mt-4 rounded-xl border bg-white p-4 transition-shadow hover:shadow-lg">
+              <div className="group dark:bg-dark-bg bg-light-bg relative mt-4 rounded-xl border p-4 transition-shadow hover:shadow-lg">
                 <div className="flex flex-col items-center gap-6 sm:flex-row">
                   <div className="flex-shrink-0">
                     <Image
@@ -115,10 +128,42 @@ export default function CoursesTab({course}) {
         </TabsContent>
         {/* course =================== */}
         <TabsContent value="course" className="mt-6">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt aut
-          deleniti laborum doloremque veritatis nesciunt, consectetur cumque
-          animi? Sunt ad laboriosam quae! Sint repellendus ad sequi
-          necessitatibus tenetur fuga architecto?
+          {/* Student Review Section with enhanced UI */}
+          <div className="bg-light-bg dark:bg-dark-bg mb-5 rounded-md border px-4 py-2.5">
+            <h1 className="text-dark-bg dark:text-light-bg flex items-center gap-2 text-lg font-bold md:text-2xl">
+              Average Rating
+            </h1>
+            <AvgRating avgRating={averageRating} />
+            <h2 className="text-lg">Total {reviews?.length} Ratings</h2>
+          </div>
+          {total > 0 && (
+            <div>
+              <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center sm:gap-0">
+                <h2 className="text-dark-bg dark:text-light-bg flex items-center gap-2 text-lg font-bold md:text-2xl">
+                  <MessageCircle
+                    size={24}
+                    className="text-main dark:text-dark-btn"
+                  />
+                  Student Review ({total || 0})
+                </h2>
+                <p>
+                  Show {reviews?.length} of {total} Result
+                </p>
+              </div>
+              <div className="space-y-6">
+                {reviews.map((review, index) => (
+                  <div
+                    key={index}
+                    className="dark:bg-dark-bg relative rounded-lg border bg-white p-5 shadow transition-shadow duration-200 hover:shadow-md"
+                  >
+                    <ReviewCard review={review} />
+                  </div>
+                ))}
+
+                {hasNextPage && <LoadMore />}
+              </div>
+            </div>
+          )}
         </TabsContent>
       </Tabs>
     </>
