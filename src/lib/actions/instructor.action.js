@@ -291,6 +291,7 @@ export async function getInstructorBySlug(slug) {
   }
 }
 
+// get student for instructors
 export async function getStudents({
   instructorId,
   page = 1,
@@ -381,8 +382,6 @@ export async function getStudents({
           },
           profilePicture: { $ifNull: ["$userData.profilePicture", ""] },
           email: "$userData.email",
-          phone: { $ifNull: ["$userData.phone", ""] },
-          address: { $ifNull: ["$userData.address", ""] },
           enrolledCourses: { $size: "$filteredCourses" },
         },
       },
@@ -601,7 +600,22 @@ export async function getInstructorByAdmin({
                 in: {
                   $multiply: [
                     { $size: { $ifNull: ["$$course.students", []] } },
-                    { $ifNull: ["$$course.price", 0] },
+                    {
+                      $multiply: [
+                        { $ifNull: ["$$course.price", 0] }, // Course price
+                        {
+                          $subtract: [
+                            1,
+                            {
+                              $divide: [
+                                { $ifNull: ["$$course.discount", 0] },
+                                100,
+                              ],
+                            }, // Discount as a fraction
+                          ],
+                        },
+                      ],
+                    },
                   ],
                 },
               },
