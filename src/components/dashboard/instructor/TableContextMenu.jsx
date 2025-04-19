@@ -69,7 +69,7 @@ export default function TableContextMenu({ row }) {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Link
-            href={`/instructor/courses/${row.original.slug}`}
+            href={`${pathName === "/instructor/courses" ? `/instructor/courses/${row.original.slug}` : `/admin/courses/${row.original.slug}`}`}
             className="block w-full"
           >
             Edit

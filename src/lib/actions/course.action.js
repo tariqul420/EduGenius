@@ -302,7 +302,6 @@ export async function deleteCourse({ courseId, path, instructor }) {
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const role = sessionClaims?.role;
     if (role !== "admin" && role !== "instructor") {
       throw new Error("Don't have permission to perform this action!");
