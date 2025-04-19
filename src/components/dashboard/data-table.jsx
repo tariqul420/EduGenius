@@ -1,6 +1,5 @@
 "use client";
 
-import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import {
   DndContext,
   KeyboardSensor,
@@ -29,7 +28,12 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
+
+import { Checkbox } from "../ui/checkbox";
+import { Input } from "../ui/input";
 
 import DataTableColumnSelector from "@/components/shared/DataTableColumnSelector";
 import DataTableFooter from "@/components/shared/DataTableFooter";
@@ -44,10 +48,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Checkbox } from "../ui/checkbox";
-import { Input } from "../ui/input";
+import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 
 // Create a separate component for the drag handle
 function DragHandle({ id }) {
@@ -344,7 +345,7 @@ export function createSelectionColumn() {
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
-          className={`border-[#e9e4e4] dark:border-[#383838]`}
+          className={"border-[#e9e4e4] dark:border-[#383838]"}
         />
       </div>
     ),
