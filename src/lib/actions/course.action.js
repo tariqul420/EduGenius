@@ -296,21 +296,21 @@ export async function updateCourse({ courseId, data, path }) {
   }
 }
 
-export async function deleteCourse({ courseId, path }) {
+export async function deleteCourse({ courseId, path, instructor }) {
   try {
     await dbConnect();
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
 
-    const userId = sessionClaims?.userId;
-    if (!userId) {
-      throw new Error("User not authenticated");
+    const role = sessionClaims?.role;
+    if (role !== "admin" && role !== "instructor") {
+      throw new Error("Don't have permission to perform this action!");
     }
 
     await Course.findOneAndDelete({
-      _id: courseId,
-      instructor: objectId(userId),
+      _id: objectId(courseId),
+      instructor: objectId(instructor),
     });
     await Module.deleteMany({ course: objectId(courseId) });
     await Lesson.deleteMany({ course: objectId(courseId) });
