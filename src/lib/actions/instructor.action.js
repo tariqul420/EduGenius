@@ -291,25 +291,29 @@ export async function getInstructorBySlug(slug) {
   }
 }
 
-export async function getStudents({ instructorId, page = 1, limit = 10 }) {
+// get student for instructors
+export async function getStudents({
+  instructorId,
+  page = 1,
+  limit = 10,
+  search = "",
+} = {}) {
   try {
     await dbConnect();
 
-    // Get total count of students before pagination
-    const totalCount = await Instructor.aggregate([
-      {
-        $match: {
-          instructorId: objectId(instructorId),
-        },
-      },
-      {
-        $project: {
-          studentCount: { $size: "$students" },
-        },
-      },
-    ]);
+    const skip = (page - 1) * limit;
 
-    const total = totalCount[0]?.studentCount || 0;
+    // Create search match stage
+    const searchMatch = search
+      ? {
+          $match: {
+            $or: [
+              { "userData.firstName": { $regex: search, $options: "i" } },
+              { "userData.lastName": { $regex: search, $options: "i" } },
+            ],
+          },
+        }
+      : { $match: {} };
 
     const students = await Instructor.aggregate([
       // Match the instructor
@@ -348,6 +352,8 @@ export async function getStudents({ instructorId, page = 1, limit = 10 }) {
       {
         $unwind: "$userData",
       },
+      // Apply search filter on student names
+      searchMatch,
       // Filter courses to only include those from this instructor
       {
         $addFields: {
@@ -376,22 +382,70 @@ export async function getStudents({ instructorId, page = 1, limit = 10 }) {
           },
           profilePicture: { $ifNull: ["$userData.profilePicture", ""] },
           email: "$userData.email",
-          phone: { $ifNull: ["$userData.phone", ""] },
-          address: { $ifNull: ["$userData.address", ""] },
           enrolledCourses: { $size: "$filteredCourses" },
         },
       },
+      // Sort by name for consistent ordering
+      {
+        $sort: { name: 1 },
+      },
       // Add pagination
       {
-        $skip: (page - 1) * limit,
+        $skip: skip,
       },
       {
         $limit: limit,
       },
     ]);
 
-    // Calculate if there's a next page
-    const hasNextPage = total > page * limit;
+    // Get total count with the same match and search conditions
+    const totalCount = await Instructor.aggregate([
+      // Match the instructor
+      {
+        $match: {
+          instructorId: objectId(instructorId),
+        },
+      },
+      // Unwind the students array
+      {
+        $unwind: "$students",
+      },
+      // Lookup students collection
+      {
+        $lookup: {
+          from: "students",
+          localField: "students",
+          foreignField: "student",
+          as: "studentData",
+        },
+      },
+      // Unwind the studentData array
+      {
+        $unwind: "$studentData",
+      },
+      // Lookup users collection
+      {
+        $lookup: {
+          from: "users",
+          localField: "studentData.student",
+          foreignField: "_id",
+          as: "userData",
+        },
+      },
+      // Unwind the userData array
+      {
+        $unwind: "$userData",
+      },
+      // Apply search filter
+      searchMatch,
+      // Count the matching documents
+      {
+        $count: "total",
+      },
+    ]);
+
+    const total = totalCount[0]?.total || 0;
+    const totalPages = Math.ceil(total / limit);
 
     return {
       students: JSON.parse(JSON.stringify(students)),
@@ -399,13 +453,13 @@ export async function getStudents({ instructorId, page = 1, limit = 10 }) {
         total,
         page,
         limit,
-        hasNextPage,
-        totalPages: Math.ceil(total / limit),
+        hasNextPage: page < totalPages,
+        totalPages,
       },
     };
   } catch (error) {
     console.error("Error getting students by instructor courses ID:", error);
-    throw error;
+    throw new Error("Failed to fetch students");
   }
 }
 
@@ -468,5 +522,156 @@ export async function getAdditionalInfo() {
     return JSON.parse(JSON.stringify(instructor));
   } catch (error) {
     console.error("Error getting additional info:", error);
+  }
+}
+
+export async function getInstructorByAdmin({
+  page = 1,
+  limit = 10,
+  search = "",
+} = {}) {
+  try {
+    await dbConnect();
+
+    const { sessionClaims } = await auth();
+    const role = sessionClaims?.role;
+
+    if (role !== "admin") {
+      throw new Error("Don't have permission to perform this action!");
+    }
+
+    const skip = (page - 1) * limit;
+
+    // Create match stage for search
+    const matchStage = search
+      ? {
+          $match: {
+            $or: [
+              { "instructor.firstName": { $regex: search, $options: "i" } },
+              { "instructor.lastName": { $regex: search, $options: "i" } },
+            ],
+          },
+        }
+      : { $match: {} };
+
+    const instructors = await Instructor.aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "instructorId",
+          foreignField: "_id",
+          as: "instructor",
+        },
+      },
+      {
+        $unwind: {
+          path: "$instructor",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      // Apply search filter after lookup to access instructor fields
+      matchStage,
+      // Lookup courses using instructorId to match Course.instructor
+      {
+        $lookup: {
+          from: "courses",
+          localField: "instructorId",
+          foreignField: "instructor",
+          as: "courses",
+        },
+      },
+      // Project the required fields and calculate stats
+      {
+        $project: {
+          instructorId: "$instructorId",
+          firstName: "$instructor.firstName",
+          lastName: "$instructor.lastName",
+          email: "$instructor.email",
+          slug: "$instructor.slug",
+          phone: "$phone",
+          createdAt: "$createdAt",
+          studentCount: { $size: { $ifNull: ["$students", []] } },
+          courseCount: { $size: { $ifNull: ["$courses", []] } },
+          totalRevenue: {
+            $sum: {
+              $map: {
+                input: { $ifNull: ["$courses", []] },
+                as: "course",
+                in: {
+                  $multiply: [
+                    { $size: { $ifNull: ["$$course.students", []] } },
+                    {
+                      $multiply: [
+                        { $ifNull: ["$$course.price", 0] }, // Course price
+                        {
+                          $subtract: [
+                            1,
+                            {
+                              $divide: [
+                                { $ifNull: ["$$course.discount", 0] },
+                                100,
+                              ],
+                            }, // Discount as a fraction
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
+      {
+        $sort: { createdAt: -1 },
+      },
+      {
+        $skip: skip,
+      },
+      {
+        $limit: limit,
+      },
+    ]);
+
+    // Get total count of instructors matching the search
+    const totalInstructors = search
+      ? await Instructor.aggregate([
+          {
+            $lookup: {
+              from: "users",
+              localField: "instructorId",
+              foreignField: "_id",
+              as: "instructor",
+            },
+          },
+          {
+            $unwind: {
+              path: "$instructor",
+              preserveNullAndEmptyArrays: true,
+            },
+          },
+          matchStage,
+          { $count: "total" },
+        ]).then((result) => result[0]?.total || 0)
+      : await Instructor.estimatedDocumentCount();
+
+    const totalPages = Math.ceil(totalInstructors / limit);
+
+    return JSON.parse(
+      JSON.stringify({
+        instructors,
+        pagination: {
+          currentPage: page,
+          totalPages,
+          totalItems: totalInstructors,
+          hasNextPage: page < totalPages,
+          hasPrevPage: page > 1,
+        },
+      }),
+    );
+  } catch (error) {
+    console.error("Error fetching instructors:", error);
+    throw new Error("Failed to fetch instructors");
   }
 }

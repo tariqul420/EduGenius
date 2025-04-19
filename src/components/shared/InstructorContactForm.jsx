@@ -50,43 +50,48 @@ export default function InstructorContactForm({ email }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex-1 space-y-8 border p-8"
+        className="bg-light-bg dark:bg-dark-bg rounded-lg flex-1 space-y-8 p-8"
       >
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Name"
-                  {...field}
-                  className="w-full rounded-none px-4 py-6"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Email"
-                  {...field}
-                  className="w-full rounded-none px-4 py-6"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="flex w-full flex-col items-center gap-4 md:flex-row">
+          <div className="w-full md:flex-1">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Name"
+                      {...field}
+                      className="w-full rounded-md bg-white px-4 py-6"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="w-full md:flex-1">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Email"
+                      {...field}
+                      className="w-full rounded-md bg-white px-4 py-6"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
 
         <FormField
           control={form.control}
@@ -97,8 +102,9 @@ export default function InstructorContactForm({ email }) {
               <FormControl>
                 <Textarea
                   placeholder="Type your message here"
+                  
                   {...field}
-                  className="w-full rounded-none px-4 py-6"
+                  className="w-full md:h-30 rounded-md bg-white px-4 py-6"
                 />
               </FormControl>
               <FormMessage />
@@ -107,7 +113,7 @@ export default function InstructorContactForm({ email }) {
         />
         <Button
           type="submit"
-          className="bg-main w-full rounded-none px-4 py-6 text-sm text-white hover:text-black"
+          className="bg-main w-full rounded cursor-pointer px-4 py-6 text-sm text-white hover:bg-white hover:text-main"
         >
           Send Message
         </Button>

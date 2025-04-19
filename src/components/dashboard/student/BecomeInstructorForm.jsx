@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  getInstructorInfo,
+  getInstructorInfoUser,
   saveInstructorInfo,
 } from "@/lib/actions/instructor.info.action";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -64,12 +64,12 @@ const formSchema = z.object({
   experience: z
     .string()
     .min(10, "Teaching experience must be at least 10 characters")
-    .max(1000, "Teaching experience must not exceed 1000 characters"),
+    .max(300, "Teaching experience must not exceed 300 characters"),
 
   motivation: z
     .string()
     .min(20, "Motivation statement must be at least 20 characters")
-    .max(1000, "Motivation statement must not exceed 1000 characters"),
+    .max(300, "Motivation statement must not exceed 300 characters"),
 
   teachingStyle: z
     .string()
@@ -128,7 +128,7 @@ export default function BecomeInstructorForm() {
     const getInfo = async () => {
       setIsLoading(true);
       try {
-        const info = await getInstructorInfo();
+        const info = await getInstructorInfoUser();
         if (info) {
           // If info exists, disable the form and show status
           setFormDisabled(true);
@@ -156,7 +156,7 @@ export default function BecomeInstructorForm() {
       }
     };
     getInfo();
-  }, []);
+  }, [form]);
 
   // Function to get status color and message
   const getStatusInfo = (status) => {

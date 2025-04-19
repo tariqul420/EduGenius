@@ -28,7 +28,11 @@ export async function createCategory(categoryName) {
   }
 }
 
-export async function getCategories({ page = 1, limit = 10 } = {}) {
+export async function getCategories({
+  page = 1,
+  limit = 10,
+  search = "",
+} = {}) {
   try {
     await dbConnect();
 
@@ -36,15 +40,20 @@ export async function getCategories({ page = 1, limit = 10 } = {}) {
     const role = sessionClaims?.role;
 
     if (role !== "admin") {
-      throw new Error("Don't have permission perform this action!");
+      throw new Error("Don't have permission to perform this action!");
     }
 
-    const categories = await Category.find()
-      .skip((page - 1) * limit)
-      .limit(limit);
+    const skip = (page - 1) * limit;
 
-    // Get total count using the same match condition
-    const totalCategories = await Category.estimatedDocumentCount();
+    // Create search query
+    const searchQuery = search
+      ? { name: { $regex: search, $options: "i" } }
+      : {};
+
+    const categories = await Category.find(searchQuery).skip(skip).limit(limit);
+
+    // Get total count using the same search condition
+    const totalCategories = await Category.countDocuments(searchQuery);
 
     const totalPages = Math.ceil(totalCategories / limit);
 
@@ -61,8 +70,8 @@ export async function getCategories({ page = 1, limit = 10 } = {}) {
       }),
     );
   } catch (error) {
-    console.error("Error fetching assignments:", error);
-    throw new Error("Failed to fetch assignments");
+    console.error("Error fetching categories:", error);
+    throw new Error("Failed to fetch categories");
   }
 }
 

@@ -27,7 +27,7 @@ export default function PaymentModal({ course, user }) {
         <AlertDialogTrigger asChild>
           {alreadyPayment ? (
             <Link
-              href={`/student/course`}
+              href={`/student/courses`}
               className="bg-main hover:bg-main mt-5 inline-block cursor-pointer rounded px-4 py-1.5 text-white transition-colors"
               variant="outline"
             >

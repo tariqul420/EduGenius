@@ -159,7 +159,11 @@ export async function getBlogBySlug(slug) {
   }
 }
 
-export async function getBlogsByInstructor({ page = 1, limit = 10 } = {}) {
+export async function getBlogsByInstructor({
+  page = 1,
+  limit = 10,
+  search = "",
+} = {}) {
   try {
     await dbConnect();
 
@@ -168,20 +172,31 @@ export async function getBlogsByInstructor({ page = 1, limit = 10 } = {}) {
     const userId = sessionClaims?.userId;
 
     if (userRole !== "instructor") {
-      throw new Error("Don't have permission perform this action!");
+      throw new Error("Don't have permission to perform this action!");
     }
 
+    const skip = (page - 1) * limit;
+
+    // Create search query
+    const searchQuery = search
+      ? { title: { $regex: search, $options: "i" } }
+      : {};
+
     // Find blogs with pagination
-    const blogs = await Blog.find({ author: userId })
+    const blogs = await Blog.find({
+      author: userId,
+      ...searchQuery,
+    })
       .populate("category", "name")
       .sort({ createdAt: -1 })
-      .skip((page - 1) * limit)
+      .skip(skip)
       .limit(limit)
       .lean();
 
     // Get total count using the same match condition
-    const totalBlogs = await Blog.estimatedDocumentCount({
+    const totalBlogs = await Blog.countDocuments({
       author: userId,
+      ...searchQuery,
     });
 
     const totalPages = Math.ceil(totalBlogs / limit);
@@ -200,7 +215,7 @@ export async function getBlogsByInstructor({ page = 1, limit = 10 } = {}) {
     );
   } catch (error) {
     console.error("Error fetching blogs by user:", error);
-    return { blogs: [], total: 0, hasNextPage: false };
+    throw new Error("Failed to fetch blogs");
   }
 }
 

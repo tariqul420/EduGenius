@@ -1,6 +1,8 @@
 "use client";
 
+import BecomeInstructorInfoModal from "@/components/dashboard/admin/BecomeInstructorInfoModal";
 import { EditCategoryModal } from "@/components/dashboard/admin/EditCategoryModal";
+import TerminateInstructor from "@/components/dashboard/admin/TerminateInstructor";
 import {
   createDragColumn,
   createSelectionColumn,
@@ -25,6 +27,8 @@ import { Monitor, MonitorPlay, MoreHorizontal } from "lucide-react";
 import Image from "next/image";
 
 export const categoryColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
   {
     accessorKey: "name",
     header: "name",
@@ -41,7 +45,10 @@ export const categoryColumns = [
     header: "Created At",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {format(new Date(row.original?.createdAt), "PPP")}
         </Badge>
       </div>
@@ -52,7 +59,10 @@ export const categoryColumns = [
     header: "Updated At",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {format(new Date(row.original?.updatedAt), "PPP")}
         </Badge>
       </div>
@@ -125,7 +135,10 @@ export const blogColumns = [
     header: "Category",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {row.original.category?.name}
         </Badge>
       </div>
@@ -136,7 +149,10 @@ export const blogColumns = [
     header: "Created At",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {format(new Date(row.original?.createdAt), "PPP")}
         </Badge>
       </div>
@@ -147,7 +163,10 @@ export const blogColumns = [
     header: "Updated At",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {format(new Date(row.original?.updatedAt), "PPP")}
         </Badge>
       </div>
@@ -229,7 +248,10 @@ export const instructorQuizColumns = [
     header: "Category",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {row.original.course.category.name}
         </Badge>
       </div>
@@ -240,7 +262,10 @@ export const instructorQuizColumns = [
     header: "Enrolled Student",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {row.original.studentsCount}
         </Badge>
       </div>
@@ -267,7 +292,10 @@ export const instructorAssignmentColumns = [
     header: "Category",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {row.original.course.category.name}
         </Badge>
       </div>
@@ -278,7 +306,10 @@ export const instructorAssignmentColumns = [
     header: "Enrolled Student",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {row.original.studentsCount}
         </Badge>
       </div>
@@ -289,7 +320,10 @@ export const instructorAssignmentColumns = [
     header: "Deadline",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {format(new Date(row.original.deadline), "PPP")}
         </Badge>
       </div>
@@ -300,7 +334,10 @@ export const instructorAssignmentColumns = [
     header: "Total Marks",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {row.original.totalMarks}
         </Badge>
       </div>
@@ -311,7 +348,10 @@ export const instructorAssignmentColumns = [
     header: "Submissions Count",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {row.original.submissionsCount}
         </Badge>
       </div>
@@ -351,7 +391,10 @@ export const instructorStudentColumns = [
     header: "Phone",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {row.original.phone}
         </Badge>
       </div>
@@ -363,7 +406,10 @@ export const instructorStudentColumns = [
 
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {row.original.address}
         </Badge>
       </div>
@@ -374,7 +420,10 @@ export const instructorStudentColumns = [
     header: "Enrolled Course",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {row.original.enrolledCourses}
         </Badge>
       </div>
@@ -401,7 +450,10 @@ export const instructorCourseColumns = [
     header: "Category",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {row.original.category.name}
         </Badge>
       </div>
@@ -412,7 +464,10 @@ export const instructorCourseColumns = [
     header: "Language",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {row.original.language}
         </Badge>
       </div>
@@ -423,7 +478,10 @@ export const instructorCourseColumns = [
     header: "Price",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           $
           {row.original.price > 0 ? (
             row.original.price
@@ -435,12 +493,29 @@ export const instructorCourseColumns = [
     ),
   },
   {
+    accessorKey: "totalRevenue",
+    header: "Revenue",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
+          ${row.original.totalRevenue}
+        </Badge>
+      </div>
+    ),
+  },
+  {
     accessorKey: "averageRating",
     header: "Rating",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {row.original.averageRating.toFixed(1)} / 5
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
+          {row.original.averageRating} / 5
         </Badge>
       </div>
     ),
@@ -471,7 +546,10 @@ export const studentCertificateColumns = [
     header: "Created At",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
           {format(new Date(row.original?.createdAt), "PPP")}
         </Badge>
       </div>
@@ -687,5 +765,338 @@ export const studentQuizColumns = [
         <Button variant="default">Enroll</Button>
       </div>
     ),
+  },
+];
+
+export const becomeInstructorsColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original.student.firstName} {row.original.student.lastName}
+      </h1>
+    ),
+    filterFn: "includesString",
+    enableHiding: false,
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {row.original.student.email}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "phone",
+    header: "Phone",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {row.original?.phone ? row.original?.phone : "Not Submitted"}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "profession",
+    header: "Profession",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {row.original?.profession ? row.original?.profession : "Not Submitted"}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className={`text-muted-foreground rounded px-1.5 py-1 ${
+          row.original.status === "approved" &&
+          "dark:bg-dark-bg bg-light-bg/70 border text-green-600"
+        } ${row.original.status === "rejected" && "dark:bg-dark-bg bg-light-bg/70 border text-red-600"}`}
+      >
+        {row.original.status}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created At",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {format(new Date(row.original.createdAt), "PPP")}
+      </Badge>
+    ),
+  },
+  {
+    id: "actions",
+    header: "Action",
+    cell: ({ row }) => {
+      const info = row.original;
+      return (
+        <div className="flex justify-end">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Actions</span>
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() =>
+                  navigator.clipboard.writeText(info.student.email)
+                }
+              >
+                Copy Email
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <BecomeInstructorInfoModal becomeInstructorInfo={info} />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      );
+    },
+  },
+];
+
+export const adminInstructorColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original.firstName} {row.original.lastName}
+      </h1>
+    ),
+    filterFn: "includesString",
+    enableHiding: false,
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {row.original.email}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "phone",
+    header: "Phone",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {row.original.phone ? row.original.phone : "Not Submitted"}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "studentCount",
+    header: "Student Count",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {row.original.studentCount}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "courseCount",
+    header: "CourseCount",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {row.original.courseCount}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "totalRevenue",
+    header: "Total Revenue",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        ${row.original.totalRevenue}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created At",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {format(new Date(row.original.createdAt), "PPP")}
+      </Badge>
+    ),
+  },
+  {
+    id: "actions",
+    header: "Action",
+    cell: ({ row }) => {
+      const info = row.original;
+      return (
+        <div className="flex justify-end">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Actions</span>
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(info.email)}
+              >
+                Copy Email
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <a
+                  href={`/instructors/${info.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View Details
+                </a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <TerminateInstructor />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      );
+    },
+  },
+];
+
+export const adminCourseColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
+  {
+    accessorKey: "title",
+    header: "Title",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original.title}
+      </h1>
+    ),
+    filterFn: "includesString",
+    enableHiding: false,
+  },
+  {
+    accessorKey: "name",
+    header: "	Name & Mail",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-2">
+        <Avatar>
+          <AvatarImage
+            src={row.original?.instructor?.profilePicture}
+            alt={row.original?.instructor?.firstName}
+          />
+          <AvatarFallback>{row.original?.instructor?.fileName}</AvatarFallback>
+        </Avatar>
+
+        <div>
+          <h1 className="max-w-xs truncate text-sm font-medium">
+            {row.original?.instructor?.firstName}{" "}
+            {row.original?.instructor?.lastName}
+          </h1>
+          <p className="text-muted-foreground text-sm">
+            {row.original?.instructor?.email}
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "category.name",
+    header: "Category",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
+          {row.original.category.name}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "price",
+    header: "Price",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
+          $
+          {row.original.price > 0 ? (
+            row.original.price
+          ) : (
+            <span className="text-green-500">Free</span>
+          )}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "totalRevenue",
+    header: "Revenue",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
+          ${row.original.totalRevenue}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => <TableContextMenu row={row} />,
   },
 ];

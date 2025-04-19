@@ -120,7 +120,8 @@ export async function getQuizById(courseId) {
   }
 }
 
-export async function getQuizzes({ page = 1, limit = 10 } = {}) {
+// get Quizzes by instructors
+export async function getQuizzes({ page = 1, limit = 10, search = "" } = {}) {
   try {
     await dbConnect();
 
@@ -131,6 +132,15 @@ export async function getQuizzes({ page = 1, limit = 10 } = {}) {
       throw new Error("User not authenticated");
     }
 
+    // Create search match stage
+    const searchMatch = search
+      ? {
+          $match: {
+            title: { $regex: search, $options: "i" },
+          },
+        }
+      : { $match: {} };
+
     const aggregationPipeline = [
       // Match quizzes by instructor
       {
@@ -138,6 +148,8 @@ export async function getQuizzes({ page = 1, limit = 10 } = {}) {
           instructor: objectId(userId),
         },
       },
+      // Apply search filter on title
+      searchMatch,
       // Lookup course data
       {
         $lookup: {
@@ -171,8 +183,12 @@ export async function getQuizzes({ page = 1, limit = 10 } = {}) {
           title: 1,
           "course.title": 1,
           "course.category.name": 1,
-          studentsCount: { $size: "$course.students" },
+          studentsCount: { $size: { $ifNull: ["$course.students", []] } },
         },
+      },
+      // Sort by title for consistent ordering
+      {
+        $sort: { title: 1 },
       },
       // Skip for pagination
       {
@@ -184,13 +200,14 @@ export async function getQuizzes({ page = 1, limit = 10 } = {}) {
       },
     ];
 
-    // Get total count using the same match condition
+    // Get total count using the same match and search conditions
     const [totalCount] = await Quiz.aggregate([
       {
         $match: {
           instructor: objectId(userId),
         },
       },
+      searchMatch,
       {
         $count: "total",
       },

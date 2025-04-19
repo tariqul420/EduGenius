@@ -132,6 +132,7 @@ export function ReviewModal({ course, review }) {
         <div className="rating flex justify-center">
           <Rating
             onClick={handleRating}
+            allowFraction
             initialValue={rating}
             onPointerMove={handlePointerMove}
             onPointerLeave={handlePointerLeave}

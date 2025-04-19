@@ -3,11 +3,12 @@ import { instructorQuizColumns } from "@/constant/columns";
 import { getQuizzes } from "@/lib/actions/quiz.action";
 
 export default async function Quiz({ searchParams }) {
-  const { pageSize, pageIndex } = await searchParams;
+  const { pageSize, pageIndex, search } = await searchParams;
 
   const { quizzes, pagination } = await getQuizzes({
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
+    search,
   });
 
   return (
