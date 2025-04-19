@@ -1,6 +1,6 @@
 import DataTable from "@/components/dashboard/data-table";
 import { instructorCourseColumns } from "@/constant/columns";
-import { getCourses } from "@/lib/actions/course.action";
+import { getCourseAdminInstructor } from "@/lib/actions/course.action";
 import { auth } from "@clerk/nextjs/server";
 
 export default async function Courses({ searchParams }) {
@@ -12,13 +12,12 @@ export default async function Courses({ searchParams }) {
     throw new Error("User not authenticated");
   }
 
-  const result = await getCourses({
-    instructor,
+  const { courses, pagination } = await getCourseAdminInstructor({
+    instructor: true,
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
     search,
   });
-  const courses = result?.courses || [];
 
   return (
     <section className="py-6">
@@ -26,7 +25,7 @@ export default async function Courses({ searchParams }) {
         <DataTable
           pageIndex={Number(pageIndex || "1")}
           pageSize={Number(pageSize || "10")}
-          total={result?.total || 0}
+          total={pagination?.totalItems || 0}
           data={courses || []}
           columns={instructorCourseColumns || []}
           uniqueIdProperty="_id"
