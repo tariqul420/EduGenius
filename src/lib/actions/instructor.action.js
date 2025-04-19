@@ -600,7 +600,22 @@ export async function getInstructorByAdmin({
                 in: {
                   $multiply: [
                     { $size: { $ifNull: ["$$course.students", []] } },
-                    { $ifNull: ["$$course.price", 0] },
+                    {
+                      $multiply: [
+                        { $ifNull: ["$$course.price", 0] }, // Course price
+                        {
+                          $subtract: [
+                            1,
+                            {
+                              $divide: [
+                                { $ifNull: ["$$course.discount", 0] },
+                                100,
+                              ],
+                            }, // Discount as a fraction
+                          ],
+                        },
+                      ],
+                    },
                   ],
                 },
               },

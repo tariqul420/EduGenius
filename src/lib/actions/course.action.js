@@ -482,3 +482,159 @@ export async function getCourseForEnrollStudent(studentId) {
     throw error;
   }
 }
+
+export async function getCourseAdminInstructor({
+  page = 1,
+  limit = 10,
+  search = "",
+  instructor = false,
+} = {}) {
+  try {
+    await dbConnect();
+
+    // Authentication and authorization
+    const { sessionClaims } = await auth();
+    const role = sessionClaims?.role;
+    const userId = sessionClaims?.userId;
+
+    if (role !== "instructor" && role !== "admin") {
+      throw new Error("Don't have permission to perform this action!");
+    }
+
+    const skip = (page - 1) * limit;
+
+    // Build the aggregation pipeline
+    const pipeline = [
+      // Match courses based on criteria
+      {
+        $match: {
+          ...(instructor && { instructor: objectId(userId) }),
+          ...(search && {
+            $or: [
+              { title: { $regex: search, $options: "i" } },
+              { level: { $regex: search, $options: "i" } },
+            ],
+          }),
+        },
+      },
+      // Lookup instructor details
+      {
+        $lookup: {
+          from: "users",
+          localField: "instructor",
+          foreignField: "_id",
+          as: "instructor",
+        },
+      },
+      // Lookup category details
+      {
+        $lookup: {
+          from: "categories",
+          localField: "category",
+          foreignField: "_id",
+          as: "category",
+        },
+      },
+      // Lookup ratings
+      {
+        $lookup: {
+          from: "ratings",
+          localField: "_id",
+          foreignField: "course",
+          as: "ratingsData",
+        },
+      },
+      // Unwind instructor and category (single values)
+      { $unwind: "$instructor" },
+      { $unwind: "$category" },
+      // Add fields for average rating and total revenue
+      {
+        $addFields: {
+          averageRating: {
+            $cond: {
+              if: { $gt: [{ $size: "$ratingsData" }, 0] },
+              then: { $avg: "$ratingsData.rating" },
+              else: 0,
+            },
+          },
+          totalRevenue: {
+            $multiply: [
+              { $size: { $ifNull: ["$students", []] } }, // Number of students
+              {
+                $multiply: [
+                  { $ifNull: ["$price", 0] }, // Course price
+                  {
+                    $subtract: [
+                      1,
+                      { $divide: [{ $ifNull: ["$discount", 0] }, 100] }, // Discount as a fraction
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      },
+      // Project specific fields
+      {
+        $project: {
+          _id: 1,
+          title: 1,
+          price: 1,
+          discount: 1,
+          language: 1,
+          level: 1,
+          thumbnail: 1,
+          averageRating: 1,
+          totalRevenue: 1,
+          slug: 1,
+          category: {
+            _id: "$category._id",
+            name: "$category.name",
+            slug: "$category.slug",
+          },
+          instructor: {
+            _id: "$instructor._id",
+            firstName: "$instructor.firstName",
+            lastName: "$instructor.lastName",
+          },
+        },
+      },
+      // Pagination: Skip and limit
+      { $skip: skip },
+      { $limit: limit },
+    ];
+
+    // Execute aggregation
+    const courses = await Course.aggregate(pipeline);
+
+    // Count total documents matching the query
+    const total = await Course.countDocuments({
+      ...(instructor && { instructor: objectId(userId) }),
+      ...(search && {
+        $or: [
+          { title: { $regex: search, $options: "i" } },
+          { level: { $regex: search, $options: "i" } },
+        ],
+      }),
+    });
+
+    const totalPages = Math.ceil(total / limit);
+
+    return JSON.parse(
+      JSON.stringify({
+        courses,
+        pagination: {
+          currentPage: page,
+          totalPages,
+          totalItems: total,
+          hasNextPage: page < totalPages,
+          hasPrevPage: page > 1,
+        },
+      }),
+    );
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    throw new Error("Failed to fetch courses");
+  }
+}

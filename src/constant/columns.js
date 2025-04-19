@@ -788,7 +788,7 @@ export const becomeInstructorsColumns = [
         variant="outline"
         className="text-muted-foreground rounded px-1.5 py-1"
       >
-        {row.original.phone}
+        {row.original?.phone ? row.original?.phone : "Not Submitted"}
       </Badge>
     ),
   },
@@ -800,7 +800,7 @@ export const becomeInstructorsColumns = [
         variant="outline"
         className="text-muted-foreground rounded px-1.5 py-1"
       >
-        {row.original.profession}
+        {row.original?.profession ? row.original?.profession : "Not Submitted"}
       </Badge>
     ),
   },
@@ -812,8 +812,8 @@ export const becomeInstructorsColumns = [
         variant="outline"
         className={`text-muted-foreground rounded px-1.5 py-1 ${
           row.original.status === "approved" &&
-          "border text-green-600 dark:bg-dark-bg bg-light-bg/70"
-        } ${row.original.status === "rejected" && "border text-red-600 dark:bg-dark-bg bg-light-bg/70"}`}
+          "dark:bg-dark-bg bg-light-bg/70 border text-green-600"
+        } ${row.original.status === "rejected" && "dark:bg-dark-bg bg-light-bg/70 border text-red-600"}`}
       >
         {row.original.status}
       </Badge>
