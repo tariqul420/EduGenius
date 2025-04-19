@@ -291,6 +291,7 @@ export async function getInstructorBySlug(slug) {
   }
 }
 
+// get student for instructors
 export async function getStudents({
   instructorId,
   page = 1,
@@ -381,8 +382,6 @@ export async function getStudents({
           },
           profilePicture: { $ifNull: ["$userData.profilePicture", ""] },
           email: "$userData.email",
-          phone: { $ifNull: ["$userData.phone", ""] },
-          address: { $ifNull: ["$userData.address", ""] },
           enrolledCourses: { $size: "$filteredCourses" },
         },
       },
