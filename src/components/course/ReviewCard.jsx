@@ -1,6 +1,8 @@
 import { format } from "date-fns";
 import Image from "next/image";
 
+import AvgRating from "../shared/AvgRating";
+
 export default function ReviewCard({ review }) {
   const studentReviewDate = format(
     new Date(review?.createdAt),
@@ -22,13 +24,13 @@ export default function ReviewCard({ review }) {
             <h4 className="text-dark-bg dark:text-light-bg truncate text-sm font-semibold sm:text-base">
               {review.student?.firstName} {review?.student?.lastName}
             </h4>
-            <span className="text-dark-bg dark:text-light-bg text-xs">•</span>
             <p className="text-dark-bg dark:text-medium-bg text-xs sm:text-sm">
-              {studentReviewDate}
+              | {studentReviewDate} |
             </p>
             <p className="text-sm">
-              {review?.createdAt !== review?.updatedAt && "(edited)"}
+              {review?.createdAt !== review?.updatedAt && "(edited) |"}
             </p>
+              <AvgRating className='-mt-4' avgRating={review?.rating} />
           </div>
           <p className="dark:text-light-bg mt-1 text-sm break-words text-gray-700 sm:text-base">
             {review?.review}
