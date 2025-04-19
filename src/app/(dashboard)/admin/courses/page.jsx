@@ -1,22 +1,35 @@
-import {
-  getCourseAdminInstructor,
-  getCourses,
-} from "@/lib/actions/course.action";
+import DataTable from "@/components/dashboard/data-table";
+import { adminCourseColumns } from "@/constant/columns";
+import { getCourseAdminInstructor } from "@/lib/actions/course.action";
+import { auth } from "@clerk/nextjs/server";
 
-export default async function CourseAdmin({ searchParams }) {
+export default async function Courses({ searchParams }) {
   const { pageSize, pageIndex, search } = await searchParams;
 
-  const { courses = [], pagination } = await getCourseAdminInstructor({
+  const { sessionClaims } = await auth();
+  const instructor = sessionClaims?.userId;
+  if (!instructor) {
+    throw new Error("User not authenticated");
+  }
+
+  const { courses, pagination } = await getCourseAdminInstructor({
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
     search,
   });
 
-  const data = await getCourses();
-
-  console.log(data);
-
-  console.log(courses, pagination);
-
-  return <div>CourseAdmin</div>;
+  return (
+    <section className="py-6">
+      <div className="@container/main flex flex-1 flex-col gap-2 px-4 lg:px-6">
+        <DataTable
+          pageIndex={Number(pageIndex || "1")}
+          pageSize={Number(pageSize || "10")}
+          total={pagination?.totalItems || 0}
+          data={courses || []}
+          columns={adminCourseColumns || []}
+          uniqueIdProperty="_id"
+        />
+      </div>
+    </section>
+  );
 }

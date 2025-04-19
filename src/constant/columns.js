@@ -1007,3 +1007,96 @@ export const adminInstructorColumns = [
     },
   },
 ];
+
+export const adminCourseColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
+  {
+    accessorKey: "title",
+    header: "Title",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original.title}
+      </h1>
+    ),
+    filterFn: "includesString",
+    enableHiding: false,
+  },
+  {
+    accessorKey: "name",
+    header: "	Name & Mail",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-2">
+        <Avatar>
+          <AvatarImage
+            src={row.original?.instructor?.profilePicture}
+            alt={row.original?.instructor?.firstName}
+          />
+          <AvatarFallback>{row.original?.instructor?.fileName}</AvatarFallback>
+        </Avatar>
+
+        <div>
+          <h1 className="max-w-xs truncate text-sm font-medium">
+            {row.original?.instructor?.firstName}{" "}
+            {row.original?.instructor?.lastName}
+          </h1>
+          <p className="text-muted-foreground text-sm">
+            {row.original?.instructor?.email}
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "category.name",
+    header: "Category",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
+          {row.original.category.name}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "price",
+    header: "Price",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
+          $
+          {row.original.price > 0 ? (
+            row.original.price
+          ) : (
+            <span className="text-green-500">Free</span>
+          )}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "totalRevenue",
+    header: "Revenue",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
+          ${row.original.totalRevenue}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => <TableContextMenu row={row} />,
+  },
+];
