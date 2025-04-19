@@ -1,7 +1,8 @@
+import { auth } from "@clerk/nextjs/server";
+
 import CourseCard from "@/components/dashboard/student/CourseCard";
 import NoResult from "@/components/shared/NoResult";
 import { getCourseForEnrollStudent } from "@/lib/actions/course.action";
-import { auth } from "@clerk/nextjs/server";
 
 export default async function StudentCourse() {
   const { sessionClaims } = await auth();
