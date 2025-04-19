@@ -48,6 +48,12 @@ export default function TableContextMenu({ row }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-32">
         <DropdownMenuItem>
+          <Link href={`/courses/${row.original.slug}`} className="block w-full">
+            Details
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
           <Link
             href={`/instructor/courses/${row.original.slug}`}
             className="block w-full"

@@ -493,6 +493,20 @@ export const instructorCourseColumns = [
     ),
   },
   {
+    accessorKey: "totalRevenue",
+    header: "Revenue",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
+          ${row.original.totalRevenue}
+        </Badge>
+      </div>
+    ),
+  },
+  {
     accessorKey: "averageRating",
     header: "Rating",
     cell: ({ row }) => (
@@ -501,7 +515,7 @@ export const instructorCourseColumns = [
           variant="outline"
           className="text-muted-foreground rounded px-1.5 py-1"
         >
-          {row.original.averageRating.toFixed(1)} / 5
+          {row.original.averageRating} / 5
         </Badge>
       </div>
     ),

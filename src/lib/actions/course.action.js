@@ -550,6 +550,7 @@ export async function getCourseAdminInstructor({
       // Add fields for average rating and total revenue
       {
         $addFields: {
+          students: { $size: { $ifNull: ["$students", []] } },
           averageRating: {
             $cond: {
               if: { $gt: [{ $size: "$ratingsData" }, 0] },
@@ -581,12 +582,10 @@ export async function getCourseAdminInstructor({
           _id: 1,
           title: 1,
           price: 1,
-          discount: 1,
           language: 1,
-          level: 1,
-          thumbnail: 1,
           averageRating: 1,
           totalRevenue: 1,
+          students: 1,
           slug: 1,
           category: {
             _id: "$category._id",
