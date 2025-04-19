@@ -1,3 +1,5 @@
+import { auth } from "@clerk/nextjs/server";
+
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import DataTable from "@/components/dashboard/data-table";
 import { SectionCards } from "@/components/section-cards";
@@ -5,7 +7,6 @@ import { SidebarInset } from "@/components/ui/sidebar";
 import { instructorCourseColumns } from "@/constant/columns";
 import { getCourses } from "@/lib/actions/course.action";
 import { courseSellingData } from "@/lib/actions/stats.action";
-import { auth } from "@clerk/nextjs/server";
 
 export default async function Home({ searchParams }) {
   const { pageSize, pageIndex, search } = await searchParams;
