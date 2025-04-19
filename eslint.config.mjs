@@ -18,8 +18,50 @@ const eslintConfig = [
       sourceType: "module",
     },
     rules: {
+      // React specific rules
       "react/react-in-jsx-scope": "off",
-      "no-console": ["warn", { allow: ["error"] }],
+      "react/prop-types": "off",
+      "react/jsx-uses-react": "error",
+      "react/jsx-uses-vars": "error",
+      "react/no-unused-prop-types": "warn",
+
+      // General best practices
+      "no-console": ["warn", { allow: ["error", "warn"] }],
+      "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+      "prefer-const": "warn",
+      "no-var": "error",
+      eqeqeq: ["error", "always"],
+      "no-multiple-empty-lines": ["error", { max: 1, maxEOF: 0 }],
+      quotes: ["error", "double"],
+      semi: ["error", "always"],
+
+      // Import/Export rules
+      "import/no-unresolved": "off",
+      "import/prefer-default-export": "off",
+      "import/order": [
+        "error",
+        {
+          groups: [
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling",
+            "index",
+          ],
+          "newlines-between": "always",
+        },
+      ],
+
+      // Error prevention
+      "no-debugger": "warn",
+      "no-alert": "warn",
+      "no-duplicate-imports": "error",
+    },
+    settings: {
+      react: {
+        version: "detect",
+      },
     },
   },
 ];

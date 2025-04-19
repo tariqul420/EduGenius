@@ -1,10 +1,12 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { getReview } from "@/lib/actions/review.action";
 import { Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
 import { ReviewModal } from "./ReviewModal";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { getReview } from "@/lib/actions/review.action";
 
 export default async function CourseCard({ course }) {
   const { thumbnail, title, instructor, progress, _id } = course || {};
@@ -19,7 +21,7 @@ export default async function CourseCard({ course }) {
 
   return (
     <Card className="flex h-full min-h-[300px] gap-2 py-2.5 px-2 flex-col">
-      {" "}
+ 
       {/* Optional height */}
       <Link href={"#"}>
         <CardHeader className="relative w-full px-2.5 rounded-lg">
