@@ -1,9 +1,10 @@
+import { auth } from "@clerk/nextjs/server";
+
 import { AppSidebar } from "@/components/dashboard/instructor/AppSidebar";
 import Notification from "@/components/shared/Notification";
 import ThemeBtn from "@/components/shared/ThemeBtn";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { sidebar } from "@/constant";
-import { auth } from "@clerk/nextjs/server";
 
 export const metadata = {
   title: "Dashboard | Welcome Our Dashboard.",

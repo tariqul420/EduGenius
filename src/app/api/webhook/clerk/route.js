@@ -1,4 +1,4 @@
-import { auth, clerkClient } from "@clerk/nextjs/server";
+import { clerkClient } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { Webhook } from "svix";
@@ -13,8 +13,6 @@ export async function POST(req) {
       "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local",
     );
   }
-
-  const { userId } = await auth();
 
   // Create new Svix instance with secret
   const wh = new Webhook(SIGNING_SECRET);
@@ -73,7 +71,7 @@ export async function POST(req) {
 
       if (newUser) {
         try {
-          const res = await client.users.updateUser(id, {
+          await client.users.updateUser(id, {
             publicMetadata: {
               userId: newUser.id,
               role: newUser.role || "student",
