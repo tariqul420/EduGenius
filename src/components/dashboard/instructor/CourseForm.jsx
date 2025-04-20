@@ -4,7 +4,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImageUp } from "lucide-react";
 import { CldUploadWidget } from "next-cloudinary";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -66,6 +66,7 @@ export default function CourseForm({ course }) {
   const [categories, setCategories] = useState([]);
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const router = useRouter();
 
   // Get a specific query parameter
   const category = searchParams.get("cq");
@@ -98,6 +99,8 @@ export default function CourseForm({ course }) {
         {
           loading: "Updating course...",
           success: () => {
+            router.push(pathname, { scroll: false });
+            router.refresh();
             form.reset();
             return "Course updated!";
           },
@@ -114,6 +117,8 @@ export default function CourseForm({ course }) {
         {
           loading: "Creating course...",
           success: () => {
+            router.push(pathname, { scroll: false });
+            router.refresh();
             form.reset();
             return "Course created successfully!";
           },
