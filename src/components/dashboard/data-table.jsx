@@ -173,13 +173,13 @@ export default function DataTable({
   function handleDragEnd(event) {
     const { active, over } = event;
     if (active && over && active.id !== over.id) {
-      setData((data) => {
+      setData((dataTwo) => {
         const oldIndex = dataIds.indexOf(active.id);
         const newIndex = dataIds.indexOf(over.id);
         if (oldIndex !== -1 && newIndex !== -1) {
-          return arrayMove(data, oldIndex, newIndex);
+          return arrayMove(dataTwo, oldIndex, newIndex);
         }
-        return data;
+        return dataTwo;
       });
     }
   }

@@ -1,16 +1,11 @@
 "use client";
 
-import Heading from "@/components/shared/Heading";
-
+import { Quote } from "lucide-react";
 import Image from "next/image";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-
-import { Quote } from "lucide-react";
+import Heading from "@/components/shared/Heading";
 
 const users = [
   {

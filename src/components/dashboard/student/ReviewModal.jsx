@@ -84,6 +84,7 @@ export function ReviewModal({ course, review }) {
       toast.success(review ? "Review Updated!" : "Review Submitted!");
     } catch (error) {
       toast.error("Failed to save review.");
+      throw error;
     }
   };
 
@@ -93,8 +94,8 @@ export function ReviewModal({ course, review }) {
     setOpen(false);
   };
 
-  const getRatingDescription = (rating, hoverRating) => {
-    const activeRating = hoverRating || rating;
+  const getRatingDescription = (InpRating, hoverInpRating) => {
+    const activeRating = hoverInpRating || InpRating;
     switch (activeRating) {
       case 0:
         return "Select a rating.";

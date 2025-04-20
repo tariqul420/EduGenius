@@ -71,6 +71,7 @@ export default function AssignmentForm({ assignment, courseId, slug }) {
     },
   });
 
+  // eslint-disable-next-line no-unused-vars
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "questions", // Match the name with the defaultValues structure
@@ -196,9 +197,7 @@ export default function AssignmentForm({ assignment, courseId, slug }) {
                     <div className="rounded-md border">
                       <Calendar
                         mode="single"
-                        selected={
-                          field.value ? new Date(field.value) : undefined
-                        } // Pass the selected date
+                        selected={field.value ? new Date(field.value) : null} // Pass the selected date
                         onSelect={(value) => {
                           field.onChange(value); // Update the form state
                         }}

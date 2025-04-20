@@ -26,7 +26,7 @@ export default function DeleteBlogModal({ blogId }) {
           return "Blog Delete successfully!";
         },
         error: (err) => {
-          return "Error delete blog. Please try again.";
+          throw new Error("Error deleting blog. Please try again.", err);
         },
       });
 

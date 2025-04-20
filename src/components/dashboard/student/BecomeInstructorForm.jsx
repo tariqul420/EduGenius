@@ -119,7 +119,7 @@ export default function BecomeInstructorForm() {
           return "Information saved successfully!";
         },
         error: (err) => {
-          return "Error saving information. Please try again.";
+          throw new Error("Error saving information. Please try again.", err);
         },
       },
     );

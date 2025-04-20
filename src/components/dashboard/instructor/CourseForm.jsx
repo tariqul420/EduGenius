@@ -97,7 +97,7 @@ export default function CourseForm({ course }) {
         }),
         {
           loading: "Updating course...",
-          success: (data) => {
+          success: () => {
             router.refresh();
             router.push("/instructor/courses/");
             form.reset();
@@ -115,7 +115,7 @@ export default function CourseForm({ course }) {
         createCourse({ data: values, path: "/instructor/courses" }),
         {
           loading: "Creating course...",
-          success: (data) => {
+          success: () => {
             router.refresh();
             router.push("/instructor/courses");
             form.reset();
@@ -183,9 +183,9 @@ export default function CourseForm({ course }) {
                     <CategoryForm />
 
                     {/* Map through categories and create SelectItem for each category */}
-                    {categories.map((category) => (
-                      <SelectItem key={category._id} value={category._id}>
-                        {category.name}
+                    {categories.map((cate) => (
+                      <SelectItem key={cate._id} value={cate._id}>
+                        {cate.name}
                       </SelectItem>
                     ))}
                     {/* Example static categories */}
