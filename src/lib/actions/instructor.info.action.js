@@ -1,10 +1,12 @@
 "use server";
 
-import InstructorInfo from "@/models/InstructorInfo";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
+
+import InstructorInfo from "@/models/InstructorInfo";
 
 // getInstructorInfo for admin
 export async function getInstructorInfo({
