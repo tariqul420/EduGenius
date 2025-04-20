@@ -1,9 +1,11 @@
 "use server";
-import Payment from "@/models/Payment";
 import { auth } from "@clerk/nextjs/server";
 import Stripe from "stripe";
+
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
+
+import Payment from "@/models/Payment";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 

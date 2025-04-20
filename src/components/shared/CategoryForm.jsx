@@ -1,14 +1,14 @@
 "use client";
 
+import { IconPlus } from "@tabler/icons-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createCategory } from "@/lib/actions/category.action";
 import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
-import { IconPlus } from "@tabler/icons-react";
-import { useRouter, useSearchParams } from "next/navigation";
-
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
 
 export default function CategoryForm() {
   const router = useRouter();

@@ -1,5 +1,12 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
 import { InputPhone } from "@/components/shared/InputPhone";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -18,13 +25,7 @@ import {
   getInstructorInfoUser,
   saveInstructorInfo,
 } from "@/lib/actions/instructor.info.action";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import "react-phone-number-input/style.css";
-import { toast } from "sonner";
-import { z } from "zod";
 
 const formSchema = z.object({
   phone: z

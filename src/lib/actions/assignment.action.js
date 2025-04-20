@@ -1,10 +1,12 @@
 "use server";
 
-import Assignment from "@/models/Assignment";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
+
+import Assignment from "@/models/Assignment";
 
 export async function createAssignment({ courseId, data }) {
   try {

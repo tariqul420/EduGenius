@@ -1,9 +1,3 @@
-import InsightsCard from "@/components/home/InsightsCard";
-import CommentCard from "@/components/shared/CommentCard";
-import LoadMore from "@/components/shared/LoadMore";
-import { SendComment } from "@/components/shared/SendComment";
-import { getBlogBySlug, getBlogs } from "@/lib/actions/blog.action";
-import { getCommentsByBlogId } from "@/lib/actions/comment.action";
 import { auth } from "@clerk/nextjs/server";
 import { format } from "date-fns";
 import {
@@ -17,6 +11,13 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
+import InsightsCard from "@/components/home/InsightsCard";
+import CommentCard from "@/components/shared/CommentCard";
+import LoadMore from "@/components/shared/LoadMore";
+import { SendComment } from "@/components/shared/SendComment";
+import { getBlogBySlug, getBlogs } from "@/lib/actions/blog.action";
+import { getCommentsByBlogId } from "@/lib/actions/comment.action";
 
 const BlogDetails = async ({ params, searchParams }) => {
   const { slug } = await params;

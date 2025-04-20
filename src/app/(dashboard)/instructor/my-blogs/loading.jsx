@@ -1,3 +1,5 @@
+import { Monitor } from "lucide-react";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
@@ -7,7 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Monitor } from "lucide-react";
 
 // BlogTableSkeleton Component
 function BlogTableSkeleton({ total = 6 }) {

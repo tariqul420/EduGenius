@@ -1,5 +1,12 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,12 +26,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { updateCategory } from "@/lib/actions/category.action";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import * as z from "zod";
 
 // Define the form schema using Zod
 const formSchema = z.object({
@@ -75,8 +76,8 @@ export function EditCategoryModal({ category }) {
       </Button>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className={`text-center`}>Edit Category</DialogTitle>
-          <DialogDescription className={`text-center`}>
+          <DialogTitle className={"text-center"}>Edit Category</DialogTitle>
+          <DialogDescription className={"text-center"}>
             Modify the category details below. Changes can be saved or canceled.
           </DialogDescription>
         </DialogHeader>

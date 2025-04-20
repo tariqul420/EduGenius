@@ -1,5 +1,8 @@
 "use client";
 
+import { Tooltip } from "@radix-ui/react-tooltip";
+import { CartesianGrid, Legend, Line, LineChart, XAxis, YAxis } from "recharts";
+
 import {
   Card,
   CardContent,
@@ -8,8 +11,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ChartContainer } from "@/components/ui/chart";
-import { Tooltip } from "@radix-ui/react-tooltip";
-import { CartesianGrid, Legend, Line, LineChart, XAxis, YAxis } from "recharts";
 
 const data = [
   {

@@ -1,10 +1,11 @@
+import { Bell } from "lucide-react";
+
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Bell } from "lucide-react";
 
 export default function Notification() {
   return (

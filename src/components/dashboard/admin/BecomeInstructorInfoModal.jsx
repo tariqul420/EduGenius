@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,27 +11,33 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { updateStudentStatus } from "@/lib/actions/instructor.info.action";
-import { useState } from "react";
-import { toast } from "sonner";
 
 const InfoSection = ({ title, children }) => (
   <div className="mb-6">
-    <h3 className="mb-3 border-b pb-2 text-main text-xl font-semibold">{title}</h3>
+    <h3 className="text-main mb-3 border-b pb-2 text-xl font-semibold">
+      {title}
+    </h3>
     <div className="space-y-2">{children}</div>
   </div>
 );
 
 const InfoItem = ({ label, value }) => (
-  <div className="flex justify-between text-md">
-    <span className={`${label == "Status" ? 'mt-4' : ''} font-medium text-md text-gray-700 dark:text-gray-300` }>
+  <div className="text-md flex justify-between">
+    <span
+      className={`${label === "Status" ? "mt-4" : ""} text-md font-medium text-gray-700 dark:text-gray-300`}
+    >
       {label}:
     </span>
-    <span className={`${value=='pending' || value=='rejected' && ' mt-4 text-dark-main dark:text-dark-btn bg-light-bg shadow dark:bg-dark-bg border rounded px-4 py-1.5'}`}>{value || "N/A"}</span>
+    <span
+      className={`${value === "pending" || (value === "rejected" && "text-dark-main dark:text-dark-btn bg-light-bg dark:bg-dark-bg mt-4 rounded border px-4 py-1.5 shadow")}`}
+    >
+      {value || "N/A"}
+    </span>
   </div>
 );
 const InfoItemDetails = ({ label, value }) => (
   <div className="flex flex-col justify-between">
-    <span className="font-medium text-md text-gray-700 dark:text-gray-300">
+    <span className="text-md font-medium text-gray-700 dark:text-gray-300">
       {label}:
     </span>
     <span className="text-sm">{value || "N/A"}</span>
@@ -36,25 +45,25 @@ const InfoItemDetails = ({ label, value }) => (
 );
 
 export default function BecomeInstructorInfoModal({ becomeInstructorInfo }) {
-  const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
-  const handleStatusUpdate = async (status) => {
-    if (becomeInstructorInfo.status === status)
+  const handleStatusUpdate = async (newStatus) => {
+    if (becomeInstructorInfo.status === newStatus)
       return toast.error("Already Updated!");
 
     try {
       toast.promise(
         updateStudentStatus({
           studentId: becomeInstructorInfo?.student._id,
-          status: status,
+          newStatus,
         }),
         {
           loading: "Status updating...",
           success: () => {
             return "Status update successfully!";
           },
-          error: (err) => {
-            return "Error update status. Please try again.";
+          error: (error) => {
+            throw error;
           },
         },
       );
@@ -65,17 +74,17 @@ export default function BecomeInstructorInfoModal({ becomeInstructorInfo }) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={openModal} onOpenChange={setOpenModal}>
       <Button
         variant="ghost"
-        className="w-full pl-2.5 cursor-pointer text-main bg-light-bg dark:bg-dark-bg  hover:text-main rounded"
-        onClick={() => setOpen(true)}
+        className="text-main bg-light-bg dark:bg-dark-bg hover:text-main w-full cursor-pointer rounded pl-2.5"
+        onClick={() => setOpenModal(true)}
       >
         View Details
       </Button>
-      <DialogContent className="max-h-[80vh] w-full md:min-w-2xl overflow-x-auto rounded-lg p-6 shadow-xl">
+      <DialogContent className="max-h-[80vh] w-full overflow-x-auto rounded-lg p-6 shadow-xl md:min-w-2xl">
         <DialogHeader>
-          <DialogTitle className="text-2xl text-main font-bold">
+          <DialogTitle className="text-main text-2xl font-bold">
             Instructor Application
           </DialogTitle>
           <DialogDescription>
@@ -132,19 +141,19 @@ export default function BecomeInstructorInfoModal({ becomeInstructorInfo }) {
             <InfoItem label="Status" value={becomeInstructorInfo?.status} />
           </InfoSection>
         </div>
-        <DialogFooter className="mt-0 sm:mt-4 flex flex-row justify-center md:justify-end gap-3 md:gap-4">
+        <DialogFooter className="mt-0 flex flex-row justify-center gap-3 sm:mt-4 md:justify-end md:gap-4">
           <Button
             variant="outline"
-            className="w-fit min-w-[100px] bg-light-bg/70 shadow cursor-pointer dark:hover:text-medium-bg rounded sm:w-auto"
-            onClick={() => setOpen(false)}
+            className="bg-light-bg/70 dark:hover:text-medium-bg w-fit min-w-[100px] cursor-pointer rounded shadow sm:w-auto"
+            onClick={() => setOpenModal(false)}
           >
             Cancel
           </Button>
           <Button
             variant="outline"
-            className="w-fit min-w-[100px] bg-light-bg/70 shadow cursor-pointer rounded dark:bg-dark-bg border hover:text-green-700 text-green-600 sm:w-auto"
+            className="bg-light-bg/70 dark:bg-dark-bg w-fit min-w-[100px] cursor-pointer rounded border text-green-600 shadow hover:text-green-700 sm:w-auto"
             onClick={() => {
-              handleStatusUpdate("approved"), setOpen(false);
+              handleStatusUpdate("approved"), setOpenModal(false);
             }}
           >
             Approve
@@ -152,9 +161,9 @@ export default function BecomeInstructorInfoModal({ becomeInstructorInfo }) {
           <Button
             variant="outline"
             disabled={becomeInstructorInfo.status === "approved"}
-            className={`w-fit min-w-[100px] bg-light-bg/70 shadow cursor-pointer px-4 text-red-600 dark:bg-dark-bg hover:text-red-700 border rounded sm:w-auto ${becomeInstructorInfo.status === "approved" && "cursor-not-allowed"}`}
+            className={`bg-light-bg/70 dark:bg-dark-bg w-fit min-w-[100px] cursor-pointer rounded border px-4 text-red-600 shadow hover:text-red-700 sm:w-auto ${becomeInstructorInfo.status === "approved" && "cursor-not-allowed"}`}
             onClick={() => {
-              handleStatusUpdate("rejected"), setOpen(false);
+              handleStatusUpdate("rejected"), setOpenModal(false);
             }}
           >
             Reject

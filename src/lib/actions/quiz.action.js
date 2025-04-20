@@ -1,10 +1,12 @@
 "use server";
 
-import Quiz from "@/models/Quiz";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
+
+import Quiz from "@/models/Quiz";
 
 export async function createQuiz({ courseId, data }) {
   try {
@@ -84,7 +86,7 @@ export async function deleteQuiz(quizId) {
     }
 
     await Quiz.findByIdAndDelete(quizId);
-    revalidatePath(path);
+    // revalidatePath(path);
     return { success: true };
   } catch (error) {
     console.error("Error deleting quiz:", error);

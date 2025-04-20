@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -7,17 +9,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useState } from "react";
 
 export default function TerminateInstructor({ instructorId, instructorName }) {
-  const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={openModal} onOpenChange={setOpenModal}>
       <Button
         variant="ghost"
-        className="w-full pl-2.5 cursor-pointer text-main bg-light-bg dark:bg-dark-bg  hover:text-main rounded"
-        onClick={() => setOpen(true)}
+        className="text-main bg-light-bg dark:bg-dark-bg hover:text-main w-full cursor-pointer rounded pl-2.5"
+        onClick={() => setOpenModal(true)}
       >
         Terminate
       </Button>
@@ -40,7 +41,7 @@ export default function TerminateInstructor({ instructorId, instructorName }) {
             type="button"
             variant="outline"
             className="w-full border-gray-300 hover:bg-gray-100 sm:w-auto dark:border-gray-600 dark:hover:bg-gray-700"
-            onClick={() => setOpen(false)}
+            onClick={() => setOpenModal(false)}
           >
             Cancel
           </Button>

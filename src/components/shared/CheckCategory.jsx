@@ -1,8 +1,9 @@
 "use client";
-import { Checkbox } from "@/components/ui/checkbox";
-import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+
+import { Checkbox } from "@/components/ui/checkbox";
+import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 
 const CheckCategory = ({ data = [], keyCategory }) => {
   const [checkedItems, setCheckedItems] = useState([]);
@@ -40,7 +41,9 @@ const CheckCategory = ({ data = [], keyCategory }) => {
       {data.map((item) => (
         <div key={item._id} className="flex items-center space-x-2">
           <Checkbox
-            className={`dark:data-[state=checked]:border-light-bg dark:data-[state=checked]:bg-light-bg data-[state=checked]:border-dark-bg data-[state=checked]:bg-dark-bg cursor-pointer border-gray-300`}
+            className={
+              "dark:data-[state=checked]:border-light-bg dark:data-[state=checked]:bg-light-bg data-[state=checked]:border-dark-bg data-[state=checked]:bg-dark-bg cursor-pointer border-gray-300"
+            }
             onCheckedChange={(checked) => handleCheckBox(checked, item?.slug)}
             id={item._id}
             value={item.slug}

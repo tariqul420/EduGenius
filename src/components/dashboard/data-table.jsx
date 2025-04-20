@@ -86,7 +86,7 @@ function DraggableRow({ row, uniqueIdProperty }) {
       className="relative z-0 data-[dragging=true]:z-10 data-[dragging=true]:opacity-80"
       style={{
         transform: CSS.Transform.toString(transform),
-        transition: transition,
+        transition,
       }}
     >
       {row.getVisibleCells().map((cell) => (
@@ -116,7 +116,7 @@ export default function DataTable({
   const [sorting, setSorting] = React.useState(defaultSort);
   const [pagination, setPagination] = React.useState({
     pageIndex: pageIndex ? pageIndex - 1 : 0,
-    pageSize: pageSize,
+    pageSize,
   });
   const searchParams = useSearchParams();
   const router = useRouter();

@@ -1,3 +1,7 @@
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,9 +12,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { deleteBlogById } from "@/lib/actions/blog.action";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { toast } from "sonner";
 
 export default function DeleteBlogModal({ blogId }) {
   const [open, setOpen] = useState(false);

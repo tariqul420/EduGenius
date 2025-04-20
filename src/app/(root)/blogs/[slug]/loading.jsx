@@ -1,5 +1,6 @@
-import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, MessageCircle } from "lucide-react";
+
+import { Skeleton } from "@/components/ui/skeleton";
 
 const BlogDetailsSkeleton = () => {
   return (

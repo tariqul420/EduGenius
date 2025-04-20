@@ -1,5 +1,6 @@
-import { Skeleton } from "@/components/ui/skeleton";
 import { BookOpenText, UsersRound } from "lucide-react";
+
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function InstructorSkeleton() {
   return (

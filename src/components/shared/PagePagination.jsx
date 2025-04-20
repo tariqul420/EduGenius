@@ -1,5 +1,8 @@
 "use client";
 
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
+
 import {
   Pagination,
   PaginationContent,
@@ -9,8 +12,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
 
 export function PagePagination({ total, limit = 6, hasNextPage }) {
   const searchParams = useSearchParams();
@@ -44,7 +45,7 @@ export function PagePagination({ total, limit = 6, hasNextPage }) {
     const maxVisiblePages = 5;
 
     let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+    const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
     if (endPage - startPage + 1 < maxVisiblePages) {
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
@@ -117,7 +118,7 @@ export function PagePagination({ total, limit = 6, hasNextPage }) {
   };
 
   return (
-    <Pagination className={`mt-6`}>
+    <Pagination className={"mt-6"}>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious

@@ -1,8 +1,9 @@
+import { Jost } from "next/font/google";
+
 import ClientClerkProvider from "@/components/shared/ClientClerkProvider";
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import ToasterProvider from "@/components/shared/ToasterProvider";
 import ContextProvider from "@/provider/ContextProvider";
-import { Jost } from "next/font/google";
 import "./globals.css";
 
 const jost = Jost({

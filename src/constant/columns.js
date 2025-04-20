@@ -1101,3 +1101,55 @@ export const adminCourseColumns = [
     cell: ({ row }) => <TableContextMenu row={row} />,
   },
 ];
+
+export const adminStudentColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original.firstName} {row.original.lastName}
+      </h1>
+    ),
+    filterFn: "includesString",
+    enableHiding: false,
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {row.original.email}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "courseCount",
+    header: "CourseCount",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {row.original.courseCount}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created At",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {format(new Date(row.original.createdAt), "PPP")}
+      </Badge>
+    ),
+  },
+];

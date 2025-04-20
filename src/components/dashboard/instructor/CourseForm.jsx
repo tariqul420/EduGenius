@@ -1,5 +1,14 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ImageUp } from "lucide-react";
+import { CldUploadWidget } from "next-cloudinary";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
 import CategoryForm from "@/components/shared/CategoryForm";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,15 +30,6 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { getCategory } from "@/lib/actions/category.action";
 import { createCourse, updateCourse } from "@/lib/actions/course.action";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ImageUp } from "lucide-react";
-import { CldUploadWidget } from "next-cloudinary";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 
 const formSchema = z.object({
   title: z
@@ -209,7 +209,7 @@ export default function CourseForm({ course }) {
                   <CldUploadWidget
                     uploadPreset="edu-genius"
                     onSuccess={(result) => {
-                      const info = result.info;
+                      const { info } = result;
                       form.setValue("thumbnail", info.secure_url); // Set the thumbnail URL in the form state
                     }}
                     options={{
