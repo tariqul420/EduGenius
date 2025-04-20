@@ -485,7 +485,7 @@ export const instructorCourseColumns = [
         >
           $
           {row.original.price > 0 ? (
-            row.original.price.toFixed(2)
+            row.original?.price?.toFixed(2)
           ) : (
             <span className="text-green-500">Free</span>
           )}
@@ -502,7 +502,7 @@ export const instructorCourseColumns = [
           variant="outline"
           className="text-muted-foreground rounded px-1.5 py-1"
         >
-          ${row.original.totalRevenue.toFixed(2)}
+          ${row.original?.totalRevenue?.toFixed(2)}
         </Badge>
       </div>
     ),
@@ -951,7 +951,7 @@ export const adminInstructorColumns = [
         variant="outline"
         className="text-muted-foreground rounded px-1.5 py-1"
       >
-        ${row.original.totalRevenue.toFixed(2)}
+        ${row.original?.totalRevenue?.toFixed(2)}
       </Badge>
     ),
   },
@@ -1073,7 +1073,7 @@ export const adminCourseColumns = [
         >
           $
           {row.original.price > 0 ? (
-            row.original.price.toFixed(2)
+            row.original?.price?.toFixed(2)
           ) : (
             <span className="text-green-500">Free</span>
           )}
@@ -1090,7 +1090,7 @@ export const adminCourseColumns = [
           variant="outline"
           className="text-muted-foreground rounded px-1.5 py-1"
         >
-          ${row.original.totalRevenue.toFixed(2)}
+          ${row.original?.totalRevenue?.toFixed(2)}
         </Badge>
       </div>
     ),
