@@ -1,4 +1,12 @@
 "use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Minus, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,13 +23,6 @@ import {
   deleteCurriculumModule,
   updateCourseCurriculum,
 } from "@/lib/actions/curriculum.action";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Minus, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useFieldArray, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 
 const formSchema = z.object({
   name: z
@@ -109,7 +110,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
     try {
       toast.promise(
         deleteCurriculumLesson({
-          lessonId: lessonId,
+          lessonId,
           path: `/instructor/courses/${slug}`,
         }),
         {
@@ -137,7 +138,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
     try {
       toast.promise(
         deleteCurriculumModule({
-          curriculumId: curriculumId,
+          curriculumId,
           path: `/instructor/courses/${slug}`,
         }),
         {

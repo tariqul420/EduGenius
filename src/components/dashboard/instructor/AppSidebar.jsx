@@ -1,17 +1,5 @@
 "use client";
 
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import { IconInfoCircleFilled } from "@tabler/icons-react";
 import {
@@ -33,24 +21,39 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense } from "react";
+
 import BecomeInstructorForm from "../student/BecomeInstructorForm";
+
 import AdditionalInfoForm from "./AdditionalInfoForm";
+
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
 
 // Map of icon names to their corresponding components
 const iconMap = {
-  LayoutDashboard: LayoutDashboard,
-  BookText: BookText,
-  UsersRound: UsersRound,
-  Medal: Medal,
-  BookOpenCheck: BookOpenCheck,
-  BookOpenText: BookOpenText,
-  ClipboardCheck: ClipboardCheck,
-  Award: Award,
-  ListTodo: ListTodo,
-  BookCopy: BookCopy,
-  Tag: Tag,
-  GraduationCap: GraduationCap,
-  UserRoundPlus: UserRoundPlus,
+  LayoutDashboard,
+  BookText,
+  UsersRound,
+  Medal,
+  BookOpenCheck,
+  BookOpenText,
+  ClipboardCheck,
+  Award,
+  ListTodo,
+  BookCopy,
+  Tag,
+  GraduationCap,
+  UserRoundPlus,
 };
 
 export function AppSidebar({ role, menu = [] }) {
