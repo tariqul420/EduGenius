@@ -1,12 +1,14 @@
 "use server";
-import Blog from "@/models/Blog";
-import Category from "@/models/Category";
-import Comments from "@/models/Comments";
 import { auth } from "@clerk/nextjs/server";
 import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
+
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
+
+import Blog from "@/models/Blog";
+import Category from "@/models/Category";
+import Comments from "@/models/Comments";
 
 export async function createBlog({ blog, path }) {
   try {
@@ -137,7 +139,7 @@ export async function getBlogBySlug(slug) {
   try {
     await dbConnect();
 
-    const blog = await Blog.findOne({ slug: slug })
+    const blog = await Blog.findOne({ slug })
       .populate({
         path: "author",
         select: "_id firstName lastName email role profilePicture slug",

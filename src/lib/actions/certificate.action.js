@@ -1,9 +1,11 @@
 "use server";
 
-import Certificate from "@/models/Certificate";
 import { auth } from "@clerk/nextjs/server";
+
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
+
+import Certificate from "@/models/Certificate";
 
 export async function getCertificateByStudent({
   page = 1,

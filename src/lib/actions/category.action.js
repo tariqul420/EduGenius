@@ -1,8 +1,10 @@
 "use server";
-import Category from "@/models/Category";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+
 import dbConnect from "../dbConnect";
+
+import Category from "@/models/Category";
 
 export async function getCategory(categoryParams = "") {
   try {

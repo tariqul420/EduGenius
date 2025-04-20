@@ -1,10 +1,12 @@
 "use server";
-import Lesson from "@/models/Lesson";
-import Module from "@/models/Module";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
+
+import Lesson from "@/models/Lesson";
+import Module from "@/models/Module";
 
 // Server action for adding course curriculum
 export async function addCourseCurriculum({ courseId, data, path }) {
