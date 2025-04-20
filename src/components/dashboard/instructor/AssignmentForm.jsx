@@ -84,13 +84,12 @@ export default function AssignmentForm({ assignment, courseId, slug }) {
         updateAssignment({
           assignmentId: assignment._id,
           data: values,
-          path: `/instructor/courses/${slug}`,
+          path: `${slug}`,
         }),
         {
           loading: "Updating assignment...",
           success: (data) => {
             if (data.success) {
-              router.push(`/instructor/courses/${slug}`);
               return "Assignment updated successfully!";
             } else {
               throw new Error(data.message || "Failed to update assignment.");

@@ -39,7 +39,7 @@ export async function updateAssignment({ assignmentId, data, path }) {
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
+    const role = sessionClaims?.role;
     const userId = sessionClaims?.userId;
     if (!userId) {
       throw new Error("User not authenticated");
@@ -51,7 +51,12 @@ export async function updateAssignment({ assignmentId, data, path }) {
     }
 
     await Assignment.findByIdAndUpdate(assignmentId, data, { new: true });
-    revalidatePath(path);
+
+    revalidatePath(
+      role === "admin"
+        ? `/admin/courses/${path}`
+        : `/instructor/courses/${path}`,
+    );
 
     return { success: true, message: "Assignment updated successfully." };
   } catch (error) {

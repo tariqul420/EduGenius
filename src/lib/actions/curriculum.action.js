@@ -17,6 +17,7 @@ export async function addCourseCurriculum({ courseId, data, path }) {
     const { sessionClaims } = await auth();
 
     const userId = sessionClaims?.userId;
+    const role = sessionClaims?.role;
     if (!userId) {
       throw new Error("User not authenticated");
     }
@@ -37,7 +38,11 @@ export async function addCourseCurriculum({ courseId, data, path }) {
     }));
     await Lesson.insertMany(lessons);
 
-    revalidatePath(path);
+    revalidatePath(
+      role === "admin"
+        ? `/admin/courses/${path}`
+        : `/instructor/courses/${path}`,
+    );
     return JSON.parse(JSON.stringify(courseModule));
   } catch (error) {
     console.error("Error adding course curriculum:", error);
@@ -104,7 +109,7 @@ export async function updateCourseCurriculum({
 
     const { sessionClaims } = await auth();
     const userId = sessionClaims?.userId;
-
+    const role = sessionClaims?.role;
     if (!userId) {
       throw new Error("User not authenticated");
     }
@@ -141,7 +146,11 @@ export async function updateCourseCurriculum({
       await Lesson.insertMany(lessonsToCreate);
     }
 
-    revalidatePath(path);
+    revalidatePath(
+      role === "admin"
+        ? `/admin/courses/${path}`
+        : `/instructor/courses/${path}`,
+    );
     return { success: true };
   } catch (error) {
     console.error("Error updating course curriculum:", error);
@@ -155,13 +164,19 @@ export async function deleteCurriculumLesson({ lessonId, path }) {
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
+    const role = sessionClaims?.role;
     const userId = sessionClaims?.userId;
     if (!userId) {
       throw new Error("User not authenticated");
     }
     await Lesson.findOneAndDelete({ _id: lessonId });
-    revalidatePath(path);
+
+    revalidatePath(
+      role === "admin"
+        ? `/admin/courses/${path}`
+        : `/instructor/courses/${path}`,
+    );
+
     return { success: true };
   } catch (error) {
     console.error("Error deleting course curriculum:", error);
@@ -173,13 +188,17 @@ export async function deleteCurriculumModule({ curriculumId, path }) {
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
+    const role = sessionClaims?.role;
     if (!userId) {
       throw new Error("User not authenticated");
     }
     await Module.findOneAndDelete({ _id: curriculumId });
-    revalidatePath(path);
+    revalidatePath(
+      role === "admin"
+        ? `/admin/courses/${path}`
+        : `/instructor/courses/${path}`,
+    );
     return { success: true };
   } catch (error) {
     console.error("Error deleting course curriculum:", error);
