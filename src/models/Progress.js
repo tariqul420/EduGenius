@@ -7,19 +7,36 @@ const progressSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     }, // Student ID
+
     course: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
       required: true,
     }, // Course ID
-    completedLessons: [{ type: mongoose.Schema.Types.ObjectId, ref: "Lesson" }], // Completed lessons
-    quizScores: [
+
+    modules: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Module",
+      isFinished: { type: Boolean, required: true, default: false },
+    },
+
+    Lessons: [
       {
-        quiz: { type: mongoose.Schema.Types.ObjectId, ref: "Quiz" }, // Quiz ID
-        score: { type: Number, required: true }, // Quiz score
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Lesson",
+        isFinished: { type: Boolean, required: true, default: false },
       },
-    ],
-    progressPercentage: { type: Number, default: 0 }, // Overall progress percentage
+    ], // Completed lessons
+    quizScores: {
+      quiz: { type: mongoose.Schema.Types.ObjectId, ref: "Quiz" }, // Quiz ID
+      score: { type: Number, required: true }, // Quiz score
+    },
+
+    assignmentScore: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Assignment",
+      result: { type: Number, required: true },
+    },
   },
   { timestamps: true },
 );
