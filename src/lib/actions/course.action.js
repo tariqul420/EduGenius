@@ -1,14 +1,16 @@
 "use server";
 
+import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
+
+import dbConnect from "../dbConnect";
+import { objectId } from "../utils";
+
 import Category from "@/models/Category";
 import Course from "@/models/Course";
 import Lesson from "@/models/Lesson";
 import Module from "@/models/Module";
 import Student from "@/models/Student";
-import { auth } from "@clerk/nextjs/server";
-import { revalidatePath } from "next/cache";
-import dbConnect from "../dbConnect";
-import { objectId } from "../utils";
 
 export async function getCourses({
   categorySlugs = [],
@@ -559,7 +561,7 @@ export async function getCourseAdminInstructor({
           },
           totalRevenue: {
             $multiply: [
-              { $size: { $ifNull: ["$students", []] } }, // Number of students
+              { $size: { $ifNull: ["$students", []] } },
               {
                 $multiply: [
                   { $ifNull: ["$price", 0] }, // Course price

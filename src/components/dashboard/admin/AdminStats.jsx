@@ -10,19 +10,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  getCoursesAdminStats,
-  getGrowthRateAdmin,
-  getRevenueAdminStats,
-  getTotalEnrolmentAdminStats,
-  getTotalStudentAdminStats,
+  getCoursesStats,
+  getGrowthRate,
+  getRevenueStats,
+  getTotalEnrolmentStats,
+  getTotalStudentStats,
 } from "@/lib/actions/stats.action";
 
 export async function AdminStats() {
-  const revenueStats = await getRevenueAdminStats();
-  const studentsStats = await getTotalStudentAdminStats();
-  const enrolmentStats = await getTotalEnrolmentAdminStats();
-  const growthRateStats = await getGrowthRateAdmin();
-  const coursesStats = await getCoursesAdminStats();
+  const revenueStats = await getRevenueStats();
+  const studentsStats = await getTotalStudentStats();
+  const enrolmentStats = await getTotalEnrolmentStats();
+  const growthRateStats = await getGrowthRate();
+  const coursesStats = await getCoursesStats();
 
   return (
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
@@ -30,7 +30,7 @@ export async function AdminStats() {
         <CardHeader>
           <CardDescription>Total Revenue</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            ${revenueStats.totalRevenue.toFixed(2)}
+            ${revenueStats.totalRevenue}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
