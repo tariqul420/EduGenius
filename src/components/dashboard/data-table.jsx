@@ -223,11 +223,9 @@ export default function DataTable({
         <Label htmlFor="view-selector" className="sr-only">
           View
         </Label>
-
-        <div className="flex items-center">
-          <div className="flex items-center gap-2">
+        <div className="flex w-full items-center">
+          <div className="flex flex-wrap sm:flex-row sm:items-center justify-center sm:justify-normal gap-4 sm:gap-2">
             <DataTableColumnSelector table={table} />
-
             {pathName === "/instructor/courses" ||
             pathName === "/instructor" ? (
               <Link
@@ -238,7 +236,6 @@ export default function DataTable({
                 <span>Add course</span>
               </Link>
             ) : null}
-
             <div className="flex items-center gap-2">
               <Input
                 type="text"
