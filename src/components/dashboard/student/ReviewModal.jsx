@@ -41,7 +41,7 @@ const formSchema = z.object({
 export function ReviewModal({ course, review }) {
   const [rating, setRating] = useState(review?.rating || 0);
   const [hoverRating, setHoverRating] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -80,7 +80,7 @@ export function ReviewModal({ course, review }) {
 
       setRating(review?.rating || 0);
       setHoverRating(0);
-      setOpen(false);
+      setOpenModal(false);
       toast.success(review ? "Review Updated!" : "Review Submitted!");
     } catch (error) {
       toast.error("Failed to save review.");
@@ -91,7 +91,7 @@ export function ReviewModal({ course, review }) {
   const handleCancel = () => {
     setRating(review?.rating || 0);
     setHoverRating(0);
-    setOpen(false);
+    setOpenModal(false);
   };
 
   const getRatingDescription = (InpRating, hoverInpRating) => {
@@ -115,7 +115,7 @@ export function ReviewModal({ course, review }) {
   };
 
   return (
-    <AlertDialog open={open} onOpenChange={setOpen}>
+    <AlertDialog open={openModal} onOpenChange={setOpenModal}>
       <AlertDialogTrigger asChild>
         <button className="border-green bg-main hover:bg-dark-main hover:text-medium-bg flex cursor-pointer items-center gap-2 rounded border px-3 py-1.5 text-white duration-200">
           <MessagesSquare size={18} />

@@ -160,8 +160,8 @@ export default function BecomeInstructorForm() {
   }, [form]);
 
   // Function to get status color and message
-  const getStatusInfo = (status) => {
-    switch (status) {
+  const getStatusInfo = (newStatus) => {
+    switch (newStatus) {
       case "approved":
         return {
           color: "bg-light-bg dark:bg-dark-hover border text-green-600",

@@ -37,7 +37,7 @@ const eslintConfig = [
           variables: true,
         },
       ],
-      "no-global-assign": "off",
+      "no-global-assign": "error",
       "prefer-destructuring": [
         "error",
         {
@@ -48,7 +48,7 @@ const eslintConfig = [
       "no-shadow": [
         "error",
         {
-          builtinGlobals: false,
+          builtinGlobals: true,
           hoist: "all",
           allow: [
             "Image",

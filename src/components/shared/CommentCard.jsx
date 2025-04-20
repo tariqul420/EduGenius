@@ -81,16 +81,16 @@ export default function CommentCard({ comment, path }) {
 
   // Close menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (e) => {
       if (
         menuRef.current &&
-        !menuRef.current.contains(event.target) &&
+        !menuRef.current.contains(e.target) &&
         dialogContentRef.current &&
-        !dialogContentRef.current.contains(event.target)
+        !dialogContentRef.current.contains(e.target)
       ) {
         if (
           menuButtonRef.current &&
-          !menuButtonRef.current.contains(event.target)
+          !menuButtonRef.current.contains(e.target)
         ) {
           setActiveMenu(null);
         }

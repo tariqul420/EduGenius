@@ -53,8 +53,8 @@ export default function CheckOutForm({ course, userId, onPaymentSuccess }) {
     }
   }, [price, userId, courseId, discount, discountedPrice]);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setPaymentLoading(true);
     setError("");
 
