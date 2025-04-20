@@ -45,25 +45,25 @@ const InfoItemDetails = ({ label, value }) => (
 );
 
 export default function BecomeInstructorInfoModal({ becomeInstructorInfo }) {
-  const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
-  const handleStatusUpdate = async (status) => {
-    if (becomeInstructorInfo.status === status)
+  const handleStatusUpdate = async (newStatus) => {
+    if (becomeInstructorInfo.status === newStatus)
       return toast.error("Already Updated!");
 
     try {
       toast.promise(
         updateStudentStatus({
           studentId: becomeInstructorInfo?.student._id,
-          status,
+          newStatus,
         }),
         {
           loading: "Status updating...",
           success: () => {
             return "Status update successfully!";
           },
-          error: (err) => {
-            return "Error update status. Please try again.";
+          error: (error) => {
+            throw error;
           },
         },
       );
@@ -74,11 +74,11 @@ export default function BecomeInstructorInfoModal({ becomeInstructorInfo }) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={openModal} onOpenChange={setOpenModal}>
       <Button
         variant="ghost"
         className="text-main bg-light-bg dark:bg-dark-bg hover:text-main w-full cursor-pointer rounded pl-2.5"
-        onClick={() => setOpen(true)}
+        onClick={() => setOpenModal(true)}
       >
         View Details
       </Button>
@@ -145,7 +145,7 @@ export default function BecomeInstructorInfoModal({ becomeInstructorInfo }) {
           <Button
             variant="outline"
             className="bg-light-bg/70 dark:hover:text-medium-bg w-fit min-w-[100px] cursor-pointer rounded shadow sm:w-auto"
-            onClick={() => setOpen(false)}
+            onClick={() => setOpenModal(false)}
           >
             Cancel
           </Button>
@@ -153,7 +153,7 @@ export default function BecomeInstructorInfoModal({ becomeInstructorInfo }) {
             variant="outline"
             className="bg-light-bg/70 dark:bg-dark-bg w-fit min-w-[100px] cursor-pointer rounded border text-green-600 shadow hover:text-green-700 sm:w-auto"
             onClick={() => {
-              handleStatusUpdate("approved"), setOpen(false);
+              handleStatusUpdate("approved"), setOpenModal(false);
             }}
           >
             Approve
@@ -163,7 +163,7 @@ export default function BecomeInstructorInfoModal({ becomeInstructorInfo }) {
             disabled={becomeInstructorInfo.status === "approved"}
             className={`bg-light-bg/70 dark:bg-dark-bg w-fit min-w-[100px] cursor-pointer rounded border px-4 text-red-600 shadow hover:text-red-700 sm:w-auto ${becomeInstructorInfo.status === "approved" && "cursor-not-allowed"}`}
             onClick={() => {
-              handleStatusUpdate("rejected"), setOpen(false);
+              handleStatusUpdate("rejected"), setOpenModal(false);
             }}
           >
             Reject

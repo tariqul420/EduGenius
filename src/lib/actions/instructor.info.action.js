@@ -226,7 +226,7 @@ export async function saveInstructorInfo({ data, path }) {
   }
 }
 
-export async function updateStudentStatus({ studentId, status }) {
+export async function updateStudentStatus({ studentId, newStatus }) {
   try {
     // Connect to the database
     await dbConnect();
@@ -241,7 +241,7 @@ export async function updateStudentStatus({ studentId, status }) {
     // Update InstructorInfo document
     const updatedDoc = await InstructorInfo.findOneAndUpdate(
       { student: objectId(studentId) },
-      { status },
+      { status: newStatus },
       { new: true, runValidators: true },
     );
 
