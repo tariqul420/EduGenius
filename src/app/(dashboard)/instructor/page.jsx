@@ -1,11 +1,12 @@
+import { auth } from "@clerk/nextjs/server";
+
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import DataTable from "@/components/dashboard/data-table";
 import { SectionCards } from "@/components/section-cards";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { instructorCourseColumns } from "@/constant/columns";
-import { getCourses } from "@/lib/actions/course.action";
+import { getCourseAdminInstructor } from "@/lib/actions/course.action";
 import { courseSellingData } from "@/lib/actions/stats.action";
-import { auth } from "@clerk/nextjs/server";
 
 export default async function Home({ searchParams }) {
   const { pageSize, pageIndex, search } = await searchParams;
@@ -16,13 +17,11 @@ export default async function Home({ searchParams }) {
     throw new Error("User not authenticated");
   }
 
-  const result = await getCourses({
-    instructor,
+  const { courses, pagination } = await getCourseAdminInstructor({
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
     search,
   });
-  const courses = result?.courses || [];
 
   const data = await courseSellingData();
   // console.log(courses[0].category.name);
@@ -41,7 +40,7 @@ export default async function Home({ searchParams }) {
             <DataTable
               pageIndex={Number(pageIndex || "1")}
               pageSize={Number(pageSize || "10")}
-              total={result?.total || 0}
+              total={pagination?.totalItems || 0}
               data={courses || []}
               columns={instructorCourseColumns || []}
               uniqueIdProperty="_id"

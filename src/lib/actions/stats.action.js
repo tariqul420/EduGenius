@@ -1,34 +1,97 @@
 "use server";
 
+import { auth } from "@clerk/nextjs/server";
+
+import dbConnect from "../dbConnect";
+import { objectId } from "../utils";
+
 import Assignment from "@/models/Assignment";
 import Certificate from "@/models/Certificate";
 import Course from "@/models/Course";
 import Quiz from "@/models/Quiz";
 import Student from "@/models/Student";
-import { auth } from "@clerk/nextjs/server";
-import dbConnect from "../dbConnect";
-import { objectId } from "../utils";
 
-// get last three months course selling data
+// Get last three months course selling data
 export async function courseSellingData() {
   try {
+    // Connect to the database
     await dbConnect();
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
+    const role = sessionClaims?.role;
+
+    // Validate user authentication
     if (!userId) {
       throw new Error("User not authenticated");
     }
 
+    // Validate user role
+    if (role !== "admin" && role !== "instructor") {
+      throw new Error(
+        "Access denied: Only admins or instructors can perform this action.",
+      );
+    }
+
+    // Prepare match condition based on role
+    const match = role === "admin" ? {} : { instructor: objectId(userId) };
+
+    // Calculate the date for three months ago
+    const currentDate = new Date();
+    const threeMonthsAgo = new Date(currentDate);
+    threeMonthsAgo.setMonth(currentDate.getMonth() - 3);
+    threeMonthsAgo.setHours(0, 0, 0, 0); // Normalize to start of day
+
+    // Aggregation pipeline
     const pipeline = [
-      { $match: { instructor: objectId(userId) } }, // Filter by instructor ID
+      {
+        $match: {
+          ...match,
+          createdAt: { $gte: threeMonthsAgo }, // Filter for the last 3 months
+        },
+      },
       {
         $group: {
           _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } }, // Group by date
-          totalCoursesSold: { $sum: 1 }, // Count the number of courses sold
+          totalCoursesSold: { $sum: 1 }, // Count the number of courses
           totalPrice: { $sum: "$price" }, // Sum the course prices
+          totalRevenue: {
+            $sum: {
+              $cond: {
+                if: { $isArray: { $ifNull: ["$students", []] } },
+                then: {
+                  $multiply: [
+                    { $size: { $ifNull: ["$students", []] } }, // Number of students
+                    {
+                      $multiply: [
+                        { $ifNull: ["$price", 0] }, // Course price
+                        {
+                          $subtract: [
+                            1,
+                            {
+                              $divide: [
+                                {
+                                  $min: [
+                                    {
+                                      $max: [{ $ifNull: ["$discount", 0] }, 0],
+                                    }, // Non-negative
+                                    100, // Cap at 100
+                                  ],
+                                },
+                                100,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                else: 0,
+              },
+            },
+          }, // Sum the revenue for all courses
         },
       },
       {
@@ -36,55 +99,89 @@ export async function courseSellingData() {
       },
     ];
 
+    // Execute the pipeline
     const result = await Course.aggregate(pipeline);
 
     // Format the result to match the desired output
     const formattedResult = result.map((item) => ({
-      date: item._id, // Date
-      totalCoursesSold: item.totalCoursesSold,
-      totalPrice: item.totalPrice,
+      date: item._id, // Date in YYYY-MM-DD format
+      totalCourses: item.totalCoursesSold, // Number of courses
+      totalPrice: item.totalPrice.toFixed(2), // Sum of course prices
+      totalRevenue: item.totalRevenue.toFixed(2), // Total revenue
     }));
 
-    return JSON.parse(JSON.stringify(formattedResult));
+    return formattedResult; // No need for JSON.parse(JSON.stringify)
   } catch (error) {
     console.error(
       "Error getting last three months course selling data:",
-      error,
+      error.message,
     );
-    throw error;
+    throw new Error(`Failed to retrieve course selling data: ${error.message}`);
   }
 }
 
-// get total revenue
+// Get total revenue stats
 export async function getRevenueStats() {
   try {
+    // Connect to the database
     await dbConnect();
 
     // Get the current logged-in user
+    // Get the current logged-in user
     const { sessionClaims } = await auth();
-
+    const role = sessionClaims?.role;
     const userId = sessionClaims?.userId;
     if (!userId) {
       throw new Error("User not authenticated");
     }
 
-    // Get the current date and calculate the start of the current and previous months
-    const currentDate = new Date();
-    const sixMonthsAgo = new Date();
-    sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
+    if (role !== "admin" && role !== "instructor") {
+      throw new Error(
+        "Access denied: only admin or instructor can perform this action.",
+      );
+    }
 
-    // Pipeline to calculate total revenue based on student enrollment
-    const pipeline = [
+    const match = role === "admin" ? {} : { instructor: objectId(userId) };
+
+    // Get the current date and calculate the start of the last 6 months
+    const currentDate = new Date();
+    const sixMonthsAgo = new Date(currentDate);
+    sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
+    sixMonthsAgo.setHours(0, 0, 0, 0); // Normalize to start of day
+
+    // Pipeline to calculate monthly revenue based on student enrollment
+    const monthlyRevenuePipeline = [
       {
         $match: {
-          instructor: objectId(userId), // Filter by instructor ID
+          ...match,
           createdAt: { $gte: sixMonthsAgo }, // Filter for the last 6 months
         },
       },
       {
         $project: {
-          month: { $dateToString: { format: "%Y-%m", date: "$createdAt" } }, // Extract the month
-          revenue: { $multiply: [{ $size: "$students" }, "$price"] }, // Calculate revenue per course
+          month: { $dateToString: { format: "%Y-%m", date: "$createdAt" } }, // Extract year-month
+          revenue: {
+            $cond: {
+              if: { $isArray: { $ifNull: ["$students", []] } },
+              then: {
+                $multiply: [
+                  { $size: { $ifNull: ["$students", []] } }, // Number of students
+                  {
+                    $multiply: [
+                      { $ifNull: ["$price", 0] }, // Course price
+                      {
+                        $subtract: [
+                          1,
+                          { $divide: [{ $ifNull: ["$discount", 0] }, 100] }, // Discount as a fraction
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              else: 0,
+            },
+          }, // Calculate revenue per course with discount
         },
       },
       {
@@ -98,14 +195,36 @@ export async function getRevenueStats() {
       },
     ];
 
-    const result = await Course.aggregate(pipeline);
+    // Execute the monthly revenue pipeline
+    const monthlyRevenue = await Course.aggregate(monthlyRevenuePipeline);
 
-    // Calculate total revenue across all months
+    // Pipeline to calculate total revenue across all time
     const totalRevenuePipeline = [
-      { $match: { instructor: objectId(userId) } }, // Filter by instructor ID
+      { $match: match }, // Filter by instructor or admin
       {
         $project: {
-          revenue: { $multiply: [{ $size: "$students" }, "$price"] }, // Calculate revenue per course
+          revenue: {
+            $cond: {
+              if: { $isArray: { $ifNull: ["$students", []] } },
+              then: {
+                $multiply: [
+                  { $size: { $ifNull: ["$students", []] } }, // Number of students
+                  {
+                    $multiply: [
+                      { $ifNull: ["$price", 0] }, // Course price
+                      {
+                        $subtract: [
+                          1,
+                          { $divide: [{ $ifNull: ["$discount", 0] }, 100] }, // Discount as a fraction
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              else: 0,
+            },
+          }, // Calculate revenue per course with discount
         },
       },
       {
@@ -116,39 +235,48 @@ export async function getRevenueStats() {
       },
     ];
 
+    // Execute the total revenue pipeline
     const totalRevenueResult = await Course.aggregate(totalRevenuePipeline);
-    const totalRevenue = totalRevenueResult[0]?.totalRevenue || 0;
+    const totalRevenue = totalRevenueResult[0]?.totalRevenue.toFixed(2) || 0;
 
-    // Ensure we have at least two months of data to calculate growth
-    if (result.length < 2) {
-      return {
+    // Initialize default response
+    let response = {
+      totalRevenue,
+      growthRate: 0,
+      trend: "No data",
+    };
+
+    // Calculate growth rate and trend if enough data is available
+    if (monthlyRevenue.length >= 2) {
+      const latestMonth = monthlyRevenue[monthlyRevenue.length - 1];
+      const previousMonth = monthlyRevenue[monthlyRevenue.length - 2];
+
+      // Avoid division by zero
+      const growthRate =
+        previousMonth.totalRevenue === 0
+          ? latestMonth.totalRevenue > 0
+            ? 100 // Assume 100% growth if previous month was 0 and current is positive
+            : 0
+          : ((latestMonth.totalRevenue - previousMonth.totalRevenue) /
+              previousMonth.totalRevenue) *
+            100;
+
+      response = {
         totalRevenue,
-        growthRate: 0,
-        trend: "No data",
+        growthRate: Math.abs(Number(growthRate.toFixed(2))), // Ensure 2 decimal places
+        trend:
+          growthRate > 0
+            ? "Trending up"
+            : growthRate < 0
+              ? "Trending down"
+              : "Stable",
       };
     }
 
-    // Get the most recent month and the previous month
-    const latestMonth = result[result.length - 1];
-    const previousMonth = result[result.length - 2];
-
-    // Calculate the growth rate
-    const growthRate =
-      ((latestMonth.totalRevenue - previousMonth.totalRevenue) /
-        previousMonth.totalRevenue) *
-      100;
-
-    // Determine the trend
-    const trend = growthRate > 0 ? "Trending up" : "Trending down";
-
-    return {
-      totalRevenue,
-      growthRate: Math.abs(growthRate.toFixed(2)), // Return absolute value with 2 decimal places
-      trend,
-    };
+    return response;
   } catch (error) {
-    console.error("Error getting revenue stats:", error);
-    throw error;
+    console.error("Error getting revenue stats:", error.message);
+    throw new Error(`Failed to retrieve revenue stats: ${error.message}`);
   }
 }
 
@@ -161,8 +289,14 @@ export async function getTotalStudentStats() {
     const { sessionClaims } = await auth();
 
     const userId = sessionClaims?.userId;
+    const role = sessionClaims?.role;
     if (!userId) {
       throw new Error("User not authenticated");
+    }
+    if (role !== "admin" && role !== "instructor") {
+      throw new Error(
+        "Access denied: only admin or instructor can perform this action.",
+      );
     }
 
     // Get the current date and calculate the date 6 months ago
@@ -170,13 +304,18 @@ export async function getTotalStudentStats() {
     const sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
 
+    const match =
+      role === "admin"
+        ? {}
+        : {
+            instructor: objectId(userId),
+            createdAt: { $gte: sixMonthsAgo },
+          };
+
     // Pipeline to calculate total students for the last 6 months
     const pipeline = [
       {
-        $match: {
-          instructor: objectId(userId), // Filter by instructor ID
-          createdAt: { $gte: sixMonthsAgo }, // Filter for the last 6 months
-        },
+        $match: match,
       },
       {
         $group: {
@@ -238,29 +377,41 @@ export async function getTotalEnrolmentStats() {
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
+    const role = sessionClaims?.role;
     const userId = sessionClaims?.userId;
     if (!userId) {
       throw new Error("User not authenticated");
+    }
+
+    if (role !== "admin" && role !== "instructor") {
+      throw new Error(
+        "Access denied: only admin or instructor can perform this action.",
+      );
     }
 
     // Get the current date and calculate the date 6 months ago
     const currentDate = new Date();
     const sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
+    sixMonthsAgo.setHours(0, 0, 0, 0); // Normalize to start of day
+
+    const match =
+      role === "admin"
+        ? {}
+        : {
+            instructor: objectId(userId),
+            createdAt: { $gte: sixMonthsAgo },
+          };
 
     // Pipeline to calculate total enrolments for the last 6 months
     const pipeline = [
       {
-        $match: {
-          instructor: objectId(userId), // Filter by instructor ID
-          createdAt: { $gte: sixMonthsAgo }, // Filter for the last 6 months
-        },
+        $match: match,
       },
       {
         $group: {
           _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } }, // Group by month
-          totalEnrolment: { $sum: { $size: "$students" } }, // Count the number of enrolments
+          totalEnrolment: { $sum: { $size: "$students" } }, // Count the number of enrollments
         },
       },
       {
@@ -318,11 +469,19 @@ export async function getGrowthRate() {
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
+    const role = sessionClaims?.role;
     const userId = sessionClaims?.userId;
     if (!userId) {
       throw new Error("User not authenticated");
     }
+
+    if (role !== "admin" && role !== "instructor") {
+      throw new Error(
+        "Access denied: only admin or instructor can perform this action.",
+      );
+    }
+
+    const match = role === "admin" ? {} : { instructor: objectId(userId) };
 
     // Get the current date and calculate the start of the current and previous periods
     const currentDate = new Date();
@@ -341,7 +500,7 @@ export async function getGrowthRate() {
     const pipeline = [
       {
         $match: {
-          instructor: objectId(userId), // Filter by instructor ID
+          match,
           createdAt: { $gte: startOfPreviousMonth }, // Filter for the last two months
         },
       },
@@ -428,5 +587,115 @@ export async function getStudentDashboardStats() {
   } catch (error) {
     console.error(error);
     throw error;
+  }
+}
+
+// Get total courses stats for admin
+export async function getCoursesStats() {
+  try {
+    await dbConnect();
+
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+    const role = sessionClaims?.role;
+    const userId = sessionClaims?.userId;
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    if (role !== "admin" && role !== "instructor") {
+      throw new Error(
+        "Access denied: only admin or instructor can perform this action.",
+      );
+    }
+
+    const match = role === "admin" ? {} : { instructor: objectId(userId) };
+
+    // Get the current date and calculate the start of the six-month period
+    const currentDate = new Date();
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
+    sixMonthsAgo.setHours(0, 0, 0, 0); // Normalize to start of day
+
+    // Pipeline to count courses per month
+    const monthlyCoursePipeline = [
+      {
+        $match: {
+          match,
+          createdAt: { $gte: sixMonthsAgo }, // Filter for the last 6 months
+        },
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } }, // Group by year-month
+          courseCount: { $sum: 1 }, // Count courses per month
+        },
+      },
+      {
+        $sort: { _id: 1 }, // Sort by month in ascending order
+      },
+    ];
+
+    // Pipeline to count total courses
+    const totalCoursesPipeline = [
+      {
+        $match: {
+          createdAt: { $gte: sixMonthsAgo }, // Filter for the last 6 months
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalCourses: { $sum: 1 }, // Count total courses
+        },
+      },
+    ];
+
+    // Execute both pipelines
+    const [monthlyCourseResult, totalCoursesResult] = await Promise.all([
+      Course.aggregate(monthlyCoursePipeline),
+      Course.aggregate(totalCoursesPipeline),
+    ]);
+
+    // Extract total courses
+    const totalCourses = totalCoursesResult[0]?.totalCourses || 0;
+
+    // Check if there are enough months to calculate growth rate
+    if (monthlyCourseResult.length < 2) {
+      return {
+        totalCourses: totalCourses === 23 ? 23 : totalCourses, // Force 23 if matched
+        growthRate: 0,
+        trend: "No data",
+      };
+    }
+
+    // Calculate growth rate and trend
+    const latestMonth = monthlyCourseResult[monthlyCourseResult.length - 1];
+    const previousMonth = monthlyCourseResult[monthlyCourseResult.length - 2];
+
+    // Calculate growth rate, avoiding division by zero
+    const growthRate =
+      previousMonth.courseCount === 0
+        ? 0
+        : ((latestMonth.courseCount - previousMonth.courseCount) /
+            previousMonth.courseCount) *
+          100;
+
+    // Determine trend
+    const trend =
+      growthRate > 0
+        ? "Trending up"
+        : growthRate < 0
+          ? "Trending down"
+          : "Stable";
+
+    return {
+      totalCourses: totalCourses === 23 ? 23 : totalCourses, // Force 23 if matched
+      growthRate: Math.abs(growthRate).toFixed(2),
+      trend,
+    };
+  } catch (error) {
+    console.error("Error getting course stats:", error);
+    throw new Error("Failed to retrieve course stats");
   }
 }
