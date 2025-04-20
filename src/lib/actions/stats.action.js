@@ -12,7 +12,7 @@ import Quiz from "@/models/Quiz";
 import Student from "@/models/Student";
 
 // get last three months course selling data
-export async function courseSellingData() {
+export async function courseSellingData({ admin = false }) {
   try {
     await dbConnect();
 
@@ -20,12 +20,21 @@ export async function courseSellingData() {
     const { sessionClaims } = await auth();
 
     const userId = sessionClaims?.userId;
+    const role = sessionClaims?.role;
     if (!userId) {
       throw new Error("User not authenticated");
     }
 
+    if (role !== "admin" && role !== "instructor") {
+      throw new Error(
+        "Access denied: only admin or instructor can perform this action.",
+      );
+    }
+
+    const match = admin ? {} : { instructor: objectId(userId) };
+
     const pipeline = [
-      { $match: { instructor: objectId(userId) } }, // Filter by instructor ID
+      { $match: match },
       {
         $group: {
           _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } }, // Group by date
@@ -818,43 +827,6 @@ export async function getGrowthRateAdmin() {
     };
   } catch (error) {
     console.error("Error getting growth rate:", error);
-    throw error;
-  }
-}
-
-// get last three months course selling data for admin
-export async function courseSellingDataAdmin() {
-  try {
-    await dbConnect();
-
-    const pipeline = [
-      {
-        $group: {
-          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } }, // Group by date
-          totalCoursesSold: { $sum: 1 }, // Count the number of courses sold
-          totalPrice: { $sum: "$price" }, // Sum the course prices
-        },
-      },
-      {
-        $sort: { _id: -1 }, // Sort by date descending
-      },
-    ];
-
-    const result = await Course.aggregate(pipeline);
-
-    // Format the result to match the desired output
-    const formattedResult = result.map((item) => ({
-      date: item._id, // Date
-      totalCoursesSold: item.totalCoursesSold,
-      totalPrice: item.totalPrice,
-    }));
-
-    return JSON.parse(JSON.stringify(formattedResult));
-  } catch (error) {
-    console.error(
-      "Error getting last three months course selling data:",
-      error,
-    );
     throw error;
   }
 }

@@ -1,10 +1,10 @@
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { AdminStats } from "@/components/dashboard/admin/AdminStats";
 import { SidebarInset } from "@/components/ui/sidebar";
-import { courseSellingDataAdmin } from "@/lib/actions/stats.action";
+import { courseSellingData } from "@/lib/actions/stats.action";
 
 export default async function dashboard() {
-  const data = await courseSellingDataAdmin();
+  const data = await courseSellingData({ admin: true });
 
   return (
     <SidebarInset>

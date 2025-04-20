@@ -25,7 +25,7 @@ export default async function Home({ searchParams }) {
   });
   const courses = result?.courses || [];
 
-  const data = await courseSellingData();
+  const data = await courseSellingData({ admin: false });
   // console.log(courses[0].category.name);
   // const response = await generateQuiz(courses[0].category.name);
 
