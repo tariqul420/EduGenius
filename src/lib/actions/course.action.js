@@ -164,7 +164,7 @@ export async function getCourseBySlug(slug) {
 
     const courses = await Course.aggregate([
       {
-        $match: { slug: slug },
+        $match: { slug },
       },
       {
         $lookup: {
