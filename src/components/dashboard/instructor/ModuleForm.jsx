@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Minus, Plus } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -40,7 +41,8 @@ const formSchema = z.object({
   ),
 });
 
-export default function ModuleForm({ curriculum, courseId, slug }) {
+export default function ModuleForm({ curriculum, courseId }) {
+  const pathname = usePathname();
   // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -64,7 +66,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
           courseId,
           lessonIds: curriculum.lessons.map((lesson) => lesson._id),
           data: values,
-          path: `${slug}`,
+          path: pathname,
         }),
         {
           loading: "Updating curriculum...",
@@ -82,7 +84,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
         addCourseCurriculum({
           courseId,
           data: values,
-          path: `${slug}`,
+          path: pathname,
         }),
         {
           loading: "Adding curriculum...",
@@ -103,7 +105,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
       toast.promise(
         deleteCurriculumLesson({
           lessonId,
-          path: `${slug}`,
+          path: pathname,
         }),
         {
           loading: "Deleting curriculum...",
@@ -127,7 +129,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
       toast.promise(
         deleteCurriculumModule({
           curriculumId,
-          path: `${slug}`,
+          path: pathname,
         }),
         {
           loading: "Deleting curriculum...",

@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Minus, Plus } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -51,7 +52,8 @@ const formSchema = z.object({
   ),
 });
 
-export default function QuizForm({ quiz, courseId, slug }) {
+export default function QuizForm({ quiz, courseId }) {
+  const pathname = usePathname();
   // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -83,7 +85,7 @@ export default function QuizForm({ quiz, courseId, slug }) {
         updateQuiz({
           quizId: quiz._id,
           data: values,
-          path: `${slug}`,
+          path: pathname,
         }),
         {
           loading: "Updating quiz...",
@@ -98,7 +100,7 @@ export default function QuizForm({ quiz, courseId, slug }) {
         createQuiz({
           courseId,
           data: values,
-          path: `${slug}`,
+          path: pathname,
         }),
         {
           loading: "Creating quiz...",

@@ -15,7 +15,6 @@ export async function createQuiz({ courseId, data, path }) {
     // Get the current logged-in user
     const { sessionClaims } = await auth();
     const userId = sessionClaims?.userId;
-    const role = sessionClaims?.role;
 
     if (!userId) {
       throw new Error("User not authenticated");
@@ -28,11 +27,7 @@ export async function createQuiz({ courseId, data, path }) {
     });
 
     // Revalidate the path before returning
-    revalidatePath(
-      role === "admin"
-        ? `/admin/courses/${path}`
-        : `/instructor/courses/${path}`,
-    );
+    revalidatePath(path);
 
     return JSON.parse(
       JSON.stringify({
@@ -53,7 +48,6 @@ export async function updateQuiz({ quizId, data, path }) {
     // Get the current logged-in user
     const { sessionClaims } = await auth();
     const userId = sessionClaims?.userId;
-    const role = sessionClaims?.role;
     if (!userId) {
       throw new Error("User not authenticated");
     }
@@ -65,11 +59,7 @@ export async function updateQuiz({ quizId, data, path }) {
     if (questions) return;
     await Quiz.findByIdAndDelete(quiz._id);
 
-    revalidatePath(
-      role === "admin"
-        ? `/admin/courses/${path}`
-        : `/instructor/courses/${path}`,
-    );
+    revalidatePath(path);
     return { success: true, message: "Quiz updated successfully" };
   } catch (error) {
     console.error("Error updating quiz:", error);

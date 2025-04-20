@@ -48,11 +48,7 @@ export default async function EditCourse({ params }) {
               </TabsContent>
 
               <TabsContent value="curriculum">
-                <ModuleForm
-                  courseId={course._id}
-                  curriculum={curriculum}
-                  slug={course.slug}
-                />
+                <ModuleForm courseId={course._id} curriculum={curriculum} />
               </TabsContent>
             </Tabs>
           </div>
@@ -81,19 +77,11 @@ export default async function EditCourse({ params }) {
               </TabsList>
 
               <TabsContent value="quiz">
-                <QuizForm
-                  quiz={quiz}
-                  courseId={course._id}
-                  slug={course.slug}
-                />
+                <QuizForm quiz={quiz} courseId={course._id} />
               </TabsContent>
 
               <TabsContent value="assignment">
-                <AssignmentForm
-                  assignment={assignment}
-                  courseId={course._id}
-                  slug={course.slug}
-                />
+                <AssignmentForm assignment={assignment} courseId={course._id} />
               </TabsContent>
             </Tabs>
           </div>

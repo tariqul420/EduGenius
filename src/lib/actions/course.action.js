@@ -248,14 +248,13 @@ export async function getCourseBySlug(slug) {
   }
 }
 
-export async function createCourse({ data }) {
+export async function createCourse({ data, path }) {
   try {
     await dbConnect();
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
     const userId = sessionClaims?.userId;
-    const role = sessionClaims?.role;
     if (!userId) {
       throw new Error("User not authenticated");
     }
@@ -264,7 +263,7 @@ export async function createCourse({ data }) {
     const newCourse = new Course({ ...data, instructor: userId });
     await newCourse.save();
 
-    revalidatePath(role === "admin" ? "/admin/courses" : "/instructor/courses");
+    revalidatePath(path);
     return JSON.parse(JSON.stringify(newCourse));
   } catch (error) {
     console.error("Error creating course:", error);
@@ -272,14 +271,13 @@ export async function createCourse({ data }) {
   }
 }
 
-export async function updateCourse({ courseId, data }) {
+export async function updateCourse({ courseId, data, path }) {
   try {
     await dbConnect();
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
     const userId = sessionClaims?.userId;
-    const role = sessionClaims?.role;
     if (!userId) {
       throw new Error("User not authenticated");
     }
@@ -290,7 +288,7 @@ export async function updateCourse({ courseId, data }) {
       { new: true },
     );
 
-    revalidatePath(role === "admin" ? "/admin/courses" : "/instructor/courses");
+    revalidatePath(path);
 
     return JSON.parse(JSON.stringify(updatedCourse));
   } catch (error) {
