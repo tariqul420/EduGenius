@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import Lesson from "./Lesson";
 
 const moduleSchema = new mongoose.Schema(

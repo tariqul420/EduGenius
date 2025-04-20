@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import Course from "./Course";
 import Instructor from "./Instructor";
 import Student from "./Student";
@@ -48,7 +49,7 @@ paymentSchema.post("save", async function (doc) {
     );
 
     await Instructor.findOneAndUpdate(
-      { instructorId: instructorId },
+      { instructorId },
       { $addToSet: { students: studentId } }, // Use $addToSet to avoid duplicates
       { upsert: true },
     );

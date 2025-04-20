@@ -9,11 +9,9 @@ export default function ContextProvider({ children }) {
   const providerInfo = {
     isGridCol,
     setIsGridCol,
-  }
+  };
 
   return (
-    <MyContext.Provider value={providerInfo}>
-      {children}
-    </MyContext.Provider>
+    <MyContext.Provider value={providerInfo}>{children}</MyContext.Provider>
   );
 }
