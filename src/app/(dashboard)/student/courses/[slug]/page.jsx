@@ -2,9 +2,8 @@ import ModulesList from "@/components/dashboard/student/ModuleList";
 import Player from "@/components/dashboard/student/Player";
 import { getModules } from "@/lib/actions/curriculum.action";
 
-export default async function CourseModulesPage({ params, searchParams }) {
+export default async function CourseModulesPage({ params }) {
   const { slug } = await params;
-  const { play } = await searchParams;
 
   const course = {
     id: "course-001",
@@ -20,10 +19,7 @@ export default async function CourseModulesPage({ params, searchParams }) {
     completedModules: 1,
     progress: 25,
   };
-
   const curriculum = await getModules({ slug });
-
-  console.log(curriculum);
 
   return (
     <section className="py-6">
