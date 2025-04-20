@@ -1,9 +1,19 @@
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { AdminStats } from "@/components/dashboard/admin/AdminStats";
+import DataTable from "@/components/dashboard/data-table";
 import { SidebarInset } from "@/components/ui/sidebar";
+import { adminInstructorColumns } from "@/constant/columns";
+import { getInstructorByAdmin } from "@/lib/actions/instructor.action";
 import { courseSellingData } from "@/lib/actions/stats.action";
 
-export default async function dashboard() {
+export default async function dashboard({ searchParams }) {
+  const { pageSize, pageIndex, search } = await searchParams;
+
+  const { instructors, pagination } = await getInstructorByAdmin({
+    limit: Number(pageSize || 10),
+    page: Number(pageIndex || 1),
+    search,
+  });
   const data = await courseSellingData();
 
   return (
@@ -14,14 +24,14 @@ export default async function dashboard() {
           <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
             <AdminStats />
             <ChartAreaInteractive data={data} />
-            {/* <DataTable
+            <DataTable
               pageIndex={Number(pageIndex || "1")}
               pageSize={Number(pageSize || "10")}
-              total={result?.total || 0}
-              data={courses || []}
-              columns={instructorCourseColumns || []}
+              total={pagination?.totalItems || 0}
+              data={instructors || []}
+              columns={adminInstructorColumns || []}
               uniqueIdProperty="_id"
-            /> */}
+            />
           </div>
         </div>
       </div>
