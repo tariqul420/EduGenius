@@ -6,6 +6,10 @@ import ToasterProvider from "@/components/shared/ToasterProvider";
 import ContextProvider from "@/provider/ContextProvider";
 import "./globals.css";
 
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+
 const jost = Jost({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],

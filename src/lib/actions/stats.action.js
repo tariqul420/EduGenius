@@ -481,8 +481,6 @@ export async function getGrowthRate() {
       );
     }
 
-    const match = role === "admin" ? {} : { instructor: objectId(userId) };
-
     // Get the current date and calculate the start of the current and previous periods
     const currentDate = new Date();
     const startOfCurrentMonth = new Date(
@@ -496,13 +494,18 @@ export async function getGrowthRate() {
       1,
     );
 
+    const match =
+      role === "admin"
+        ? {}
+        : {
+            instructor: objectId(userId),
+            createdAt: { $gte: startOfPreviousMonth },
+          };
+
     // Pipeline to calculate total enrolments for the last two months
     const pipeline = [
       {
-        $match: {
-          match,
-          createdAt: { $gte: startOfPreviousMonth }, // Filter for the last two months
-        },
+        $match: match,
       },
       {
         $group: {

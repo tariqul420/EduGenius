@@ -44,6 +44,7 @@ export default function CheckOutForm({ course, userId, onPaymentSuccess }) {
         setClientSecret(paymentInfo?.client_secret);
       } catch (err) {
         setError("Failed to initialize payment");
+        throw err;
       }
     };
 
@@ -52,8 +53,8 @@ export default function CheckOutForm({ course, userId, onPaymentSuccess }) {
     }
   }, [price, userId, courseId, discount, discountedPrice]);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setPaymentLoading(true);
     setError("");
 

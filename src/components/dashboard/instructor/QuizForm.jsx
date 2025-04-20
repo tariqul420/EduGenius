@@ -190,12 +190,12 @@ export default function QuizForm({ quiz, courseId, slug }) {
                           <FormField
                             control={form.control}
                             name={`questions.${index}.options.${optionIndex}.isCorrect`} // Bind to the correct field
-                            render={({ field, formState }) => (
+                            render={({ checkedField, formState }) => (
                               <FormItem className="flex items-center gap-2">
                                 <FormControl>
                                   <Checkbox
-                                    checked={field.value} // Bind the checkbox state to the form field value
-                                    onCheckedChange={field.onChange} // Update the form state when toggled
+                                    checked={checkedField.value} // Bind the checkbox state to the form field value
+                                    onCheckedChange={checkedField.onChange} // Update the form state when toggled
                                   />
                                 </FormControl>
                                 <FormLabel>Option-{optionIndex + 1}</FormLabel>

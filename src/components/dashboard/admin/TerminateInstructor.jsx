@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
+// eslint-disable-next-line no-unused-vars
 export default function TerminateInstructor({ instructorId, instructorName }) {
   const [openModal, setOpenModal] = useState(false);
 

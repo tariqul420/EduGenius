@@ -14,7 +14,7 @@ import {
 import { deleteBlogById } from "@/lib/actions/blog.action";
 
 export default function DeleteBlogModal({ blogId }) {
-  const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const router = useRouter();
 
   const handleDelete = async () => {
@@ -26,11 +26,11 @@ export default function DeleteBlogModal({ blogId }) {
           return "Blog Delete successfully!";
         },
         error: (err) => {
-          return "Error delete blog. Please try again.";
+          throw new Error("Error deleting blog. Please try again.", err);
         },
       });
 
-      setOpen(false);
+      setOpenModal(false);
     } catch (error) {
       console.error(error);
       throw error;
@@ -38,11 +38,11 @@ export default function DeleteBlogModal({ blogId }) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={openModal} onOpenChange={setOpenModal}>
       <Button
         variant="ghost"
         className="w-full text-left"
-        onClick={() => setOpen(true)}
+        onClick={() => setOpenModal(true)}
       >
         Delete
       </Button>
@@ -60,7 +60,7 @@ export default function DeleteBlogModal({ blogId }) {
           <Button
             type="button"
             variant="outline"
-            onClick={() => setOpen(false)}
+            onClick={() => setOpenModal(false)}
           >
             Cancel
           </Button>

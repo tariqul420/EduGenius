@@ -679,15 +679,15 @@ export const studentAssignmentColumns = [
       </Badge>
     ),
   },
-  {
-    id: "action",
-    header: "Action",
-    cell: ({ row }) => (
-      <div className="flex justify-end">
-        <Button variant="default">Enroll</Button>
-      </div>
-    ),
-  },
+  // {
+  //   id: "action",
+  //   header: "Action",
+  //   cell: ({ row }) => (
+  //     <div className="flex justify-end">
+  //       <Button variant="default">Enroll</Button>
+  //     </div>
+  //   ),
+  // },
 ];
 
 export const studentQuizColumns = [
@@ -758,15 +758,15 @@ export const studentQuizColumns = [
       </Badge>
     ),
   },
-  {
-    id: "action",
-    header: "Action",
-    cell: ({ row }) => (
-      <div className="flex justify-end">
-        <Button variant="default">Enroll</Button>
-      </div>
-    ),
-  },
+  // {
+  //   id: "action",
+  //   header: "Action",
+  //   cell: ({ row }) => (
+  //     <div className="flex justify-end">
+  //       <Button variant="default">Enroll</Button>
+  //     </div>
+  //   ),
+  // },
 ];
 
 export const becomeInstructorsColumns = [

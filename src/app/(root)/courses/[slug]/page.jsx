@@ -46,7 +46,7 @@ const CourseDetails = async ({ params, searchParams }) => {
     relatedCourses = popularCourses;
   }
 
-  const { thumbnail, category, instructor } = course;
+  const { thumbnail, instructor } = course;
   return (
     <>
       <section className="px-2 py-10 md:px-5 dark:bg-black">
@@ -107,8 +107,8 @@ const CourseDetails = async ({ params, searchParams }) => {
               </h2>
               {/* Recommended Courses Card  */}
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
-                {relatedCourses.map((course) => (
-                  <CourseCard key={course._id} course={course} />
+                {relatedCourses.map((SingleCourse) => (
+                  <CourseCard key={SingleCourse._id} course={SingleCourse} />
                 ))}
               </div>
             </div>

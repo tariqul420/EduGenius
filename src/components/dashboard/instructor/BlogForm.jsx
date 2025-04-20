@@ -139,10 +139,10 @@ export default function BlogForm({
     }
   };
 
-  const handleOpenChange = (open) => {
-    setIsOpen(open);
+  const handleOpenChange = (openChange) => {
+    setIsOpen(openChange);
     if (onOpenChange) onOpenChange(open);
-    if (!open && !isUpdate) form.reset(); // Reset only for create on close
+    if (!openChange && !isUpdate) form.reset(); // Reset only for create on close
   };
 
   const handleCancel = () => {

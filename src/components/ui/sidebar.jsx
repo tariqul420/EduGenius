@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 "use client";
 import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";

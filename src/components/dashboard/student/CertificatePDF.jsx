@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import { format } from "date-fns";
 

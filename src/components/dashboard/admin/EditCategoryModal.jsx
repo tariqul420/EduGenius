@@ -33,7 +33,7 @@ const formSchema = z.object({
 });
 
 export function EditCategoryModal({ category }) {
-  const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const router = useRouter();
 
   // Initialize the form with React Hook Form and Zod
@@ -54,11 +54,11 @@ export function EditCategoryModal({ category }) {
           return "Information saved successfully!";
         },
         error: (err) => {
-          return "Error saving information. Please try again.";
+          throw new Error("Error saving information. Please try again.", err);
         },
       });
 
-      setOpen(false);
+      setOpenModal(false);
     } catch (error) {
       console.error(error);
       throw error;
@@ -66,11 +66,11 @@ export function EditCategoryModal({ category }) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={openModal} onOpenChange={setOpenModal}>
       <Button
         variant="ghost"
         className="w-full text-left"
-        onClick={() => setOpen(true)}
+        onClick={() => setOpenModal(true)}
       >
         Edit Category
       </Button>
@@ -100,7 +100,7 @@ export function EditCategoryModal({ category }) {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => setOpen(false)}
+                onClick={() => setOpenModal(false)}
               >
                 Cancel
               </Button>

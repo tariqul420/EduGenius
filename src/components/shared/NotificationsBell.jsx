@@ -7,7 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export default function Notification() {
+export default function NotificationsBell() {
   return (
     <Popover>
       <PopoverTrigger className="relative flex cursor-pointer items-center gap-2 rounded-full border p-2 text-3xl shadow">
