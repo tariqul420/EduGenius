@@ -120,8 +120,6 @@ export async function courseSellingData() {
   }
 }
 
-// get total revenue
-
 // Get total revenue stats
 export async function getRevenueStats() {
   try {
@@ -288,35 +286,36 @@ export async function getTotalStudentStats() {
     await dbConnect();
 
     // Get the current logged-in user
-    // Get the current logged-in user
     const { sessionClaims } = await auth();
-    const role = sessionClaims?.role;
+
     const userId = sessionClaims?.userId;
+    const role = sessionClaims?.role;
     if (!userId) {
       throw new Error("User not authenticated");
     }
-
     if (role !== "admin" && role !== "instructor") {
       throw new Error(
         "Access denied: only admin or instructor can perform this action.",
       );
     }
 
-    const match = role === "admin" ? {} : { instructor: objectId(userId) };
-
     // Get the current date and calculate the date 6 months ago
     const currentDate = new Date();
     const sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
-    sixMonthsAgo.setHours(0, 0, 0, 0); // Normalize to start of day
+
+    const match =
+      role === "admin"
+        ? {}
+        : {
+            instructor: objectId(userId),
+            createdAt: { $gte: sixMonthsAgo },
+          };
 
     // Pipeline to calculate total students for the last 6 months
     const pipeline = [
       {
-        $match: {
-          match,
-          createdAt: { $gte: sixMonthsAgo }, // Filter for the last 6 months
-        },
+        $match: match,
       },
       {
         $group: {
@@ -390,21 +389,24 @@ export async function getTotalEnrolmentStats() {
       );
     }
 
-    const match = role === "admin" ? {} : { instructor: objectId(userId) };
-
     // Get the current date and calculate the date 6 months ago
     const currentDate = new Date();
     const sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
     sixMonthsAgo.setHours(0, 0, 0, 0); // Normalize to start of day
 
+    const match =
+      role === "admin"
+        ? {}
+        : {
+            instructor: objectId(userId),
+            createdAt: { $gte: sixMonthsAgo },
+          };
+
     // Pipeline to calculate total enrolments for the last 6 months
     const pipeline = [
       {
-        $match: {
-          match,
-          createdAt: { $gte: sixMonthsAgo }, // Filter for the last 6 months
-        },
+        $match: match,
       },
       {
         $group: {
