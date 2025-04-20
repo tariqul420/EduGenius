@@ -11,35 +11,87 @@ import Course from "@/models/Course";
 import Quiz from "@/models/Quiz";
 import Student from "@/models/Student";
 
-// get last three months course selling data
+// Get last three months course selling data
 export async function courseSellingData() {
   try {
+    // Connect to the database
     await dbConnect();
 
     // Get the current logged-in user
-    // Get the current logged-in user
     const { sessionClaims } = await auth();
-    const role = sessionClaims?.role;
     const userId = sessionClaims?.userId;
+    const role = sessionClaims?.role;
+
+    // Validate user authentication
     if (!userId) {
       throw new Error("User not authenticated");
     }
 
+    // Validate user role
     if (role !== "admin" && role !== "instructor") {
       throw new Error(
-        "Access denied: only admin or instructor can perform this action.",
+        "Access denied: Only admins or instructors can perform this action.",
       );
     }
 
+    // Prepare match condition based on role
     const match = role === "admin" ? {} : { instructor: objectId(userId) };
 
+    // Calculate the date for three months ago
+    const currentDate = new Date();
+    const threeMonthsAgo = new Date(currentDate);
+    threeMonthsAgo.setMonth(currentDate.getMonth() - 3);
+    threeMonthsAgo.setHours(0, 0, 0, 0); // Normalize to start of day
+
+    // Aggregation pipeline
     const pipeline = [
-      { $match: match },
+      {
+        $match: {
+          ...match,
+          createdAt: { $gte: threeMonthsAgo }, // Filter for the last 3 months
+        },
+      },
       {
         $group: {
           _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } }, // Group by date
-          totalCoursesSold: { $sum: 1 }, // Count the number of courses sold
+          totalCoursesSold: { $sum: 1 }, // Count the number of courses
           totalPrice: { $sum: "$price" }, // Sum the course prices
+          totalRevenue: {
+            $sum: {
+              $cond: {
+                if: { $isArray: { $ifNull: ["$students", []] } },
+                then: {
+                  $multiply: [
+                    { $size: { $ifNull: ["$students", []] } }, // Number of students
+                    {
+                      $multiply: [
+                        { $ifNull: ["$price", 0] }, // Course price
+                        {
+                          $subtract: [
+                            1,
+                            {
+                              $divide: [
+                                {
+                                  $min: [
+                                    {
+                                      $max: [{ $ifNull: ["$discount", 0] }, 0],
+                                    }, // Non-negative
+                                    100, // Cap at 100
+                                  ],
+                                },
+                                100,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                else: 0,
+              },
+            },
+          }, // Sum the revenue for all courses
         },
       },
       {
@@ -47,22 +99,24 @@ export async function courseSellingData() {
       },
     ];
 
+    // Execute the pipeline
     const result = await Course.aggregate(pipeline);
 
     // Format the result to match the desired output
     const formattedResult = result.map((item) => ({
-      date: item._id, // Date
-      totalCoursesSold: item.totalCoursesSold,
-      totalPrice: item.totalPrice,
+      date: item._id, // Date in YYYY-MM-DD format
+      totalCourses: item.totalCoursesSold, // Number of courses
+      totalPrice: item.totalPrice.toFixed(2), // Sum of course prices
+      totalRevenue: item.totalRevenue.toFixed(2), // Total revenue
     }));
 
-    return JSON.parse(JSON.stringify(formattedResult));
+    return formattedResult; // No need for JSON.parse(JSON.stringify)
   } catch (error) {
     console.error(
       "Error getting last three months course selling data:",
-      error,
+      error.message,
     );
-    throw error;
+    throw new Error(`Failed to retrieve course selling data: ${error.message}`);
   }
 }
 

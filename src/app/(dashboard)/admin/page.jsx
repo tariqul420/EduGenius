@@ -4,7 +4,7 @@ import { SidebarInset } from "@/components/ui/sidebar";
 import { courseSellingData } from "@/lib/actions/stats.action";
 
 export default async function dashboard() {
-  const data = await courseSellingData({ admin: true });
+  const data = await courseSellingData();
 
   return (
     <SidebarInset>
