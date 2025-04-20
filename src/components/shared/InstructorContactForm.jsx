@@ -28,6 +28,7 @@ const formSchema = z.object({
   }),
 });
 
+// eslint-disable-next-line no-unused-vars
 export default function InstructorContactForm({ email }) {
   // 1. Define your form.
   const form = useForm({
@@ -40,6 +41,7 @@ export default function InstructorContactForm({ email }) {
   });
 
   // 2. Define a submit handler.
+  // eslint-disable-next-line no-unused-vars
   function onSubmit(values) {
     // Do something with the form values.
     // console.log(values);

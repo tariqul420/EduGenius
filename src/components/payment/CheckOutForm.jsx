@@ -44,6 +44,7 @@ export default function CheckOutForm({ course, userId, onPaymentSuccess }) {
         setClientSecret(paymentInfo?.client_secret);
       } catch (err) {
         setError("Failed to initialize payment");
+        throw err;
       }
     };
 

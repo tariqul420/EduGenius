@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";

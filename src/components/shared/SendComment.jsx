@@ -58,6 +58,7 @@ export function SendComment({ blogId, userId, slug }) {
       toast.success("Comment posted!");
     } catch (error) {
       toast.error("Something went wrong");
+      throw error;
       // Revert form value if error occurs
       form.setValue("comment", values.comment);
     } finally {

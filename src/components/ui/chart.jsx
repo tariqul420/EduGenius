@@ -1,3 +1,5 @@
+/* eslint-disable no-undefined */
+/* eslint-disable no-shadow */
 "use client";
 import * as React from "react";
 import * as RechartsPrimitive from "recharts";
