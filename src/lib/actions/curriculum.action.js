@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
 
+import Course from "@/models/Course";
 import Lesson from "@/models/Lesson";
 import Module from "@/models/Module";
 
@@ -182,5 +183,55 @@ export async function deleteCurriculumModule({ curriculumId, path }) {
     return { success: true };
   } catch (error) {
     console.error("Error deleting course curriculum:", error);
+  }
+}
+
+export async function getModules({ slug }) {
+  try {
+    await dbConnect();
+
+    const { _id } = await Course.findOne({ slug });
+
+    const courseCurriculum = await Module.aggregate([
+      {
+        $match: { course: _id }, // Match modules for the given course
+      },
+      {
+        $lookup: {
+          from: "lessons", // Join with the lessons collection
+          localField: "_id", // Match module ID
+          foreignField: "module", // Match lessons by module ID
+          as: "lessons", // Output lessons as an array
+        },
+      },
+      {
+        $project: {
+          _id: 1, // Include module ID
+          name: 1, // Include module name
+          createdAt: 1, // Include module creation date
+          updatedAt: 1, // Include module update date
+          lessons: {
+            $map: {
+              input: "$lessons", // Iterate over lessons
+              as: "lesson",
+              in: {
+                _id: "$$lesson._id", // Include lesson ID
+                title: "$$lesson.title", // Include lesson title
+                videoUrl: "$$lesson.videoUrl", // Include lesson video URL
+                slug: "$$lesson.slug", // Include lesson completion status
+                createdAt: "$$lesson.createdAt", // Include lesson creation date
+                updatedAt: "$$lesson.updatedAt", // Include lesson update date
+              },
+            },
+          },
+        },
+      },
+    ]);
+
+    const objCourseCurriculum = courseCurriculum[0] || {};
+    return JSON.parse(JSON.stringify(objCourseCurriculum));
+  } catch (error) {
+    console.error("Error getting course curriculum:", error);
+    throw error;
   }
 }

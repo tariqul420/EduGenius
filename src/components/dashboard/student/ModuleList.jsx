@@ -1,23 +1,23 @@
 "use client";
 
 import { CheckCircle, PlayCircle } from "lucide-react";
+import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 
-export default function ModulesList({ modules, activeModule, onModuleSelect }) {
+export default function ModulesList({ curriculum, activeModule }) {
   return (
     <div className="bg-card rounded-lg p-4">
-      <h3 className="text-lg font-semibold mb-4">Course Modules</h3>
+      <h3 className="mb-4 text-lg font-semibold">{curriculum?.name}</h3>
       <div className="space-y-2">
-        {modules?.map((videoModule) => (
+        {curriculum?.lessons?.map((videoModule) => (
           <button
             key={videoModule.id}
-            onClick={() => onModuleSelect(videoModule)}
             className={cn(
-              "w-full flex items-center gap-3 p-3 rounded-lg transition-colors",
+              "flex w-full items-center gap-3 rounded-lg p-3 transition-colors",
               activeModule?.id === videoModule.id
                 ? "bg-primary/10 text-primary"
-                : "hover:bg-accent"
+                : "hover:bg-accent",
             )}
           >
             {videoModule.completed ? (
@@ -25,7 +25,12 @@ export default function ModulesList({ modules, activeModule, onModuleSelect }) {
             ) : (
               <PlayCircle className="h-5 w-5" />
             )}
-            <span className="text-sm font-medium">{videoModule.title}</span>
+            <Link
+              href={`?play=${videoModule?.title}`}
+              className="text-sm font-medium"
+            >
+              {videoModule.title}
+            </Link>
           </button>
         ))}
       </div>
