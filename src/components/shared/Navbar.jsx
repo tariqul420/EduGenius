@@ -1,5 +1,11 @@
 "use client";
 
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
+import { AlignLeft, GraduationCap, LogIn, X } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+
 import ThemeBtn from "@/components/shared/ThemeBtn";
 import {
   Sheet,
@@ -9,11 +15,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
-import { AlignLeft, GraduationCap, LogIn, X } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
 
 function Navbar() {
   const { isSignedIn } = useUser();
@@ -65,7 +66,9 @@ function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 text-3xl">
           <GraduationCap size={26} className="text-main" />
-          <h2 className="text-2xl font-semibold">Edu<span className="text-main">Genius</span></h2>
+          <h2 className="text-2xl font-semibold">
+            Edu<span className="text-main">Genius</span>
+          </h2>
         </Link>
 
         {/* Right Side */}
@@ -73,7 +76,7 @@ function Navbar() {
           <ul className="hidden space-x-6 lg:flex">
             {navLinks.map((link) => (
               <li key={link?.href}>
-                <Link href={link?.href} className={`group relative px-1`}>
+                <Link href={link?.href} className={"group relative px-1"}>
                   {link.label}
                   {isActive(link?.href) && (
                     <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-full rounded-full bg-black dark:bg-white"></span>
@@ -109,7 +112,7 @@ function Navbar() {
           {/* Mobile Menu (Sheet)========================= */}
           <Sheet>
             <SheetTrigger
-              className="text-dark-main cursor-pointer rounded  px-1 py-1 lg:hidden dark:text-white"
+              className="text-dark-main cursor-pointer rounded px-1 py-1 lg:hidden dark:text-white"
               aria-label="Open menu"
             >
               <AlignLeft />
@@ -140,7 +143,9 @@ function Navbar() {
                     <SheetClose asChild>
                       <Link
                         href={link?.href}
-                        className={`group dark:text-light-bg relative px-1 text-black`}
+                        className={
+                          "group dark:text-light-bg relative px-1 text-black"
+                        }
                       >
                         {link.label}
                         {isActive(link?.href) && (

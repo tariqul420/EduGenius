@@ -1,6 +1,6 @@
-import Heading from "@/components/shared/Heading";
-import Image from "next/image";
 import { ArrowRight } from "lucide-react"; // Or any other icon library you prefer
+import Image from "next/image";
+
 import { AvatarCircles } from "../magicui/avatar-circles";
 
 const BecomeInstructor = () => {
@@ -35,7 +35,7 @@ const BecomeInstructor = () => {
             <div>
               <h2 className="mb-2 text-4xl font-medium">
                 Share Your Knowledge
-              </h2> 
+              </h2>
               <p className="dark:text-light-bg">
                 Become a part of our growing community of expert instructors and
                 share your knowledge with learners around the world. Inspire,
@@ -65,7 +65,7 @@ const BecomeInstructor = () => {
             </div>
           </div>
           {/* Image */}
-          <div className="relative  col-span-5  flex justify-center overflow-hidden">
+          <div className="relative col-span-5 flex justify-center overflow-hidden">
             <Image
               style={{ animationDuration: "30s" }}
               className="absolute -top-[50px] w-full min-w-[500px] animate-spin"

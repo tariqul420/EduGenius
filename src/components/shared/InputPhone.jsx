@@ -1,5 +1,6 @@
-import { cn } from "@/lib/utils";
 import PhoneInput from "react-phone-number-input";
+
+import { cn } from "@/lib/utils";
 import "react-phone-number-input/style.css";
 
 function InputPhone({ className, type, ...props }) {

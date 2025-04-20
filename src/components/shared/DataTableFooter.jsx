@@ -4,9 +4,8 @@ import {
   IconChevronsLeft,
   IconChevronsRight,
 } from "@tabler/icons-react";
-
-import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
+
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import {
@@ -16,6 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+
+import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 
 export default function DataTableFooter({ table, pageSize, pageIndex, total }) {
   const searchParams = useSearchParams();
@@ -41,7 +42,7 @@ export default function DataTableFooter({ table, pageSize, pageIndex, total }) {
                 newUrl = formUrlQuery({
                   params: searchParams.toString(),
                   key: "pageSize",
-                  value: value,
+                  value,
                 });
               } else {
                 newUrl = removeKeysFromQuery({
