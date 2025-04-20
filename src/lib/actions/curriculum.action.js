@@ -235,3 +235,19 @@ export async function getModules({ slug }) {
     throw error;
   }
 }
+
+export async function getLesson({ id }) {
+  console.log("getLesson", objectId(id));
+  try {
+    await dbConnect();
+
+    const lesson = await Lesson.findById(objectId(id));
+    if (!lesson) {
+      throw new Error("Lesson not found");
+    }
+    return JSON.parse(JSON.stringify(lesson));
+  } catch (error) {
+    console.error("Error getting lesson:", error);
+    throw error;
+  }
+}
