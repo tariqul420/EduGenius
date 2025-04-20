@@ -31,12 +31,13 @@ export async function addCourseCurriculum({ courseId, data, path }) {
       throw new Error("Failed to create course module");
     }
 
-    const lessons = data.lessons.map((lesson) => ({
-      ...lesson,
-      course: objectId(courseId),
-      module: courseModule._id,
-    }));
-    await Lesson.insertMany(lessons);
+    data.lessons.map(async (lesson) => {
+      await Lesson.create({
+        ...lesson,
+        course: objectId(courseId),
+        module: courseModule._id,
+      });
+    });
 
     revalidatePath(path);
     return JSON.parse(JSON.stringify(courseModule));
