@@ -254,7 +254,6 @@ export async function createCourse({ data, path }) {
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
     if (!userId) {
       throw new Error("User not authenticated");
@@ -278,7 +277,6 @@ export async function updateCourse({ courseId, data, path }) {
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
     if (!userId) {
       throw new Error("User not authenticated");
@@ -291,6 +289,7 @@ export async function updateCourse({ courseId, data, path }) {
     );
 
     revalidatePath(path);
+
     return JSON.parse(JSON.stringify(updatedCourse));
   } catch (error) {
     console.error("Error updating course:", error);

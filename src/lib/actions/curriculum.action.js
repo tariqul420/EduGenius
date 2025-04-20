@@ -105,7 +105,6 @@ export async function updateCourseCurriculum({
 
     const { sessionClaims } = await auth();
     const userId = sessionClaims?.userId;
-
     if (!userId) {
       throw new Error("User not authenticated");
     }
@@ -156,13 +155,14 @@ export async function deleteCurriculumLesson({ lessonId, path }) {
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
     if (!userId) {
       throw new Error("User not authenticated");
     }
     await Lesson.findOneAndDelete({ _id: lessonId });
+
     revalidatePath(path);
+
     return { success: true };
   } catch (error) {
     console.error("Error deleting course curriculum:", error);
@@ -174,7 +174,6 @@ export async function deleteCurriculumModule({ curriculumId, path }) {
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
     if (!userId) {
       throw new Error("User not authenticated");

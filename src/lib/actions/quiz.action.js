@@ -8,14 +8,14 @@ import { objectId } from "../utils";
 
 import Quiz from "@/models/Quiz";
 
-export async function createQuiz({ courseId, data }) {
+export async function createQuiz({ courseId, data, path }) {
   try {
     await dbConnect();
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
+
     if (!userId) {
       throw new Error("User not authenticated");
     }
@@ -25,6 +25,10 @@ export async function createQuiz({ courseId, data }) {
       instructor: objectId(userId),
       course: courseId,
     });
+
+    // Revalidate the path before returning
+    revalidatePath(path);
+
     return JSON.parse(
       JSON.stringify({
         success: true,
@@ -43,7 +47,6 @@ export async function updateQuiz({ quizId, data, path }) {
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
     if (!userId) {
       throw new Error("User not authenticated");
@@ -64,7 +67,7 @@ export async function updateQuiz({ quizId, data, path }) {
   }
 }
 
-export async function deleteQuiz(quizId) {
+export async function deleteQuiz(quizId, path) {
   try {
     await dbConnect();
 
@@ -72,6 +75,7 @@ export async function deleteQuiz(quizId) {
     const { sessionClaims } = await auth();
 
     const userId = sessionClaims?.userId;
+    const role = sessionClaims?.role;
     if (!userId) {
       throw new Error("User not authenticated");
     }
@@ -81,12 +85,17 @@ export async function deleteQuiz(quizId) {
       throw new Error("Quiz not found");
     }
 
-    if (String(quiz.instructor) !== String(userId)) {
+    if (String(quiz.instructor) !== String(userId) && role !== "admin") {
       throw new Error("You are not authorized to delete this quiz");
     }
 
     await Quiz.findByIdAndDelete(quizId);
-    // revalidatePath(path);
+
+    revalidatePath(
+      role === "admin"
+        ? `/admin/courses/${path}`
+        : `/instructor/courses/${path}`,
+    );
     return { success: true };
   } catch (error) {
     console.error("Error deleting quiz:", error);
@@ -102,6 +111,7 @@ export async function getQuizById(courseId) {
     const { sessionClaims } = await auth();
 
     const userId = sessionClaims?.userId;
+    const role = sessionClaims?.role;
     if (!userId) {
       throw new Error("User not authenticated");
     }
@@ -111,8 +121,8 @@ export async function getQuizById(courseId) {
       return null;
     }
 
-    if (String(quiz.instructor) !== String(userId)) {
-      throw new Error("You are not authorized to view this quiz");
+    if (String(quiz.instructor) !== String(userId) && role !== "admin") {
+      throw new Error("You are not authorized to delete this quiz");
     }
 
     return JSON.parse(JSON.stringify(quiz));

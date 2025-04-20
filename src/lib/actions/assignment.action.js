@@ -8,13 +8,12 @@ import { objectId } from "../utils";
 
 import Assignment from "@/models/Assignment";
 
-export async function createAssignment({ courseId, data }) {
+export async function createAssignment({ courseId, data, path }) {
   try {
     await dbConnect();
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
     if (!userId) {
       throw new Error("User not authenticated");
@@ -25,6 +24,8 @@ export async function createAssignment({ courseId, data }) {
       instructor: userId,
       course: courseId,
     });
+
+    revalidatePath(path);
 
     return { success: true, message: "Assignment created successfully." };
   } catch (error) {
@@ -39,7 +40,6 @@ export async function updateAssignment({ assignmentId, data, path }) {
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
     if (!userId) {
       throw new Error("User not authenticated");
@@ -51,6 +51,7 @@ export async function updateAssignment({ assignmentId, data, path }) {
     }
 
     await Assignment.findByIdAndUpdate(assignmentId, data, { new: true });
+
     revalidatePath(path);
 
     return { success: true, message: "Assignment updated successfully." };

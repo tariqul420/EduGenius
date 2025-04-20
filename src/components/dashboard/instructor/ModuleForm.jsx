@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Minus, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -41,9 +41,8 @@ const formSchema = z.object({
   ),
 });
 
-export default function ModuleForm({ curriculum, courseId, slug }) {
-  const router = useRouter();
-
+export default function ModuleForm({ curriculum, courseId }) {
+  const pathname = usePathname();
   // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -67,14 +66,11 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
           courseId,
           lessonIds: curriculum.lessons.map((lesson) => lesson._id),
           data: values,
-          path: `/instructor/courses/${slug}`,
+          path: pathname,
         }),
         {
           loading: "Updating curriculum...",
           success: () => {
-            router.push(`/instructor/courses/${slug}`); // Redirect to the courses page
-            router.refresh(`/instructor/courses/${slug}`); // Refresh the page to reflect changes
-
             return "Curriculum updated successfully!";
           },
           error: (err) => {
@@ -88,13 +84,11 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
         addCourseCurriculum({
           courseId,
           data: values,
-          path: "/instructor/courses",
+          path: pathname,
         }),
         {
           loading: "Adding curriculum...",
           success: () => {
-            router.push(`/instructor/courses/${slug}`); // Redirect to the courses pagepage
-            router.refresh(`/instructor/courses/${slug}`); // Refresh the page to reflect changes
             return "Curriculum added successfully!";
           },
           error: (err) => {
@@ -111,19 +105,15 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
       toast.promise(
         deleteCurriculumLesson({
           lessonId,
-          path: `/instructor/courses/${slug}`,
+          path: pathname,
         }),
         {
           loading: "Deleting curriculum...",
           success: () => {
-            router.refresh(`/instructor/courses/${slug}`);
-            router.push(`/instructor/courses/${slug}`);
             return "Curriculum Deleted successfully!";
           },
           error: (err) => {
             console.error(err);
-            router.refresh(`/instructor/courses/${slug}`);
-            router.push(`/instructor/courses/${slug}`);
             return "Failed to Delete curriculum.";
           },
         },
@@ -139,7 +129,7 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
       toast.promise(
         deleteCurriculumModule({
           curriculumId,
-          path: `/instructor/courses/${slug}`,
+          path: pathname,
         }),
         {
           loading: "Deleting curriculum...",
@@ -148,14 +138,10 @@ export default function ModuleForm({ curriculum, courseId, slug }) {
               name: "",
               lessons: [{ id: "", title: "", videoUrl: "" }], // Reset to one empty lesson
             }); // Reset the form after deletion
-            router.refresh(`/instructor/courses/${slug}`);
-            router.push(`/instructor/courses/${slug}`);
             return "Curriculum Deleted successfully!";
           },
           error: (err) => {
             console.error(err);
-            router.refresh(`/instructor/courses/${slug}`);
-            router.push(`/instructor/courses/${slug}`);
             return "Failed to Delete curriculum.";
           },
         },

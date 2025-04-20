@@ -2,7 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addDays, format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -56,9 +56,8 @@ const formSchema = z.object({
     .positive({ message: "Total marks must be a positive number." })
     .optional(), // Make it optional
 });
-export default function AssignmentForm({ assignment, courseId, slug }) {
-  const router = useRouter();
-
+export default function AssignmentForm({ assignment, courseId }) {
+  const pathname = usePathname();
   // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -84,13 +83,12 @@ export default function AssignmentForm({ assignment, courseId, slug }) {
         updateAssignment({
           assignmentId: assignment._id,
           data: values,
-          path: `/instructor/courses/${slug}`,
+          path: pathname,
         }),
         {
           loading: "Updating assignment...",
           success: (data) => {
             if (data.success) {
-              router.push(`/instructor/courses/${slug}`);
               return "Assignment updated successfully!";
             } else {
               throw new Error(data.message || "Failed to update assignment.");
@@ -104,12 +102,12 @@ export default function AssignmentForm({ assignment, courseId, slug }) {
         createAssignment({
           courseId,
           data: values,
+          path: pathname,
         }),
         {
           loading: "Creating assignment...",
           success: (data) => {
             if (data.success) {
-              router.push("/instructor/courses");
               return "Assignment created successfully!";
             } else {
               throw new Error(data.message || "Failed to create assignment.");
