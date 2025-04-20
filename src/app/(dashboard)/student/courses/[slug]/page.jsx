@@ -1,11 +1,7 @@
 import ModulesList from "@/components/dashboard/student/ModuleList";
 import Player from "@/components/dashboard/student/Player";
 
-export default async function CourseModulesPage({ params }) {
-  const { slug } = await params;
-
-  console.log(slug);
-
+export default async function CourseModulesPage() {
   const course = {
     id: "course-001",
     title: "Complete Web Development Bootcamp",

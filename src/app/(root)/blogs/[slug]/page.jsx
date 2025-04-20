@@ -222,10 +222,10 @@ const BlogDetails = async ({ params, searchParams }) => {
                 </h2>
                 <div className="space-y-5">
                   {featuredBlog?.length > 0 ? (
-                    featuredBlog.map((blog) => (
-                      <div key={blog?.slug} className="group">
+                    featuredBlog.map((singleBlog) => (
+                      <div key={singleBlog?.slug} className="group">
                         <InsightsCard
-                          insights={blog}
+                          insights={singleBlog}
                           className="transition-all duration-200 group-hover:scale-[1.02]"
                         />
                       </div>
