@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Minus, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -53,8 +52,6 @@ const formSchema = z.object({
 });
 
 export default function QuizForm({ quiz, courseId, slug }) {
-  const router = useRouter();
-
   // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -86,13 +83,11 @@ export default function QuizForm({ quiz, courseId, slug }) {
         updateQuiz({
           quizId: quiz._id,
           data: values,
-          path: `/instructor/courses/${slug}`,
+          path: `${slug}`,
         }),
         {
           loading: "Updating quiz...",
           success: () => {
-            router.push(`/instructor/courses/${slug}`, { scroll: false }); // Redirect to the courses page
-            router.refresh(`/instructor/courses/${slug}`); // Refresh the page to reflect changes
             return "Quiz updated successfully!";
           },
           error: (error) => error.message,
@@ -103,13 +98,12 @@ export default function QuizForm({ quiz, courseId, slug }) {
         createQuiz({
           courseId,
           data: values,
+          path: `${slug}`,
         }),
         {
           loading: "Creating quiz...",
           success: (data) => {
             if (data.success) {
-              router.push(`/instructor/courses/${slug}`, { scroll: false }); // Redirect to the courses page
-              router.refresh(`/instructor/courses/${slug}`); // Refresh the page to reflect changes
               return "Quiz created successfully!";
             } else {
               throw new Error(data.message || "Failed to create quiz.");
@@ -190,12 +184,13 @@ export default function QuizForm({ quiz, courseId, slug }) {
                           <FormField
                             control={form.control}
                             name={`questions.${index}.options.${optionIndex}.isCorrect`} // Bind to the correct field
-                            render={({ checkedField, formState }) => (
+                            // eslint-disable-next-line no-shadow
+                            render={({ field, formState }) => (
                               <FormItem className="flex items-center gap-2">
                                 <FormControl>
                                   <Checkbox
-                                    checked={checkedField.value} // Bind the checkbox state to the form field value
-                                    onCheckedChange={checkedField.onChange} // Update the form state when toggled
+                                    checked={field.value} // Bind the checkbox state to the form field value
+                                    onCheckedChange={field.onChange} // Update the form state when toggled
                                   />
                                 </FormControl>
                                 <FormLabel>Option-{optionIndex + 1}</FormLabel>
