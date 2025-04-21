@@ -9,6 +9,7 @@ import {
   BookOpenText,
   BookText,
   ClipboardCheck,
+  CreditCard,
   GraduationCap,
   LayoutDashboard,
   ListTodo,
@@ -22,9 +23,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense } from "react";
 
-import BecomeInstructorForm from "../student/BecomeInstructorForm";
-
-import AdditionalInfoForm from "./AdditionalInfoForm";
+import AdditionalInfoForm from "./instructor/AdditionalInfoForm";
+import BecomeInstructorForm from "./student/BecomeInstructorForm";
 
 import {
   Sidebar,
@@ -54,6 +54,7 @@ const iconMap = {
   Tag,
   GraduationCap,
   UserRoundPlus,
+  CreditCard,
 };
 
 export function AppSidebar({ role, menu = [] }) {
