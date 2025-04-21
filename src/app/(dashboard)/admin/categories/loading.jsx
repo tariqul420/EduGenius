@@ -36,7 +36,7 @@ export default function Loading() {
 
         {/* Table Rows */}
         <div className="space-y-4 p-4">
-          {[...Array(6)].map((_, i) => (
+          {[...Array(10)].map((_, i) => (
             <div key={i} className="flex items-center justify-between">
               <Skeleton className="h-4 w-[150px]" />
               <Skeleton className="h-4 w-[200px]" />
