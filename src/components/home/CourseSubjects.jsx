@@ -10,6 +10,7 @@
 // } from "lucide-react";
 
 import { OrbitingCirclesDemo } from "./OrbitingCirclesDemo";
+import { MarqueeDemoVertical } from "./VerticalMarquee";
 
 import Heading from "@/components/shared/Heading";
 
@@ -66,14 +67,11 @@ const CourseSubjects = () => {
       />
 
       <div className="flex items-center justify-center gap-5 md:gap-8">
-        <div className="left-content">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex tenetur
-          accusamus sed. Ut corrupti veritatis sequi, consequuntur quaerat est
-          fuga sit vero dolorum cum accusantium iste dolor minus cumque nulla.
+        <div className="left-content min-h-[700px] w-full">
+          <MarqueeDemoVertical />
         </div>
-        <div className="right-content">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias saepe impedit facilis fugit blanditiis, dolores doloribus cum expedita voluptates consectetur repellendus perferendis ratione explicabo officia. Odio quia esse eius illum!
-          {/* <OrbitingCirclesDemo /> */}
+        <div className="right-content min-h-[440px] w-full">
+          <OrbitingCirclesDemo />
         </div>
       </div>
       {/* <div className="grid grid-cols-2 gap-3 text-center sm:text-left md:grid-cols-3 md:gap-6 lg:grid-cols-4">
