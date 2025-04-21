@@ -128,7 +128,7 @@ export async function getPaymentHistory({
       },
       // Lookup course data
       {
-        $lookup: {
+        $lookup: {                                                                                                        
           from: "courses",
           localField: "course",
           foreignField: "_id",
@@ -142,7 +142,7 @@ export async function getPaymentHistory({
       // Lookup instructor data
       {
         $lookup: {
-          from: "instructors",
+          from: "users",
           localField: "course.instructor",
           foreignField: "_id",
           as: "instructor",
@@ -163,7 +163,7 @@ export async function getPaymentHistory({
           "course.discount": 1,
           "instructor.firstName": 1,
           "instructor.lastName": 1,
-          "instructor.slug": 1,
+        
         },
       },
       // Pagination
