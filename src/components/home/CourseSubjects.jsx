@@ -27,7 +27,7 @@ const CourseSubjects = () => {
         <div className="left-content min-h-[500px] w-full">
           <MarqueeDemoVertical />
         </div>
-        <div className="right-content min-h-[440px] w-full">
+        <div className="right-content min-h-[500px] w-full">
           <OrbitingCirclesDemo />
         </div>
       </div>

@@ -9,6 +9,7 @@ export default async function BecomeInstructor({ searchParams }) {
     page: Number(pageIndex || 1),
     search,
   });
+
   return (
     <>
       <section className="py-6">
