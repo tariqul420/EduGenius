@@ -26,7 +26,7 @@ export default function Loading() {
 
         {/* Table Rows - 5 rows */}
         <div className="space-y-2">
-          {[...Array(5)].map((_, i) => (
+          {[...Array(6)].map((_, i) => (
             <div
               key={i}
               className="grid w-full grid-cols-12 gap-4 border-b p-4"
