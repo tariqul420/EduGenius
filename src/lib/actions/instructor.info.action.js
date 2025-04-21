@@ -67,6 +67,7 @@ export async function getInstructorInfo({
       {
         $project: {
           student: {
+            _id: "$student._id",
             firstName: "$student.firstName",
             lastName: "$student.lastName",
             email: "$student.email",

@@ -50,7 +50,6 @@ export default function BecomeInstructorInfoModal({ becomeInstructorInfo }) {
   const handleStatusUpdate = async (newStatus) => {
     if (becomeInstructorInfo.status === newStatus)
       return toast.error("Already Updated!");
-
     try {
       toast.promise(
         updateStudentStatus({
