@@ -21,7 +21,8 @@ const instructorInfoSchema = new mongoose.Schema(
     teachingStyle: { type: String, required: true },
     status: {
       type: String,
-      enum: ["pending", "approved", "rejected"],
+      enum: ["pending", "approved", "rejected", "terminated"],
+      required: true,
       default: "pending",
     },
   },
@@ -66,6 +67,43 @@ instructorInfoSchema.post("findOneAndUpdate", async function (doc) {
         await mongoose.model("Instructor").create({ instructorId: user._id });
       } else {
       }
+    }
+
+    if (doc.status === "terminated") {
+      const user = await mongoose
+        .model("User")
+        .findByIdAndUpdate(doc.student, { role: "student" }, { new: true });
+
+      if (!user) {
+        console.error("User not found for student ID:", doc.student);
+        return;
+      }
+
+      if (!user.clerkUserId) {
+        console.error("User missing clerkUserId:", user._id);
+        return;
+      }
+
+      // Update user role in Clerk
+      const client = await clerkClient();
+      await client.users.updateUser(user.clerkUserId, {
+        publicMetadata: {
+          userId: user._id,
+          role: user.role || "student",
+        },
+      });
+
+      // Remove instructor record
+      await mongoose
+        .model("Instructor")
+        .findOneAndDelete({ instructorId: user._id });
+
+      // Delete ALL courses by this instructor (not just one)
+      await mongoose.model("Course").deleteMany({ instructor: user._id });
+
+      await mongoose
+        .model("InstructorInfo")
+        .findOneAndDelete({ student: user._id });
     }
   } catch (error) {
     console.error("Middleware error:", error);
