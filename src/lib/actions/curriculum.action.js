@@ -238,7 +238,7 @@ export async function getModules({ slug }) {
 }
 
 export async function getLesson({ id }) {
-  console.log("getLesson", objectId(id));
+  // console.log("getLesson", objectId(id));
   try {
     await dbConnect();
 

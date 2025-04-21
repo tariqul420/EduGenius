@@ -22,9 +22,9 @@ export default function Loading() {
           <Skeleton className="col-span-2 h-4 rounded-sm" />
         </div>
 
-        {/* Table Rows - 5 rows */}
+        {/* Table Rows - 6 rows */}
         <div className="space-y-2">
-          {[...Array(5)].map((_, i) => (
+          {[...Array(6)].map((_, i) => (
             <div
               key={i}
               className="grid w-full grid-cols-12 gap-4 border-b p-4"

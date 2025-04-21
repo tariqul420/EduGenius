@@ -27,11 +27,11 @@ const BecomeInstructor = () => {
     },
   ];
   return (
-    <section className="dark:to-dark-bg bg-gradient-to-t px-4 pt-20 pb-16 sm:px-6 lg:px-8 dark:from-black">
+    <section className="dark:to-dark-bg overflow-hidden bg-gradient-to-t px-2 pt-20 pb-16 md:px-5 dark:from-black">
       <div className="mx-auto lg:max-w-6xl">
-        <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-12">
+        <div className="grid grid-cols-12 items-center">
           {/* Content */}
-          <div className="col-span-7">
+          <div className="col-span-12 md:col-span-7">
             <div>
               <h2 className="mb-2 text-4xl font-medium">
                 Share Your Knowledge
@@ -48,13 +48,13 @@ const BecomeInstructor = () => {
               community.
             </p>
 
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <button className="border-green bg-main hover:bg-dark-main hover:text-medium-bg flex cursor-pointer items-center gap-2 rounded border px-4 py-2.5 text-white duration-200 md:px-6">
+            <div className="flex gap-3 sm:gap-4">
+              <button className="border-green bg-main hover:bg-dark-main hover:text-medium-bg flex cursor-pointer items-center gap-2 rounded border px-3 py-2.5 text-white duration-200 md:px-6">
                 Start Teaching Today
                 <ArrowRight className="h-4 w-4" />
               </button>
 
-              <button className="bg-light-bg hover:bg-medium-bg cursor-pointer rounded border px-4 py-2.5 text-black duration-200 md:px-6">
+              <button className="bg-light-bg hover:bg-medium-bg cursor-pointer rounded border px-3 py-2.5 text-black duration-200 md:px-6">
                 Learn More
               </button>
             </div>
@@ -65,10 +65,10 @@ const BecomeInstructor = () => {
             </div>
           </div>
           {/* Image */}
-          <div className="relative col-span-5 flex justify-center overflow-hidden">
+          <div className="relative col-span-12 mt-8 md:col-span-5">
             <Image
               style={{ animationDuration: "30s" }}
-              className="absolute -top-[50px] w-full min-w-[500px] animate-spin"
+              className="absolute -top-[50px] left-0 z-[1] w-full min-w-[500px] animate-spin"
               width={100}
               height={100}
               alt="Hero_Gradient"
@@ -80,7 +80,7 @@ const BecomeInstructor = () => {
                 alt="Instructor teaching online"
                 width={180}
                 height={180}
-                className="w-full min-w-[300px] transition-transform duration-500 hover:scale-105"
+                className="z-[2] mx-auto w-full max-w-[300px] transition-transform duration-500 hover:scale-105"
               />
             </div>
           </div>
