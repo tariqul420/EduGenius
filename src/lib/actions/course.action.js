@@ -19,7 +19,6 @@ export async function getCourses({
   page = 1,
   limit = 10,
   sort,
-  instructor,
   excludeSlug,
 } = {}) {
   try {
@@ -39,7 +38,6 @@ export async function getCourses({
       // Match courses based on criteria
       {
         $match: {
-          ...(instructor && { instructor: objectId(instructor) }),
           ...(categoryIds.length > 0 && { category: { $in: categoryIds } }),
           ...(level && { level }),
           ...(search && {
@@ -72,7 +70,7 @@ export async function getCourses({
       // Lookup ratings
       {
         $lookup: {
-          from: "ratings",
+          from: "reviews",
           localField: "_id", // Assuming ratings references course by course _id
           foreignField: "course",
           as: "ratingsData",
@@ -137,7 +135,6 @@ export async function getCourses({
 
     // Count total documents matching the query
     const total = await Course.countDocuments({
-      ...(instructor && { instructor: objectId(instructor) }),
       ...(categoryIds.length > 0 && { category: { $in: categoryIds } }),
       ...(level && { level }),
       ...(search && {
@@ -184,7 +181,7 @@ export async function getCourseBySlug(slug) {
       },
       {
         $lookup: {
-          from: "ratings",
+          from: "reviews",
           localField: "_id",
           foreignField: "course",
           as: "ratingsData",
@@ -538,7 +535,7 @@ export async function getCourseAdminInstructor({
       // Lookup ratings
       {
         $lookup: {
-          from: "ratings",
+          from: "reviews",
           localField: "_id",
           foreignField: "course",
           as: "ratingsData",

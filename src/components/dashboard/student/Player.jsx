@@ -11,6 +11,7 @@ export default function Player({}) {
   const searchParams = useSearchParams();
   const play = searchParams.get("play");
 
+  // eslint-disable-next-line no-unused-vars
   const onProgress = (progress) => {
     // console.log("Progress:", progress);
   };
@@ -24,7 +25,7 @@ export default function Player({}) {
       if (play) {
         const { videoUrl } = await getLesson({ id: play });
         setActiveUrl(videoUrl);
-        console.log("Video URL:", videoUrl);
+        // console.log("Video URL:", videoUrl);
       }
     })();
   }, [play]);
