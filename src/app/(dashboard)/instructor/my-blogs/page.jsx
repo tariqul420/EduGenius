@@ -1,9 +1,10 @@
+import { auth } from "@clerk/nextjs/server";
+
 import DataTable from "@/components/dashboard/data-table";
 import BlogForm from "@/components/dashboard/instructor/BlogForm";
 import { blogColumns } from "@/constant/columns";
 import { getBlogsByInstructor } from "@/lib/actions/blog.action";
 import { getCategory } from "@/lib/actions/category.action";
-import { auth } from "@clerk/nextjs/server";
 
 export default async function MyBlogs({ searchParams }) {
   const { pageSize, pageIndex, search } = await searchParams;

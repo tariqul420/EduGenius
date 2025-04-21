@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
+
 import Category from "./Category";
 import User from "./User";
 
@@ -33,7 +34,7 @@ const blogSchema = new mongoose.Schema(
 // Pre-save middleware to generate a unique slug from the title
 blogSchema.pre("save", async function (next) {
   if (this.isModified("title")) {
-    let slug = slugify(this.title, { lower: true, strict: true });
+    const slug = slugify(this.title, { lower: true, strict: true });
     let uniqueSlug = slug;
 
     // Check if the slug already exists in the database

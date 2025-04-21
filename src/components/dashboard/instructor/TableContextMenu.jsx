@@ -1,3 +1,9 @@
+import { IconDotsVertical } from "@tabler/icons-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,11 +22,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { deleteCourse } from "@/lib/actions/course.action";
-import { IconDotsVertical } from "@tabler/icons-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { toast } from "sonner";
 
 export default function TableContextMenu({ row }) {
   const pathName = usePathname();

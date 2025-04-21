@@ -1,5 +1,13 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2, MessagesSquare } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Rating } from "react-simple-star-rating";
+import { toast } from "sonner";
+import * as z from "zod";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,13 +28,6 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { saveReview, updateReview } from "@/lib/actions/review.action";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, MessagesSquare } from "lucide-react";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Rating } from "react-simple-star-rating";
-import { toast } from "sonner";
-import * as z from "zod";
 
 // Define Zod schema
 const formSchema = z.object({
@@ -40,7 +41,7 @@ const formSchema = z.object({
 export function ReviewModal({ course, review }) {
   const [rating, setRating] = useState(review?.rating || 0);
   const [hoverRating, setHoverRating] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -79,21 +80,22 @@ export function ReviewModal({ course, review }) {
 
       setRating(review?.rating || 0);
       setHoverRating(0);
-      setOpen(false);
+      setOpenModal(false);
       toast.success(review ? "Review Updated!" : "Review Submitted!");
     } catch (error) {
       toast.error("Failed to save review.");
+      throw error;
     }
   };
 
   const handleCancel = () => {
     setRating(review?.rating || 0);
     setHoverRating(0);
-    setOpen(false);
+    setOpenModal(false);
   };
 
-  const getRatingDescription = (rating, hoverRating) => {
-    const activeRating = hoverRating || rating;
+  const getRatingDescription = (InpRating, hoverInpRating) => {
+    const activeRating = hoverInpRating || InpRating;
     switch (activeRating) {
       case 0:
         return "Select a rating.";
@@ -113,7 +115,7 @@ export function ReviewModal({ course, review }) {
   };
 
   return (
-    <AlertDialog open={open} onOpenChange={setOpen}>
+    <AlertDialog open={openModal} onOpenChange={setOpenModal}>
       <AlertDialogTrigger asChild>
         <button className="border-green bg-main hover:bg-dark-main hover:text-medium-bg flex cursor-pointer items-center gap-2 rounded border px-3 py-1.5 text-white duration-200">
           <MessagesSquare size={18} />

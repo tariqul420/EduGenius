@@ -1,10 +1,11 @@
 "use client";
 
-import useProvider from "@/hooks/useProvider";
 import { Gauge, Languages, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+import useProvider from "@/hooks/useProvider";
 
 const CourseCard = ({ course }) => {
   const {
@@ -29,7 +30,7 @@ const CourseCard = ({ course }) => {
           : "flex-col gap-5"
       }`}
     >
-      <div className={`w-full`}>
+      <div className={"w-full"}>
         {/* Category Badge */}
         <p className="bg-main absolute top-0 left-0 z-[1] w-fit rounded px-3 py-1.5 text-sm text-white">
           {category?.name || category?.slug}
@@ -69,7 +70,7 @@ const CourseCard = ({ course }) => {
       <div
         className={`course-content flex w-full flex-col p-3 ${!isGridCol && "flex-grow"}`}
       >
-        <h3 className="text-lg font-semibold flex-grow">{title}</h3>
+        <h3 className="flex-grow text-lg font-semibold">{title}</h3>
         <div className="flex justify-between py-5 text-slate-600">
           <div className="price flex items-center gap-1.5 dark:text-gray-300">
             <Languages size={16} /> {language}

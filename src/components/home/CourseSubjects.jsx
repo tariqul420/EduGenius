@@ -1,4 +1,3 @@
-import Heading from "@/components/shared/Heading";
 import {
   Atom,
   Beaker,
@@ -10,6 +9,8 @@ import {
   Ruler,
 } from "lucide-react";
 import Link from "next/link";
+
+import Heading from "@/components/shared/Heading";
 
 const CourseSubjects = () => {
   const subjects = [
@@ -59,8 +60,8 @@ const CourseSubjects = () => {
     <div className="container mx-auto px-2 py-5 md:px-5 md:py-8 lg:max-w-6xl">
       {/* Heading Section */}
       <Heading
-        title={`Course By Subjects`}
-        subTitle={`Find your desired course from a wide range of subjects.`}
+        title={"Course By Subjects"}
+        subTitle={"Find your desired course from a wide range of subjects."}
       />
 
       {/* Subjects Grid */}
@@ -71,7 +72,7 @@ const CourseSubjects = () => {
             <Link
               href={`/courses?category=${subject?.slug}`}
               key={index}
-              className="bg-light-bg dark:bg-dark-bg dark:bg-black-light flex transform cursor-pointer flex-col items-center rounded-lg border p-6 shadow transition-all duration-300 dark:border-t-[3px] dark:border-b-0 hover:scale-105 hover:shadow-md"
+              className="bg-light-bg dark:bg-dark-bg dark:bg-black-light flex transform cursor-pointer flex-col items-center rounded-lg border p-6 shadow transition-all duration-300 hover:scale-105 hover:shadow-md dark:border-t-[3px] dark:border-b-0"
               role="button"
               aria-label={`Explore ${subject?.name} courses`}
             >

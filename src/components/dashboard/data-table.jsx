@@ -1,6 +1,6 @@
+/* eslint-disable no-shadow */
 "use client";
 
-import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import {
   DndContext,
   KeyboardSensor,
@@ -29,7 +29,12 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
+
+import { Checkbox } from "../ui/checkbox";
+import { Input } from "../ui/input";
 
 import DataTableColumnSelector from "@/components/shared/DataTableColumnSelector";
 import DataTableFooter from "@/components/shared/DataTableFooter";
@@ -44,10 +49,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Checkbox } from "../ui/checkbox";
-import { Input } from "../ui/input";
+import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 
 // Create a separate component for the drag handle
 function DragHandle({ id }) {
@@ -85,7 +87,7 @@ function DraggableRow({ row, uniqueIdProperty }) {
       className="relative z-0 data-[dragging=true]:z-10 data-[dragging=true]:opacity-80"
       style={{
         transform: CSS.Transform.toString(transform),
-        transition: transition,
+        transition,
       }}
     >
       {row.getVisibleCells().map((cell) => (
@@ -115,7 +117,7 @@ export default function DataTable({
   const [sorting, setSorting] = React.useState(defaultSort);
   const [pagination, setPagination] = React.useState({
     pageIndex: pageIndex ? pageIndex - 1 : 0,
-    pageSize: pageSize,
+    pageSize,
   });
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -172,13 +174,13 @@ export default function DataTable({
   function handleDragEnd(event) {
     const { active, over } = event;
     if (active && over && active.id !== over.id) {
-      setData((data) => {
+      setData((dataTwo) => {
         const oldIndex = dataIds.indexOf(active.id);
         const newIndex = dataIds.indexOf(over.id);
         if (oldIndex !== -1 && newIndex !== -1) {
-          return arrayMove(data, oldIndex, newIndex);
+          return arrayMove(dataTwo, oldIndex, newIndex);
         }
-        return data;
+        return dataTwo;
       });
     }
   }
@@ -221,11 +223,9 @@ export default function DataTable({
         <Label htmlFor="view-selector" className="sr-only">
           View
         </Label>
-
-        <div className="flex items-center">
-          <div className="flex items-center gap-2">
+        <div className="flex w-full items-center">
+          <div className="flex flex-wrap sm:flex-row sm:items-center justify-center sm:justify-normal gap-4 sm:gap-2">
             <DataTableColumnSelector table={table} />
-
             {pathName === "/instructor/courses" ||
             pathName === "/instructor" ? (
               <Link
@@ -236,7 +236,6 @@ export default function DataTable({
                 <span>Add course</span>
               </Link>
             ) : null}
-
             <div className="flex items-center gap-2">
               <Input
                 type="text"
@@ -344,7 +343,7 @@ export function createSelectionColumn() {
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
-          className={`border-[#e9e4e4] dark:border-[#383838]`}
+          className={"border-[#e9e4e4] dark:border-[#383838]"}
         />
       </div>
     ),

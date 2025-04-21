@@ -1,4 +1,12 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { addDays, format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -28,13 +36,6 @@ import {
   updateAssignment,
 } from "@/lib/actions/assignment.action";
 import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { addDays, format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useFieldArray, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 
 const formSchema = z.object({
   title: z
@@ -55,9 +56,8 @@ const formSchema = z.object({
     .positive({ message: "Total marks must be a positive number." })
     .optional(), // Make it optional
 });
-export default function AssignmentForm({ assignment, courseId, slug }) {
-  const router = useRouter();
-
+export default function AssignmentForm({ assignment, courseId }) {
+  const pathname = usePathname();
   // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -70,6 +70,7 @@ export default function AssignmentForm({ assignment, courseId, slug }) {
     },
   });
 
+  // eslint-disable-next-line no-unused-vars
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "questions", // Match the name with the defaultValues structure
@@ -82,13 +83,12 @@ export default function AssignmentForm({ assignment, courseId, slug }) {
         updateAssignment({
           assignmentId: assignment._id,
           data: values,
-          path: `/instructor/courses/${slug}`,
+          path: pathname,
         }),
         {
           loading: "Updating assignment...",
           success: (data) => {
             if (data.success) {
-              router.push(`/instructor/courses/${slug}`);
               return "Assignment updated successfully!";
             } else {
               throw new Error(data.message || "Failed to update assignment.");
@@ -102,12 +102,12 @@ export default function AssignmentForm({ assignment, courseId, slug }) {
         createAssignment({
           courseId,
           data: values,
+          path: pathname,
         }),
         {
           loading: "Creating assignment...",
           success: (data) => {
             if (data.success) {
-              router.push("/instructor/courses");
               return "Assignment created successfully!";
             } else {
               throw new Error(data.message || "Failed to create assignment.");
@@ -195,9 +195,7 @@ export default function AssignmentForm({ assignment, courseId, slug }) {
                     <div className="rounded-md border">
                       <Calendar
                         mode="single"
-                        selected={
-                          field.value ? new Date(field.value) : undefined
-                        } // Pass the selected date
+                        selected={field.value ? new Date(field.value) : null} // Pass the selected date
                         onSelect={(value) => {
                           field.onChange(value); // Update the form state
                         }}

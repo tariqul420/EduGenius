@@ -14,7 +14,6 @@ const lessonSchema = new mongoose.Schema(
       ref: "Module",
       required: true,
     }, // Module ID
-    isFinished: { type: Boolean, required: true, default: false }, // Lesson order in the module
   },
   { timestamps: true },
 );

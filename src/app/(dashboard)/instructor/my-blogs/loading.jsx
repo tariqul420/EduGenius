@@ -1,113 +1,56 @@
+/* eslint-disable no-shadow */
+// app/(dashboard)/instructor/my-blogs/loading.jsx
+
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Monitor } from "lucide-react";
 
-// BlogTableSkeleton Component
-function BlogTableSkeleton({ total = 6 }) {
+export default function Loading() {
   return (
-    <section>
-      <div className="dark:bg-dark-bg rounded-lg bg-white shadow">
-        <Table>
-          <TableHeader>
-            <TableRow className="dark:bg-dark-bg rounded-t-lg border-b bg-gray-100">
-              <TableHead>
-                <Skeleton className="h-5 w-12" />
-              </TableHead>
-              <TableHead>
-                <Skeleton className="h-5 w-20" />
-              </TableHead>
-              <TableHead>
-                <Skeleton className="h-5 w-16" />
-              </TableHead>
-              <TableHead>
-                <Skeleton className="h-5 w-20" />
-              </TableHead>
-              <TableHead>
-                <Skeleton className="h-5 w-24" />
-              </TableHead>
-              <TableHead>
-                <Skeleton className="h-5 w-24" />
-              </TableHead>
-              <TableHead>
-                <Skeleton className="h-5 w-20" />
-              </TableHead>
-              <TableHead>
-                <Skeleton className="h-5 w-20" />
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {[...Array(6)].map((_, index) => (
-              <TableRow
-                key={index}
-                className="dark:hover:bg-dark-input border-b hover:bg-gray-50"
-              >
-                <TableCell>
-                  <Skeleton className="h-5 w-6" />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className="h-10 w-16 rounded" />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className="h-5 w-48" />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className="h-5 w-20" />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className="h-5 w-32" />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className="h-5 w-32" />
-                </TableCell>
-                <TableCell>
-                  <Monitor size={20} className="text-gray-400" />
-                </TableCell>
-                <TableCell>
-                  <div className="flex gap-2">
-                    <Skeleton className="h-8 w-8 rounded" />
-                    <Skeleton className="h-8 w-8 rounded" />
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-      {/* Pagination Skeleton */}
-      {total > 0 && (
-        <div className="mt-4 flex justify-end">
-          <Skeleton className="h-10 w-64" />
+    <div className="@container/main mx-auto overflow-x-hidden p-4 md:p-6 lg:p-8">
+      {/* BlogForm skeleton */}
+      <section className="space-y-4">
+        <div className="flex flex-col gap-4 md:flex-row">
+          <Skeleton className="h-10 flex-1" />
+          <Skeleton className="h-10 w-full md:w-48" />
         </div>
-      )}
-    </section>
-  );
-}
-
-// MyBlogsSkeleton Component
-export default function MyBlogsSkeleton() {
-  return (
-    <div className="container mx-auto overflow-x-hidden p-4 md:p-6 lg:p-8">
-      <section>
-        {/* BlogForm Skeleton */}
-        <div className="space-y-4">
-          <Skeleton className="h-20 w-full rounded-lg" />
-          <div className="flex items-center justify-between gap-4">
-            <Skeleton className="h-10 w-32" />
-            <Skeleton className="h-10 w-32" />
-          </div>
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-32 w-full" />
+        <div className="flex justify-end gap-2">
+          <Skeleton className="h-10 w-24" />
+          <Skeleton className="h-10 w-24" />
         </div>
       </section>
 
-      <section className="mt-4">
-        <BlogTableSkeleton />
+      {/* DataTable skeleton */}
+      <section className="mt-4 space-y-4">
+        {/* Search bar skeleton */}
+        <div className="flex gap-4">
+          <Skeleton className="h-10 w-full max-w-md" />
+          <Skeleton className="h-10 w-24" />
+        </div>
+
+        {/* Table header skeleton */}
+        <div className="flex w-full gap-4">
+          {[...Array(5)].map((_, i) => (
+            <Skeleton key={i} className="h-10 flex-1" />
+          ))}
+        </div>
+
+        {/* Table rows skeleton */}
+        {[...Array(5)].map((_, i) => (
+          <div key={i} className="flex w-full gap-4 pt-4">
+            {[...Array(5)].map((_, j) => (
+              <Skeleton key={j} className="h-12 flex-1" />
+            ))}
+          </div>
+        ))}
+
+        {/* Pagination skeleton */}
+        <div className="flex justify-end gap-2">
+          <Skeleton className="h-10 w-24" />
+          <Skeleton className="h-10 w-10" />
+          <Skeleton className="h-10 w-10" />
+          <Skeleton className="h-10 w-24" />
+        </div>
       </section>
     </div>
   );

@@ -1,11 +1,13 @@
 "use server";
 
-import Instructor from "@/models/Instructor";
-import User from "@/models/User";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
+
+import Instructor from "@/models/Instructor";
+import User from "@/models/User";
 
 export async function getInstructors({ page = 1, limit = 5 }) {
   try {

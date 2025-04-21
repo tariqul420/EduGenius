@@ -1,8 +1,10 @@
 "use server";
-import Comments from "@/models/Comments";
 import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
+
 import dbConnect from "../dbConnect";
+
+import Comments from "@/models/Comments";
 
 export async function postComment({ blog, user, comment, path }) {
   try {
@@ -11,7 +13,7 @@ export async function postComment({ blog, user, comment, path }) {
     const newComment = Comments.create({
       blog: new mongoose.Types.ObjectId(blog),
       user: new mongoose.Types.ObjectId(user),
-      comment: comment,
+      comment,
     });
 
     revalidatePath(path);

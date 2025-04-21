@@ -1,10 +1,12 @@
 "use server";
 
-import InstructorInfo from "@/models/InstructorInfo";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
+
+import InstructorInfo from "@/models/InstructorInfo";
 
 // getInstructorInfo for admin
 export async function getInstructorInfo({
@@ -65,6 +67,7 @@ export async function getInstructorInfo({
       {
         $project: {
           student: {
+            _id: "$student._id",
             firstName: "$student.firstName",
             lastName: "$student.lastName",
             email: "$student.email",
@@ -224,7 +227,7 @@ export async function saveInstructorInfo({ data, path }) {
   }
 }
 
-export async function updateStudentStatus({ studentId, status }) {
+export async function updateStudentStatus({ studentId, newStatus }) {
   try {
     // Connect to the database
     await dbConnect();
@@ -239,7 +242,7 @@ export async function updateStudentStatus({ studentId, status }) {
     // Update InstructorInfo document
     const updatedDoc = await InstructorInfo.findOneAndUpdate(
       { student: objectId(studentId) },
-      { status },
+      { status: newStatus },
       { new: true, runValidators: true },
     );
 

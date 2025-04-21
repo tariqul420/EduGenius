@@ -59,7 +59,7 @@ function OurAchieve() {
       </div>
 
       {/* Image Grid */}
-      <div className="mx-auto mt-5 grid w-full grid-cols-2 gap-5 md:w-[600px]">
+      <div className="mx-auto mt-5 grid w-full grid-cols-2 gap-5 lg:w-[600px]">
         <div className="relative col-span-1 h-[150px] md:h-[180px]">
           <Image
             src="/hero-image-2.jpeg"

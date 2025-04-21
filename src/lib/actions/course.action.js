@@ -1,14 +1,16 @@
 "use server";
 
+import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
+
+import dbConnect from "../dbConnect";
+import { objectId } from "../utils";
+
 import Category from "@/models/Category";
 import Course from "@/models/Course";
 import Lesson from "@/models/Lesson";
 import Module from "@/models/Module";
 import Student from "@/models/Student";
-import { auth } from "@clerk/nextjs/server";
-import { revalidatePath } from "next/cache";
-import dbConnect from "../dbConnect";
-import { objectId } from "../utils";
 
 export async function getCourses({
   categorySlugs = [],
@@ -17,7 +19,6 @@ export async function getCourses({
   page = 1,
   limit = 10,
   sort,
-  instructor,
   excludeSlug,
 } = {}) {
   try {
@@ -37,7 +38,6 @@ export async function getCourses({
       // Match courses based on criteria
       {
         $match: {
-          ...(instructor && { instructor: objectId(instructor) }),
           ...(categoryIds.length > 0 && { category: { $in: categoryIds } }),
           ...(level && { level }),
           ...(search && {
@@ -70,7 +70,7 @@ export async function getCourses({
       // Lookup ratings
       {
         $lookup: {
-          from: "ratings",
+          from: "reviews",
           localField: "_id", // Assuming ratings references course by course _id
           foreignField: "course",
           as: "ratingsData",
@@ -135,7 +135,6 @@ export async function getCourses({
 
     // Count total documents matching the query
     const total = await Course.countDocuments({
-      ...(instructor && { instructor: objectId(instructor) }),
       ...(categoryIds.length > 0 && { category: { $in: categoryIds } }),
       ...(level && { level }),
       ...(search && {
@@ -162,7 +161,7 @@ export async function getCourseBySlug(slug) {
 
     const courses = await Course.aggregate([
       {
-        $match: { slug: slug },
+        $match: { slug },
       },
       {
         $lookup: {
@@ -182,7 +181,7 @@ export async function getCourseBySlug(slug) {
       },
       {
         $lookup: {
-          from: "ratings",
+          from: "reviews",
           localField: "_id",
           foreignField: "course",
           as: "ratingsData",
@@ -252,7 +251,6 @@ export async function createCourse({ data, path }) {
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
     if (!userId) {
       throw new Error("User not authenticated");
@@ -276,7 +274,6 @@ export async function updateCourse({ courseId, data, path }) {
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
     if (!userId) {
       throw new Error("User not authenticated");
@@ -289,6 +286,7 @@ export async function updateCourse({ courseId, data, path }) {
     );
 
     revalidatePath(path);
+
     return JSON.parse(JSON.stringify(updatedCourse));
   } catch (error) {
     console.error("Error updating course:", error);
@@ -537,7 +535,7 @@ export async function getCourseAdminInstructor({
       // Lookup ratings
       {
         $lookup: {
-          from: "ratings",
+          from: "reviews",
           localField: "_id",
           foreignField: "course",
           as: "ratingsData",
@@ -559,7 +557,7 @@ export async function getCourseAdminInstructor({
           },
           totalRevenue: {
             $multiply: [
-              { $size: { $ifNull: ["$students", []] } }, // Number of students
+              { $size: { $ifNull: ["$students", []] } },
               {
                 $multiply: [
                   { $ifNull: ["$price", 0] }, // Course price

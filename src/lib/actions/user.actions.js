@@ -1,7 +1,8 @@
 "use server";
 
-import User from "@/models/User";
 import dbConnect from "../dbConnect";
+
+import User from "@/models/User";
 
 export async function createUser(userData) {
   try {

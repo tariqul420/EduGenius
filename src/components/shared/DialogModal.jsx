@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import {
   Dialog,
   DialogContent,

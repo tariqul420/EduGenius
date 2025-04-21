@@ -1,4 +1,14 @@
+/* eslint-disable no-shadow */
 "use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ImageUp } from "lucide-react";
+import { CldUploadWidget } from "next-cloudinary";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 import CategoryForm from "@/components/shared/CategoryForm";
 import { Button } from "@/components/ui/button";
@@ -21,15 +31,6 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { getCategory } from "@/lib/actions/category.action";
 import { createCourse, updateCourse } from "@/lib/actions/course.action";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ImageUp } from "lucide-react";
-import { CldUploadWidget } from "next-cloudinary";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 
 const formSchema = z.object({
   title: z
@@ -63,8 +64,8 @@ const formSchema = z.object({
 
 export default function CourseForm({ course }) {
   const [categories, setCategories] = useState([]);
-
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const router = useRouter();
 
   // Get a specific query parameter
@@ -93,13 +94,13 @@ export default function CourseForm({ course }) {
         updateCourse({
           courseId: course._id,
           data: values,
-          path: "/instructor/courses",
+          path: pathname,
         }),
         {
           loading: "Updating course...",
-          success: (data) => {
+          success: () => {
+            router.push(pathname, { scroll: false });
             router.refresh();
-            router.push("/instructor/courses/");
             form.reset();
             return "Course updated!";
           },
@@ -112,12 +113,12 @@ export default function CourseForm({ course }) {
       );
     } else {
       toast.promise(
-        createCourse({ data: values, path: "/instructor/courses" }),
+        createCourse({ data: values, path: pathname }),
         {
           loading: "Creating course...",
-          success: (data) => {
+          success: () => {
+            router.push(pathname, { scroll: false });
             router.refresh();
-            router.push("/instructor/courses");
             form.reset();
             return "Course created successfully!";
           },
@@ -183,9 +184,9 @@ export default function CourseForm({ course }) {
                     <CategoryForm />
 
                     {/* Map through categories and create SelectItem for each category */}
-                    {categories.map((category) => (
-                      <SelectItem key={category._id} value={category._id}>
-                        {category.name}
+                    {categories.map((cate) => (
+                      <SelectItem key={cate._id} value={cate._id}>
+                        {cate.name}
                       </SelectItem>
                     ))}
                     {/* Example static categories */}
@@ -209,7 +210,7 @@ export default function CourseForm({ course }) {
                   <CldUploadWidget
                     uploadPreset="edu-genius"
                     onSuccess={(result) => {
-                      const info = result.info;
+                      const { info } = result;
                       form.setValue("thumbnail", info.secure_url); // Set the thumbnail URL in the form state
                     }}
                     options={{

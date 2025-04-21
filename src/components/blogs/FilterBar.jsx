@@ -1,6 +1,6 @@
 "use client";
-import FilterItem from "@/components/blogs/FilterItem";
 import { TableOfContents } from "lucide-react";
+
 import SearchInput from "../shared/SearchInput";
 import {
   Sheet,
@@ -9,6 +9,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
+
+import FilterItem from "@/components/blogs/FilterItem";
 
 const FilterBar = ({ blogs, total, categories }) => {
   return (

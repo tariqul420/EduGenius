@@ -11,6 +11,12 @@ const nextConfig = {
     }
     return config;
   },
+  turbopack: {
+    resolveAlias: {
+      underscore: "lodash",
+      mocha: { browser: "mocha/browser-entry.js" },
+    },
+  },
   images: {
     remotePatterns: [
       {

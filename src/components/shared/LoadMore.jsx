@@ -1,9 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { formUrlQuery } from "@/lib/utils";
 import { MoveRight } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+
+import { Button } from "@/components/ui/button";
+import { formUrlQuery } from "@/lib/utils";
 
 export default function LoadMore() {
   const router = useRouter();

@@ -20,10 +20,10 @@ const SocialIcon = [
 
 const Footer = () => {
   return (
-    <footer className="dark:to-dark-bg dark:from-dark-bg dark:text-light-bg border-t bg-gradient-to-r py-5 px-5 text-black md:py-10">
+    <footer className="dark:to-dark-bg dark:from-dark-bg dark:text-light-bg border-t bg-gradient-to-r py-5 px-2 md:px-5 text-black md:py-10">
       <div className="container mx-auto lg:max-w-6xl ">
         {/* Top Section */}
-        <div className="flex flex-col px-5 lg:flex-row lg:px-0">
+        <div className="flex flex-col px-2 md:px-5 lg:flex-row lg:px-0">
           {/* EduGenius & Description */}
           <div className="lg:w-1/2">
             <div className="flex items-center justify-center gap-2 text-3xl lg:justify-start">
@@ -54,7 +54,7 @@ const Footer = () => {
           </div>
         </div>
         {/* Bottom Section */}
-        <div className="mt-10 flex flex-col items-start px-5 md:flex-row md:gap-8 lg:justify-between lg:p-0">
+        <div className="mt-10 flex flex-col items-start px-1.5 md:px-5 md:flex-row md:gap-8 lg:justify-between lg:p-0">
           <div className="">
             {/* Social Icons */}
             <div className="flex items-center gap-3 text-4xl">
