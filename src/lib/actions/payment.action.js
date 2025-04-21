@@ -90,3 +90,135 @@ export async function savePayment({ paymentData }) {
     };
   }
 }
+
+export async function getPaymentHistory({
+  page = 1,
+  limit = 10,
+  search = "",
+} = {}) {
+  try {
+    await dbConnect();
+
+    const { sessionClaims } = await auth();
+    const role = sessionClaims?.role;
+    const studentId = sessionClaims?.userId;
+
+    if (role !== "student") {
+      throw new Error("Don't have permission to perform this action!");
+    }
+
+    const skip = (page - 1) * limit;
+
+    // Create search match stage
+    const searchMatch = search
+      ? {
+          $match: {
+            "course.title": { $regex: search, $options: "i" },
+          },
+        }
+      : { $match: {} };
+
+    // Execute main aggregation for payments
+    const payments = await Payment.aggregate([
+      // Match payments by student
+      {
+        $match: {
+          student: objectId(studentId),
+        },
+      },
+      // Lookup course data
+      {
+        $lookup: {
+          from: "courses",
+          localField: "course",
+          foreignField: "_id",
+          as: "course",
+        },
+      },
+      // Unwind course array
+      {
+        $unwind: "$course",
+      },
+      // Lookup instructor data
+      {
+        $lookup: {
+          from: "instructors",
+          localField: "course.instructor",
+          foreignField: "_id",
+          as: "instructor",
+        },
+      },
+      // Unwind instructor array
+      {
+        $unwind: "$instructor",
+      },
+      searchMatch,
+      // Project only required fields
+      {
+        $project: {
+          transactionId: 1,
+          "course.title": 1,
+          "course.slug": 1,
+          "course.price": 1,
+          "course.discount": 1,
+          "instructor.firstName": 1,
+          "instructor.lastName": 1,
+          "instructor.slug": 1,
+        },
+      },
+      // Pagination
+      {
+        $sort: { createdAt: -1 },
+      },
+      {
+        $skip: skip,
+      },
+      {
+        $limit: limit,
+      },
+    ]);
+
+    // Get total count using aggregation
+    const [totalCount] = await Payment.aggregate([
+      {
+        $match: {
+          student: objectId(studentId),
+        },
+      },
+      {
+        $lookup: {
+          from: "courses",
+          localField: "course",
+          foreignField: "_id",
+          as: "course",
+        },
+      },
+      {
+        $unwind: "$course",
+      },
+      searchMatch,
+      {
+        $count: "total",
+      },
+    ]);
+
+    const totalPayments = totalCount?.total || 0;
+    const totalPages = Math.ceil(totalPayments / limit);
+
+    return JSON.parse(
+      JSON.stringify({
+        payments,
+        pagination: {
+          currentPage: page,
+          totalPages,
+          totalItems: totalPayments,
+          hasNextPage: page < totalPages,
+          hasPrevPage: page > 1,
+        },
+      }),
+    );
+  } catch (error) {
+    console.error("Error fetching payment history:", error);
+    throw new Error("Failed to fetch payment history");
+  }
+}
