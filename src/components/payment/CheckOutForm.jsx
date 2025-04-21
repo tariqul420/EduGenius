@@ -1,13 +1,15 @@
 "use client";
 
-import { savePayment, savePaymentIntent } from "@/lib/actions/payment.action";
 import { useUser } from "@clerk/nextjs";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { AlertTriangle, LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+
 import { AlertDialogCancel } from "../ui/alert-dialog";
+
+import { savePayment, savePaymentIntent } from "@/lib/actions/payment.action";
 
 export default function CheckOutForm({ course, userId, onPaymentSuccess }) {
   const { user } = useUser();
@@ -42,6 +44,7 @@ export default function CheckOutForm({ course, userId, onPaymentSuccess }) {
         setClientSecret(paymentInfo?.client_secret);
       } catch (err) {
         setError("Failed to initialize payment");
+        throw err;
       }
     };
 
@@ -50,8 +53,8 @@ export default function CheckOutForm({ course, userId, onPaymentSuccess }) {
     }
   }, [price, userId, courseId, discount, discountedPrice]);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setPaymentLoading(true);
     setError("");
 
@@ -81,7 +84,7 @@ export default function CheckOutForm({ course, userId, onPaymentSuccess }) {
       const { paymentIntent, error: confirmError } =
         await stripe.confirmCardPayment(clientSecret, {
           payment_method: {
-            card: card,
+            card,
             billing_details: {
               email: user?.primaryEmailAddress?.emailAddress,
               name: user?.fullName,
@@ -114,7 +117,7 @@ export default function CheckOutForm({ course, userId, onPaymentSuccess }) {
           position: "top-center",
         });
 
-        router.push("/student/course");
+        router.push("/student/courses");
       }
     } catch (err) {
       setError(err.message);

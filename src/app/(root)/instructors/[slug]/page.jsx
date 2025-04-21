@@ -1,6 +1,3 @@
-import AvgRating from "@/components/shared/AvgRating";
-import InstructorTab from "@/components/shared/InstructorTab";
-import { getInstructorBySlug } from "@/lib/actions/instructor.action";
 import {
   BookOpenText,
   Facebook,
@@ -10,6 +7,10 @@ import {
   UsersRound,
 } from "lucide-react";
 import Image from "next/image";
+
+import AvgRating from "@/components/shared/AvgRating";
+import InstructorTab from "@/components/shared/InstructorTab";
+import { getInstructorBySlug } from "@/lib/actions/instructor.action";
 
 export default async function Instructor({ params }) {
   const { slug } = await params;
@@ -21,7 +22,7 @@ export default async function Instructor({ params }) {
   return (
     <section>
       <div className="container mx-auto px-4 py-10 lg:max-w-6xl">
-        <div className="grid w-fit grid-cols-1 gap-4 overflow-hidden rounded-2xl bg-white shadow-md lg:grid-cols-3 dark:bg-black">
+        <div className="mx-auto grid w-fit grid-cols-1 gap-4 overflow-hidden rounded-2xl bg-white shadow-md sm:mx-0 lg:grid-cols-3 dark:bg-black">
           {/* Profile Picture */}
           <div className="dark:bg-dark-bg w-fit bg-gray-50 p-2.5">
             <Image

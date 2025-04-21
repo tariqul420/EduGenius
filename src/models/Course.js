@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
+
 import Assignment from "./Assignment";
 import Certificate from "./Certificate";
 import Instructor from "./Instructor";
@@ -20,7 +21,7 @@ const courseSchema = new mongoose.Schema(
       ref: "User",
       required: true,
       validate: {
-        validator: async function (value) {
+        async validator(value) {
           const user = await mongoose.model("User").findById(value);
           return user && user.role === "instructor";
         },
@@ -47,7 +48,7 @@ const courseSchema = new mongoose.Schema(
         ref: "User",
         required: true,
         validate: {
-          validator: async function (value) {
+          async validator(value) {
             const user = await mongoose.model("User").findById(value);
             return user && user.role === "student";
           },

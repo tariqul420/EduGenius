@@ -1,8 +1,9 @@
 "use client";
-import useProvider from "@/hooks/useProvider";
 import CourseCard from "../shared/CourseCard";
 import LoadMore from "../shared/LoadMore";
 import EmptyPage from "../shared/NoResult";
+
+import useProvider from "@/hooks/useProvider";
 
 export default function CoursesContent({ courses = [], hasNextPage }) {
   const { isGridCol } = useProvider();
@@ -18,9 +19,7 @@ export default function CoursesContent({ courses = [], hasNextPage }) {
           <CourseCard key={course._id} course={course} />
         ))}
       </div>
-        {
-          courses.length === 0 && <EmptyPage />
-        }
+      {courses.length === 0 && <EmptyPage />}
       {hasNextPage && <LoadMore />}
     </section>
   );

@@ -1,19 +1,21 @@
 "use server";
 
-import Quiz from "@/models/Quiz";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
 
-export async function createQuiz({ courseId, data }) {
+import Quiz from "@/models/Quiz";
+
+export async function createQuiz({ courseId, data, path }) {
   try {
     await dbConnect();
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
+
     if (!userId) {
       throw new Error("User not authenticated");
     }
@@ -23,6 +25,10 @@ export async function createQuiz({ courseId, data }) {
       instructor: objectId(userId),
       course: courseId,
     });
+
+    // Revalidate the path before returning
+    revalidatePath(path);
+
     return JSON.parse(
       JSON.stringify({
         success: true,
@@ -41,7 +47,6 @@ export async function updateQuiz({ quizId, data, path }) {
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
     if (!userId) {
       throw new Error("User not authenticated");
@@ -62,7 +67,7 @@ export async function updateQuiz({ quizId, data, path }) {
   }
 }
 
-export async function deleteQuiz(quizId) {
+export async function deleteQuiz(quizId, path) {
   try {
     await dbConnect();
 
@@ -70,6 +75,7 @@ export async function deleteQuiz(quizId) {
     const { sessionClaims } = await auth();
 
     const userId = sessionClaims?.userId;
+    const role = sessionClaims?.role;
     if (!userId) {
       throw new Error("User not authenticated");
     }
@@ -79,12 +85,17 @@ export async function deleteQuiz(quizId) {
       throw new Error("Quiz not found");
     }
 
-    if (String(quiz.instructor) !== String(userId)) {
+    if (String(quiz.instructor) !== String(userId) && role !== "admin") {
       throw new Error("You are not authorized to delete this quiz");
     }
 
     await Quiz.findByIdAndDelete(quizId);
-    revalidatePath(path);
+
+    revalidatePath(
+      role === "admin"
+        ? `/admin/courses/${path}`
+        : `/instructor/courses/${path}`,
+    );
     return { success: true };
   } catch (error) {
     console.error("Error deleting quiz:", error);
@@ -100,6 +111,7 @@ export async function getQuizById(courseId) {
     const { sessionClaims } = await auth();
 
     const userId = sessionClaims?.userId;
+    const role = sessionClaims?.role;
     if (!userId) {
       throw new Error("User not authenticated");
     }
@@ -109,8 +121,8 @@ export async function getQuizById(courseId) {
       return null;
     }
 
-    if (String(quiz.instructor) !== String(userId)) {
-      throw new Error("You are not authorized to view this quiz");
+    if (String(quiz.instructor) !== String(userId) && role !== "admin") {
+      throw new Error("You are not authorized to delete this quiz");
     }
 
     return JSON.parse(JSON.stringify(quiz));
@@ -120,7 +132,8 @@ export async function getQuizById(courseId) {
   }
 }
 
-export async function getQuizzes({ page = 1, limit = 10 } = {}) {
+// get Quizzes by instructors
+export async function getQuizzes({ page = 1, limit = 10, search = "" } = {}) {
   try {
     await dbConnect();
 
@@ -131,6 +144,15 @@ export async function getQuizzes({ page = 1, limit = 10 } = {}) {
       throw new Error("User not authenticated");
     }
 
+    // Create search match stage
+    const searchMatch = search
+      ? {
+          $match: {
+            title: { $regex: search, $options: "i" },
+          },
+        }
+      : { $match: {} };
+
     const aggregationPipeline = [
       // Match quizzes by instructor
       {
@@ -138,6 +160,8 @@ export async function getQuizzes({ page = 1, limit = 10 } = {}) {
           instructor: objectId(userId),
         },
       },
+      // Apply search filter on title
+      searchMatch,
       // Lookup course data
       {
         $lookup: {
@@ -171,8 +195,12 @@ export async function getQuizzes({ page = 1, limit = 10 } = {}) {
           title: 1,
           "course.title": 1,
           "course.category.name": 1,
-          studentsCount: { $size: "$course.students" },
+          studentsCount: { $size: { $ifNull: ["$course.students", []] } },
         },
+      },
+      // Sort by title for consistent ordering
+      {
+        $sort: { title: 1 },
       },
       // Skip for pagination
       {
@@ -184,13 +212,14 @@ export async function getQuizzes({ page = 1, limit = 10 } = {}) {
       },
     ];
 
-    // Get total count using the same match condition
+    // Get total count using the same match and search conditions
     const [totalCount] = await Quiz.aggregate([
       {
         $match: {
           instructor: objectId(userId),
         },
       },
+      searchMatch,
       {
         $count: "total",
       },

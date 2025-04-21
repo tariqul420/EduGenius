@@ -1,17 +1,22 @@
+import { auth } from "@clerk/nextjs/server";
+
 import DataTable from "@/components/dashboard/data-table";
 import BlogForm from "@/components/dashboard/instructor/BlogForm";
 import { blogColumns } from "@/constant/columns";
 import { getBlogsByInstructor } from "@/lib/actions/blog.action";
 import { getCategory } from "@/lib/actions/category.action";
-import { auth } from "@clerk/nextjs/server";
 
 export default async function MyBlogs({ searchParams }) {
-  const { pageSize, pageIndex } = await searchParams;
+  const { pageSize, pageIndex, search } = await searchParams;
 
   const { sessionClaims } = await auth();
   const categories = await getCategory();
 
-  const { blogs, pagination } = await getBlogsByInstructor();
+  const { blogs, pagination } = await getBlogsByInstructor({
+    limit: Number(pageSize || 10),
+    page: Number(pageIndex || 1),
+    search,
+  });
 
   const pathname = "/instructor/my-blogs";
 

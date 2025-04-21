@@ -1,10 +1,12 @@
 "use server";
 
-import Review from "@/models/Review";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
+
+import Review from "@/models/Review";
 
 export async function saveReview({ reviewData }) {
   try {
@@ -79,7 +81,7 @@ export async function updateReview({ rating, review, course }) {
     const result = await Review.findOneAndUpdate(
       {
         student: userId,
-        course: course,
+        course,
       },
       {
         $set: {

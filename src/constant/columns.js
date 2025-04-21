@@ -1,5 +1,10 @@
 "use client";
 
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { format } from "date-fns";
+import { Monitor, MonitorPlay, MoreHorizontal } from "lucide-react";
+import Image from "next/image";
+
 import BecomeInstructorInfoModal from "@/components/dashboard/admin/BecomeInstructorInfoModal";
 import { EditCategoryModal } from "@/components/dashboard/admin/EditCategoryModal";
 import TerminateInstructor from "@/components/dashboard/admin/TerminateInstructor";
@@ -21,12 +26,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import { format } from "date-fns";
-import { Monitor, MonitorPlay, MoreHorizontal } from "lucide-react";
-import Image from "next/image";
 
 export const categoryColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
   {
     accessorKey: "name",
     header: "name",
@@ -482,10 +485,24 @@ export const instructorCourseColumns = [
         >
           $
           {row.original.price > 0 ? (
-            row.original.price
+            row.original?.price?.toFixed(2)
           ) : (
             <span className="text-green-500">Free</span>
           )}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "totalRevenue",
+    header: "Revenue",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
+          ${row.original?.totalRevenue?.toFixed(2)}
         </Badge>
       </div>
     ),
@@ -499,7 +516,7 @@ export const instructorCourseColumns = [
           variant="outline"
           className="text-muted-foreground rounded px-1.5 py-1"
         >
-          {row.original.averageRating.toFixed(1)} / 5
+          {row.original.averageRating} / 5
         </Badge>
       </div>
     ),
@@ -662,15 +679,15 @@ export const studentAssignmentColumns = [
       </Badge>
     ),
   },
-  {
-    id: "action",
-    header: "Action",
-    cell: ({ row }) => (
-      <div className="flex justify-end">
-        <Button variant="default">Enroll</Button>
-      </div>
-    ),
-  },
+  // {
+  //   id: "action",
+  //   header: "Action",
+  //   cell: ({ row }) => (
+  //     <div className="flex justify-end">
+  //       <Button variant="default">Enroll</Button>
+  //     </div>
+  //   ),
+  // },
 ];
 
 export const studentQuizColumns = [
@@ -719,7 +736,7 @@ export const studentQuizColumns = [
     header: "Total Mark",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.totalQuiz}
+        {row.original.totalMark}
       </Badge>
     ),
   },
@@ -741,15 +758,15 @@ export const studentQuizColumns = [
       </Badge>
     ),
   },
-  {
-    id: "action",
-    header: "Action",
-    cell: ({ row }) => (
-      <div className="flex justify-end">
-        <Button variant="default">Enroll</Button>
-      </div>
-    ),
-  },
+  // {
+  //   id: "action",
+  //   header: "Action",
+  //   cell: ({ row }) => (
+  //     <div className="flex justify-end">
+  //       <Button variant="default">Enroll</Button>
+  //     </div>
+  //   ),
+  // },
 ];
 
 export const becomeInstructorsColumns = [
@@ -786,7 +803,7 @@ export const becomeInstructorsColumns = [
         variant="outline"
         className="text-muted-foreground rounded px-1.5 py-1"
       >
-        {row.original.phone}
+        {row.original?.phone ? row.original?.phone : "Not Submitted"}
       </Badge>
     ),
   },
@@ -798,7 +815,7 @@ export const becomeInstructorsColumns = [
         variant="outline"
         className="text-muted-foreground rounded px-1.5 py-1"
       >
-        {row.original.profession}
+        {row.original?.profession ? row.original?.profession : "Not Submitted"}
       </Badge>
     ),
   },
@@ -810,8 +827,8 @@ export const becomeInstructorsColumns = [
         variant="outline"
         className={`text-muted-foreground rounded px-1.5 py-1 ${
           row.original.status === "approved" &&
-          "border-green-600 text-green-600"
-        } ${row.original.status === "rejected" && "border-red-600 text-red-600"}`}
+          "dark:bg-dark-bg bg-light-bg/70 border text-green-600"
+        } ${row.original.status === "rejected" && "dark:bg-dark-bg bg-light-bg/70 border text-red-600"}`}
       >
         {row.original.status}
       </Badge>
@@ -934,7 +951,7 @@ export const adminInstructorColumns = [
         variant="outline"
         className="text-muted-foreground rounded px-1.5 py-1"
       >
-        ${row.original.totalRevenue}
+        ${row.original?.totalRevenue?.toFixed(2)}
       </Badge>
     ),
   },
@@ -989,5 +1006,150 @@ export const adminInstructorColumns = [
         </div>
       );
     },
+  },
+];
+
+export const adminCourseColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
+  {
+    accessorKey: "title",
+    header: "Title",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original.title}
+      </h1>
+    ),
+    filterFn: "includesString",
+    enableHiding: false,
+  },
+  {
+    accessorKey: "name",
+    header: "	Name & Mail",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-2">
+        <Avatar>
+          <AvatarImage
+            src={row.original?.instructor?.profilePicture}
+            alt={row.original?.instructor?.firstName}
+          />
+          <AvatarFallback>{row.original?.instructor?.fileName}</AvatarFallback>
+        </Avatar>
+
+        <div>
+          <h1 className="max-w-xs truncate text-sm font-medium">
+            {row.original?.instructor?.firstName}{" "}
+            {row.original?.instructor?.lastName}
+          </h1>
+          <p className="text-muted-foreground text-sm">
+            {row.original?.instructor?.email}
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "category.name",
+    header: "Category",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
+          {row.original.category.name}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "price",
+    header: "Price",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
+          $
+          {row.original.price > 0 ? (
+            row.original?.price?.toFixed(2)
+          ) : (
+            <span className="text-green-500">Free</span>
+          )}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "totalRevenue",
+    header: "Revenue",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
+          ${row.original?.totalRevenue?.toFixed(2)}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => <TableContextMenu row={row} />,
+  },
+];
+
+export const adminStudentColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original.firstName} {row.original.lastName}
+      </h1>
+    ),
+    filterFn: "includesString",
+    enableHiding: false,
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {row.original.email}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "courseCount",
+    header: "CourseCount",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {row.original.courseCount}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created At",
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        className="text-muted-foreground rounded px-1.5 py-1"
+      >
+        {format(new Date(row.original.createdAt), "PPP")}
+      </Badge>
+    ),
   },
 ];

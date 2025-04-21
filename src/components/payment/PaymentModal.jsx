@@ -1,4 +1,11 @@
 "use client";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import Link from "next/link";
+import { useState } from "react";
+
+import CheckOutForm from "./CheckOutForm";
+
 import {
   AlertDialog,
   AlertDialogContent,
@@ -7,11 +14,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import Link from "next/link";
-import { useState } from "react";
-import CheckOutForm from "./CheckOutForm";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY);
 export default function PaymentModal({ course, user }) {
@@ -27,7 +29,7 @@ export default function PaymentModal({ course, user }) {
         <AlertDialogTrigger asChild>
           {alreadyPayment ? (
             <Link
-              href={`/student/courses`}
+              href={"/student/courses"}
               className="bg-main hover:bg-main mt-5 inline-block cursor-pointer rounded px-4 py-1.5 text-white transition-colors"
               variant="outline"
             >

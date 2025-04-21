@@ -21,9 +21,9 @@ export default async function Course({ searchParams }) {
     hasNextPage = false,
   } = await getCourses({
     categorySlugs: categoryParams,
-    level: level,
-    search: search,
-    sort: sort,
+    level,
+    search,
+    sort,
     page: Number(page) || 1,
     limit: 4,
   });

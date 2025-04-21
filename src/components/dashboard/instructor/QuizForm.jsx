@@ -1,5 +1,12 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Minus, Plus } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -12,12 +19,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { createQuiz, updateQuiz } from "@/lib/actions/quiz.action";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Minus, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useFieldArray, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 
 const formSchema = z.object({
   title: z
@@ -51,9 +52,8 @@ const formSchema = z.object({
   ),
 });
 
-export default function QuizForm({ quiz, courseId, slug }) {
-  const router = useRouter();
-
+export default function QuizForm({ quiz, courseId }) {
+  const pathname = usePathname();
   // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -85,13 +85,11 @@ export default function QuizForm({ quiz, courseId, slug }) {
         updateQuiz({
           quizId: quiz._id,
           data: values,
-          path: `/instructor/courses/${slug}`,
+          path: pathname,
         }),
         {
           loading: "Updating quiz...",
           success: () => {
-            router.push(`/instructor/courses/${slug}`, { scroll: false }); // Redirect to the courses page
-            router.refresh(`/instructor/courses/${slug}`); // Refresh the page to reflect changes
             return "Quiz updated successfully!";
           },
           error: (error) => error.message,
@@ -102,13 +100,12 @@ export default function QuizForm({ quiz, courseId, slug }) {
         createQuiz({
           courseId,
           data: values,
+          path: pathname,
         }),
         {
           loading: "Creating quiz...",
           success: (data) => {
             if (data.success) {
-              router.push(`/instructor/courses/${slug}`, { scroll: false }); // Redirect to the courses page
-              router.refresh(`/instructor/courses/${slug}`); // Refresh the page to reflect changes
               return "Quiz created successfully!";
             } else {
               throw new Error(data.message || "Failed to create quiz.");
@@ -189,6 +186,7 @@ export default function QuizForm({ quiz, courseId, slug }) {
                           <FormField
                             control={form.control}
                             name={`questions.${index}.options.${optionIndex}.isCorrect`} // Bind to the correct field
+                            // eslint-disable-next-line no-shadow
                             render={({ field, formState }) => (
                               <FormItem className="flex items-center gap-2">
                                 <FormControl>

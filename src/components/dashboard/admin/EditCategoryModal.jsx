@@ -1,5 +1,12 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,12 +26,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { updateCategory } from "@/lib/actions/category.action";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import * as z from "zod";
 
 // Define the form schema using Zod
 const formSchema = z.object({
@@ -32,7 +33,7 @@ const formSchema = z.object({
 });
 
 export function EditCategoryModal({ category }) {
-  const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const router = useRouter();
 
   // Initialize the form with React Hook Form and Zod
@@ -53,11 +54,11 @@ export function EditCategoryModal({ category }) {
           return "Information saved successfully!";
         },
         error: (err) => {
-          return "Error saving information. Please try again.";
+          throw new Error("Error saving information. Please try again.", err);
         },
       });
 
-      setOpen(false);
+      setOpenModal(false);
     } catch (error) {
       console.error(error);
       throw error;
@@ -65,18 +66,18 @@ export function EditCategoryModal({ category }) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={openModal} onOpenChange={setOpenModal}>
       <Button
         variant="ghost"
         className="w-full text-left"
-        onClick={() => setOpen(true)}
+        onClick={() => setOpenModal(true)}
       >
         Edit Category
       </Button>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className={`text-center`}>Edit Category</DialogTitle>
-          <DialogDescription className={`text-center`}>
+          <DialogTitle className={"text-center"}>Edit Category</DialogTitle>
+          <DialogDescription className={"text-center"}>
             Modify the category details below. Changes can be saved or canceled.
           </DialogDescription>
         </DialogHeader>
@@ -99,7 +100,7 @@ export function EditCategoryModal({ category }) {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => setOpen(false)}
+                onClick={() => setOpenModal(false)}
               >
                 Cancel
               </Button>

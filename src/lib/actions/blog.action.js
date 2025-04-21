@@ -1,12 +1,14 @@
 "use server";
-import Blog from "@/models/Blog";
-import Category from "@/models/Category";
-import Comments from "@/models/Comments";
 import { auth } from "@clerk/nextjs/server";
 import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
+
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
+
+import Blog from "@/models/Blog";
+import Category from "@/models/Category";
+import Comments from "@/models/Comments";
 
 export async function createBlog({ blog, path }) {
   try {
@@ -137,7 +139,7 @@ export async function getBlogBySlug(slug) {
   try {
     await dbConnect();
 
-    const blog = await Blog.findOne({ slug: slug })
+    const blog = await Blog.findOne({ slug })
       .populate({
         path: "author",
         select: "_id firstName lastName email role profilePicture slug",
@@ -159,7 +161,11 @@ export async function getBlogBySlug(slug) {
   }
 }
 
-export async function getBlogsByInstructor({ page = 1, limit = 10 } = {}) {
+export async function getBlogsByInstructor({
+  page = 1,
+  limit = 10,
+  search = "",
+} = {}) {
   try {
     await dbConnect();
 
@@ -168,20 +174,31 @@ export async function getBlogsByInstructor({ page = 1, limit = 10 } = {}) {
     const userId = sessionClaims?.userId;
 
     if (userRole !== "instructor") {
-      throw new Error("Don't have permission perform this action!");
+      throw new Error("Don't have permission to perform this action!");
     }
 
+    const skip = (page - 1) * limit;
+
+    // Create search query
+    const searchQuery = search
+      ? { title: { $regex: search, $options: "i" } }
+      : {};
+
     // Find blogs with pagination
-    const blogs = await Blog.find({ author: userId })
+    const blogs = await Blog.find({
+      author: userId,
+      ...searchQuery,
+    })
       .populate("category", "name")
       .sort({ createdAt: -1 })
-      .skip((page - 1) * limit)
+      .skip(skip)
       .limit(limit)
       .lean();
 
     // Get total count using the same match condition
-    const totalBlogs = await Blog.estimatedDocumentCount({
+    const totalBlogs = await Blog.countDocuments({
       author: userId,
+      ...searchQuery,
     });
 
     const totalPages = Math.ceil(totalBlogs / limit);
@@ -200,7 +217,7 @@ export async function getBlogsByInstructor({ page = 1, limit = 10 } = {}) {
     );
   } catch (error) {
     console.error("Error fetching blogs by user:", error);
-    return { blogs: [], total: 0, hasNextPage: false };
+    throw new Error("Failed to fetch blogs");
   }
 }
 

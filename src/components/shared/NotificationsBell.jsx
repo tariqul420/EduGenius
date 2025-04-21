@@ -1,12 +1,13 @@
+import { Bell } from "lucide-react";
+
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Bell } from "lucide-react";
 
-export default function Notification() {
+export default function NotificationsBell() {
   return (
     <Popover>
       <PopoverTrigger className="relative flex cursor-pointer items-center gap-2 rounded-full border p-2 text-3xl shadow">

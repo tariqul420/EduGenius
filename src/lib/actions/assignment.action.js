@@ -1,18 +1,19 @@
 "use server";
 
-import Assignment from "@/models/Assignment";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
 
-export async function createAssignment({ courseId, data }) {
+import Assignment from "@/models/Assignment";
+
+export async function createAssignment({ courseId, data, path }) {
   try {
     await dbConnect();
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
     if (!userId) {
       throw new Error("User not authenticated");
@@ -23,6 +24,8 @@ export async function createAssignment({ courseId, data }) {
       instructor: userId,
       course: courseId,
     });
+
+    revalidatePath(path);
 
     return { success: true, message: "Assignment created successfully." };
   } catch (error) {
@@ -37,7 +40,6 @@ export async function updateAssignment({ assignmentId, data, path }) {
 
     // Get the current logged-in user
     const { sessionClaims } = await auth();
-
     const userId = sessionClaims?.userId;
     if (!userId) {
       throw new Error("User not authenticated");
@@ -49,6 +51,7 @@ export async function updateAssignment({ assignmentId, data, path }) {
     }
 
     await Assignment.findByIdAndUpdate(assignmentId, data, { new: true });
+
     revalidatePath(path);
 
     return { success: true, message: "Assignment updated successfully." };
@@ -74,7 +77,13 @@ export async function getAssignmentById(courseId) {
   }
 }
 
-export async function getAssignment({ page = 1, limit = 10 } = {}) {
+// get assignment by instructor
+
+export async function getAssignment({
+  page = 1,
+  limit = 10,
+  search = "",
+} = {}) {
   try {
     await dbConnect();
 
@@ -85,6 +94,15 @@ export async function getAssignment({ page = 1, limit = 10 } = {}) {
       throw new Error("User not authenticated");
     }
 
+    // Create search match stage
+    const searchMatch = search
+      ? {
+          $match: {
+            title: { $regex: search, $options: "i" },
+          },
+        }
+      : { $match: {} };
+
     const aggregationPipeline = [
       // Match assignments by instructor
       {
@@ -92,6 +110,8 @@ export async function getAssignment({ page = 1, limit = 10 } = {}) {
           instructor: objectId(userId),
         },
       },
+      // Apply search filter on title
+      searchMatch,
       // Lookup course data
       {
         $lookup: {
@@ -127,9 +147,13 @@ export async function getAssignment({ page = 1, limit = 10 } = {}) {
           deadline: 1,
           "course.title": 1,
           "course.category.name": 1,
-          studentsCount: { $size: "$course.students" },
-          submissionsCount: { $size: "$submissions" },
+          studentsCount: { $size: { $ifNull: ["$course.students", []] } },
+          submissionsCount: { $size: { $ifNull: ["$submissions", []] } },
         },
+      },
+      // Sort by title for consistent ordering
+      {
+        $sort: { title: 1 },
       },
       // Skip for pagination
       {
@@ -141,13 +165,14 @@ export async function getAssignment({ page = 1, limit = 10 } = {}) {
       },
     ];
 
-    // Get total count using the same match condition
+    // Get total count using the same match and search conditions
     const [totalCount] = await Assignment.aggregate([
       {
         $match: {
           instructor: objectId(userId),
         },
       },
+      searchMatch,
       {
         $count: "total",
       },

@@ -1,7 +1,8 @@
 "use client"; // Error components must be Client Components
 
-import ErrorMessage from "@/components/shared/ErrorMessage";
 import { useEffect } from "react";
+
+import ErrorMessage from "@/components/shared/ErrorMessage";
 
 export default function Error({ error, reset }) {
   useEffect(() => {

@@ -5,9 +5,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-
 import {
   Form,
   FormControl,
@@ -16,6 +13,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -29,6 +28,7 @@ const formSchema = z.object({
   }),
 });
 
+// eslint-disable-next-line no-unused-vars
 export default function InstructorContactForm({ email }) {
   // 1. Define your form.
   const form = useForm({
@@ -41,6 +41,7 @@ export default function InstructorContactForm({ email }) {
   });
 
   // 2. Define a submit handler.
+  // eslint-disable-next-line no-unused-vars
   function onSubmit(values) {
     // Do something with the form values.
     // console.log(values);
@@ -50,43 +51,48 @@ export default function InstructorContactForm({ email }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex-1 space-y-8 border p-8"
+        className="bg-light-bg dark:bg-dark-bg flex-1 space-y-8 rounded-lg p-8"
       >
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Name"
-                  {...field}
-                  className="w-full rounded-none px-4 py-6"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Email"
-                  {...field}
-                  className="w-full rounded-none px-4 py-6"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="flex w-full flex-col items-center gap-4 md:flex-row">
+          <div className="w-full md:flex-1">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Name"
+                      {...field}
+                      className="w-full rounded-md bg-white px-4 py-6"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="w-full md:flex-1">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Email"
+                      {...field}
+                      className="w-full rounded-md bg-white px-4 py-6"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
 
         <FormField
           control={form.control}
@@ -98,7 +104,7 @@ export default function InstructorContactForm({ email }) {
                 <Textarea
                   placeholder="Type your message here"
                   {...field}
-                  className="w-full rounded-none px-4 py-6"
+                  className="w-full rounded-md bg-white px-4 py-6 md:h-30"
                 />
               </FormControl>
               <FormMessage />
@@ -107,7 +113,7 @@ export default function InstructorContactForm({ email }) {
         />
         <Button
           type="submit"
-          className="bg-main w-full rounded-none px-4 py-6 text-sm text-white hover:text-black"
+          className="bg-main hover:text-main w-full cursor-pointer rounded px-4 py-6 text-sm text-white hover:bg-white"
         >
           Send Message
         </Button>

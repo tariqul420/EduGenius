@@ -26,21 +26,23 @@ import {
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-export const description = "An interactive area chart";
+export const description = "An interactive area chart with revenue";
 
 const chartConfig = {
   visitors: {
     label: "Selling",
   },
-
   desktop: {
-    label: "sold",
-    color: "#673de5",
+    label: "Courses Sold",
+    color: "#8B5CF6",
   },
-
   mobile: {
-    label: "price",
-    color: "#ed187b",
+    label: "Total Price",
+    color: "#EC4899",
+  },
+  revenue: {
+    label: "Total Revenue",
+    color: "#10B981", // New color for revenue (emerald green)
   },
 };
 
@@ -94,7 +96,7 @@ export function ChartAreaInteractive({ data = [] }) {
             <SelectTrigger
               className="flex w-40 **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate @[767px]/card:hidden"
               size="sm"
-              aria-label="Select a value"
+              aria-label="Select a time range"
             >
               <SelectValue placeholder="Last 3 months" />
             </SelectTrigger>
@@ -120,12 +122,16 @@ export function ChartAreaInteractive({ data = [] }) {
           <AreaChart data={filteredData}>
             <defs>
               <linearGradient id="fillSold" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#673de5" stopOpacity={1.0} />
-                <stop offset="95%" stopColor="#673de5" stopOpacity={0.1} />
+                <stop offset="5%" stopColor="#8B5CF6" stopOpacity={1.0} />
+                <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0.1} />
               </linearGradient>
               <linearGradient id="fillPrice" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#ed187b" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#ed187b" stopOpacity={0.1} />
+                <stop offset="5%" stopColor="#EC4899" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#EC4899" stopOpacity={0.1} />
+              </linearGradient>
+              <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#10B981" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#10B981" stopOpacity={0.1} />
               </linearGradient>
             </defs>
             <CartesianGrid vertical={false} />
@@ -155,21 +161,37 @@ export function ChartAreaInteractive({ data = [] }) {
                     });
                   }}
                   indicator="dot"
+                  valueFormatter={(value, RName) => {
+                    if (RName === chartConfig.revenue.label) {
+                      return `$${value.toFixed(2)}`; // Format revenue as currency
+                    }
+                    if (RName === chartConfig.mobile.label) {
+                      return `$${value.toFixed(2)}`; // Format totalPrice as currency
+                    }
+                    return value; // No formatting for totalCourses
+                  }}
                 />
               }
             />
             <Area
-              dataKey="totalCoursesSold"
+              dataKey="totalCourses"
               type="natural"
-              fill="#673de5"
-              stroke="#673de5"
+              fill="url(#fillSold)"
+              stroke="#8B5CF6"
               stackId="a"
             />
             <Area
               dataKey="totalPrice"
               type="natural"
-              fill="#ed187b"
-              stroke="#ed187b"
+              fill="url(#fillPrice)"
+              stroke="#EC4899"
+              stackId="a"
+            />
+            <Area
+              dataKey="totalRevenue"
+              type="natural"
+              fill="url(#fillRevenue)"
+              stroke="#10B981"
               stackId="a"
             />
           </AreaChart>

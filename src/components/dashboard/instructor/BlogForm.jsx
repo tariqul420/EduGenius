@@ -1,5 +1,14 @@
 "use client";
 
+import { useUser } from "@clerk/nextjs";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -27,14 +36,6 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { createBlog, updateBlog } from "@/lib/actions/blog.action";
 import ImageUploadCloud from "@/lib/ImageUploadCloud";
-import { useUser } from "@clerk/nextjs";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import * as z from "zod";
 
 // Define the schema using Zod
 const blogSchema = z.object({
@@ -138,10 +139,10 @@ export default function BlogForm({
     }
   };
 
-  const handleOpenChange = (open) => {
-    setIsOpen(open);
+  const handleOpenChange = (openChange) => {
+    setIsOpen(openChange);
     if (onOpenChange) onOpenChange(open);
-    if (!open && !isUpdate) form.reset(); // Reset only for create on close
+    if (!openChange && !isUpdate) form.reset(); // Reset only for create on close
   };
 
   const handleCancel = () => {

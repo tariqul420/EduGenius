@@ -1,13 +1,14 @@
 import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
 import { Button } from "../ui/button";
 
 export default function InstructorCard({ instructor }) {
   const { instructorId, social } = instructor || {};
 
   return (
-    <div className="dark:bg-dark-bg flex cursor-pointer flex-col justify-around gap-2.5 rounded-lg px-2.5 py-2 shadow-md transition-all duration-300 hover:-translate-y-2 sm:flex-row md:gap-7 md:px-5 dark:border dark:border-t-[3px] dark:border-b-0 dark:shadow-none">
+    <div className="dark:bg-dark-bg flex cursor-pointer flex-col items-center justify-around gap-2.5 rounded-lg px-2.5 py-2 shadow-md transition-all duration-300 hover:-translate-y-2 sm:flex-row md:gap-7 md:px-5 dark:border dark:border-t-[3px] dark:border-b-0 dark:shadow-none">
       <Image
         src={instructorId?.profilePicture}
         alt={instructorId?.firstName}

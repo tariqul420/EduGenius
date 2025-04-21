@@ -1,9 +1,10 @@
+import { auth } from "@clerk/nextjs/server";
+
 import { AppSidebar } from "@/components/dashboard/instructor/AppSidebar";
-import Notification from "@/components/shared/Notification";
+import NotificationsBell from "@/components/shared/NotificationsBell";
 import ThemeBtn from "@/components/shared/ThemeBtn";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { sidebar } from "@/constant";
-import { auth } from "@clerk/nextjs/server";
 
 export const metadata = {
   title: "Dashboard | Welcome Our Dashboard.",
@@ -22,7 +23,7 @@ export default async function Layout({ children }) {
           <SidebarTrigger className="cursor-pointer" />
           <div className="flex items-center gap-4">
             <ThemeBtn />
-            <Notification />
+            <NotificationsBell />
           </div>
         </nav>
         <div className="w-full">{children}</div>

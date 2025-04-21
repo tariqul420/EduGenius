@@ -1,5 +1,13 @@
 "use client";
 
+import { useUser } from "@clerk/nextjs";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import Image from "next/image";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -11,13 +19,6 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { postComment } from "@/lib/actions/comment.action";
-import { useUser } from "@clerk/nextjs";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import Image from "next/image";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 
 const formSchema = z.object({
   comment: z
@@ -57,6 +58,7 @@ export function SendComment({ blogId, userId, slug }) {
       toast.success("Comment posted!");
     } catch (error) {
       toast.error("Something went wrong");
+      throw error;
       // Revert form value if error occurs
       form.setValue("comment", values.comment);
     } finally {

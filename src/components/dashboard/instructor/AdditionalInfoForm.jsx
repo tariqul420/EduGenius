@@ -1,5 +1,12 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
 import { InputPhone } from "@/components/shared/InputPhone";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,13 +25,7 @@ import {
   updateInstructor,
 } from "@/lib/actions/instructor.action";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import "react-phone-number-input/style.css";
-import { toast } from "sonner";
-import { z } from "zod";
 
 const formSchema = z.object({
   phone: z
@@ -137,7 +138,7 @@ export default function AdditionalInfoForm() {
           return "Information saved successfully!";
         },
         error: (err) => {
-          return "Error saving information. Please try again.";
+          throw new Error("Error saving information. Please try again.", err);
         },
       },
     );

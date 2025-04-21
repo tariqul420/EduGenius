@@ -3,11 +3,12 @@ import { adminInstructorColumns } from "@/constant/columns";
 import { getInstructorByAdmin } from "@/lib/actions/instructor.action";
 
 export default async function AdminInstructors({ searchParams }) {
-  const { pageSize, pageIndex } = await searchParams;
+  const { pageSize, pageIndex, search } = await searchParams;
 
   const { instructors, pagination } = await getInstructorByAdmin({
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
+    search,
   });
 
   return (
