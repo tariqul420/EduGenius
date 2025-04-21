@@ -57,6 +57,11 @@ export const student = [
     url: "/student/certificate",
     icon: "Award",
   },
+  {
+    title: "Payment History",
+    url: "/student/payment-history",
+    icon: "CreditCard",
+  },
 ];
 
 export const admin = [
