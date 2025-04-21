@@ -1,60 +1,61 @@
-import {
-  Atom,
-  Beaker,
-  BookOpen,
-  Calculator,
-  DollarSign,
-  Globe,
-  Paintbrush,
-  Ruler,
-} from "lucide-react";
-import Link from "next/link";
+// import {
+//   Atom,
+//   Beaker,
+//   BookOpen,
+//   Calculator,
+//   DollarSign,
+//   Globe,
+//   Paintbrush,
+//   Ruler,
+// } from "lucide-react";
+
+import { OrbitingCirclesDemo } from "./OrbitingCirclesDemo";
 
 import Heading from "@/components/shared/Heading";
 
 const CourseSubjects = () => {
-  const subjects = [
-    {
-      name: "Social Science",
-      slug: "social-science",
-      icon: BookOpen,
-    },
-    {
-      name: "Chemistry",
-      slug: "chemistry",
-      icon: Beaker,
-    },
-    {
-      name: "Economy",
-      slug: "economy",
-      icon: DollarSign,
-    },
-    {
-      name: "Arts",
-      slug: "arts",
-      icon: Paintbrush,
-    },
-    {
-      name: "General Knowledge",
-      slug: "general-knowledge",
-      icon: Globe,
-    },
-    {
-      name: "Higher Math",
-      slug: "higher-math",
-      icon: Calculator,
-    },
-    {
-      name: "Geometry",
-      slug: "geometry",
-      icon: Ruler,
-    },
-    {
-      name: "Physics",
-      slug: "physics",
-      icon: Atom,
-    },
-  ];
+  // const subjects = [
+  //   {
+  //     name: "Social Science",
+  //     slug: "social-science",
+  //     icon: BookOpen,
+  //   },
+  //   {
+  //     name: "Chemistry",
+  //     slug: "chemistry",
+  //     icon: Beaker,
+  //   },
+  //   {
+  //     name: "Economy",
+  //     slug: "economy",
+  //     icon: DollarSign,
+  //   },
+  //   {
+  //     name: "Arts",
+  //     slug: "arts",
+  //     icon: Paintbrush,
+  //   },
+  //   {
+  //     name: "General Knowledge",
+  //     slug: "general-knowledge",
+  //     icon: Globe,
+  //   },
+  //   {
+  //     name: "Higher Math",
+  //     slug: "higher-math",
+  //     icon: Calculator,
+  //   },
+  //   {
+  //     name: "Geometry",
+  //     slug: "geometry",
+  //     icon: Ruler,
+  //   },
+  //   {
+  //     name: "Physics",
+  //     slug: "physics",
+  //     icon: Atom,
+  //   },
+  // ];
 
   return (
     <div className="container mx-auto px-2 py-5 md:px-5 md:py-8 lg:max-w-6xl">
@@ -64,8 +65,18 @@ const CourseSubjects = () => {
         subTitle={"Find your desired course from a wide range of subjects."}
       />
 
-      {/* Subjects Grid */}
-      <div className="grid grid-cols-2 gap-3 text-center sm:text-left md:grid-cols-3 md:gap-6 lg:grid-cols-4">
+      <div className="flex items-center justify-center gap-5 md:gap-8">
+        <div className="left-content">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex tenetur
+          accusamus sed. Ut corrupti veritatis sequi, consequuntur quaerat est
+          fuga sit vero dolorum cum accusantium iste dolor minus cumque nulla.
+        </div>
+        <div className="right-content">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias saepe impedit facilis fugit blanditiis, dolores doloribus cum expedita voluptates consectetur repellendus perferendis ratione explicabo officia. Odio quia esse eius illum!
+          {/* <OrbitingCirclesDemo /> */}
+        </div>
+      </div>
+      {/* <div className="grid grid-cols-2 gap-3 text-center sm:text-left md:grid-cols-3 md:gap-6 lg:grid-cols-4">
         {subjects?.map((subject, index) => {
           const IconComponent = subject.icon;
           return (
@@ -85,7 +96,7 @@ const CourseSubjects = () => {
             </Link>
           );
         })}
-      </div>
+      </div> */}
     </div>
   );
 };
