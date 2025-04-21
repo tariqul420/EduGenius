@@ -8,7 +8,7 @@ function HeroSection() {
       <div className="relative container mx-auto flex flex-col items-center justify-between overflow-hidden px-2 py-8 md:gap-5 md:px-5 md:py-10 lg:max-w-6xl lg:flex-row">
         <Image
           style={{ animationDuration: "60s" }}
-          className="absolute w-full max-w-[1000] animate-spin object-cover"
+          className="absolute w-full md:max-w-[1000] animate-spin object-cover"
           width={100}
           height={100}
           alt="Hero_Gradient"
@@ -16,12 +16,12 @@ function HeroSection() {
         ></Image>
         {/* Text Content */}
         <div className="z-[5] text-center lg:text-left">
-          <p className="dark:text-light-bg text-xl font-semibold md:text-2xl">
+          <p className="dark:text-light-bg text-xl font-medium md:font-semibold md:text-2xl">
             #1 Platform for Online Learning
           </p>
-          <h2 className="py-2 text-5xl leading-12 font-bold md:py-5 md:leading-16 lg:text-6xl">
+          <h2 className="py-2 text-5xl leading-13 font-bold md:py-5 md:leading-16 lg:text-6xl">
             Enroll &{" "}
-            <span className="from-main to-dark-btn relative overflow-hidden bg-gradient-to-r bg-clip-text text-transparent">
+            <span className="from-main to-dark-btn -top-1 md:top-0 relative overflow-hidden bg-gradient-to-r bg-clip-text text-transparent">
               <span className="blaze absolute top-[40px] h-[10px] w-[100px] rotate-60 bg-white blur-xl md:h-[10px] dark:hidden"></span>
               grow up{" "}
             </span>
