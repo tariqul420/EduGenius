@@ -3,9 +3,9 @@ import Link from "next/link";
 
 const NotFound = () => {
   return (
-    <div className="bg-light-bg dark:bg-dark-bg min-h-screen transition-colors duration-300">
+    <div className="bg-light-bg dark:bg-black min-h-[520px] transition-colors duration-300">
       <div className="container mx-auto px-4 py-16">
-        <div className="mx-auto max-w-2xl overflow-hidden rounded-xl bg-white shadow-xl transition-all duration-300 dark:bg-dark-hover">
+        <div className="mx-auto max-w-2xl overflow-hidden rounded-xl bg-white shadow-xl transition-all duration-300 dark:bg-dark-bg">
           <div className="p-8 sm:p-10">
             <div className="text-center">
               {/* Error Icon */}
