@@ -972,6 +972,7 @@ export const adminInstructorColumns = [
     header: "Action",
     cell: ({ row }) => {
       const info = row.original;
+      const instructorName = `${info.firstName} ${info.lastName}`;
       return (
         <div className="flex justify-end">
           <DropdownMenu>
@@ -999,7 +1000,10 @@ export const adminInstructorColumns = [
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <TerminateInstructor />
+                <TerminateInstructor
+                  instructorId={info?.instructorId}
+                  instructorName={instructorName}
+                />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
