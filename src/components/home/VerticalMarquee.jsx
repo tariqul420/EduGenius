@@ -101,7 +101,7 @@ const SubjectCard = ({ icon: Icon, name, slogan }) => {
 
 export default function VerticalMarquee() {
   return (
-    <div className="dark:bg-dark-bg relative flex h-[400px] w-full flex-row items-center justify-center overflow-hidden rounded-lg border">
+    <div className="relative shadow-lg flex h-[400px] w-full flex-row items-center justify-center overflow-hidden rounded-lg border">
       <Marquee pauseOnHover vertical className="gap-4 [--duration:20s]">
         {firstRow.map((subject) => (
           <SubjectCard key={subject.slug} {...subject} />
