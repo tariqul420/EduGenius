@@ -8,16 +8,19 @@ import { toast } from "sonner";
 import { getLesson } from "@/lib/actions/curriculum.action";
 import { updateProgress } from "@/lib/actions/progress.action";
 
-export default function Player() {
+export default function Player({ curriculum }) {
   const [mounted, setMounted] = useState(false);
   const [activeLesson, setActiveLesson] = useState(null);
   const searchParams = useSearchParams();
   const play = searchParams.get("play");
 
-  // Handle client-side mounting
+  // Set initial lesson when component mounts
   useEffect(() => {
     setMounted(true);
-  }, []);
+    if (!play && curriculum?.lessons?.[0]) {
+      setActiveLesson(curriculum.lessons[0]);
+    }
+  }, [curriculum, play]);
 
   const onProgress = (progress) => {
     if (!mounted) return;
@@ -44,20 +47,26 @@ export default function Player() {
       } catch (error) {
         console.error("Failed to fetch lesson:", error);
         toast.error("Failed to load lesson");
+        // Fallback to first lesson on error
+        if (curriculum?.lessons?.[0]) {
+          setActiveLesson(curriculum.lessons[0]);
+        }
       }
     };
 
     fetchLesson();
-  }, [play, mounted]);
+  }, [play, mounted, curriculum]);
 
   // Early return while not mounted
   if (!mounted) return null;
 
+  const videoUrl = activeLesson?.videoUrl || curriculum?.lessons?.[0]?.videoUrl;
+
   return (
     <div className="player-wrapper relative aspect-video">
-      {activeLesson?.videoUrl && (
+      {videoUrl && (
         <ReactPlayer
-          url={activeLesson.videoUrl}
+          url={videoUrl}
           width="100%"
           height="100%"
           controls
