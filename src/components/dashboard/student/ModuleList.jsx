@@ -24,7 +24,7 @@ export default function ModulesList({ curriculum }) {
                 : "hover:bg-accent",
             )}
           >
-            {videoModule.completed ? (
+            {videoModule.isFinished ? (
               <CheckCircle className="h-5 w-5 text-green-500" />
             ) : play === videoModule?._id ? (
               <PauseCircle className="h-5 w-5" />
