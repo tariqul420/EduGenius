@@ -40,8 +40,8 @@ const users = [
 
 function Testimonial() {
   return (
-    <section className="dark:from-dark-bg/50 dark:to-dark-bg/5 bg-gradient-to-t">
-      <section className="container mx-auto py-8 max-lg:px-4 lg:max-w-6xl">
+    <section className="dark:from-dark-bg dark:to-dark-theme bg-gradient-to-t">
+      <section className="container mx-auto py-10 max-lg:px-4 lg:max-w-6xl">
         {/* Heading */}
         <Heading
           title="Testimonial"
