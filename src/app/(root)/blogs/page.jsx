@@ -42,10 +42,7 @@ const BlogPage = async ({ searchParams }) => {
 
                 {/* InfiniteScroll */}
                 <div className="col-span-full">
-                  <InfiniteScroll
-                    hasNextPage={hasNextPage}
-                    noMoreDataText="No more blogs"
-                  />
+                  <InfiniteScroll hasNextPage={hasNextPage} />
                 </div>
               </div>
             ) : (

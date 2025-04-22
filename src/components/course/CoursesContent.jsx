@@ -20,10 +20,7 @@ export default function CoursesContent({ courses = [], hasNextPage }) {
         ))}
       </div>
       {courses.length === 0 && <EmptyPage />}
-      <InfiniteScroll
-        hasNextPage={hasNextPage}
-        noMoreDataText="No more courses"
-      />
+      <InfiniteScroll hasNextPage={hasNextPage} />
     </section>
   );
 }

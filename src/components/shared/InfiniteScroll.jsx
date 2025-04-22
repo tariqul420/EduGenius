@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { formUrlQuery } from "@/lib/utils";
 
-const InfiniteScroll = ({ hasNextPage, noMoreDataText = "No more data" }) => {
+const InfiniteScroll = ({ hasNextPage }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const observerRef = useRef(null);
@@ -68,12 +68,7 @@ const InfiniteScroll = ({ hasNextPage, noMoreDataText = "No more data" }) => {
     };
   }, [hasNextPage, currentPage, router, searchParams]);
 
-  if (!hasNextPage)
-    return (
-      <div className="my-4 flex h-16 w-full items-center justify-center">
-        <p className="mt-4 text-center">{noMoreDataText}</p>
-      </div>
-    );
+  if (!hasNextPage) return null;
 
   return (
     <div
