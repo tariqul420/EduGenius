@@ -27,7 +27,7 @@ const BecomeInstructor = () => {
     },
   ];
   return (
-    <section className="dark:to-dark-bg overflow-hidden bg-gradient-to-t px-2 pt-20 pb-16 md:px-5 dark:from-black">
+    <section className="dark:to-dark-theme overflow-hidden bg-gradient-to-t px-2 pt-20 pb-16 md:px-5 dark:from-dark-bg">
       <div className="mx-auto lg:max-w-6xl">
         <div className="grid grid-cols-12 items-center">
           {/* Content */}
