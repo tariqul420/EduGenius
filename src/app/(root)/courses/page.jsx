@@ -6,11 +6,7 @@ import { getCourses } from "@/lib/actions/course.action";
 
 export default async function Course({ searchParams }) {
   const categories = await getCategory();
-  const { category } = await searchParams;
-  const { level } = await searchParams;
-  const { search } = await searchParams;
-  const { sort } = await searchParams;
-  const { page } = await searchParams;
+  const { category, level, search, sort, page } = await searchParams;
 
   // If category then get the category slug
   const categoryParams = category ? category.split(",") : [];
@@ -22,7 +18,7 @@ export default async function Course({ searchParams }) {
   } = await getCourses({
     categorySlugs: categoryParams,
     level,
-    search,
+    search: search?.trim(),
     sort,
     page: Number(page) || 1,
     limit: 4,

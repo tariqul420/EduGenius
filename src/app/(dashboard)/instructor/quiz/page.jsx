@@ -8,7 +8,7 @@ export default async function Quiz({ searchParams }) {
   const { quizzes, pagination } = await getQuizzes({
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
-    search,
+    search: search?.trim(),
   });
 
   return (
