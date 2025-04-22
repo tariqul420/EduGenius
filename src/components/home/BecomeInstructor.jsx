@@ -54,7 +54,7 @@ const BecomeInstructor = () => {
                 <ArrowRight className="h-4 w-4" />
               </button>
 
-              <button className="bg-light-bg hover:bg-medium-bg cursor-pointer rounded border px-3 py-2.5 text-black duration-200 md:px-6">
+              <button className="bg-white hover:bg-light-bg cursor-pointer rounded border px-3 py-2.5 text-black duration-200 md:px-6">
                 Learn More
               </button>
             </div>
