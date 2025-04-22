@@ -17,7 +17,7 @@ export default async function Student({ searchParams }) {
     instructorId: instructor,
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
-    search,
+    search: search?.trim(),
   });
 
   return (

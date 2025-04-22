@@ -7,7 +7,7 @@ import { getBlogs } from "@/lib/actions/blog.action";
 import { getCategory } from "@/lib/actions/category.action";
 
 const BlogPage = async ({ searchParams }) => {
-  const { category, search, page } = searchParams;
+  const { category, search, page } = await searchParams;
 
   const categoryParams = category || "";
 
@@ -17,7 +17,7 @@ const BlogPage = async ({ searchParams }) => {
     hasNextPage = false,
   } = await getBlogs({
     categories: categoryParams.split(","),
-    search,
+    search: search?.trim(),
     page: Number(page) || 1,
     limit: 4,
   });
@@ -42,7 +42,10 @@ const BlogPage = async ({ searchParams }) => {
 
                 {/* InfiniteScroll */}
                 <div className="col-span-full">
-                  <InfiniteScroll hasNextPage={hasNextPage} />
+                  <InfiniteScroll
+                    hasNextPage={hasNextPage}
+                    noMoreDataText="No more blogs"
+                  />
                 </div>
               </div>
             ) : (

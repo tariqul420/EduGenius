@@ -18,7 +18,7 @@ export default async function Course({ searchParams }) {
   } = await getCourses({
     categorySlugs: categoryParams,
     level,
-    search,
+    search: search?.trim(),
     sort,
     page: Number(page) || 1,
     limit: 4,

@@ -20,7 +20,7 @@ export default async function Home({ searchParams }) {
   const { courses, pagination } = await getCourseAdminInstructor({
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
-    search,
+    search: search?.trim(),
   });
 
   const data = await courseSellingData();
