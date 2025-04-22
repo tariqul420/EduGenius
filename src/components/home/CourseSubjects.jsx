@@ -23,7 +23,7 @@ const CourseSubjects = () => {
         subTitle={"Find your desired course from a wide range of subjects."}
       />
 
-      <div className="flex items-center justify-center gap-5 md:gap-8">
+      <div className="flex flex-col md:flex-row items-center justify-center gap-5 md:gap-8">
         <div className="left-content min-h-[400px] w-full">
           <MarqueeDemoVertical />
         </div>
