@@ -611,6 +611,86 @@ export const studentCertificateColumns = [
   },
 ];
 
+export const studentPaymentHistoryColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
+  {
+    accessorKey: "transactionId",
+    header: "Transaction ID",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original?.transactionId}
+      </h1>
+    ),
+    filterFn: "includesString",
+    enableHiding: false,
+  },
+  {
+    accessorKey: "course.title",
+    header: "Course",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original?.course?.title}
+      </h1>
+    ),
+  },
+  {
+    accessorKey: "amount",
+    header: "Amount",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
+          {row.original?.amount > 0
+            ? "Free"
+            : `$${row.original?.course?.finalPrice.toFixed(2)}`}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "instructor",
+    header: "Instructor",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-2">
+        <Avatar>
+          <AvatarImage
+            src={row.original.instructor.profilePicture}
+            alt={row.original.instructor.fileName}
+          />
+          <AvatarFallback>{row.original.instructor.fileName}</AvatarFallback>
+        </Avatar>
+
+        <div>
+          <h1 className="max-w-xs truncate text-sm font-medium">
+            {row.original.instructor.firstName}{" "}
+            {row.original.instructor.lastName}
+          </h1>
+          <p className="text-muted-foreground text-sm">
+            {row.original.instructor.email}
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created At",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
+          {format(new Date(row.original?.createdAt), "PPP")}
+        </Badge>
+      </div>
+    ),
+  },
+];
+
 export const studentAssignmentColumns = [
   createDragColumn(),
   createSelectionColumn(),
