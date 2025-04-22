@@ -8,7 +8,7 @@ export default async function AdminCategory({ searchParams }) {
   const { categories, pagination } = await getCategories({
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
-    search,
+    search: search?.trim(),
   });
 
   return (

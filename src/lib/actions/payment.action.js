@@ -142,7 +142,7 @@ export async function getPaymentHistory({
       // Lookup instructor data
       {
         $lookup: {
-          from: "instructors",
+          from: "users",
           localField: "course.instructor",
           foreignField: "_id",
           as: "instructor",
@@ -153,17 +153,31 @@ export async function getPaymentHistory({
         $unwind: "$instructor",
       },
       searchMatch,
-      // Project only required fields
+      // Project only required fields with calculated final price
       {
         $project: {
           transactionId: 1,
+          createdAt: 1,
           "course.title": 1,
           "course.slug": 1,
           "course.price": 1,
           "course.discount": 1,
+          "course.finalPrice": {
+            $subtract: [
+              "$course.price",
+              {
+                $multiply: [
+                  "$course.price",
+                  { $divide: ["$course.discount", 100] },
+                ],
+              },
+            ],
+          },
           "instructor.firstName": 1,
           "instructor.lastName": 1,
+          "instructor.profilePicture": 1,
           "instructor.slug": 1,
+          "instructor.email": 1,
         },
       },
       // Pagination

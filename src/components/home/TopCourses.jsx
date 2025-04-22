@@ -7,7 +7,7 @@ import NoResult from "@/components/shared/NoResult";
 
 const TopCourses = async ({ courses, categories }) => {
   return (
-    <section className="py-5 md:py-8 dark:bg-black">
+    <section className="dark:bg-black">
       <div className="container mx-auto px-2 md:px-5 lg:max-w-6xl">
         <Heading
           title={"Our Top Courses"}
@@ -19,7 +19,7 @@ const TopCourses = async ({ courses, categories }) => {
 
         {/* Course Cards */}
         {courses?.length > 0 ? (
-          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
             {courses.map((course, index) => (
               <div key={index} className="flex flex-col">
                 <CourseCard

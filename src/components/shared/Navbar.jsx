@@ -60,7 +60,7 @@ function Navbar() {
 
   return (
     <nav
-      className={`dark:from-dark-bg dark:to-dark-bg sticky top-0 z-[20] bg-gradient-to-r from-white to-white p-4 text-black shadow-sm dark:text-white ${showNavbar ? "translate-y-0" : "-translate-y-full"} transition-transform duration-300`}
+      className={`dark:from-dark-bg/20 dark:to-dark-bg/20 sticky top-0 z-[20] bg-gradient-to-r from-white/50 to-white/50 p-4 text-black shadow-sm backdrop-blur dark:text-white ${showNavbar ? "translate-y-0" : "-translate-y-full"} transition-transform duration-300`}
     >
       <div className="container mx-auto flex items-center justify-between lg:max-w-6xl">
         {/* Logo */}

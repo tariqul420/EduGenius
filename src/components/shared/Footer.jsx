@@ -120,14 +120,17 @@ const Footer = () => {
               <h2 className="mb-3 text-lg font-medium md:text-xl">
                 Quick Links
               </h2>
-              <Link className="mb-1 cursor-pointer" href="/store">
-                Book Store
+              <Link className="mb-1 cursor-pointer" href="/">
+                Home
               </Link>
-              <Link className="mb-1 cursor-pointer" href="/offer">
-                Available Offer
+              <Link className="mb-1 cursor-pointer" href="/blogs">
+                Blog
               </Link>
               <Link className="mb-1 cursor-pointer" href="/courses">
-                Popular Courses
+               Courses
+              </Link>
+              <Link className="mb-1 cursor-pointer" href="/instructors">
+              Instructor
               </Link>
             </div>
           </div>

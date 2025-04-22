@@ -14,7 +14,7 @@ import Link from "next/link";
 
 import InsightsCard from "@/components/home/InsightsCard";
 import CommentCard from "@/components/shared/CommentCard";
-import LoadMore from "@/components/shared/LoadMore";
+import InfiniteScroll from "@/components/shared/InfiniteScroll";
 import { SendComment } from "@/components/shared/SendComment";
 import { getBlogBySlug, getBlogs } from "@/lib/actions/blog.action";
 import { getCommentsByBlogId } from "@/lib/actions/comment.action";
@@ -22,8 +22,11 @@ import { getCommentsByBlogId } from "@/lib/actions/comment.action";
 const BlogDetails = async ({ params, searchParams }) => {
   const { slug } = await params;
   const { page } = await searchParams;
+
   const { sessionClaims } = await auth();
+
   const blog = await getBlogBySlug(slug);
+
   const { blogs: featuredBlog } = await getBlogs({ sort: "popular", limit: 4 });
 
   const commentsResult = await getCommentsByBlogId({
@@ -187,7 +190,7 @@ const BlogDetails = async ({ params, searchParams }) => {
                     </div>
                   ))}
 
-                  {hasNextPage && <LoadMore />}
+                  <InfiniteScroll hasNextPage={hasNextPage} />
                 </div>
               ) : (
                 <div className="rounded-lg border-2 border-dashed py-8 text-center">

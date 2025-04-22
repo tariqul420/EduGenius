@@ -12,6 +12,7 @@ const CourseDetails = async ({ params, searchParams }) => {
   const { sessionClaims } = await auth();
   const { page } = await searchParams;
   const { slug } = await params;
+
   const course = await getCourseBySlug(slug);
   // Get the category slug of the current course
   const categorySlug = course?.category?.slug;
