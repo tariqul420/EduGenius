@@ -161,10 +161,7 @@ export default async function CoursesTab({ course, page }) {
                 ))}
 
                 {/* InfiniteScroll */}
-                <InfiniteScroll
-                  hasNextPage={hasNextPage}
-                  noMoreDataText="No more reviews"
-                />
+                <InfiniteScroll hasNextPage={hasNextPage} />
               </div>
             </div>
           )}

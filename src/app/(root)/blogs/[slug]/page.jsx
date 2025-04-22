@@ -190,10 +190,7 @@ const BlogDetails = async ({ params, searchParams }) => {
                     </div>
                   ))}
 
-                  <InfiniteScroll
-                    hasNextPage={hasNextPage}
-                    noMoreDataText="No more comments"
-                  />
+                  <InfiniteScroll hasNextPage={hasNextPage} />
                 </div>
               ) : (
                 <div className="rounded-lg border-2 border-dashed py-8 text-center">
