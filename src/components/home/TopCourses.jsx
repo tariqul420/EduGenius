@@ -7,7 +7,7 @@ import NoResult from "@/components/shared/NoResult";
 
 const TopCourses = async ({ courses, categories }) => {
   return (
-    <section className="py-5 md:py-8 dark:bg-black">
+    <section className="py-5 z-[20] md:py-8 dark:bg-black">
       <div className="container mx-auto px-2 md:px-5 lg:max-w-6xl">
         <Heading
           title={"Our Top Courses"}

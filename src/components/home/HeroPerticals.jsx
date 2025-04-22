@@ -19,7 +19,6 @@ export function ParticlesDemo() {
         quantity={100}
         ease={80}
         color={color}
-        refresh
       />
   );
 }
