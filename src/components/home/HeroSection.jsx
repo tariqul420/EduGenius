@@ -12,7 +12,7 @@ function HeroSection() {
       </div>
       <div className="relative h-full container mx-auto flex flex-col items-center justify-between overflow-hidden px-2 py-8 md:gap-5 md:px-5 lg:max-w-6xl lg:flex-row">
         <Image
-          style={{ animationDuration: "30s" }}
+          style={{ animationDuration: "20s" }}
           className="absolute w-full animate-spin object-cover md:max-w-[1000]"
           width={100}
           height={100}
