@@ -234,7 +234,7 @@ export async function saveInstructorInfo({ data, path }) {
   }
 }
 
-export async function updateStudentStatus({ studentId, newStatus }) {
+export async function updateStudentStatus({ studentId, newStatus, path }) {
   try {
     // Connect to the database
     await dbConnect();
@@ -259,7 +259,7 @@ export async function updateStudentStatus({ studentId, newStatus }) {
     }
 
     // Revalidate the Next.js cache
-    revalidatePath("/admin/become-instructor");
+    revalidatePath(path);
 
     return { success: true };
   } catch (error) {

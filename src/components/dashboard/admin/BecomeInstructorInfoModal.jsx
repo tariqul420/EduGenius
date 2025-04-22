@@ -1,3 +1,6 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -46,6 +49,7 @@ const InfoItemDetails = ({ label, value }) => (
 
 export default function BecomeInstructorInfoModal({ becomeInstructorInfo }) {
   const [openModal, setOpenModal] = useState(false);
+  const pathname = usePathname();
 
   const handleStatusUpdate = async (newStatus) => {
     if (becomeInstructorInfo.status === newStatus)
@@ -55,6 +59,7 @@ export default function BecomeInstructorInfoModal({ becomeInstructorInfo }) {
         updateStudentStatus({
           studentId: becomeInstructorInfo?.student._id,
           newStatus,
+          path: pathname,
         }),
         {
           loading: "Status updating...",

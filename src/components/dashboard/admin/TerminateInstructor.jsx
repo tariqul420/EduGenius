@@ -1,4 +1,8 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -9,10 +13,31 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { updateStudentStatus } from "@/lib/actions/instructor.info.action";
 
-// eslint-disable-next-line no-unused-vars
 export default function TerminateInstructor({ instructorId, instructorName }) {
   const [openModal, setOpenModal] = useState(false);
+  const pathname = usePathname();
+
+  const handelTerminate = async () => {
+    try {
+      toast.promise(
+        updateStudentStatus({
+          studentId: instructorId,
+          newStatus: "terminated",
+          path: pathname,
+        }),
+        {
+          loading: "Terminating...",
+          success: "Terminated successfully!",
+          error: "Failed to terminate.",
+        },
+      );
+    } catch (error) {
+      console.error("Error updating status:", error);
+      throw error;
+    }
+  };
 
   return (
     <Dialog open={openModal} onOpenChange={setOpenModal}>
@@ -49,6 +74,10 @@ export default function TerminateInstructor({ instructorId, instructorName }) {
           <Button
             type="button"
             variant="destructive"
+            onClick={() => {
+              handelTerminate();
+              setOpenModal(false);
+            }}
             className="w-full bg-red-600 hover:bg-red-700 sm:w-auto dark:bg-red-500 dark:hover:bg-red-600"
           >
             Termination
