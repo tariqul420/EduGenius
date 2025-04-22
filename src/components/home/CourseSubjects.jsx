@@ -12,7 +12,7 @@ const CourseSubjects = () => {
         subTitle={"Find your desired course from a wide range of subjects."}
       />
 
-      <div className="flex flex-col items-center justify-center gap-5 md:flex-row md:gap-8">
+      <div className="flex flex-col items-center justify-center gap-5 lg:flex-row md:gap-8">
         <div className="left-content min-h-[400px] w-full">
           <VerticalMarquee />
         </div>

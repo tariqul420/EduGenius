@@ -58,11 +58,11 @@ const SubjectCard = ({ icon: Icon, name, slogan }) => {
   return (
     <div
       className={cn(
-        "relative h-36 w-full cursor-pointer overflow-hidden rounded-xl border p-4 transition-all duration-300 ",
+        "relative h-36 w-full cursor-pointer shadow-md overflow-hidden rounded-md border p-4 transition-all duration-300",
         // light styles
-        "hover:border-main border-gray-200 bg-white hover:shadow-lg",
+        "border-gray-200 bg-light-bg hover:shadow-lg",
         // dark styles
-        "dark:hover:border-main dark:border-gray-700 dark:bg-dark-hover",
+        "dark:hover:border-main dark:bg-dark-hover dark:border-gray-700",
       )}
     >
       <div className="flex h-full flex-col justify-between">
@@ -80,7 +80,7 @@ const SubjectCard = ({ icon: Icon, name, slogan }) => {
         <div className="text-main flex items-center text-xs font-medium sm:text-sm">
           Explore
           <svg
-            className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-1 sm:h-4 sm:w-4"
+            className="ml-1 h-3 w-3 transition-transform sm:h-4 sm:w-4"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -101,7 +101,7 @@ const SubjectCard = ({ icon: Icon, name, slogan }) => {
 
 export default function VerticalMarquee() {
   return (
-    <div className="bg-light-bg dark:bg-dark-bg relative flex h-[400px] w-full flex-row items-center justify-center overflow-hidden rounded-lg border">
+    <div className="dark:bg-dark-bg relative flex h-[400px] w-full flex-row items-center justify-center overflow-hidden rounded-lg border">
       <Marquee pauseOnHover vertical className="gap-4 [--duration:20s]">
         {firstRow.map((subject) => (
           <SubjectCard key={subject.slug} {...subject} />
