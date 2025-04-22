@@ -40,7 +40,7 @@ const users = [
 
 function Testimonial() {
   return (
-    <section className="dark:from-dark-bg/50 dark:to-dark-bg/5 bg-gradient-to-t py-8">
+    <section className="dark:from-dark-bg/50 dark:to-dark-bg/5 bg-gradient-to-t">
       <section className="container mx-auto py-8 max-lg:px-4 lg:max-w-6xl">
         {/* Heading */}
         <Heading

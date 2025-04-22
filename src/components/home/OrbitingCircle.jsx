@@ -17,7 +17,7 @@ export default function OrbitingCircle() {
   return (
     <div className="dark:bg-gradient-to-b from-dark-bg to-dark-hover dark:border relative flex h-[400px] w-full flex-col items-center justify-center overflow-hidden rounded-lg">
       {/* Main orbiting circles */}
-      <OrbitingCircles speed={0.5} iconSize={40} radius={150}>
+      <OrbitingCircles speed={0.3} iconSize={40} radius={150}>
         <CourseIcon icon={Code2} color="text-sky-400" />
         <CourseIcon icon={Palette} color="text-fuchsia-400" />
         <CourseIcon icon={Film} color="text-rose-400" />
@@ -26,7 +26,7 @@ export default function OrbitingCircle() {
       </OrbitingCircles>
 
       {/* Secondary orbiting circles */}
-      <OrbitingCircles iconSize={30} radius={90} reverse speed={1}>
+      <OrbitingCircles iconSize={30} radius={90} reverse speed={.5}>
         <CourseIcon icon={Code2} color="text-sky-400" />
         <CourseIcon icon={Palette} color="text-fuchsia-400" />
         <CourseIcon icon={Film} color="text-rose-400" />

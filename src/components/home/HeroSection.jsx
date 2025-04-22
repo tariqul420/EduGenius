@@ -6,11 +6,11 @@ import { ParticlesDemo } from "./HeroPerticals";
 
 function HeroSection() {
   return (
-    <section className="relative min-h-[650px] overflow-hidden bg-transparent">
+    <section className="relative min-h-[650px] overflow-hidden dark:bg-black">
       <div className="absolute h-[calc(100%-100px)] w-full">
         <ParticlesDemo />
       </div>
-      <div className="relative h-full container mx-auto flex flex-col items-center justify-between overflow-hidden px-2 py-8 md:gap-5 md:px-5 lg:max-w-6xl lg:flex-row">
+      <div className="relative container mx-auto flex h-full flex-col items-center justify-between overflow-hidden px-2 py-12 md:gap-5 md:px-5 lg:max-w-6xl lg:flex-row">
         <Image
           style={{ animationDuration: "20s" }}
           className="absolute w-full animate-spin object-cover md:max-w-[1000]"
