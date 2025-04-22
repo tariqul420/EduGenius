@@ -1,15 +1,13 @@
 import FilterBar from "@/components/blogs/FilterBar";
 import FilterItem from "@/components/blogs/FilterItem";
 import InsightsCard from "@/components/home/InsightsCard";
-import LoadMore from "@/components/shared/LoadMore";
+import InfiniteScroll from "@/components/shared/InfiniteScroll";
 import NoResult from "@/components/shared/NoResult";
 import { getBlogs } from "@/lib/actions/blog.action";
 import { getCategory } from "@/lib/actions/category.action";
 
 const BlogPage = async ({ searchParams }) => {
-  const { category } = await searchParams;
-  const { search } = await searchParams;
-  const { page } = await searchParams;
+  const { category, search, page } = searchParams;
 
   const categoryParams = category || "";
 
@@ -41,11 +39,11 @@ const BlogPage = async ({ searchParams }) => {
                 {blogs?.map((blog) => (
                   <InsightsCard key={blog?.slug} insights={blog} />
                 ))}
-                {hasNextPage && (
-                  <div className="col-span-full mt-4">
-                    <LoadMore />
-                  </div>
-                )}
+
+                {/* InfiniteScroll */}
+                <div className="col-span-full">
+                  <InfiniteScroll hasNextPage={hasNextPage} />
+                </div>
               </div>
             ) : (
               <NoResult />
