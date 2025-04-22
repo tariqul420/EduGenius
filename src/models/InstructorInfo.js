@@ -98,12 +98,51 @@ instructorInfoSchema.post("findOneAndUpdate", async function (doc) {
         .model("Instructor")
         .findOneAndDelete({ instructorId: user._id });
 
-      // Delete ALL courses by this instructor (not just one)
-      await mongoose.model("Course").deleteMany({ instructor: user._id });
+      // First find all courses by this instructor
+      const instructorCourses = await mongoose
+        .model("Course")
+        .find({ instructor: user._id });
 
-      await mongoose
-        .model("InstructorInfo")
-        .findOneAndDelete({ student: user._id });
+      // Process each course and delete related documents
+      for (const singleCourse of instructorCourses) {
+        await mongoose
+          .model("Assignment")
+          .deleteMany({ course: singleCourse._id });
+
+        await mongoose.model("Certificate").deleteMany({
+          course: singleCourse._id,
+        });
+
+        await mongoose.model("Lesson").deleteMany({
+          course: singleCourse._id,
+        });
+
+        await mongoose.model("Module").deleteMany({
+          course: singleCourse._id,
+        });
+
+        await mongoose.model("Progress").deleteMany({
+          course: singleCourse._id,
+        });
+
+        await mongoose.model("Quiz").deleteMany({
+          course: singleCourse._id,
+        });
+
+        await mongoose.model("Review").deleteMany({
+          course: singleCourse._id,
+        });
+
+        await mongoose
+          .model("Student")
+          .updateMany(
+            { courses: singleCourse._id },
+            { $pull: { courses: singleCourse._id } },
+          );
+      }
+
+      // Finally delete all courses by this instructor
+      await mongoose.model("Course").deleteMany({ instructor: user._id });
     }
   } catch (error) {
     console.error("Middleware error:", error);
