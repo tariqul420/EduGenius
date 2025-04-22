@@ -60,9 +60,9 @@ const SubjectCard = ({ icon: Icon, name, slogan }) => {
       className={cn(
         "relative h-36 w-full cursor-pointer shadow-md overflow-hidden rounded-md border p-4 transition-all duration-300",
         // light styles
-        "border-gray-200 bg-light-bg hover:shadow-lg",
+        "bg-light-bg hover:shadow-lg",
         // dark styles
-        "dark:hover:border-main dark:bg-dark-hover dark:border-gray-700",
+        "dark:hover:border-main dark:bg-dark-bg",
       )}
     >
       <div className="flex h-full flex-col justify-between">

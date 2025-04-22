@@ -15,7 +15,7 @@ export function ParticlesDemo() {
 
   return (
       <Particles
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 max-h-[650px]"
         quantity={100}
         ease={80}
         color={color}
