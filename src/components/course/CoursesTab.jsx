@@ -10,7 +10,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-import LoadMore from "../shared/LoadMore";
+import InfiniteScroll from "../shared/InfiniteScroll";
 
 import ReviewCard from "./ReviewCard";
 
@@ -160,7 +160,11 @@ export default async function CoursesTab({ course, page }) {
                   </div>
                 ))}
 
-                {hasNextPage && <LoadMore />}
+                {/* InfiniteScroll */}
+                <InfiniteScroll
+                  hasNextPage={hasNextPage}
+                  noMoreDataText="No more reviews"
+                />
               </div>
             </div>
           )}

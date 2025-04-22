@@ -1,6 +1,6 @@
 "use client";
 import CourseCard from "../shared/CourseCard";
-import LoadMore from "../shared/LoadMore";
+import InfiniteScroll from "../shared/InfiniteScroll";
 import EmptyPage from "../shared/NoResult";
 
 import useProvider from "@/hooks/useProvider";
@@ -20,7 +20,10 @@ export default function CoursesContent({ courses = [], hasNextPage }) {
         ))}
       </div>
       {courses.length === 0 && <EmptyPage />}
-      {hasNextPage && <LoadMore />}
+      <InfiniteScroll
+        hasNextPage={hasNextPage}
+        noMoreDataText="No more courses"
+      />
     </section>
   );
 }
