@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const FaqSection = () => {
   const [openIndex, setOpenIndex] = useState(null);
@@ -74,44 +74,40 @@ const FaqSection = () => {
   ];
 
   return (
-    <section className="container mx-auto px-4 py-12 ">
-      <h1 className="text-4xl font-bold text-center text-main mb-12">
+    <section className="container mx-auto px-4 py-12">
+      <h1 className="text-main mb-12 text-center text-4xl font-bold">
         Frequently Asked Questions (FAQ)
       </h1>
-      <div className="grid grid-cols-4 ">
-
-     
-<div className="lg:col-span-2 col-span-4">
- <Image
+      <div className="grid grid-cols-4">
+        <div className="col-span-4 lg:col-span-2">
+          <Image
             src="/FAQs-cuate.png"
             alt="Hero Image"
             width={600}
             height={600}
             className="rounded-lg object-cover"
           />
-</div>
-      <div className="space-y-8 lg:col-span-2 col-span-4">
-        {faqData.map((faq, index) => (
-          <div key={index} className="space-y-5">
-            <div
-              onClick={() => toggleAnswer(index)}
-              className="cursor-pointer flex justify-between items-center rounded-lg border-2 border-gray-300 bg-white px-5  shadow-lg transition-all hover:shadow-xl hover:border-main dark:bg-dark-bg dark:border-gray-700 dark:text-white"
-            >
-              <h2 className=" text-gray-800 dark:text-white">
-                {faq.question}
-              </h2>
-              <span className="  text-main">
-                {openIndex === index ? "-" : "+"}
-              </span>
+        </div>
+        <div className="col-span-4 space-y-8 lg:col-span-2">
+          {faqData.map((faq, index) => (
+            <div key={index} className="space-y-5">
+              <div
+                onClick={() => toggleAnswer(index)}
+                className="hover:border-main dark:bg-dark-bg flex cursor-pointer items-center justify-between rounded-lg border-2 border-gray-300 bg-white px-5 shadow-lg transition-all hover:shadow-xl dark:border-gray-700 dark:text-white"
+              >
+                <h2 className="text-gray-800 dark:text-white">
+                  {faq.question}
+                </h2>
+                <span className="text-main">
+                  {openIndex === index ? "-" : "+"}
+                </span>
+              </div>
+              {openIndex === index && (
+                <p className="dark:text-gray-300">{faq.answer}</p>
+              )}
             </div>
-            {openIndex === index && (
-              <p className=" dark:text-gray-300  ">
-                {faq.answer}
-              </p>
-            )}
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
       </div>
     </section>
   );

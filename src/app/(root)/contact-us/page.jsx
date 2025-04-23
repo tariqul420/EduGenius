@@ -1,19 +1,19 @@
 "use client";
 
-import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
+import { Button } from "@/components/ui/button";
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 
 const ContactPage = () => {
   const form = useForm({
@@ -25,17 +25,16 @@ const ContactPage = () => {
   });
 
   const onSubmit = (data) => {
-    console.log("Contact Form Data:", data);
     toast.success("Your message has been sent!");
     form.reset();
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-4 py-10">
+    <section className="flex min-h-screen items-center justify-center px-4 py-10">
       <div className="w-full max-w-xl">
-        <h1 className="mb-3 text-3xl font-bold text-center">Contact Us</h1>
+        <h1 className="mb-3 text-center text-3xl font-bold">Contact Us</h1>
         <p className="text-muted-foreground mb-6 text-center">
-          We'd love to hear from you! Please fill out the form below.
+          We&apos;d love to hear from you! Please fill out the form below.
         </p>
 
         <Form {...form}>
@@ -97,7 +96,7 @@ const ContactPage = () => {
 
             <Button
               type="submit"
-              className="bg-main hover:bg-dark-main text-white w-full"
+              className="bg-main hover:bg-dark-main w-full text-white"
             >
               Send Message
             </Button>
