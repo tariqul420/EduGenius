@@ -28,6 +28,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import QuizeModal from "@/components/dashboard/student/QuizeModal";
 
 export const categoryColumns = [
   createDragColumn(),
@@ -875,11 +876,9 @@ export const studentQuizColumns = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Start Quiz</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>View Details</DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <QuizeModal slug={row.original?.course.slug} />
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
