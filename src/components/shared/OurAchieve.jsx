@@ -26,66 +26,69 @@ const data = [
 
 function OurAchieve() {
   return (
-    <div className="container m-auto mt-20 flex flex-col gap-8 px-2 md:px-5 lg:max-w-6xl lg:flex-row lg:items-center">
-      {/* Text Content */}
-      <div className="flex-1 space-y-6 text-center lg:text-left">
-        <h2 className="text-3xl font-bold lg:text-4xl">Our Achievement</h2>
-        <p className="mx-auto max-w-lg text-sm text-gray-600 lg:mx-0 lg:text-base dark:text-gray-200">
-          Your achievement is considered as our achievement. Whatever you learn
-          from us, even if it’s a little – we will be proud to be a part of your
-          journey.
-        </p>
-        <div className="grid grid-cols-2 gap-3 md:gap-5 lg:gap-8">
-          {data?.map((item, index) => {
-            const IconComponent = item.icon;
-            return (
-              <div
-                key={index}
-                className="bg-light-bg dark:bg-dark-bg flex flex-col items-center gap-4 rounded-md border px-2 py-5 dark:border-t-[3px] dark:border-b-0 text-center shadow md:flex-row md:text-left"
-              >
-                <div className="dark:bg-gradient-to-b dark:from-dark-hover to-dark-bg flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-lg bg-[#F4F5FF]">
-                  <IconComponent className="text-main h-7 w-7" />
+    <section className="dark:from-dark-bg dark:to-dark-theme bg-gradient-to-b">
+      <div className="container mx-auto mb-16 flex flex-col gap-8 px-2 md:px-5 lg:max-w-6xl lg:flex-row lg:items-center">
+        {/* Text Content */}
+        <div className="flex-1 space-y-6 text-center lg:text-left">
+          <h2 className="text-3xl font-bold lg:text-4xl">Our Achievement</h2>
+          <p className="mx-auto max-w-lg text-sm text-gray-600 lg:mx-0 lg:text-base dark:text-gray-200">
+            Your achievement is considered as our achievement. Whatever you
+            learn from us, even if it’s a little – we will be proud to be a part
+            of your journey.
+          </p>
+          <div className="grid grid-cols-2 gap-3 md:gap-5 lg:gap-8">
+            {data?.map((item, index) => {
+              const IconComponent = item.icon;
+              return (
+                <div
+                  key={index}
+                  className="bg-white dark:bg-dark-bg flex flex-col items-center gap-4 rounded-md border px-2 py-5 text-center shadow md:flex-row md:text-left dark:border-t-[3px] dark:border-b-0"
+                >
+                  <div className="dark:from-dark-hover to-dark-bg flex h-12 w-12 flex-shrink-0 shadow items-center border justify-center rounded-md bg-[#F4F5FF] dark:bg-gradient-to-b">
+                    <IconComponent className="text-main h-7 w-7" />
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold md:text-xl">
+                      {item?.value}
+                    </p>
+                    <h6 className="font-medium text-gray-600 dark:text-gray-200">
+                      {item?.title}
+                    </h6>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-lg font-bold md:text-xl">{item?.value}</p>
-                  <h6 className="font-medium text-gray-600 dark:text-gray-200">
-                    {item?.title}
-                  </h6>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+        </div>
+        {/* Image Grid */}
+        <div className="mx-auto mt-5 grid w-full grid-cols-2 gap-5 lg:w-[600px]">
+          <div className="relative col-span-1 h-[150px] md:h-[180px]">
+            <Image
+              src="/hero-image-2.jpeg"
+              alt="Hero Image"
+              fill
+              className="h-full w-full rounded-lg object-cover"
+            />
+          </div>
+          <div className="relative col-span-1 h-[150px] md:h-[180px]">
+            <Image
+              src="/hero-image-3.jpg"
+              alt="Hero Image"
+              fill
+              className="h-full w-full rounded-lg object-cover"
+            />
+          </div>
+          <div className="relative col-span-2 h-[200px] md:h-[250px]">
+            <Image
+              src="/hero-image-1.jpg"
+              alt="Hero Image"
+              fill
+              className="h-full w-full rounded-lg object-cover"
+            />
+          </div>
         </div>
       </div>
-
-      {/* Image Grid */}
-      <div className="mx-auto mt-5 grid w-full grid-cols-2 gap-5 lg:w-[600px]">
-        <div className="relative col-span-1 h-[150px] md:h-[180px]">
-          <Image
-            src="/hero-image-2.jpeg"
-            alt="Hero Image"
-            fill
-            className="h-full w-full rounded-lg object-cover"
-          />
-        </div>
-        <div className="relative col-span-1 h-[150px] md:h-[180px]">
-          <Image
-            src="/hero-image-3.jpg"
-            alt="Hero Image"
-            fill
-            className="h-full w-full rounded-lg object-cover"
-          />
-        </div>
-        <div className="relative col-span-2 h-[200px] md:h-[250px]">
-          <Image
-            src="/hero-image-1.jpg"
-            alt="Hero Image"
-            fill
-            className="h-full w-full rounded-lg object-cover"
-          />
-        </div>
-      </div>
-    </div>
+    </section>
   );
 }
 

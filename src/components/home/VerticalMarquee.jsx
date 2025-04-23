@@ -58,11 +58,11 @@ const SubjectCard = ({ icon: Icon, name, slogan }) => {
   return (
     <div
       className={cn(
-        "relative h-36 w-full cursor-pointer shadow-md overflow-hidden rounded-md border p-4 transition-all duration-300",
+        "relative h-36 w-full cursor-pointer overflow-hidden rounded-md border p-4 shadow-md transition-all duration-300",
         // light styles
-        "border-gray-200 bg-light-bg hover:shadow-lg",
+        "bg-white hover:shadow-lg",
         // dark styles
-        "dark:hover:border-main dark:bg-dark-hover dark:border-gray-700",
+        "dark:hover:border-main dark:bg-dark-bg",
       )}
     >
       <div className="flex h-full flex-col justify-between">
@@ -101,7 +101,7 @@ const SubjectCard = ({ icon: Icon, name, slogan }) => {
 
 export default function VerticalMarquee() {
   return (
-    <div className="dark:bg-dark-bg relative flex h-[400px] w-full flex-row items-center justify-center overflow-hidden rounded-lg border">
+    <div className="relative shadow-lg  flex h-[400px] w-full flex-row items-center justify-center overflow-hidden rounded-lg border">
       <Marquee pauseOnHover vertical className="gap-4 [--duration:20s]">
         {firstRow.map((subject) => (
           <SubjectCard key={subject.slug} {...subject} />

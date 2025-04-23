@@ -24,7 +24,7 @@ const CourseCard = ({ course }) => {
 
   return (
     <div
-      className={`dark:bg-dark-bg relative flex h-[400px] rounded-md border shadow transition-all duration-300 hover:-translate-y-2 ${
+      className={`dark:bg-dark-bg bg-white relative flex h-[400px] rounded-md border shadow transition-all duration-300 hover:-translate-y-2 ${
         isGridCol && pathname === "/courses"
           ? "h-fit flex-col items-center gap-5 sm:flex-row sm:gap-6"
           : "flex-col gap-5"
