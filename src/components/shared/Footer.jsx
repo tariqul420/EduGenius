@@ -100,8 +100,8 @@ const Footer = () => {
               <Link className="mb-1 cursor-pointer" href="/contact-us">
                 Contact Us
               </Link>
-              <Link className="mb-1 cursor-pointer" href="/faq">
-                FAQ
+              <Link className="mb-1 cursor-pointer" href="/partners&collabrates">
+              Partners & Collaborators
               </Link>
             </div>
             <div className="flex flex-col">
