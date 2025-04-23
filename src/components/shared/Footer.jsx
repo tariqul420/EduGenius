@@ -94,21 +94,21 @@ const Footer = () => {
             {/* Different types of links */}
             <div className="flex flex-col">
               <h2 className="mb-3 text-lg font-medium md:text-xl">
-                Useful Links
+                About
               </h2>
-              <Link className="mb-1 cursor-pointer" href="/aboutUs">
+              <Link className="mb-1 cursor-pointer" href="/about-us">
                 About Us
               </Link>
-              <Link className="mb-1 cursor-pointer" href="/refund">
-                Refund Policy
+              <Link className="mb-1 cursor-pointer" href="/contact-us">
+                Contact Us
               </Link>
-              <Link className="mb-1 cursor-pointer" href="/faq">
-                FAQ
+              <Link className="mb-1 cursor-pointer" href="/partners&collabrates">
+              Partners & Collaborators
               </Link>
             </div>
             <div className="flex flex-col">
               <h2 className="mb-3 text-lg font-medium md:text-xl">Resources</h2>
-              <Link className="mb-1 cursor-pointer" href="/contactUs">
+              <Link className="mb-1 cursor-pointer" href="/contact-us">
                 Contact Us
               </Link>
               <Link className="mb-1 cursor-pointer" href="/joinInstructor">
