@@ -21,7 +21,7 @@ const SectionTitle = ({ icon: Icon, title }) => (
 
 const PrivacyPolicyPage = () => {
   return (
-    <div className="mx-auto max-w-5xl px-4 py-16">
+    <div className=" mx-auto max-w-5xl px-4 py-16 dark:bg-dark-bg  dark:border-t-[3px] dark:border-b-0 dark:shadow-none  m-2 ">
       <h1 className="text-main mb-8 text-center text-4xl font-bold">
         EduGenius Privacy Policy
       </h1>
