@@ -1,6 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
+import { BorderBeam } from "../magicui/border-beam";
+
 import { ParticlesDemo } from "./HeroPerticals";
 // import { AuroraText } from "../magicui/aurora-text";
 
@@ -21,13 +23,14 @@ function HeroSection() {
         ></Image>
         {/* Text Content */}
         <div className="z-[5] text-center lg:text-left">
-          <p className="dark:text-light-bg text-xl font-medium md:text-2xl md:font-semibold">
+          <div className="dark:text-light-bg bg-gradient-to-b shadow from-white to-light-theme dark:bg-[#17122d8f] relative w-fit rounded-md border px-3 py-2">
             #1 Platform for Online Learning
-          </p>
+            <BorderBeam colorFrom="#512feb" colorTo="#ed187bda" size={70} />
+          </div>
           <h2 className="py-2 text-5xl leading-13 font-bold md:py-5 md:leading-16 lg:text-6xl">
             Enroll &{" "}
             <span className="from-main to-dark-btn relative -top-1 overflow-hidden bg-gradient-to-r bg-clip-text text-transparent md:top-0">
-              <span className="blaze absolute top-[40px] h-[10px] w-[80px] rotate-60 bg-light-bg blur-xl md:h-[10px] dark:hidden"></span>
+              <span className="blaze bg-light-bg absolute top-[40px] h-[10px] w-[80px] rotate-60 blur-xl md:h-[10px] dark:hidden"></span>
               grow up{" "}
             </span>
             {/* <AuroraText  colors={["#673de5", "#ed187b"]}>Grow Up</AuroraText> */}{" "}
@@ -42,7 +45,7 @@ function HeroSection() {
             <button className="border-green bg-main hover:bg-dark-main hover:text-medium-bg flex cursor-pointer items-center gap-2 rounded border px-4 py-2.5 text-white duration-200 md:px-6">
               Start Learning <ArrowRight />
             </button>
-            <button className="bg-white hover:bg-light-bg cursor-pointer rounded border px-4 py-2.5 text-black shadow duration-200 md:px-6">
+            <button className="hover:bg-light-bg cursor-pointer rounded border bg-white px-4 py-2.5 text-black shadow duration-200 md:px-6">
               Get Started
             </button>
           </div>
