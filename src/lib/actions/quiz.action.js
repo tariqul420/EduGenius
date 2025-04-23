@@ -132,7 +132,6 @@ export async function getQuizById(courseId) {
     throw new Error("Failed to fetch quiz");
   }
 }
-
 // get Quizzes by instructors
 export async function getQuizzes({ page = 1, limit = 10, search = "" } = {}) {
   try {

@@ -1,9 +1,11 @@
 "use client";
 
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import { IconDotsVertical } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { Monitor, MonitorPlay, MoreHorizontal } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 import BecomeInstructorInfoModal from "@/components/dashboard/admin/BecomeInstructorInfoModal";
 import { EditCategoryModal } from "@/components/dashboard/admin/EditCategoryModal";
@@ -710,7 +712,7 @@ export const studentAssignmentColumns = [
     header: "Course",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.course}
+        {row.original.course.title}
       </Badge>
     ),
   },
@@ -719,34 +721,36 @@ export const studentAssignmentColumns = [
     header: "Start Date",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.startDate}
+        {row.original?.createdAt || "Not Available"}
       </Badge>
     ),
   },
   {
-    accessorKey: "dateLine",
-    header: "Date Line",
+    accessorKey: "deadLine",
+    header: "Deadline",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.dateLine}
+        {new Date(row.original.deadline)
+          .toLocaleDateString("en-US", { day: "numeric", month: "long" })
+          .replace(/(\w+) (\d+)/, "$2 $1")}
       </Badge>
     ),
   },
   {
-    accessorKey: "mark",
-    header: "Mark",
+    accessorKey: "totalMarks",
+    header: "Total Marks",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.mark}
+        {row.original.totalMarks}
       </Badge>
     ),
   },
   {
-    accessorKey: "yourMark",
-    header: "Your Mark",
+    accessorKey: "myMarks",
+    header: "My Marks",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.yourMark}
+        {row.original.passMarks}
       </Badge>
     ),
   },
@@ -755,19 +759,38 @@ export const studentAssignmentColumns = [
     header: "Status",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.status}
+        {row.original.status.length > 0 || "Not Submitted"}
       </Badge>
     ),
   },
-  // {
-  //   id: "action",
-  //   header: "Action",
-  //   cell: ({ row }) => (
-  //     <div className="flex justify-end">
-  //       <Button variant="default">Enroll</Button>
-  //     </div>
-  //   ),
-  // },
+  // ❎❎❎❎❎ Action not Full Functionality Please fix it ❎❎❎❎❎
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            className="data-[state=open]:bg-muted hover:bg-muted/50 flex size-8 p-0"
+            size="icon"
+          >
+            <IconDotsVertical />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="center" className="w-32">
+          <DropdownMenuItem asChild>
+            <Link
+              href={`/student/assignment/${row.original.course.slug}`}
+              className="flex w-full items-center gap-2 px-2 py-1.5 text-sm"
+            >
+              Details
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    ),
+  },
 ];
 
 export const studentQuizColumns = [
