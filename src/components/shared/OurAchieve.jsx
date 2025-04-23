@@ -42,9 +42,9 @@ function OurAchieve() {
               return (
                 <div
                   key={index}
-                  className="bg-light-bg dark:bg-dark-bg flex flex-col items-center gap-4 rounded-md border px-2 py-5 text-center shadow md:flex-row md:text-left dark:border-t-[3px] dark:border-b-0"
+                  className="bg-white dark:bg-dark-bg flex flex-col items-center gap-4 rounded-md border px-2 py-5 text-center shadow md:flex-row md:text-left dark:border-t-[3px] dark:border-b-0"
                 >
-                  <div className="dark:from-dark-hover to-dark-bg flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-lg bg-[#F4F5FF] dark:bg-gradient-to-b">
+                  <div className="dark:from-dark-hover to-dark-bg flex h-12 w-12 flex-shrink-0 shadow items-center border justify-center rounded-md bg-[#F4F5FF] dark:bg-gradient-to-b">
                     <IconComponent className="text-main h-7 w-7" />
                   </div>
                   <div>

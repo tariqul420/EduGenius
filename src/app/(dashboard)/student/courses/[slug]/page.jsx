@@ -26,7 +26,7 @@ export default async function CourseModulesPage({ params }) {
       <div className="@container/main mx-auto px-4 md:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
           <div className="lg:col-span-8">
-            <Player />
+            <Player curriculum={curriculum} />
             <div className="mt-4">
               <h1 className="text-2xl font-bold">{course.title}</h1>
               <p className="text-muted-foreground">{course.description}</p>

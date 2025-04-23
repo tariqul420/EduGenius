@@ -20,15 +20,17 @@ const SocialIcon = [
 
 const Footer = () => {
   return (
-    <footer className="dark:to-dark-bg dark:from-dark-bg dark:text-light-bg border-t bg-gradient-to-r py-5 px-2 md:px-5 text-black md:py-10">
-      <div className="container mx-auto lg:max-w-6xl ">
+    <footer className="dark:to-dark-bg dark:from-dark-bg dark:text-light-bg border-t bg-gradient-to-r px-2 py-5 text-black md:px-5 md:py-10">
+      <div className="container mx-auto lg:max-w-6xl">
         {/* Top Section */}
         <div className="flex flex-col px-2 md:px-5 lg:flex-row lg:px-0">
           {/* EduGenius & Description */}
           <div className="lg:w-1/2">
             <div className="flex items-center justify-center gap-2 text-3xl lg:justify-start">
               <GraduationCap className="text-main" />
-              <h2 className="text-2xl font-semibold">Edu<span className="text-main">Genius</span></h2>
+              <h2 className="text-2xl font-semibold">
+                Edu<span className="text-main">Genius</span>
+              </h2>
             </div>
             <p className="mt-2 text-center lg:mt-0 lg:pr-36 lg:text-left">
               We are a forward-thinking software company dedicated to crafting
@@ -41,11 +43,11 @@ const Footer = () => {
             <p className="mb-1 md:text-lg">
               Subscribe Now To Get Special Features!
             </p>
-            <div className="flex w-full items-center overflow-hidden rounded-md border">
+            <div className="flex w-full dark:bg-dark-hover items-center overflow-hidden rounded-md border bg-white">
               <input
                 type="email"
                 placeholder="Your Email"
-                className="w-full bg-transparent px-2 outline-none"
+                className="w-full px-2 outline-none"
               />
               <button className="bg-main cursor-pointer rounded-tr-md px-5 py-3 text-white">
                 Subscribe
@@ -54,7 +56,7 @@ const Footer = () => {
           </div>
         </div>
         {/* Bottom Section */}
-        <div className="mt-10 flex flex-col items-start px-1.5 md:px-5 md:flex-row md:gap-8 lg:justify-between lg:p-0">
+        <div className="mt-10 flex flex-col items-start px-1.5 md:flex-row md:gap-8 md:px-5 lg:justify-between lg:p-0">
           <div className="">
             {/* Social Icons */}
             <div className="flex items-center gap-3 text-4xl">
@@ -67,7 +69,7 @@ const Footer = () => {
                 >
                   <item.icon
                     size={34}
-                    className="bg-light-bg shadow text-dark-main dark:bg-gradient-to-b dark:from-dark-hover dark:to-dark-bg rounded p-1.5"
+                    className="text-dark-main dark:from-dark-hover dark:to-dark-bg rounded bg-white p-1.5 shadow dark:bg-gradient-to-b"
                   />
                 </a>
               ))}
@@ -100,8 +102,8 @@ const Footer = () => {
               <Link className="mb-1 cursor-pointer" href="/contact-us">
                 Contact Us
               </Link>
-              <Link className="mb-1 cursor-pointer" href="/faq">
-                FAQ
+              <Link className="mb-1 cursor-pointer" href="/partners&collabrates">
+              Partners & Collaborators
               </Link>
             </div>
             <div className="flex flex-col">
@@ -127,10 +129,10 @@ const Footer = () => {
                 Blog
               </Link>
               <Link className="mb-1 cursor-pointer" href="/courses">
-               Courses
+                Courses
               </Link>
               <Link className="mb-1 cursor-pointer" href="/instructors">
-              Instructor
+                Instructor
               </Link>
             </div>
           </div>
