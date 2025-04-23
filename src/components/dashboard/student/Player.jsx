@@ -22,10 +22,10 @@ export default function Player({ curriculum }) {
     }
   }, [curriculum, play]);
 
-  const onProgress = (progress) => {
-    if (!mounted) return;
-    // Handle progress tracking
-  };
+  // const onProgress = (progress) => {
+  //   if (!mounted) return;
+  //   // Handle progress tracking
+  // };
 
   const onEnded = async () => {
     if (!mounted || !activeLesson?._id) return;
@@ -72,7 +72,7 @@ export default function Player({ curriculum }) {
           controls
           playing
           className="absolute top-0 left-0"
-          onProgress={onProgress}
+          // onProgress={onProgress}
           onEnded={onEnded}
           config={{
             file: {
