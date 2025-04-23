@@ -22,8 +22,6 @@ export default async function CourseModulesPage({ params }) {
   };
   const curriculum = await getModules({ slug });
 
-  console.log(curriculum);
-
   return (
     <section className="py-6">
       <div className="@container/main mx-auto px-4 md:px-6 lg:px-8">

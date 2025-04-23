@@ -217,7 +217,7 @@ export async function getModules({ slug }) {
                 $expr: {
                   $and: [
                     { $eq: ["$modules", "$$moduleId"] },
-                    { $eq: ["$student", studentId] },
+                    { $eq: ["$student", objectId(studentId)] },
                   ],
                 },
               },
@@ -241,12 +241,16 @@ export async function getModules({ slug }) {
                 title: "$$lesson.title",
                 videoUrl: "$$lesson.videoUrl",
                 isFinished: {
-                  $in: [
-                    "$$lesson._id",
-                    {
-                      $ifNull: [{ $arrayElemAt: ["$progress.Lessons", 0] }, []],
+                  $cond: {
+                    if: { $gt: [{ $size: "$progress" }, 0] },
+                    then: {
+                      $in: [
+                        "$$lesson._id",
+                        { $ifNull: [{ $first: "$progress.lessons" }, []] },
+                      ],
                     },
-                  ],
+                    else: false,
+                  },
                 },
                 createdAt: "$$lesson.createdAt",
                 updatedAt: "$$lesson.updatedAt",

@@ -1,6 +1,8 @@
 "use server";
 import { auth } from "@clerk/nextjs/server";
 
+import { objectId } from "../utils";
+
 import Progress from "@/models/Progress";
 
 export async function updateProgress({ lessonId, courseId, moduleId }) {
@@ -8,9 +10,9 @@ export async function updateProgress({ lessonId, courseId, moduleId }) {
     const { sessionClaims } = await auth();
     const studentId = sessionClaims?.userId;
     await Progress.findOneAndUpdate(
-      { student: studentId, course: courseId, modules: moduleId },
+      { student: objectId(studentId), course: courseId, modules: moduleId },
       {
-        $addToSet: { Lessons: lessonId },
+        $addToSet: { lessons: lessonId },
       },
       { new: true, upsert: true },
     );
