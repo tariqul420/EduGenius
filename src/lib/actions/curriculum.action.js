@@ -191,6 +191,8 @@ export async function getModules({ slug }) {
   try {
     await dbConnect();
 
+    const { sessionClaims } = await auth();
+    const studentId = sessionClaims?.userId;
     const { _id } = await Course.findOne({ slug });
 
     const courseCurriculum = await Module.aggregate([
@@ -208,8 +210,19 @@ export async function getModules({ slug }) {
       {
         $lookup: {
           from: "progresses",
-          localField: "_id",
-          foreignField: "modules",
+          let: { moduleId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$modules", "$$moduleId"] },
+                    { $eq: ["$student", studentId] },
+                  ],
+                },
+              },
+            },
+          ],
           as: "progress",
         },
       },

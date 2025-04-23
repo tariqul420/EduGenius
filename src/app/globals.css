@@ -9,8 +9,8 @@
   --color-dark-bg: #1a1a1a;
   --color-dark-hover: #262626;
   --color-dark-input: #181717;
-  --color-main: #673de5;
-  --color-dark-main: #4f1fe0;
+  --color-main: #512feb;
+  --color-dark-main: #4925eb;
   --color-sub-main: #1f1346;
   --color-light-theme: #E5EDF5;
   --color-light-bg: #f0f0f0;
@@ -19,7 +19,7 @@
 }
 
 /* .bg-color {
-  main: #673DE5;
+  main: #512feb;
   dark-main: #4f24d0;
   sub-main: #1F1346;
   light-bg: #f0f0f0;
@@ -28,7 +28,10 @@
 } */
 
 body {
-  font-family: var(--font-jost);
+   font-family: "Inter", sans-serif;
+}
+p,span{
+  font-family: "Roboto", sans-serif;
 }
 
 :root {
