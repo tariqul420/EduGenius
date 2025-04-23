@@ -1,4 +1,4 @@
-import { Jost } from "next/font/google";
+import { Inter, Roboto } from "next/font/google";
 
 import ClientClerkProvider from "@/components/shared/ClientClerkProvider";
 import { ThemeProvider } from "@/components/shared/theme-provider";
@@ -10,10 +10,16 @@ import "./globals.css";
 import "swiper/css";
 import "swiper/css/pagination";
 
-const jost = Jost({
+const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-jost",
+  variable: "--font-inter",
+});
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-roboto",
 });
 
 export const metadata = {
@@ -33,7 +39,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${jost.variable} bg-light-theme antialiased dark:bg-dark-theme dark:text-white`}
+        className={`${inter.variable} ${roboto.variable} bg-light-theme dark:bg-dark-theme antialiased dark:text-white`}
         cz-shortcut-listen="true"
       >
         <ContextProvider>
