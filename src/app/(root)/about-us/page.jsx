@@ -94,7 +94,7 @@ const AboutSection = () => {
 
           {/* Card 3 */}
           <div className="dark:bg-dark-bg flex flex-col items-center gap-2.5 rounded-md border bg-white px-2 py-3 text-center shadow dark:border-t-[3px] dark:border-b-0 dark:shadow-none">
-            <h1 className="text-5xl font-bold text-pink-600">1000</h1>
+            <h1 className="text-5xl font-bold text-pink-600">1000+</h1>
             <p className="mt-2 text-xl">Purchased Courses</p>
           </div>
         </div>
