@@ -217,7 +217,7 @@ export default function DataTable({
   return (
     <Tabs
       defaultValue="outline"
-      className="w-full flex-col overflow-hidden justify-start gap-6"
+      className="w-full flex-col justify-start gap-6"
     >
       <div className="flex items-center justify-between">
         <Label htmlFor="view-selector" className="sr-only">
@@ -236,12 +236,12 @@ export default function DataTable({
                 <span>Add course</span>
               </Link>
             ) : null}
-            <div className="flex bg-white rounded overflow-hidden dark:bg-dark-bg items-center gap-2">
+            <div className="flex items-center gap-2">
               <Input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="h-8 w-[200px] rounded-none border outline-none focus:0 text-sm"
+                className="h-8 w-[200px] text-sm"
                 placeholder="Search by title or name"
               />
             </div>
@@ -250,7 +250,7 @@ export default function DataTable({
       </div>
       <TabsContent
         value="outline"
-        className="dark:bg-dark-bg relative flex rounded-lg flex-col gap-4 overflow-auto bg-white"
+        className="relative flex flex-col gap-4 overflow-auto"
       >
         <div className="overflow-hidden rounded-lg border">
           <DndContext
@@ -261,7 +261,7 @@ export default function DataTable({
             id={sortableId}
           >
             <Table>
-              <TableHeader className="sticky top-0 z-10 bg-light-bg/50 dark:bg-dark-hover">
+              <TableHeader className="bg-muted sticky top-0 z-10">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
                     {headerGroup.headers.map((header) => (

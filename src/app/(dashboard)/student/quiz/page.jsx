@@ -23,8 +23,6 @@ export default async function Quiz({ searchParams }) {
   //   },
   // ];
 
-  console.log(quizzes, pagination);
-
   return (
     <section className="py-6">
       <div className="@container/main flex flex-1 flex-col gap-2 px-4 lg:px-6">

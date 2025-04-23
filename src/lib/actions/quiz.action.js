@@ -401,6 +401,7 @@ export async function getQuizzesForStudent({
           quizId: "$quizzes._id",
           quizTitle: "$quizzes.title",
           quizSlug: "$quizzes.slug",
+          totalQuestions: { $size: "$quizzes.questions" },
           courseId: "$course._id",
           courseSlug: "$course.slug",
           courseTitle: "$course.title",
@@ -413,6 +414,8 @@ export async function getQuizzesForStudent({
           _id: "$quizId",
           title: "$quizTitle",
           slug: "$quizSlug",
+          createdAt: 1,
+          totalQuestions: 1,
           course: {
             title: "$courseTitle",
             slug: "$courseSlug",
