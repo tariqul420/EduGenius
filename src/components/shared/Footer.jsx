@@ -103,7 +103,7 @@ const Footer = () => {
                 Contact Us
               </Link>
               <Link className="mb-1 cursor-pointer" href="/faq">
-             Faq
+             FAQ
               </Link>
             </div>
             <div className="flex flex-col">
