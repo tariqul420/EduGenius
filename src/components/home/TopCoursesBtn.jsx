@@ -30,7 +30,7 @@ function TopCoursesBtn({ categories }) {
         <button
           key={index}
           onClick={() => updateCategory(cat?.slug)}
-          className={`text-dark-bg cursor-pointer border px-4 py-3 rounded text-sm font-semibold transition ${
+          className={`text-dark-bg cursor-pointer border px-4 py-2 rounded text-sm transition ${
             categorySlug === cat?.slug
               ? "bg-main text-white"
               : "dark:bg-dark-bg hover:bg-light-bg/50 bg-white dark:text-white dark:hover:bg-black/10"
