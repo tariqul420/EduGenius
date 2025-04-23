@@ -23,7 +23,7 @@ function HeroSection() {
         ></Image>
         {/* Text Content */}
         <div className="z-[5] text-center lg:text-left">
-          <div className="dark:text-light-bg bg-gradient-to-b shadow from-white to-light-theme dark:bg-[#17122d8f] relative w-fit rounded-md border px-3 py-2">
+          <div className="dark:text-light-bg to-light-theme relative w-fit rounded-md border bg-gradient-to-b from-white px-3 py-2 shadow dark:from-[#17122d6d] dark:to-[#17122d6d]">
             #1 Platform for Online Learning
             <BorderBeam colorFrom="#512feb" colorTo="#ed187bda" size={70} />
           </div>
