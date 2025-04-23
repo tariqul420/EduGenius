@@ -73,7 +73,7 @@ export function AppSidebar({ role, menu = [] }) {
 
   return (
     <Sidebar>
-      <SidebarHeader className="bg-light-bg dark:bg-dark-bg">
+      <SidebarHeader className="bg-white dark:bg-dark-bg">
         <Link href="/" className="flex items-center gap-2 text-3xl">
           <GraduationCap size={26} className="text-main" />
           <h2 className="text-2xl font-semibold">
@@ -81,7 +81,7 @@ export function AppSidebar({ role, menu = [] }) {
           </h2>
         </Link>
       </SidebarHeader>
-      <SidebarContent className="bg-light-bg dark:bg-dark-bg">
+      <SidebarContent className="bg-white dark:bg-dark-bg">
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -92,9 +92,9 @@ export function AppSidebar({ role, menu = [] }) {
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
-                      className={`hover:bg-medium-bg dark:hover:bg-dark-hover ${
+                      className={`hover:bg-light-bg dark:hover:bg-dark-hover ${
                         isActive(item?.url)
-                          ? "bg-medium-bg dark:bg-dark-hover"
+                          ? "bg-light-bg dark:bg-dark-hover"
                           : ""
                       }`}
                       asChild
