@@ -43,7 +43,9 @@ const progressSchema = new mongoose.Schema(
 progressSchema.post("findOneAndUpdate", async function (doc) {
   try {
     // Get all lessons for this module
+
     const curriculum = await mongoose.model("Module").findById(doc.modules);
+
     const totalLessons = curriculum.lessons.length;
 
     // Count completed lessons

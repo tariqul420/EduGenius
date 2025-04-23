@@ -1,26 +1,37 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import { toast } from "sonner";
 
 import { getLesson } from "@/lib/actions/curriculum.action";
 import { updateProgress } from "@/lib/actions/progress.action";
+import { formUrlQuery } from "@/lib/utils";
 
 export default function Player({ curriculum }) {
   const [mounted, setMounted] = useState(false);
   const [activeLesson, setActiveLesson] = useState(null);
   const searchParams = useSearchParams();
   const play = searchParams.get("play");
+  const router = useRouter();
 
   // Set initial lesson when component mounts
   useEffect(() => {
     setMounted(true);
+
+    let newUrl = "";
+
     if (!play && curriculum?.lessons?.[0]) {
-      setActiveLesson(curriculum.lessons[0]);
+      newUrl = formUrlQuery({
+        params: searchParams.toString(),
+        key: "play",
+        value: curriculum?.lessons?.[0]?._id,
+      });
     }
-  }, [curriculum, play]);
+    router.push(newUrl, { scroll: false });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // const onProgress = (progress) => {
   //   if (!mounted) return;
@@ -35,6 +46,8 @@ export default function Player({ curriculum }) {
       courseId: activeLesson.course,
       moduleId: activeLesson.module,
     });
+
+    router.refresh();
   };
 
   useEffect(() => {
