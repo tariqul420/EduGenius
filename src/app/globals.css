@@ -6,16 +6,16 @@
 
 @theme {
   --color-dark-theme: #0d0d0d;
-  --color-light-theme: #E5EDF5;
+  --color-dark-bg: #1a1a1a;
+  --color-dark-hover: #262626;
+  --color-dark-input: #181717;
   --color-main: #673de5;
   --color-dark-main: #4f1fe0;
   --color-sub-main: #1f1346;
+  --color-light-theme: #E5EDF5;
   --color-light-bg: #f0f0f0;
   --color-medium-bg: #e0d7fa;
-  --color-dark-bg: #1a1a1a;
   --color-dark-btn: #e6005c;
-  --color-dark-hover: #262626;
-  --color-dark-input: #181717;
 }
 
 /* .bg-color {

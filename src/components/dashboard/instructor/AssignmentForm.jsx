@@ -259,7 +259,7 @@ export default function AssignmentForm({ assignment, courseId }) {
           name="description"
           render={({ field }) => (
             <FormItem className="col-span-1 sm:col-span-2">
-              <FormLabel>Course Description</FormLabel>
+              <FormLabel>Assignment Description</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Enter course description"
