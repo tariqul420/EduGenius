@@ -43,7 +43,7 @@ const Footer = () => {
             <p className="mb-1 md:text-lg">
               Subscribe Now To Get Special Features!
             </p>
-            <div className="flex w-full dark:bg-dark-hover items-center overflow-hidden rounded-md border bg-white">
+            <div className="dark:bg-dark-hover flex w-full items-center overflow-hidden rounded-md border bg-white">
               <input
                 type="email"
                 placeholder="Your Email"
@@ -69,7 +69,7 @@ const Footer = () => {
                 >
                   <item.icon
                     size={34}
-                    className="text-dark-main dark:from-dark-hover dark:to-dark-bg rounded bg-white p-1.5 shadow dark:bg-gradient-to-b"
+                    className="dark:text-light-bg text-main dark:from-dark-hover dark:to-dark-bg rounded bg-white p-1.5 shadow dark:bg-gradient-to-b"
                   />
                 </a>
               ))}
@@ -93,9 +93,7 @@ const Footer = () => {
           <div className="flex items-center justify-between gap-7 lg:flex-row lg:gap-32">
             {/* Different types of links */}
             <div className="flex flex-col">
-              <h2 className="mb-3 text-lg font-medium md:text-xl">
-                About
-              </h2>
+              <h2 className="mb-3 text-lg font-medium md:text-xl">About</h2>
               <Link className="mb-1 cursor-pointer" href="/about-us">
                 About Us
               </Link>
@@ -103,18 +101,19 @@ const Footer = () => {
                 Contact Us
               </Link>
               <Link className="mb-1 cursor-pointer" href="/faq">
-             Faq
+                Faq
               </Link>
             </div>
             <div className="flex flex-col">
-              <h2 className="mb-3 text-lg font-medium md:text-xl">Legal & Accessibility</h2>
+              <h2 className="mb-3 text-lg font-medium md:text-xl">
+                Legal & Accessibility
+              </h2>
               <Link className="mb-1 cursor-pointer" href="/privacy-policys">
                 Privacy policy
               </Link>
               <Link className="mb-1 cursor-pointer" href="/terms">
                 Terms
               </Link>
-             
             </div>
             <div className="flex flex-col">
               <h2 className="mb-3 text-lg font-medium md:text-xl">
