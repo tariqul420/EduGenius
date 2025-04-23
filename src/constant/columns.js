@@ -801,7 +801,7 @@ export const studentQuizColumns = [
     header: "Title",
     cell: ({ row }) => (
       <h1 className="max-w-xs truncate text-sm font-medium">
-        {row.original.title}
+        {row.original?.title}
       </h1>
     ),
     filterFn: "includesString",
@@ -812,43 +812,43 @@ export const studentQuizColumns = [
     header: "Course",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.course}
+        {row.original?.course?.title}
       </Badge>
     ),
   },
   {
-    accessorKey: "startDate",
+    accessorKey: "category",
+    header: "Category",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original?.course?.category?.name}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "createdAt",
     header: "Created At",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.startDate}
+        {format(new Date(row.original?.createdAt), "PPP")}
       </Badge>
     ),
   },
   {
-    accessorKey: "totalQuiz",
-    header: "Total Quiz",
+    accessorKey: "totalQuestion",
+    header: "Total Question",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.totalQuiz}
+        {row.original?.totalQuestions}
       </Badge>
     ),
   },
   {
-    accessorKey: "totalMark",
-    header: "Total Mark",
+    accessorKey: "myMark",
+    header: "My Mark",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.totalMark}
-      </Badge>
-    ),
-  },
-  {
-    accessorKey: "yourMark",
-    header: "Your Mark",
-    cell: ({ row }) => (
-      <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.yourMark}
+        {row.original?.myMark ? row.original?.myMark : "Not Submitted"}
       </Badge>
     ),
   },
@@ -857,19 +857,35 @@ export const studentQuizColumns = [
     header: "Status",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.status}
+        {row.original?.status ? row.original?.status : "Not Submitted"}
       </Badge>
     ),
   },
-  // {
-  //   id: "action",
-  //   header: "Action",
-  //   cell: ({ row }) => (
-  //     <div className="flex justify-end">
-  //       <Button variant="default">Enroll</Button>
-  //     </div>
-  //   ),
-  // },
+  {
+    id: "actions",
+    header: "Action",
+    cell: ({ row }) => {
+      return (
+        <div className="flex justify-end">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Actions</span>
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Start Quiz</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>View Details</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      );
+    },
+  },
 ];
 
 export const becomeInstructorsColumns = [
