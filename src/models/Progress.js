@@ -20,7 +20,7 @@ const progressSchema = new mongoose.Schema(
       isFinished: { type: Boolean, default: false },
     },
 
-    Lessons: [
+    lessons: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Lesson",
