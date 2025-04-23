@@ -60,7 +60,7 @@ function Navbar() {
 
   return (
     <nav
-      className={`dark:from-dark-bg/20 dark:to-dark-bg/20 sticky top-0 z-[20] bg-gradient-to-r from-white/50 to-white/50 p-4 text-black shadow-sm backdrop-blur dark:text-white ${showNavbar ? "translate-y-0" : "-translate-y-full"} transition-transform duration-300`}
+      className={`dark:from-dark-bg/20 dark:to-dark-bg/20 sticky top-0 z-[20] bg-gradient-to-r from-white to-white p-4 text-black shadow-sm backdrop-blur dark:text-white ${showNavbar ? "translate-y-0" : "-translate-y-full"} transition-transform duration-300`}
     >
       <div className="container mx-auto flex items-center justify-between lg:max-w-6xl">
         {/* Logo */}
@@ -76,7 +76,7 @@ function Navbar() {
           <ul className="hidden space-x-6 lg:flex">
             {navLinks.map((link) => (
               <li key={link?.href}>
-                <Link href={link?.href} className={"group relative px-1"}>
+                <Link href={link?.href} className={"group text-sm relative px-1"}>
                   {link.label}
                   {isActive(link?.href) && (
                     <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-full rounded-full bg-black dark:bg-white"></span>
@@ -95,7 +95,7 @@ function Navbar() {
           <SignedOut>
             <Link
               href="/sign-in"
-              className="text-dark-main hover:bg-light-bg hidden items-center rounded border bg-white px-3 py-[5px] shadow transition duration-200 lg:flex dark:text-black"
+              className="bg-main hover:bg-dark-main hidden items-center rounded text-white px-3 py-[5px] shadow transition duration-200 lg:flex"
             >
               <LogIn className="mr-1.5" size={18} />
               Login
