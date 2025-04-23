@@ -102,21 +102,19 @@ const Footer = () => {
               <Link className="mb-1 cursor-pointer" href="/contact-us">
                 Contact Us
               </Link>
-              <Link className="mb-1 cursor-pointer" href="/partners&collabrates">
-              Partners & Collaborators
+              <Link className="mb-1 cursor-pointer" href="/faq">
+             Faq
               </Link>
             </div>
             <div className="flex flex-col">
-              <h2 className="mb-3 text-lg font-medium md:text-xl">Resources</h2>
-              <Link className="mb-1 cursor-pointer" href="/contact-us">
-                Contact Us
+              <h2 className="mb-3 text-lg font-medium md:text-xl">Legal & Accessibility</h2>
+              <Link className="mb-1 cursor-pointer" href="/privacy-policys">
+                Privacy policy
               </Link>
-              <Link className="mb-1 cursor-pointer" href="/joinInstructor">
-                Join as Instructor
+              <Link className="mb-1 cursor-pointer" href="/terms">
+                Terms
               </Link>
-              <Link className="mb-1 cursor-pointer" href="/aboutUs">
-                Blog
-              </Link>
+             
             </div>
             <div className="flex flex-col">
               <h2 className="mb-3 text-lg font-medium md:text-xl">
