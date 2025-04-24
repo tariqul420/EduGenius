@@ -15,7 +15,7 @@ const colorMap = {
 
 export default function OrbitingCircle() {
   return (
-    <div className="dark:bg-gradient-to-b from-dark-bg to-dark-hover dark:border relative flex h-[400px] w-full flex-col items-center justify-center overflow-hidden rounded-lg">
+    <div className="dark:bg-gradient-to-b from-black to-black relative flex h-[400px] w-full flex-col items-center justify-center overflow-hidden rounded-lg">
       {/* Main orbiting circles */}
       <OrbitingCircles speed={0.3} iconSize={40} radius={150}>
         <CourseIcon icon={Code2} color="text-sky-400" />
@@ -43,7 +43,7 @@ const CourseIcon = ({ icon: Icon, color }) => {
       className={cn(
         "flex h-12 w-12 items-center justify-center rounded-full p-3 shadow-lg",
         "from-medium-bg to-dark-main bg-gradient-to-b",
-        "dark:from-dark-hover dark:to-dark-main",
+        "dark:from-dark-bg/70 dark:to-dark-main",
         "text-white",
         colorMap[color],
       )}
