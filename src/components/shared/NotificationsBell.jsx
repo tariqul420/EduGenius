@@ -7,12 +7,30 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { generateNotificationMessage } from "@/constant/message-generator";
+import { getReceiveNotification } from "@/lib/actions/notification.action";
 
-export default function NotificationsBell() {
+export default async function NotificationsBell() {
+  // Fetch received notifications
+  const { notifications: receivedNotifications } = await getReceiveNotification(
+    {
+      page: 1,
+      limit: 5,
+    },
+  );
+
+  // Calculate unread notifications for the badge
+  const unreadCount = receivedNotifications.filter(
+    (n) =>
+      !n.readBy.some((rb) => rb.user.toString() === n.recipient[0].toString()),
+  ).length;
+
   return (
     <Popover>
       <PopoverTrigger className="relative flex cursor-pointer items-center gap-2 rounded-full border p-2 text-3xl shadow">
-        <span className="bg-dark-btn absolute top-0 right-0 h-2 w-2 rounded-full drop-shadow-2xl" />
+        {unreadCount > 0 && (
+          <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-red-500" />
+        )}
         <Bell size={16} />
       </PopoverTrigger>
       <PopoverContent>
@@ -36,7 +54,20 @@ export default function NotificationsBell() {
               </TabsList>
 
               <TabsContent value="receive" className="mt-6">
-                You have no new notifications. Check back later for updates.
+                {receivedNotifications.length > 0 ? (
+                  <ul className="space-y-2">
+                    {receivedNotifications.map((notification) => (
+                      <li
+                        key={notification._id}
+                        className="rounded-md p-2 hover:bg-gray-50 dark:hover:bg-gray-700"
+                      >
+                        {generateNotificationMessage(notification)}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No new notifications. Check back later for updates.</p>
+                )}
               </TabsContent>
 
               <TabsContent value="send" className="mt-6">
