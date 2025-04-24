@@ -1,5 +1,6 @@
 import {
   BarChart2,
+  ChevronsRight,
   Code2,
   Film,
   Globe,
@@ -62,37 +63,24 @@ const SubjectCard = ({ icon: Icon, name, slogan }) => {
         // light styles
         "bg-white hover:shadow-lg",
         // dark styles
-        "dark:hover:border-main dark:bg-dark-bg",
+        "dark:hover:border-main/50 dark:bg-dark-bg",
       )}
     >
       <div className="flex h-full flex-col justify-between">
         <div className="flex items-center gap-3">
           <div className="bg-main/10 dark:bg-main/20 flex h-10 w-10 items-center justify-center rounded-full">
-            <Icon className="text-main h-5 w-5" />
+            <Icon className="text-main dark:text-dark-btn h-5 w-5" />
           </div>
-          <h3 className="text-sm font-bold text-gray-900 sm:text-base dark:text-white">
+          <h3 className="text-sm font-medium sm:text-base dark:text-white">
             {name}
           </h3>
         </div>
         <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-300">
           {slogan}
         </p>
-        <div className="text-main flex items-center text-xs font-medium sm:text-sm">
+        <div className="text-main flex gap-0.5 items-center text-xs font-medium sm:text-sm">
           Explore
-          <svg
-            className="ml-1 h-3 w-3 transition-transform sm:h-4 sm:w-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
+          <ChevronsRight className="text-dark-btn/90" size={18} />
         </div>
       </div>
     </div>

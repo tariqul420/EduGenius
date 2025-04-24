@@ -1,9 +1,9 @@
-import { Rocket, User, Users, Video } from "lucide-react";
+import { Rocket, ShieldUser, Users, Video } from "lucide-react";
 import Image from "next/image";
 
 const data = [
   {
-    icon: User,
+    icon: ShieldUser,
     value: "9 +",
     title: "Teacher",
   },
@@ -42,10 +42,10 @@ function OurAchieve() {
               return (
                 <div
                   key={index}
-                  className="bg-white dark:bg-dark-bg flex flex-col items-center gap-4 rounded-md border px-2 py-5 text-center shadow md:flex-row md:text-left dark:border-t-[3px] dark:border-b-0"
+                  className="dark:bg-dark-bg flex flex-col items-center gap-4 rounded-md border bg-white px-2 py-5 text-center shadow md:flex-row md:text-left dark:border-t-[3px] dark:border-b-0"
                 >
-                  <div className="dark:from-dark-hover to-dark-bg flex h-12 w-12 flex-shrink-0 shadow items-center border justify-center rounded-md bg-[#F4F5FF] dark:bg-gradient-to-b">
-                    <IconComponent className="text-main h-7 w-7" />
+                  <div className="dark:from-dark-hover to-dark-bg bg-main/10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-md border dark:bg-gradient-to-b dark:shadow">
+                    <IconComponent className="text-main h-6 w-6" />
                   </div>
                   <div>
                     <p className="text-lg font-bold md:text-xl">
@@ -61,7 +61,7 @@ function OurAchieve() {
           </div>
         </div>
         {/* Image Grid */}
-        <div className="mx-auto mt-5 grid w-full grid-cols-2 gap-5 lg:w-[600px]">
+        <div className="mx-auto mt-5 grid w-full grid-cols-2 gap-5 px-3 sm:px-0 lg:w-[600px]">
           <div className="relative col-span-1 h-[150px] md:h-[180px]">
             <Image
               src="/hero-image-2.jpeg"
