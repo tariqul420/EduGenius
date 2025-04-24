@@ -44,7 +44,7 @@ export default function QuizModal({ slug }) {
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md">
-        {isSubmitted ? (
+        {!isSubmitted ? (
           <>
             <DialogHeader>
               <DialogTitle className="text-center text-2xl">
@@ -135,35 +135,37 @@ export default function QuizModal({ slug }) {
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle className="flex items-center gap-2">
-                <AlertCircle className="h-5 w-5 text-yellow-500" />
+              <DialogTitle className="flex items-center gap-2 text-yellow-600 dark:text-yellow-500">
+                <AlertCircle className="h-5 w-5" />
                 Quiz Instructions
               </DialogTitle>
-              <DialogDescription className="space-y-2 pt-2">
-                <p>
+              <DialogDescription className="text-muted-foreground space-y-2 pt-2 text-sm">
+                <div>
                   This quiz contains {total} questions and must be completed in
                   one session.
-                </p>
-                <div className="flex items-center gap-2 text-sm">
-                  <Clock className="h-4 w-4" />
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="text-muted-foreground h-4 w-4" />
                   <span>Estimated time: {Math.round(total * 1.5)} minutes</span>
                 </div>
               </DialogDescription>
             </DialogHeader>
 
             <div className="my-4 rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
-              <h4 className="mb-2 font-medium">Before you start:</h4>
+              <h4 className="text-foreground mb-2 font-medium">
+                Before you start:
+              </h4>
               <ul className="text-muted-foreground space-y-2 text-sm">
                 <li className="flex items-start gap-2">
-                  <span>•</span>
+                  <span className="mt-1">•</span>
                   <span>Ensure you have a stable internet connection</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span>•</span>
+                  <span className="mt-1">•</span>
                   <span>Find a quiet place with no distractions</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span>•</span>
+                  <span className="mt-1">•</span>
                   <span>Have any allowed materials ready</span>
                 </li>
               </ul>
@@ -175,11 +177,11 @@ export default function QuizModal({ slug }) {
                 type="button"
                 asChild
               >
-                <Link href={`/student/courses/${slug}`}>Start Quiz Now</Link>
+                <Link href={`/student/courses/${slug}/${slug}`}>Start Quiz Now</Link>
               </Button>
               <DialogClose asChild>
                 <Button
-                  className="hover:bg-medium-bg dark:hover:bg-dark-bg rounded-full px-6"
+                  className="hover:bg-medium-bg dark:hover:bg-dark-bg text-foreground rounded-full px-6"
                   type="button"
                   variant="secondary"
                 >

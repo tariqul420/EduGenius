@@ -494,3 +494,200 @@ export async function getQuizzesForStudent({
     throw new Error("Failed to fetch quizzes for student: " + error.message);
   }
 }
+export async function getQuizzesQuestionForStudent({
+  page = 1,
+  limit = 10,
+  search = "",
+} = {}) {
+  try {
+    await dbConnect();
+
+    const { sessionClaims } = await auth();
+    const userId = sessionClaims?.userId;
+
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    // Create search match stage for quiz title
+    const searchMatch = search
+      ? {
+          $match: {
+            "quizzes.title": { $regex: search, $options: "i" },
+          },
+        }
+      : { $match: {} };
+
+    // Aggregation pipeline
+    const aggregationPipeline = [
+      // Match the student by user ID
+      {
+        $match: {
+          student: objectId(userId),
+        },
+      },
+      // Unwind the courses array
+      {
+        $unwind: {
+          path: "$courses",
+        },
+      },
+      // Lookup quizzes for each course
+      {
+        $lookup: {
+          from: "quizzes",
+          localField: "courses",
+          foreignField: "course",
+          as: "quizzes",
+        },
+      },
+      // Unwind the quizzes array
+      {
+        $unwind: {
+          path: "$quizzes",
+        },
+      },
+      // Apply search filter on quiz title
+      searchMatch,
+      // Lookup course data
+      {
+        $lookup: {
+          from: "courses",
+          localField: "courses",
+          foreignField: "_id",
+          as: "course",
+        },
+      },
+      // Unwind course array
+      {
+        $unwind: {
+          path: "$course",
+        },
+      },
+      // Lookup category data with fallback for missing categories
+      {
+        $lookup: {
+          from: "categories",
+          localField: "course.category",
+          foreignField: "_id",
+          as: "course.category",
+        },
+      },
+      // Handle missing categories
+      {
+        $addFields: {
+          "course.category": {
+            $cond: {
+              if: { $eq: [{ $size: "$course.category" }, 0] },
+              then: { name: "Unknown" },
+              else: { $arrayElemAt: ["$course.category", 0] },
+            },
+          },
+        },
+      },
+      // Add fields to shape the output
+      {
+        $addFields: {
+          quizId: "$quizzes._id",
+          quizTitle: "$quizzes.title",
+          quizSlug: "$quizzes.slug",
+          questions: "$quizzes.questions", // Include questions array
+          totalQuestions: { $size: "$quizzes.questions" },
+          courseId: "$course._id",
+          courseSlug: "$course.slug",
+          courseTitle: "$course.title",
+          categoryName: "$course.category.name",
+        },
+      },
+      // Project to include necessary fields including questions
+      {
+        $project: {
+          _id: "$quizId",
+          title: "$quizTitle",
+          slug: "$quizSlug",
+          createdAt: 1,
+          questions: 1, // Include questions in the output
+          totalQuestions: 1,
+          course: {
+            title: "$courseTitle",
+            slug: "$courseSlug",
+            _id: "$courseId",
+            category: {
+              name: "$categoryName",
+            },
+          },
+        },
+      },
+      // Sort by quiz title
+      {
+        $sort: { title: 1 },
+      },
+      // Skip for pagination
+      {
+        $skip: (page - 1) * limit,
+      },
+      // Limit results
+      {
+        $limit: limit,
+      },
+    ];
+
+    // Get total count for pagination (same as before)
+    const [totalCount] = await Student.aggregate([
+      {
+        $match: {
+          student: objectId(userId),
+        },
+      },
+      {
+        $unwind: {
+          path: "$courses",
+        },
+      },
+      {
+        $lookup: {
+          from: "quizzes",
+          localField: "courses",
+          foreignField: "course",
+          as: "quizzes",
+        },
+      },
+      {
+        $unwind: {
+          path: "$quizzes",
+        },
+      },
+      searchMatch,
+      {
+        $count: "total",
+      },
+    ]);
+
+    const totalQuizzes = totalCount?.total || 0;
+    const totalPages = Math.ceil(totalQuizzes / limit);
+
+    // Execute main aggregation
+    const quizzes = await Student.aggregate(aggregationPipeline);
+
+    return JSON.parse(
+      JSON.stringify({
+        quizzes,
+        pagination: {
+          currentPage: page,
+          totalPages,
+          totalItems: totalQuizzes,
+          hasNextPage: page < totalPages,
+          hasPrevPage: page > 1,
+        },
+      }),
+    );
+  } catch (error) {
+    console.error(
+      "Error fetching quizzes with questions for student:",
+      error.stack,
+    );
+    throw new Error(
+      "Failed to fetch quizzes with questions for student: " + error.message,
+    );
+  }
+}
