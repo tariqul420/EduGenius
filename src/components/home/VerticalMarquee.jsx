@@ -59,7 +59,7 @@ const SubjectCard = ({ icon: Icon, name, slogan }) => {
   return (
     <div
       className={cn(
-        "relative h-36 w-full cursor-pointer overflow-hidden rounded-md border p-4 shadow-md transition-all duration-300",
+        "relative h-36 w-full cursor-pointer overflow-hidden rounded-md border px-2 sm:px-4 py-4 shadow-md transition-all duration-300",
         // light styles
         "bg-white hover:shadow-lg",
         // dark styles
@@ -67,18 +67,18 @@ const SubjectCard = ({ icon: Icon, name, slogan }) => {
       )}
     >
       <div className="flex h-full flex-col justify-between">
-        <div className="flex items-center gap-3">
-          <div className="bg-main/10 dark:bg-main/20 flex h-10 w-10 items-center justify-center rounded-full">
+        <div className="flex items-center gap-1.5 sm:gap-3">
+          <div className="bg-main/10 dark:bg-main/20 flex h-7 w-7 items-center justify-center sm:h-10 sm:w-10">
             <Icon className="text-main dark:text-dark-btn h-5 w-5" />
           </div>
-          <h3 className="text-sm font-medium sm:text-base dark:text-white">
+          <h3 className="text-xs font-medium sm:text-base dark:text-white">
             {name}
           </h3>
         </div>
         <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-300">
           {slogan}
         </p>
-        <div className="text-main flex gap-0.5 items-center text-xs font-medium sm:text-sm">
+        <div className="dark:text-white flex items-center gap-0.5 text-xs font-medium sm:text-sm">
           Explore
           <ChevronsRight className="text-dark-btn/90" size={18} />
         </div>
@@ -89,19 +89,19 @@ const SubjectCard = ({ icon: Icon, name, slogan }) => {
 
 export default function VerticalMarquee() {
   return (
-    <div className="relative shadow-lg  flex h-[400px] w-full flex-row items-center justify-center overflow-hidden rounded-lg border">
-      <Marquee pauseOnHover vertical className="gap-4 [--duration:20s]">
+    <div className="relative flex h-[400px] w-full flex-row items-center justify-center overflow-hidden rounded-lg border shadow-lg">
+      <Marquee pauseOnHover vertical className="gap-4 [--duration:20s] p-1 sm:p-2">
         {firstRow.map((subject) => (
           <SubjectCard key={subject.slug} {...subject} />
         ))}
       </Marquee>
-      <Marquee reverse pauseOnHover vertical className="gap-4 [--duration:20s]">
+      <Marquee reverse pauseOnHover vertical className="gap-4 [--duration:20s] p-1 sm:p-2">
         {secondRow.map((subject) => (
           <SubjectCard key={subject.slug} {...subject} />
         ))}
       </Marquee>
-      {/* <div className="from-light-bg dark:from-black pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b"></div>
-      <div className="from-light-bg dark:from-black pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t"></div> */}
+      <div className="dark:from-dark-theme pointer-events-none absolute inset-x-0 top-0 h-1/7 bg-gradient-to-b from-transparent"></div>
+      <div className="dark:from-dark-theme pointer-events-none absolute inset-x-0 bottom-0 h-1/7 bg-gradient-to-t from-transparent"></div>
     </div>
   );
 }
