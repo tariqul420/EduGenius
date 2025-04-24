@@ -1,7 +1,9 @@
+/* eslint-disable no-shadow */
 import mongoose from "mongoose";
 
 import Course from "./Course";
 import Instructor from "./Instructor";
+import Notification from "./Notification";
 import Progress from "./Progress";
 import Student from "./Student";
 import User from "./User";
@@ -17,57 +19,108 @@ const paymentSchema = new mongoose.Schema(
 
 // Pre-save middleware to validate course and student existence
 paymentSchema.pre("save", async function (next) {
-  if (this.isModified("course")) {
-    const course = await Course.findById(this.course);
-    if (!course) {
-      throw new Error("Course not found");
+  try {
+    if (this.isModified("course")) {
+      const course = await Course.findById(this.course);
+      if (!course) {
+        throw new Error("Course not found");
+      }
     }
-  }
-  if (this.isModified("student")) {
-    const student = await User.findById(this.student);
-    if (!student) {
-      throw new Error("Student not found");
+    if (this.isModified("student")) {
+      const student = await User.findById(this.student);
+      if (!student || student.role !== "student") {
+        throw new Error("Student not found or invalid role");
+      }
     }
+    next();
+  } catch (error) {
+    next(error);
   }
-  next();
 });
 
-// Post-save middleware to add student to the course
+// Post-save middleware to add student to course and handle notifications
 paymentSchema.post("save", async function (doc) {
   try {
-    const course = await Course.findById(doc.course);
+    // Fetch course with instructor populated
+    const course = await Course.findById(doc.course).populate("instructor");
     if (!course) {
       throw new Error("Course not found after payment save");
     }
 
-    // Use the addStudent method from the Course schema
-    const instructorId = course.instructor;
+    const student = await User.findById(doc.student);
+    if (!student) {
+      throw new Error("Student not found after payment save");
+    }
+
+    const instructorId = course.instructor._id;
     const studentId = doc.student;
-    await Course.findOneAndUpdate(
-      { _id: course._id },
-      { $addToSet: { students: studentId } }, // Use $addToSet to avoid duplicates
-      { upsert: true },
-    );
 
-    await Instructor.findOneAndUpdate(
-      { instructorId },
-      { $addToSet: { students: studentId } }, // Use $addToSet to avoid duplicates
-      { upsert: true },
-    );
+    // Update Course, Instructor, Student, and Progress
+    await Promise.all([
+      Course.findOneAndUpdate(
+        { _id: course._id },
+        { $addToSet: { students: studentId } },
+        { upsert: true },
+      ),
+      Instructor.findOneAndUpdate(
+        { instructorId },
+        { $addToSet: { students: studentId } },
+        { upsert: true },
+      ),
+      Student.findOneAndUpdate(
+        { student: studentId },
+        { $addToSet: { courses: course._id } },
+        { upsert: true },
+      ),
+      Progress.create({
+        student: studentId,
+        course: course._id,
+      }),
+    ]);
 
-    await Student.findOneAndUpdate(
-      { student: studentId },
-      { $addToSet: { courses: course._id } }, // Use $addToSet to avoid duplicates
-      { upsert: true },
-    );
-
-    await Progress.create({
-      student: studentId,
-      course: course._id,
+    // Find existing purchase notification for this course
+    const existingNotification = await Notification.findOne({
+      course: doc.course,
+      type: "purchase",
     });
+
+    if (existingNotification) {
+      // Update existing notification's recipient array
+      const updatePromises = [];
+
+      // Add studentId if not already in recipient
+      if (!existingNotification.recipient.includes(studentId)) {
+        updatePromises.push(
+          Notification.findOneAndUpdate(
+            { _id: existingNotification._id },
+            {
+              $addToSet: { recipient: studentId },
+            },
+            { new: true },
+          ),
+        );
+      }
+
+      if (updatePromises.length > 0) {
+        await Promise.all(updatePromises);
+      }
+    } else {
+      // Create new notifications for student and instructor
+      const notifications = [
+        new Notification({
+          recipient: [studentId],
+          sender: instructorId,
+          course: doc.course,
+          type: "purchase",
+          readBy: [],
+        }),
+      ];
+
+      await Promise.all(notifications.map((n) => n.save()));
+    }
   } catch (error) {
-    console.error("Error adding student to course after payment:", error);
-    throw error; // Optionally rethrow the error to handle it upstream
+    console.error("Error in payment post-save middleware:", error);
+    throw error; // Rethrow to allow upstream handling
   }
 });
 
