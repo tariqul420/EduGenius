@@ -53,9 +53,9 @@ export default async function NotificationsBell() {
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="receive" className="mt-6">
+              <TabsContent value="receive" className="mt-2">
                 {receivedNotifications.length > 0 ? (
-                  <ul className="space-y-2">
+                  <ul className="space-y-1">
                     {receivedNotifications.map((notification) => (
                       <li
                         key={notification._id}
