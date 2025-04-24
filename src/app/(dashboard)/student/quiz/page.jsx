@@ -10,7 +10,7 @@ export default async function Quiz({ searchParams }) {
     page: Number(pageIndex || 1),
     search: search?.trim(),
   });
-
+  // console.log("quizzes", quizzes);
   // const quizzes = [
   //   {
   //     id: 1,

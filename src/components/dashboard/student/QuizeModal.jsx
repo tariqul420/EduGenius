@@ -1,4 +1,5 @@
 "use client";
+import { AlertCircle, Award, Clock, Trophy, Wrench } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -12,99 +13,183 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-export default function QuizeModal({ slug }) {
-  const isSumbitted = false;
+
+export default function QuizModal({ slug }) {
+  const score = 16; // Replace with actual score
+  const total = 20;
+  const percentage = (score / total) * 100;
+  const strokeDash = (percentage / 100) * 251;
+
+  let label = "Needs Practice";
+  let icon = <Wrench className="h-5 w-5 text-yellow-500" />;
+  let feedback = "Keep practicing to improve your skills!";
+
+  if (score >= 17) {
+    label = "Excellent!";
+    icon = <Trophy className="h-5 w-5 text-green-500" />;
+    feedback = "Outstanding performance! You've mastered this material.";
+  } else if (score >= 13) {
+    label = "Good Job";
+    icon = <Award className="h-5 w-5 text-blue-500" />;
+    feedback = "Solid understanding, but there's room for improvement.";
+  }
+
+  const isSubmitted = true;
+
   return (
-    <>
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="outline" className="w-full">
-            Details
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          {isSumbitted ? (
-            <>
-              <DialogHeader>
-                <DialogTitle>Are you absolutely sure?</DialogTitle>
-                <DialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="my-6 flex justify-center">
-                <div className="relative h-32 w-32">
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline" className="w-full">
+          Details
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-md">
+        {isSubmitted ? (
+          <>
+            <DialogHeader>
+              <DialogTitle className="text-center text-2xl">
+                Quiz Results
+              </DialogTitle>
+            </DialogHeader>
+
+            <div className="my-4 flex flex-col items-center gap-6">
+              {/* Score Circle */}
+              <div className="relative h-40 w-40">
+                <svg className="h-full w-full" viewBox="0 0 100 100">
                   {/* Background circle */}
-                  <svg className="h-full w-full" viewBox="0 0 100 100">
-                    {/* Background circle */}
-                    <circle
-                      className="text-gray-200"
-                      strokeWidth="8"
-                      stroke="currentColor"
-                      fill="transparent"
-                      r="40"
-                      cx="50"
-                      cy="50"
-                    />
-                    {/* Progress circle */}
-                    <circle
-                      className="text-green-500"
-                      strokeWidth="8"
-                      strokeLinecap="round"
-                      stroke="currentColor"
-                      fill="transparent"
-                      r="40"
-                      cx="50"
-                      cy="50"
-                      strokeDasharray={`${(16 / 20) * 251} 251`} // 251 is ~2*π*r
-                      transform="rotate(-90 50 50)"
-                    />
-                  </svg>
-                  {/* Center text */}
-                  <div className="absolute top-0 left-0 flex h-full w-full flex-col items-center justify-center">
-                    <span className="text-2xl font-bold">
-                      {16}/{20}
-                    </span>
-                    <span className="text-sm text-gray-500">
-                      Correct Answers
-                    </span>
+                  <circle
+                    className="text-main dark:text-dark-500"
+                    strokeWidth="8"
+                    stroke="currentColor"
+                    fill="transparent"
+                    r="40"
+                    cx="50"
+                    cy="50"
+                  />
+                  {/* Progress circle with reversed color */}
+                  <circle
+                    className="text-gray-200 dark:text-gray-700"
+                    strokeWidth="8"
+                    strokeLinecap="round"
+                    stroke="currentColor"
+                    fill="transparent"
+                    r="40"
+                    cx="50"
+                    cy="50"
+                    strokeDasharray={`${strokeDash} 251`}
+                    transform="rotate(-90 50 50)"
+                    style={{
+                      strokeDashoffset: 251,
+                      animationFillMode: "forwards",
+                    }}
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
+                  <span className="text-dark-main text-3xl font-bold dark:text-white">
+                    {score}/{total}
+                  </span>
+                  <span className="text-muted-foreground text-sm">
+                    {Math.round(percentage)}% Correct
+                  </span>
+                </div>
+              </div>
+
+              {/* Result Feedback */}
+              <div className="space-y-2 text-center">
+                <div className="flex items-center justify-center gap-2 text-lg font-medium">
+                  {icon}
+                  <span>{label}</span>
+                </div>
+                <p className="text-muted-foreground max-w-xs text-sm">
+                  {feedback}
+                </p>
+              </div>
+
+              {/* Breakdown */}
+              <div className="w-full border-t pt-4">
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-green-500"></span>
+                    <span>Correct: {score}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-red-500"></span>
+                    <span>Incorrect: {total - score}</span>
                   </div>
                 </div>
               </div>
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button type="button" variant="secondary">
-                    Close
-                  </Button>
-                </DialogClose>
-                <Button type="button" variant="secondary">
-                  <Link href={`/student/courses/${slug}`}>Progress Bar</Link>
+            </div>
+
+            <DialogFooter className="sm:justify-center">
+              <DialogClose asChild>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  className="hover:bg-medium-bg dark:hover:bg-dark-bg rounded-full px-6"
+                >
+                  Close
                 </Button>
-              </DialogFooter>
-            </>
-          ) : (
-            <>
-              <DialogHeader>
-                <DialogTitle>Are you absolutely sure?</DialogTitle>
-                <DialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button type="button" variant="secondary">
-                    Close
-                  </Button>
-                </DialogClose>
-                <Button type="button" variant="secondary">
-                  <Link href={`/student/courses/${slug}`}>Start Quize</Link>
+              </DialogClose>
+            </DialogFooter>
+          </>
+        ) : (
+          <>
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <AlertCircle className="h-5 w-5 text-yellow-500" />
+                Quiz Instructions
+              </DialogTitle>
+              <DialogDescription className="space-y-2 pt-2">
+                <p>
+                  This quiz contains {total} questions and must be completed in
+                  one session.
+                </p>
+                <div className="flex items-center gap-2 text-sm">
+                  <Clock className="h-4 w-4" />
+                  <span>Estimated time: {Math.round(total * 1.5)} minutes</span>
+                </div>
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="my-4 rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
+              <h4 className="mb-2 font-medium">Before you start:</h4>
+              <ul className="text-muted-foreground space-y-2 text-sm">
+                <li className="flex items-start gap-2">
+                  <span>•</span>
+                  <span>Ensure you have a stable internet connection</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span>•</span>
+                  <span>Find a quiet place with no distractions</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span>•</span>
+                  <span>Have any allowed materials ready</span>
+                </li>
+              </ul>
+            </div>
+
+            <DialogFooter className="flex-col gap-2 sm:flex-row-reverse">
+              <Button
+                className="bg-main hover:bg-dark-main rounded-full px-6 text-white"
+                type="button"
+                asChild
+              >
+                <Link href={`/student/courses/${slug}`}>Start Quiz Now</Link>
+              </Button>
+              <DialogClose asChild>
+                <Button
+                  className="hover:bg-medium-bg dark:hover:bg-dark-bg rounded-full px-6"
+                  type="button"
+                  variant="secondary"
+                >
+                  I&apos;ll Do It Later
                 </Button>
-              </DialogFooter>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
-    </>
+              </DialogClose>
+            </DialogFooter>
+          </>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }
