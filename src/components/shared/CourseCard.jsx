@@ -32,7 +32,7 @@ const CourseCard = ({ course }) => {
     >
       <div className={"w-full"}>
         {/* Category Badge */}
-        <p className="bg-main absolute top-0 left-0 z-[1] w-fit rounded px-3 py-1.5 text-sm text-white">
+        <p className="bg-gradient-to-r from-dark-btn/70 to-main absolute top-1 left-1 z-[1] w-fit rounded px-3 py-1.5 text-sm text-white">
           {category?.name || category?.slug}
         </p>
         {/* Course Thumbnail */}
