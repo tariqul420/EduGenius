@@ -9,9 +9,9 @@
   --color-dark-bg: #1a1a1a;
   --color-dark-hover: #262626;
   --color-dark-input: #181717;
-  --color-main: #512feb;
+  --color-main: #5e3df0;
   --color-dark-main: #4513da;
-  --color-sub-main: #1f1346;
+  --color-sub-main: #7e56ff;
   --color-light-theme: #E5EDF5;
   --color-light-bg: #f0f0f0;
   --color-medium-bg: #e0d7fa;
@@ -19,9 +19,9 @@
 }
 
 /* .bg-color {
-  main: #512feb;
+  main: #5e3df0;
   dark-main: #4513da;
-  sub-main: #1F1346;
+  sub-main: #7e56ff;
   light-bg: #f0f0f0;
   --color-light-theme: #E5EDF5;
   dark-bg: #111111;
