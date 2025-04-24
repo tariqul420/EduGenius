@@ -23,7 +23,7 @@ function HeroSection() {
         ></Image>
         {/* Text Content */}
         <div className="z-[5] text-center lg:text-left">
-          <div className="dark:text-light-bg to-light-theme relative w-fit rounded-md border bg-gradient-to-b from-white px-3 py-2 shadow dark:from-[#17122dcc] dark:to-[#17122d5f]">
+          <div className="dark:text-light-bg mx-auto lg:mx-0 to-light-theme relative w-fit rounded-md border text-sm bg-gradient-to-b from-white px-3 py-2 shadow dark:from-[#17122dcc] dark:to-[#17122d5f]">
             #1 Platform for Online Learning
             <BorderBeam colorFrom="#512feb" colorTo="#ed187bda" size={70} />
           </div>
@@ -51,7 +51,7 @@ function HeroSection() {
           </div>
         </div>
         {/* Image Grid */}
-        <div className="mt-5 grid w-full grid-cols-2 gap-5 md:w-[600px]">
+        <div className="mt-5 px-3 sm:px-0 grid w-full grid-cols-2 gap-5 md:w-[600px]">
           {/* Full-width Image */}
           <div className="relative col-span-2 h-[200px] md:h-[250px]">
             <Image
