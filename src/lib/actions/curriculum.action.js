@@ -191,37 +191,69 @@ export async function getModules({ slug }) {
   try {
     await dbConnect();
 
+    const { sessionClaims } = await auth();
+    const studentId = sessionClaims?.userId;
     const { _id } = await Course.findOne({ slug });
 
     const courseCurriculum = await Module.aggregate([
       {
-        $match: { course: _id }, // Match modules for the given course
+        $match: { course: _id },
       },
       {
         $lookup: {
-          from: "lessons", // Join with the lessons collection
-          localField: "_id", // Match module ID
-          foreignField: "module", // Match lessons by module ID
-          as: "lessons", // Output lessons as an array
+          from: "lessons",
+          localField: "_id",
+          foreignField: "module",
+          as: "lessons",
+        },
+      },
+      {
+        $lookup: {
+          from: "progresses",
+          let: { moduleId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$modules", "$$moduleId"] },
+                    { $eq: ["$student", objectId(studentId)] },
+                  ],
+                },
+              },
+            },
+          ],
+          as: "progress",
         },
       },
       {
         $project: {
-          _id: 1, // Include module ID
-          name: 1, // Include module name
-          createdAt: 1, // Include module creation date
-          updatedAt: 1, // Include module update date
+          _id: 1,
+          name: 1,
+          createdAt: 1,
+          updatedAt: 1,
           lessons: {
             $map: {
-              input: "$lessons", // Iterate over lessons
+              input: "$lessons",
               as: "lesson",
               in: {
-                _id: "$$lesson._id", // Include lesson ID
-                title: "$$lesson.title", // Include lesson title
-                videoUrl: "$$lesson.videoUrl", // Include lesson video URL
-                slug: "$$lesson.slug", // Include lesson completion status
-                createdAt: "$$lesson.createdAt", // Include lesson creation date
-                updatedAt: "$$lesson.updatedAt", // Include lesson update date
+                _id: "$$lesson._id",
+                title: "$$lesson.title",
+                videoUrl: "$$lesson.videoUrl",
+                isFinished: {
+                  $cond: {
+                    if: { $gt: [{ $size: "$progress" }, 0] },
+                    then: {
+                      $in: [
+                        "$$lesson._id",
+                        { $ifNull: [{ $first: "$progress.lessons" }, []] },
+                      ],
+                    },
+                    else: false,
+                  },
+                },
+                createdAt: "$$lesson.createdAt",
+                updatedAt: "$$lesson.updatedAt",
               },
             },
           },

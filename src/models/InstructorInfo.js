@@ -21,7 +21,8 @@ const instructorInfoSchema = new mongoose.Schema(
     teachingStyle: { type: String, required: true },
     status: {
       type: String,
-      enum: ["pending", "approved", "rejected"],
+      enum: ["pending", "approved", "rejected", "terminated"],
+      required: true,
       default: "pending",
     },
   },
@@ -66,6 +67,82 @@ instructorInfoSchema.post("findOneAndUpdate", async function (doc) {
         await mongoose.model("Instructor").create({ instructorId: user._id });
       } else {
       }
+    }
+
+    if (doc.status === "terminated") {
+      const user = await mongoose
+        .model("User")
+        .findByIdAndUpdate(doc.student, { role: "student" }, { new: true });
+
+      if (!user) {
+        console.error("User not found for student ID:", doc.student);
+        return;
+      }
+
+      if (!user.clerkUserId) {
+        console.error("User missing clerkUserId:", user._id);
+        return;
+      }
+
+      // Update user role in Clerk
+      const client = await clerkClient();
+      await client.users.updateUser(user.clerkUserId, {
+        publicMetadata: {
+          userId: user._id,
+          role: user.role || "student",
+        },
+      });
+
+      // Remove instructor record
+      await mongoose
+        .model("Instructor")
+        .findOneAndDelete({ instructorId: user._id });
+
+      // First find all courses by this instructor
+      const instructorCourses = await mongoose
+        .model("Course")
+        .find({ instructor: user._id });
+
+      // Process each course and delete related documents
+      for (const singleCourse of instructorCourses) {
+        await mongoose
+          .model("Assignment")
+          .deleteMany({ course: singleCourse._id });
+
+        await mongoose.model("Certificate").deleteMany({
+          course: singleCourse._id,
+        });
+
+        await mongoose.model("Lesson").deleteMany({
+          course: singleCourse._id,
+        });
+
+        await mongoose.model("Module").deleteMany({
+          course: singleCourse._id,
+        });
+
+        await mongoose.model("Progress").deleteMany({
+          course: singleCourse._id,
+        });
+
+        await mongoose.model("Quiz").deleteMany({
+          course: singleCourse._id,
+        });
+
+        await mongoose.model("Review").deleteMany({
+          course: singleCourse._id,
+        });
+
+        await mongoose
+          .model("Student")
+          .updateMany(
+            { courses: singleCourse._id },
+            { $pull: { courses: singleCourse._id } },
+          );
+      }
+
+      // Finally delete all courses by this instructor
+      await mongoose.model("Course").deleteMany({ instructor: user._id });
     }
   } catch (error) {
     console.error("Middleware error:", error);

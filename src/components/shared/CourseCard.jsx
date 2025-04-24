@@ -24,7 +24,7 @@ const CourseCard = ({ course }) => {
 
   return (
     <div
-      className={`dark:bg-dark-bg relative flex h-[400px] rounded-md border shadow transition-all duration-300 hover:-translate-y-2 ${
+      className={`dark:bg-dark-bg bg-white relative flex h-[400px] rounded-md border shadow transition-all duration-300 hover:-translate-y-2 ${
         isGridCol && pathname === "/courses"
           ? "h-fit flex-col items-center gap-5 sm:flex-row sm:gap-6"
           : "flex-col gap-5"
@@ -32,7 +32,7 @@ const CourseCard = ({ course }) => {
     >
       <div className={"w-full"}>
         {/* Category Badge */}
-        <p className="bg-main absolute top-0 left-0 z-[1] w-fit rounded px-3 py-1.5 text-sm text-white">
+        <p className="bg-gradient-to-r from-dark-btn/70 to-main absolute top-1 left-1 z-[1] w-fit rounded px-3 py-1.5 text-sm text-white">
           {category?.name || category?.slug}
         </p>
         {/* Course Thumbnail */}

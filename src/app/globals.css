@@ -5,28 +5,34 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-main: #673de5;
-  --color-dark-main: #4f24d0;
+  --color-dark-theme: #0d0d0d;
+  --color-dark-bg: #1a1a1a;
+  --color-dark-hover: #262626;
+  --color-dark-input: #181717;
+  --color-main: #512feb;
+  --color-dark-main: #4513da;
   --color-sub-main: #1f1346;
+  --color-light-theme: #E5EDF5;
   --color-light-bg: #f0f0f0;
-  --color-medium-bg: #cbd5e1;
-  --color-dark-bg: #111111;
-  --color-dark-btn: #ed187b;
-  --color-dark-hover: #262831;
-  --color-dark-input: #181717a4;
+  --color-medium-bg: #e0d7fa;
+  --color-dark-btn: #e6005c;
 }
 
 /* .bg-color {
-  main: #673DE5;
-  dark-main: #4f24d0;
+  main: #512feb;
+  dark-main: #4513da;
   sub-main: #1F1346;
   light-bg: #f0f0f0;
+  --color-light-theme: #E5EDF5;
   dark-bg: #111111;
   dark-btn: #ed187b;
 } */
 
 body {
-  font-family: var(--font-jost);
+   font-family: "Inter", sans-serif;
+}
+p,span{
+  font-family: "Roboto", sans-serif;
 }
 
 :root {
@@ -160,7 +166,34 @@ body {
       transform: rotate(-5deg) scale(0.9);
     }
   }
-}
+  --animate-orbit: orbit calc(var(--duration)*1s) linear infinite
+;
+  @keyframes orbit {
+  0% {
+    transform: rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg));
+    }
+  100% {
+    transform: rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg));
+    }
+  }
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  @keyframes marquee {
+  from {
+    transform: translateX(0);
+    }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+    }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+    }
+  }}
 
 @layer base {
   * {

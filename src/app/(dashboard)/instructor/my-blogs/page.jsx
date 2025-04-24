@@ -15,7 +15,7 @@ export default async function MyBlogs({ searchParams }) {
   const { blogs, pagination } = await getBlogsByInstructor({
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
-    search,
+    search: search?.trim(),
   });
 
   const pathname = "/instructor/my-blogs";

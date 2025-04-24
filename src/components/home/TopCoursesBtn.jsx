@@ -25,15 +25,15 @@ function TopCoursesBtn({ categories }) {
   };
 
   return (
-    <div className="my-6 flex flex-wrap gap-4 md:justify-center">
+    <div className="my-6 flex flex-wrap gap-4 px-3 sm:px-0 md:justify-center">
       {categoriesResult?.map((cat, index) => (
         <button
           key={index}
           onClick={() => updateCategory(cat?.slug)}
-          className={`cursor-pointer px-4 py-3 text-sm font-semibold transition ${
+          className={`text-dark-bg cursor-pointer rounded border px-4 py-2 text-sm transition ${
             categorySlug === cat?.slug
               ? "bg-main text-white"
-              : "dark:bg-dark-bg bg-gray-200 text-gray-700 hover:bg-gray-300 dark:text-white dark:hover:bg-black/10"
+              : "dark:bg-dark-bg hover:bg-light-bg/50 bg-white dark:text-white dark:hover:bg-black/10"
           }`}
         >
           {cat.name}

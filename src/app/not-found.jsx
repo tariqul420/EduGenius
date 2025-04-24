@@ -1,30 +1,65 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const NotFound = () => {
   return (
-    <div className="flex min-h-[calc(100vh-1px)] flex-col items-center justify-center rounded-lg bg-white p-6 shadow-2xl">
-      <div className="space-y-6 text-center">
-        {/* Error Icon */}
-        <div className="text-8xl text-red-500 dark:text-red-400">
-          <span role="img" aria-label="Error">
-            😞
-          </span>
+    <div className="bg-light-bg dark:bg-black min-h-[520px] transition-colors duration-300">
+      <div className="container mx-auto px-4 py-16">
+        <div className="mx-auto max-w-2xl overflow-hidden rounded-xl bg-white shadow-xl transition-all duration-300 dark:bg-dark-bg">
+          <div className="p-8 sm:p-10">
+            <div className="text-center">
+              {/* Error Icon */}
+              <div className="mx-auto mb-6 flex items-center justify-center rounded-full">
+                <Image className="w-[200px]" src='/empty-404.svg' alt="Empty-Image" width={100} height={100} />
+              </div>
+
+              {/* Error Message */}
+              <h1 className="mb-4 text-3xl font-bold text-gray-900 sm:text-4xl dark:text-white">
+                404 - Page Not Found
+              </h1>
+              <p className="mb-8 text-lg text-gray-600 dark:text-gray-300">
+                Oops! The page you&apos;re looking for doesn&apos;t exist or has been
+                moved.
+              </p>
+
+              {/* Back to Home Button */}
+              <div className="mt-10">
+                <Link
+                  href="/"
+                  className="bg-main hover:bg-main/90 focus:ring-main inline-flex items-center rounded-md border border-transparent px-6 py-3 text-base font-medium text-white shadow-sm transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none dark:focus:ring-offset-gray-800"
+                >
+                  Go to Homepage
+                  <svg
+                    className="-mr-1 ml-3 h-5 w-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </Link>
+              </div>
+
+              {/* Additional Help */}
+              <div className="mt-8 border-t border-gray-200 pt-8 dark:border-gray-700">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Need help?{" "}
+                  <a
+                    href="/contact"
+                    className="text-main hover:text-main/80 dark:hover:text-main/70 font-medium transition-colors duration-200"
+                  >
+                    Contact our support team
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-
-        {/* Error Message */}
-        <h1 className="text-4xl font-bold">Oops! Something went wrong.</h1>
-        <p className="text-lg">
-          The page you&apos;re looking for doesn&apos;t exist or an error
-          occurred.
-        </p>
-
-        {/* Back to Home Button */}
-        <Link
-          href={"/"}
-          className="bg-main hover:bg-main-600 dark:bg-main-600 dark:hover:bg-main-700 mt-6 rounded-lg px-6 py-3 font-semibold text-white shadow-md transition-all focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:outline-none"
-        >
-          Back to Home
-        </Link>
       </div>
     </div>
   );

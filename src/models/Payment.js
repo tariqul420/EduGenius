@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 import Course from "./Course";
 import Instructor from "./Instructor";
+import Progress from "./Progress";
 import Student from "./Student";
 import User from "./User";
 
@@ -59,6 +60,11 @@ paymentSchema.post("save", async function (doc) {
       { $addToSet: { courses: course._id } }, // Use $addToSet to avoid duplicates
       { upsert: true },
     );
+
+    await Progress.create({
+      student: studentId,
+      course: course._id,
+    });
   } catch (error) {
     console.error("Error adding student to course after payment:", error);
     throw error; // Optionally rethrow the error to handle it upstream

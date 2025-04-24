@@ -17,7 +17,7 @@ export default async function Courses({ searchParams }) {
     instructor: true,
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
-    search,
+    search: search?.trim(),
   });
 
   return (

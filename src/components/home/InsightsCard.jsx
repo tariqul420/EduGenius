@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { ArrowRight, Calendar, MessageCircleMore, User } from "lucide-react";
+import { Calendar, ChevronsRight, MessageCircleMore, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,7 +24,7 @@ function InsightsCard({ insights }) {
           className="h-full w-full object-cover"
         />
         {/* Date Badge */}
-        <p className="bg-main absolute -bottom-3 left-4 flex w-fit items-center gap-1.5 rounded px-3 py-1 text-sm text-white shadow">
+        <p className="bg-gradient-to-r from-dark-btn/80 to-main absolute -bottom-3 left-4 flex w-fit items-center gap-1.5 rounded px-3 py-1 text-sm text-white shadow">
           <Calendar size={16} /> {formattedDate}
         </p>
       </div>
@@ -61,10 +61,14 @@ function InsightsCard({ insights }) {
           {/* Read More Button */}
           <Link
             href={`/blogs/${slug}`}
-            className="text-main dark:text-dark-btn flex items-center gap-1 text-sm font-medium hover:underline"
+            className="text-main flex items-center gap-0.5 text-xs font-medium sm:text-sm hover:underline"
           >
-            Read More <ArrowRight size={16} />
+            Read More <ChevronsRight className="text-dark-btn/90" size={18} />
           </Link>
+          {/* <div className="text-main flex items-center gap-0.5 text-xs font-medium sm:text-sm">
+            Explore
+            <ChevronsRight className="text-dark-btn/90" size={18} />
+          </div> */}
         </div>
       </div>
     </div>

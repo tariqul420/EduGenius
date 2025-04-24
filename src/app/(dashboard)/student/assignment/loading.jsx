@@ -29,9 +29,9 @@ export default function Loading() {
         {/* Data Table */}
         <div className="space-y-4">
           {/* Table Controls */}
-          <div className="flex items-center justify-between">
+          <div className="flex gap-5 items-center">
             <Skeleton className="h-10 w-[180px]" />
-            <Skeleton className="h-10 w-[120px]" />
+            <Skeleton className="h-10 w-[180px]" />
           </div>
 
           {/* Table Header */}

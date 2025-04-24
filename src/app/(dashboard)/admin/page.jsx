@@ -12,7 +12,7 @@ export default async function dashboard({ searchParams }) {
   const { instructors, pagination } = await getInstructorByAdmin({
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
-    search,
+    search: search?.trim(),
   });
   const data = await courseSellingData();
 

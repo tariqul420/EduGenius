@@ -32,8 +32,6 @@ export async function getCourses({
       : [];
     const categoryIds = categories.map((category) => category._id);
 
-    const skip = (page - 1) * limit;
-
     const pipeline = [
       // Match courses based on criteria
       {
@@ -128,8 +126,8 @@ export async function getCourses({
       });
     }
 
-    // Pagination: Skip and limit
-    pipeline.push({ $skip: skip }, { $limit: limit });
+    // Pagination: limit
+    pipeline.push({ $limit: limit * page });
 
     const courses = await Course.aggregate(pipeline);
 

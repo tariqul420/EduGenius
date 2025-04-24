@@ -1,5 +1,9 @@
+import { Suspense } from "react";
+
 import DataTable from "@/components/dashboard/data-table";
+import AIRecommendations from "@/components/dashboard/student/AIRecommendations";
 import StudentDashboard from "@/components/dashboard/student/DashboardStats";
+import LearningPath from "@/components/dashboard/student/LearningPath";
 import { studentCertificateColumns } from "@/constant/columns";
 import { getCertificateByStudent } from "@/lib/actions/certificate.action";
 import { getStudentDashboardStats } from "@/lib/actions/stats.action";
@@ -43,6 +47,23 @@ export default async function StudentHome({ searchParams }) {
           columns={studentCertificateColumns || []}
           uniqueIdProperty="_id"
         />
+
+        {/* AI Recommendations */}
+        <div className="mt-8">
+          <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-100">
+            Personalized Recommendations
+          </h2>
+          <Suspense fallback={<div>Loading recommendations...</div>}>
+            <AIRecommendations />
+          </Suspense>
+        </div>
+
+        <div className="mt-8">
+          <h2 className="mb-4 text-xl font-semibold">Your Learning Path</h2>
+          <Suspense fallback={<div>Analyzing your progress...</div>}>
+            <LearningPath />
+          </Suspense>
+        </div>
       </div>
     </section>
   );

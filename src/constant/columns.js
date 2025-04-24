@@ -1,9 +1,11 @@
 "use client";
 
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import { IconDotsVertical } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { Monitor, MonitorPlay, MoreHorizontal } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 import BecomeInstructorInfoModal from "@/components/dashboard/admin/BecomeInstructorInfoModal";
 import { EditCategoryModal } from "@/components/dashboard/admin/EditCategoryModal";
@@ -26,6 +28,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import QuizeModal from "@/components/dashboard/student/QuizeModal";
 
 export const categoryColumns = [
   createDragColumn(),
@@ -611,6 +614,86 @@ export const studentCertificateColumns = [
   },
 ];
 
+export const studentPaymentHistoryColumns = [
+  createDragColumn(),
+  createSelectionColumn(),
+  {
+    accessorKey: "transactionId",
+    header: "Transaction ID",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original?.transactionId}
+      </h1>
+    ),
+    filterFn: "includesString",
+    enableHiding: false,
+  },
+  {
+    accessorKey: "course.title",
+    header: "Course",
+    cell: ({ row }) => (
+      <h1 className="max-w-xs truncate text-sm font-medium">
+        {row.original?.course?.title}
+      </h1>
+    ),
+  },
+  {
+    accessorKey: "amount",
+    header: "Amount",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
+          {row.original?.amount > 0
+            ? "Free"
+            : `$${row.original?.course?.finalPrice.toFixed(2)}`}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "instructor",
+    header: "Instructor",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-2">
+        <Avatar>
+          <AvatarImage
+            src={row.original.instructor.profilePicture}
+            alt={row.original.instructor.fileName}
+          />
+          <AvatarFallback>{row.original.instructor.fileName}</AvatarFallback>
+        </Avatar>
+
+        <div>
+          <h1 className="max-w-xs truncate text-sm font-medium">
+            {row.original.instructor.firstName}{" "}
+            {row.original.instructor.lastName}
+          </h1>
+          <p className="text-muted-foreground text-sm">
+            {row.original.instructor.email}
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created At",
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge
+          variant="outline"
+          className="text-muted-foreground rounded px-1.5 py-1"
+        >
+          {format(new Date(row.original?.createdAt), "PPP")}
+        </Badge>
+      </div>
+    ),
+  },
+];
+
 export const studentAssignmentColumns = [
   createDragColumn(),
   createSelectionColumn(),
@@ -630,7 +713,7 @@ export const studentAssignmentColumns = [
     header: "Course",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.course}
+        {row.original.course.title}
       </Badge>
     ),
   },
@@ -639,34 +722,36 @@ export const studentAssignmentColumns = [
     header: "Start Date",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.startDate}
+        {row.original?.createdAt || "Not Available"}
       </Badge>
     ),
   },
   {
-    accessorKey: "dateLine",
-    header: "Date Line",
+    accessorKey: "deadLine",
+    header: "Deadline",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.dateLine}
+        {new Date(row.original.deadline)
+          .toLocaleDateString("en-US", { day: "numeric", month: "long" })
+          .replace(/(\w+) (\d+)/, "$2 $1")}
       </Badge>
     ),
   },
   {
-    accessorKey: "mark",
-    header: "Mark",
+    accessorKey: "totalMarks",
+    header: "Total Marks",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.mark}
+        {row.original.totalMarks}
       </Badge>
     ),
   },
   {
-    accessorKey: "yourMark",
-    header: "Your Mark",
+    accessorKey: "myMarks",
+    header: "My Marks",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.yourMark}
+        {row.original.passMarks}
       </Badge>
     ),
   },
@@ -675,19 +760,38 @@ export const studentAssignmentColumns = [
     header: "Status",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.status}
+        {row.original.status.length > 0 || "Not Submitted"}
       </Badge>
     ),
   },
-  // {
-  //   id: "action",
-  //   header: "Action",
-  //   cell: ({ row }) => (
-  //     <div className="flex justify-end">
-  //       <Button variant="default">Enroll</Button>
-  //     </div>
-  //   ),
-  // },
+  // ❎❎❎❎❎ Action not Full Functionality Please fix it ❎❎❎❎❎
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            className="data-[state=open]:bg-muted hover:bg-muted/50 flex size-8 p-0"
+            size="icon"
+          >
+            <IconDotsVertical />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="center" className="w-32">
+          <DropdownMenuItem asChild>
+            <Link
+              href={`/student/assignment/${row.original.course.slug}`}
+              className="flex w-full items-center gap-2 px-2 py-1.5 text-sm"
+            >
+              Details
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    ),
+  },
 ];
 
 export const studentQuizColumns = [
@@ -698,7 +802,7 @@ export const studentQuizColumns = [
     header: "Title",
     cell: ({ row }) => (
       <h1 className="max-w-xs truncate text-sm font-medium">
-        {row.original.title}
+        {row.original?.title}
       </h1>
     ),
     filterFn: "includesString",
@@ -709,43 +813,43 @@ export const studentQuizColumns = [
     header: "Course",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.course}
+        {row.original?.course?.title}
       </Badge>
     ),
   },
   {
-    accessorKey: "startDate",
+    accessorKey: "category",
+    header: "Category",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="text-muted-foreground px-1.5">
+        {row.original?.course?.category?.name}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "createdAt",
     header: "Created At",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.startDate}
+        {format(new Date(row.original?.createdAt), "PPP")}
       </Badge>
     ),
   },
   {
-    accessorKey: "totalQuiz",
-    header: "Total Quiz",
+    accessorKey: "totalQuestion",
+    header: "Total Question",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.totalQuiz}
+        {row.original?.totalQuestions}
       </Badge>
     ),
   },
   {
-    accessorKey: "totalMark",
-    header: "Total Mark",
+    accessorKey: "myMark",
+    header: "My Mark",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.totalMark}
-      </Badge>
-    ),
-  },
-  {
-    accessorKey: "yourMark",
-    header: "Your Mark",
-    cell: ({ row }) => (
-      <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.yourMark}
+        {row.original?.myMark ? row.original?.myMark : "Not Submitted"}
       </Badge>
     ),
   },
@@ -754,19 +858,33 @@ export const studentQuizColumns = [
     header: "Status",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.status}
+        {row.original?.status ? row.original?.status : "Not Submitted"}
       </Badge>
     ),
   },
-  // {
-  //   id: "action",
-  //   header: "Action",
-  //   cell: ({ row }) => (
-  //     <div className="flex justify-end">
-  //       <Button variant="default">Enroll</Button>
-  //     </div>
-  //   ),
-  // },
+  {
+    id: "actions",
+    header: "Action",
+    cell: ({ row }) => {
+      return (
+        <div className="flex justify-end">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Actions</span>
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <QuizeModal slug={row.original?.course.slug} />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      );
+    },
+  },
 ];
 
 export const becomeInstructorsColumns = [
@@ -972,6 +1090,7 @@ export const adminInstructorColumns = [
     header: "Action",
     cell: ({ row }) => {
       const info = row.original;
+      const instructorName = `${info.firstName} ${info.lastName}`;
       return (
         <div className="flex justify-end">
           <DropdownMenu>
@@ -999,7 +1118,10 @@ export const adminInstructorColumns = [
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <TerminateInstructor />
+                <TerminateInstructor
+                  instructorId={info?.instructorId}
+                  instructorName={instructorName}
+                />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

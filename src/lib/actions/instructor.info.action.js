@@ -74,7 +74,14 @@ export async function getInstructorInfo({
           },
           status: 1,
           createdAt: 1,
-          // Include other InstructorInfo fields as needed
+          phone: 1,
+          expertise: 1,
+          profession: 1,
+          education: 1,
+          address: 1,
+          experience: 1,
+          motivation: 1,
+          teachingStyle: 1,
         },
       },
       // Sort by createdAt in descending order
@@ -227,7 +234,7 @@ export async function saveInstructorInfo({ data, path }) {
   }
 }
 
-export async function updateStudentStatus({ studentId, newStatus }) {
+export async function updateStudentStatus({ studentId, newStatus, path }) {
   try {
     // Connect to the database
     await dbConnect();
@@ -252,7 +259,7 @@ export async function updateStudentStatus({ studentId, newStatus }) {
     }
 
     // Revalidate the Next.js cache
-    revalidatePath("/admin/become-instructor");
+    revalidatePath(path);
 
     return { success: true };
   } catch (error) {

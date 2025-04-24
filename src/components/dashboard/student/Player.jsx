@@ -1,54 +1,101 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
+import { toast } from "sonner";
 
 import { getLesson } from "@/lib/actions/curriculum.action";
+import { updateProgress } from "@/lib/actions/progress.action";
+import { formUrlQuery } from "@/lib/utils";
 
-export default function Player({}) {
-  const [activeUrl, setActiveUrl] = useState("");
+export default function Player({ curriculum }) {
+  const [mounted, setMounted] = useState(false);
+  const [activeLesson, setActiveLesson] = useState(null);
   const searchParams = useSearchParams();
   const play = searchParams.get("play");
+  const router = useRouter();
 
-  // eslint-disable-next-line no-unused-vars
-  const onProgress = (progress) => {
-    // console.log("Progress:", progress);
-  };
+  // Set initial lesson when component mounts
+  useEffect(() => {
+    setMounted(true);
 
-  const onEnded = () => {
-    // console.log("Video ended");
+    let newUrl = "";
+
+    if (!play && curriculum?.lessons?.[0]) {
+      newUrl = formUrlQuery({
+        params: searchParams.toString(),
+        key: "play",
+        value: curriculum?.lessons?.[0]?._id,
+      });
+    }
+    router.push(newUrl, { scroll: false });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // const onProgress = (progress) => {
+  //   if (!mounted) return;
+  //   // Handle progress tracking
+  // };
+
+  const onEnded = async () => {
+    if (!mounted || !activeLesson?._id) return;
+
+    await updateProgress({
+      lessonId: activeLesson._id,
+      courseId: activeLesson.course,
+      moduleId: activeLesson.module,
+    });
+
+    router.refresh();
   };
 
   useEffect(() => {
-    (async () => {
-      if (play) {
-        const { videoUrl } = await getLesson({ id: play });
-        setActiveUrl(videoUrl);
-        // console.log("Video URL:", videoUrl);
+    if (!mounted || !play) return;
+
+    const fetchLesson = async () => {
+      try {
+        const lesson = await getLesson({ id: play });
+        setActiveLesson(lesson);
+      } catch (error) {
+        console.error("Failed to fetch lesson:", error);
+        toast.error("Failed to load lesson");
+        // Fallback to first lesson on error
+        if (curriculum?.lessons?.[0]) {
+          setActiveLesson(curriculum.lessons[0]);
+        }
       }
-    })();
-  }, [play]);
+    };
+
+    fetchLesson();
+  }, [play, mounted, curriculum]);
+
+  // Early return while not mounted
+  if (!mounted) return null;
+
+  const videoUrl = activeLesson?.videoUrl || curriculum?.lessons?.[0]?.videoUrl;
 
   return (
     <div className="player-wrapper relative aspect-video">
-      <ReactPlayer
-        url={activeUrl}
-        width="100%"
-        height="100%"
-        controls
-        playing
-        className="absolute top-0 left-0"
-        onProgress={onProgress}
-        onEnded={onEnded}
-        config={{
-          file: {
-            attributes: {
-              controlsList: "nodownload",
+      {videoUrl && (
+        <ReactPlayer
+          url={videoUrl}
+          width="100%"
+          height="100%"
+          controls
+          playing
+          className="absolute top-0 left-0"
+          // onProgress={onProgress}
+          onEnded={onEnded}
+          config={{
+            file: {
+              attributes: {
+                controlsList: "nodownload",
+              },
             },
-          },
-        }}
-      />
+          }}
+        />
+      )}
     </div>
   );
 }

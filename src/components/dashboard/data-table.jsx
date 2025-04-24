@@ -217,14 +217,14 @@ export default function DataTable({
   return (
     <Tabs
       defaultValue="outline"
-      className="w-full flex-col justify-start gap-6"
+      className="w-full flex-col justify-start gap-6 overflow-hidden"
     >
       <div className="flex items-center justify-between">
         <Label htmlFor="view-selector" className="sr-only">
           View
         </Label>
         <div className="flex w-full items-center">
-          <div className="flex flex-wrap sm:flex-row sm:items-center justify-center sm:justify-normal gap-4 sm:gap-2">
+          <div className="flex flex-wrap justify-center gap-4 sm:flex-row sm:items-center sm:justify-normal sm:gap-2">
             <DataTableColumnSelector table={table} />
             {pathName === "/instructor/courses" ||
             pathName === "/instructor" ? (
@@ -236,12 +236,12 @@ export default function DataTable({
                 <span>Add course</span>
               </Link>
             ) : null}
-            <div className="flex items-center gap-2">
+            <div className="dark:bg-transparent rounded-md flex items-center gap-2 overflow-hidden bg-white">
               <Input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="h-8 w-[200px] text-sm"
+                className="focus:0 h-8 w-[200px] rounded-none border text-sm outline-none"
                 placeholder="Search by title or name"
               />
             </div>
@@ -250,9 +250,9 @@ export default function DataTable({
       </div>
       <TabsContent
         value="outline"
-        className="relative flex flex-col gap-4 overflow-auto"
+        className="relative flex flex-col gap-4 overflow-auto rounded-lg"
       >
-        <div className="overflow-hidden rounded-lg border">
+        <div className="overflow-hidden rounded-lg border bg-white dark:bg-transparent">
           <DndContext
             collisionDetection={closestCenter}
             modifiers={[restrictToVerticalAxis]}
@@ -261,7 +261,7 @@ export default function DataTable({
             id={sortableId}
           >
             <Table>
-              <TableHeader className="bg-muted sticky top-0 z-10">
+              <TableHeader className="bg-light-bg/50 dark:bg-dark-hover sticky top-0 z-10">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
                     {headerGroup.headers.map((header) => (
@@ -305,13 +305,13 @@ export default function DataTable({
             </Table>
           </DndContext>
         </div>
-
-        <DataTableFooter
-          table={table}
-          pageIndex={pagination.pageIndex}
-          pageSize={pageSize}
-          total={total}
-        />
+ 
+          <DataTableFooter
+            table={table}
+            pageIndex={pagination.pageIndex}
+            pageSize={pageSize}
+            total={total}
+          />
       </TabsContent>
     </Tabs>
   );
