@@ -13,7 +13,7 @@ function InsightsCard({ insights }) {
     : "";
 
   return (
-    <div className="dark:bg-black-light dark:bg-dark-bg flex w-full flex-col overflow-hidden rounded-lg border bg-white shadow transition-all duration-300 hover:-translate-y-2 hover:shadow-lg dark:border-gray-800">
+    <div className="dark:bg-black-light dark:bg-dark-theme flex w-full flex-col overflow-hidden rounded-lg border bg-white shadow transition-all duration-300 hover:-translate-y-2 hover:shadow-lg dark:border-gray-800">
       {/* Thumbnail Section */}
       <div className="relative h-48 flex-shrink-0">
         <Image
