@@ -101,19 +101,6 @@ paymentSchema.post("save", async function (doc) {
         );
       }
 
-      // Add instructorId if not already in recipient
-      if (!existingNotification.recipient.includes(instructorId)) {
-        updatePromises.push(
-          Notification.findOneAndUpdate(
-            { _id: existingNotification._id },
-            {
-              $addToSet: { recipient: instructorId },
-            },
-            { new: true },
-          ),
-        );
-      }
-
       if (updatePromises.length > 0) {
         await Promise.all(updatePromises);
       }
@@ -123,13 +110,6 @@ paymentSchema.post("save", async function (doc) {
         new Notification({
           recipient: [studentId],
           sender: instructorId,
-          course: doc.course,
-          type: "purchase",
-          readBy: [],
-        }),
-        new Notification({
-          recipient: [instructorId],
-          sender: studentId,
           course: doc.course,
           type: "purchase",
           readBy: [],
