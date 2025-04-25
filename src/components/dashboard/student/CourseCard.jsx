@@ -9,7 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { getReview } from "@/lib/actions/review.action";
 
 export default async function CourseCard({ course }) {
-  const { thumbnail, title, instructor, progress, _id,slug } = course || {};
+  const { thumbnail, title, instructor, progress, _id, slug } = course || {};
 
   let review = null;
   try {
@@ -20,11 +20,13 @@ export default async function CourseCard({ course }) {
   }
 
   return (
-    <Card className="flex h-full min-h-[300px] gap-2 py-2.5 px-2 flex-col">
- 
+    <Card className="flex h-full min-h-[300px] flex-col gap-2 px-2 py-2.5">
       {/* Optional height */}
-      <Link href={`${`courses/${slug}`}`} className="group relative flex h-full w-full">
-        <CardHeader className="relative w-full px-2.5 rounded-lg">
+      <Link
+        href={`${`courses/${slug}`}`}
+        className="group relative flex h-full w-full"
+      >
+        <CardHeader className="relative w-full rounded-lg px-2.5">
           <Image
             src={thumbnail}
             alt={title}
@@ -37,13 +39,17 @@ export default async function CourseCard({ course }) {
             sizes="100vw"
           />
           <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <Play className="bg-main h-12 w-12 rounded-full text-white shadow-md" />
+            <div className="bg-gradient-to-l shadow-2xl from-dark-main to-dark-btn/90">
+              <Play className="m-1 h-8 w-8 rounded-full text-white shadow-md" />
+            </div>
           </div>
         </CardHeader>
       </Link>
-      <CardContent className="flex flex-1 px-2.5 flex-col">
+      <CardContent className="flex flex-1 flex-col px-2.5">
         <div>
-          <CardTitle className="text-lg font-semibold mb-1.5">{title}</CardTitle>
+          <CardTitle className="mb-1.5 text-lg font-semibold">
+            {title}
+          </CardTitle>
           <p>{instructor?.name}</p>
         </div>
 
