@@ -1,5 +1,5 @@
 "use client";
-import { AlertCircle, Award, Clock, Trophy, Wrench } from "lucide-react";
+import { AlertCircle, Award, Trophy, Wrench } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -7,7 +7,6 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -51,7 +50,6 @@ export default function QuizModal({ slug }) {
                 Quiz Results
               </DialogTitle>
             </DialogHeader>
-
             <div className="my-4 flex flex-col items-center gap-6">
               {/* Score Circle */}
               <div className="relative h-40 w-40">
@@ -119,7 +117,6 @@ export default function QuizModal({ slug }) {
                 </div>
               </div>
             </div>
-
             <DialogFooter className="sm:justify-center">
               <DialogClose asChild>
                 <Button
@@ -135,23 +132,13 @@ export default function QuizModal({ slug }) {
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle className="flex items-center gap-2 text-yellow-600 dark:text-yellow-500">
+              <DialogTitle className="dark:text-dark-btn flex items-center gap-2">
                 <AlertCircle className="h-5 w-5" />
                 Quiz Instructions
               </DialogTitle>
-              <DialogDescription className="text-muted-foreground space-y-2 pt-2 text-sm">
-                <div>
-                  This quiz contains {total} questions and must be completed in
-                  one session.
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="text-muted-foreground h-4 w-4" />
-                  <span>Estimated time: {Math.round(total * 1.5)} minutes</span>
-                </div>
-              </DialogDescription>
             </DialogHeader>
 
-            <div className="my-4 rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
+            <div className="bg-light-bg dark:bg-dark-bg my-4 rounded-lg p-4">
               <h4 className="text-foreground mb-2 font-medium">
                 Before you start:
               </h4>
@@ -177,11 +164,13 @@ export default function QuizModal({ slug }) {
                 type="button"
                 asChild
               >
-                <Link href={`/student/courses/${slug}/${slug}`}>Start Quiz Now</Link>
+                <Link href={`/student/courses/${slug}/${slug}`}>
+                  Start Quiz Now
+                </Link>
               </Button>
               <DialogClose asChild>
                 <Button
-                  className="hover:bg-medium-bg dark:hover:bg-dark-bg text-foreground rounded-full px-6"
+                  className="bg-light-bg dark:bg-dark-bg hover:bg-medium-bg dark:hover:bg-dark-input text-foreground rounded-full px-6"
                   type="button"
                   variant="secondary"
                 >
