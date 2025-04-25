@@ -11,21 +11,19 @@ const notificationSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    message: { type: String, required: true },
     course: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
       required: false,
     },
+    beInsInfo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "InstructorInfo",
+      required: false,
+    },
     type: {
       type: String,
-      enum: [
-        "purchase",
-        "instructor_request",
-        "status_update",
-        "new_course",
-        "progress",
-      ],
+      enum: ["purchase", "status_update", "new_course"],
       required: true,
     },
     readBy: [

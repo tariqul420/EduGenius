@@ -133,6 +133,10 @@ instructorInfoSchema.post("findOneAndUpdate", async function (doc) {
           course: singleCourse._id,
         });
 
+        await mongoose.model("Payment").deleteMany({
+          course: singleCourse._id,
+        });
+
         await mongoose
           .model("Student")
           .updateMany(

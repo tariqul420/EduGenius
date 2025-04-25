@@ -33,7 +33,7 @@ function TopCoursesBtn({ categories }) {
           className={`text-dark-bg cursor-pointer rounded border px-4 py-2 text-sm transition ${
             categorySlug === cat?.slug
               ? "bg-main text-white"
-              : "dark:bg-dark-bg hover:bg-light-bg/50 bg-white dark:text-white dark:hover:bg-black/10"
+              : "dark:bg-transparent hover:bg-light-bg/50 bg-white dark:text-white dark:hover:bg-dark-bg"
           }`}
         >
           {cat.name}
