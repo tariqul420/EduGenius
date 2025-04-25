@@ -33,7 +33,7 @@ export default async function NotificationsBell() {
         )}
         <Bell size={16} />
       </PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent className={"w-[350px] p-0"} side="bottom" align="end">
         <Alert>
           <AlertDescription>
             <Tabs defaultValue="receive" className="w-full">
@@ -59,7 +59,7 @@ export default async function NotificationsBell() {
                     {receivedNotifications.map((notification) => (
                       <li
                         key={notification._id}
-                        className="rounded-md p-2 hover:bg-gray-50 dark:hover:bg-gray-700"
+                        className="bg-dark-bg dark:hover:bg-dark-hover rounded-md p-2 transition-all duration-300 hover:bg-gray-50"
                       >
                         {generateNotificationMessage(notification)}
                       </li>
