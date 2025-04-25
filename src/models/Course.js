@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import mongoose from "mongoose";
 import slugify from "slugify";
 
@@ -6,6 +7,7 @@ import Certificate from "./Certificate";
 import Instructor from "./Instructor";
 import Lesson from "./Lesson";
 import Module from "./Module";
+import Notification from "./Notification";
 import Payment from "./Payment";
 import Progress from "./Progress";
 import Quiz from "./Quiz";
@@ -76,14 +78,41 @@ courseSchema.pre("save", async function (next) {
   next();
 });
 
-// when a course is created or updated
+// When a course is created or updated
 courseSchema.post("save", async function (doc) {
-  // Update the instructor's courses array
-  await Instructor.findOneAndUpdate(
-    { instructorId: doc.instructor },
-    { $addToSet: { courses: doc._id } }, // Use $addToSet to avoid duplicates
-    { upsert: true }, // Create the document if it doesn't exist
-  );
+  try {
+    // Update the instructor's courses array
+    await Instructor.findOneAndUpdate(
+      { instructorId: doc.instructor },
+      { $addToSet: { courses: doc._id } }, // Use $addToSet to avoid duplicates
+      { upsert: true }, // Create the document if it doesn't exist
+    );
+
+    // Send notification to all students when a new course is created
+    if (this.isNew) {
+      // Fetch all users with role "student"
+      const students = await mongoose
+        .model("User")
+        .find({ role: "student" })
+        .select("_id");
+      const studentIds = students.map((student) => student._id);
+
+      if (studentIds.length > 0) {
+        const notification = new Notification({
+          recipient: studentIds,
+          sender: doc.instructor,
+          course: doc._id,
+          type: "new_course",
+          readBy: [],
+        });
+
+        await notification.save();
+      }
+    }
+  } catch (error) {
+    console.error("Error in post-save middleware:", error);
+    throw error;
+  }
 });
 
 // Post middleware trigger when findOneAndDelete to update and delete related documents
