@@ -6,15 +6,11 @@ export function generateNotificationMessage(notification) {
 
   switch (type) {
     case "purchase":
-      return `${senderName} purchased your course${
-        course?.title ? ` "${course.title}"` : ""
-      }.`;
+      return `You have successfully enrolled in ${senderName}'s course${course?.title ? ` "${course.title}"` : ""}!`;
     case "status_update":
-      return `${senderName}'s instructor application status has been updated to "${beInsInfo.status}".`;
+      return `Your instructor application status has been updated to "${beInsInfo?.status}" by ${senderName}.`;
     case "new_course":
-      return `${senderName} created a new course${
-        course?.title ? ` "${course.title}"` : ""
-      }.`;
+      return `${senderName} just launched a new course${course?.title ? ` "${course.title}"` : ""}! Check it out now.`;
     default:
       return `${senderName} sent you a notification.`;
   }
