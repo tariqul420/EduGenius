@@ -14,12 +14,12 @@ export default async function StudentCourse() {
       <div className="@container/main mx-auto px-4 md:px-6 lg:px-8">
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-gray-100">
-            Learning
+          <h1 className="mb-2 text-2xl font-semibold text-main">
+           Learning Dashboard
           </h1>
-          <p className="mt-4 max-w-2xl">
-            Dive into your learning journey with our curated courses designed to
-            help you achieve your goals.
+          <p className="mt-4 max-w-2xl dark:text-light-bg">
+            Welcome back! Here are all the courses you&apos;re currently
+            enrolled in. Click on any course to resume your learning.
           </p>
         </div>
 
