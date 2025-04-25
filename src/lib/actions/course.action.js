@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
@@ -8,8 +9,10 @@ import { objectId } from "../utils";
 
 import Category from "@/models/Category";
 import Course from "@/models/Course";
+import Instructor from "@/models/Instructor";
 import Lesson from "@/models/Lesson";
 import Module from "@/models/Module";
+import Notification from "@/models/Notification";
 import Student from "@/models/Student";
 
 export async function getCourses({
@@ -257,6 +260,24 @@ export async function createCourse({ data, path }) {
     // Add the userId as the instructor for the course
     const newCourse = new Course({ ...data, instructor: userId });
     await newCourse.save();
+
+    const students = await Instructor.findOne({
+      instructorId: objectId(userId),
+    }).select("students");
+
+    const studentIds = students.students.map((student) => student._id);
+
+    if (studentIds.length > 0) {
+      const notification = new Notification({
+        recipient: studentIds,
+        sender: userId,
+        course: newCourse._id,
+        type: "new_course",
+        readBy: [],
+      });
+
+      await notification.save();
+    }
 
     revalidatePath(path);
     return JSON.parse(JSON.stringify(newCourse));
