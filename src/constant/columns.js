@@ -877,7 +877,7 @@ export const studentQuizColumns = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem asChild>
-                <QuizeModal slug={row.original?.course.slug} />
+                <QuizeModal quizeId={row.original?._id} slug={row.original?.course.slug} />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
