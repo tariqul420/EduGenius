@@ -25,7 +25,7 @@ function TopCoursesBtn({ categories }) {
   };
 
   return (
-    <div className="my-6 flex flex-wrap gap-4 px-3 sm:px-0 md:justify-center">
+    <div className="my-6 flex flex-wrap gap-1.5 md:gap-4 px-3 sm:px-0 md:justify-center">
       {categoriesResult?.map((cat, index) => (
         <button
           key={index}
