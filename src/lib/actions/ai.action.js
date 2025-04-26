@@ -334,30 +334,30 @@ export async function getDescriptionRecommendations({
   level,
 }) {
   try {
+    // Get the category from id
+    const result = await Category.findById(category).lean();
+
     // Templates based on course level
     const levelTemplates = {
       Beginner: [
-        "Perfect for beginners, this {category} course covers the fundamentals of {title}. Learn essential concepts and practical skills through hands-on exercises and real-world examples.",
-        "Start your journey in {title} with this comprehensive beginner-friendly course. No prior {category} experience needed. Build a strong foundation through step-by-step tutorials.",
-        "Designed for newcomers to {category}, this {title} course provides a structured learning path with basic concepts, practical examples, and beginner-friendly projects.",
+        `Perfect for beginners, this ${result?.name} course covers the fundamentals of {title}. Learn essential concepts and practical skills through hands-on exercises and real-world examples.`,
+        `Start your journey in ${title} with this comprehensive beginner-friendly course. No prior ${result?.name} experience needed. Build a strong foundation through step-by-step tutorials.`,
+        `Designed for newcomers to ${result?.name}, this ${title} course provides a structured learning path with basic concepts, practical examples, and beginner-friendly projects.`,
       ],
       Intermediate: [
-        "Take your {category} skills to the next level with this intermediate {title} course. Build upon your existing knowledge and tackle more complex projects and challenges.",
-        "Enhance your {category} expertise through practical {title} applications. This course bridges the gap between basic concepts and advanced techniques.",
-        "Ideal for those with basic {category} knowledge, this {title} course dives deeper into professional techniques and industry-standard practices.",
+        `Take your ${result?.name} skills to the next level with this intermediate ${title} course. Build upon your existing knowledge and tackle more complex projects and challenges.`,
+        `Enhance your ${result?.name} expertise through practical ${title} applications. This course bridges the gap between basic concepts and advanced techniques.`,
+        `Ideal for those with basic ${result?.name} knowledge, this ${title} course dives deeper into professional techniques and industry-standard practices.`,
       ],
       Advanced: [
-        "Master advanced {category} concepts in this comprehensive {title} course. Explore cutting-edge techniques and complex problem-solving strategies.",
-        "Designed for experienced {category} professionals, this advanced {title} course covers sophisticated concepts and enterprise-level implementations.",
-        "Push your {category} expertise to new heights with this advanced {title} course. Focus on optimization, best practices, and professional workflows.",
+        `Master advanced ${result?.name}  concepts in this comprehensive ${title} course. Explore cutting-edge techniques and complex problem-solving strategies.`,
+        `Designed for experienced ${result?.name} ${result?.name}  professionals, this advanced ${title} course covers sophisticated concepts and enterprise-level implementations.`,
+        `Push your ${result?.name}  expertise to new heights with this advanced ${title} course. Focus on optimization, best practices, and professional workflows.`,
       ],
     };
 
     // Get templates for the specified level
     const templates = levelTemplates[level] || levelTemplates.Beginner;
-
-    // Get the category from id
-    const result = await Category.findById(category).lean();
 
     // Generate course features based on category
     const features = await generateCourseFeatures(result?.name);
