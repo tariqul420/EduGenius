@@ -62,7 +62,7 @@ function HeroSection() {
           {/* Full-width Image */}
           <div className="relative col-span-2 h-[200px] md:h-[250px]">
             <Image
-              src="/hero-image-1.jpg"
+              src="/hero-image-1.avif"
               alt="Hero Image"
               fill
               className="rounded-lg object-cover"
@@ -72,7 +72,7 @@ function HeroSection() {
           {/* First Half-width Image */}
           <div className="relative col-span-1 h-[150px] md:h-[200px]">
             <Image
-              src="/hero-image-2.jpeg"
+              src="/hero-image-2.jpg"
               alt="Hero Image"
               fill
               className="rounded-lg object-cover"
@@ -82,7 +82,7 @@ function HeroSection() {
           {/* Second Half-width Image */}
           <div className="relative col-span-1 h-[150px] md:h-[200px]">
             <Image
-              src="/hero-image-3.jpg"
+              src="/hero-image-3.avif"
               alt="Hero Image"
               fill
               className="rounded-lg object-cover"
