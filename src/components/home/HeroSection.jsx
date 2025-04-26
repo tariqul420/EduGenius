@@ -72,7 +72,7 @@ function HeroSection() {
           {/* First Half-width Image */}
           <div className="relative col-span-1 h-[150px] md:h-[200px]">
             <Image
-              src="/hero-image-2.jpg"
+              src="/hero-image-2.png"
               alt="Hero Image"
               fill
               className="rounded-lg object-cover"
