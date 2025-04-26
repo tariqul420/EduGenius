@@ -756,7 +756,6 @@ export async function saveQuizResult({ quizId, data }) {
     throw new Error(error.message || "Failed to save quiz result");
   }
 }
-// quiz.action.js
 export async function checkQuizSubmission(quizId) {
   try {
     await dbConnect();
