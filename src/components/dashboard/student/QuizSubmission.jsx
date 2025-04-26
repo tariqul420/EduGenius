@@ -39,6 +39,7 @@ const quizSubmissionSchema = z.object({
 });
 
 export default function QuizSubmission({ quizzes }) {
+  const [showDetails, setShowDetails] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [submissionData, setSubmissionData] = useState(null);
   const form = useForm({
@@ -67,32 +68,113 @@ export default function QuizSubmission({ quizzes }) {
     checkSubmission();
   }, [quizzes]);
   if (hasSubmitted) {
+    const percentage = Math.round(submissionData.percentage);
+    const correctCount = submissionData.score;
+    const totalCount = submissionData.totalQuestions;
+
     return (
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-dark-main mb-8 text-3xl font-bold dark:text-white">
           Quiz Results
         </h1>
         <div className="dark:bg-dark-bg rounded-lg bg-white p-6 shadow-md">
-          <h2 className="mb-4 text-xl font-semibold">{quizzes[0].title}</h2>
+          <h2 className="mb-6 text-xl font-semibold">{quizzes[0].title}</h2>
+
+          {/* Progress Bar */}
           <div className="mb-6">
-            <p className="text-lg">
-              Your score:{" "}
-              <span className="font-bold">
-                {submissionData.score}/{submissionData.totalQuestions}
-              </span>
-            </p>
-            <p className="text-lg">
-              Percentage:{" "}
-              <span className="font-bold">
-                {Math.round(submissionData.percentage)}%
-              </span>
-            </p>
-            <p className="text-muted-foreground mt-2">
-              Submitted on:{" "}
-              {new Date(submissionData.submittedAt).toLocaleString()}
-            </p>
+            <div className="mb-2 flex justify-between">
+              <span className="font-medium">Your Progress</span>
+              <span className="font-bold">{percentage}%</span>
+            </div>
+            <div className="h-4 w-full rounded-full bg-gray-200 dark:bg-gray-700">
+              <div
+                className="h-4 rounded-full bg-green-500 transition-all duration-500"
+                style={{ width: `${percentage}%` }}
+              ></div>
+            </div>
+            <div className="mt-2 flex justify-between text-sm text-gray-500 dark:text-gray-400">
+              <span>0%</span>
+              <span>100%</span>
+            </div>
           </div>
-          {/* You could add more detailed results here */}
+
+          {/* Score Breakdown */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="rounded-lg bg-green-50 p-4 dark:bg-green-900/20">
+              <p className="text-sm text-green-600 dark:text-green-300">
+                Correct
+              </p>
+              <p className="text-2xl font-bold text-green-600 dark:text-green-300">
+                {correctCount}
+              </p>
+            </div>
+            <div className="rounded-lg bg-red-50 p-4 dark:bg-red-900/20">
+              <p className="text-sm text-red-600 dark:text-red-300">
+                Incorrect
+              </p>
+              <p className="text-2xl font-bold text-red-600 dark:text-red-300">
+                {totalCount - correctCount}
+              </p>
+            </div>
+          </div>
+
+          {/* Additional Info */}
+          <div className="mt-6 space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Total Questions</span>
+              <span className="font-medium">{totalCount}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Submitted On</span>
+              <span className="font-medium">
+                {new Date(submissionData.submittedAt).toLocaleString()}
+              </span>
+            </div>
+          </div>
+
+          {/* Detailed Results Button */}
+          <Button
+            variant="outline"
+            className="mt-6 w-full"
+            onClick={() => setShowDetails(!showDetails)}
+          >
+            {showDetails ? "Hide Details" : "View Question Details"}
+          </Button>
+
+          {/* Detailed Results (Optional) */}
+          {showDetails && (
+            <div className="mt-4 space-y-4">
+              {quizzes[0].questions.map((question, index) => {
+                const answer = submissionData.answers.find(
+                  (a) => a.question.toString() === question._id.toString(),
+                );
+                return (
+                  <div
+                    key={question._id}
+                    className={`rounded-lg p-4 ${
+                      answer?.isCorrect
+                        ? "bg-green-50 dark:bg-green-900/10"
+                        : "bg-red-50 dark:bg-red-900/10"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <h4 className="font-medium">
+                          Q{index + 1}: {question.question}
+                        </h4>
+                        <p className="text-muted-foreground mt-1 text-sm">
+                          {answer?.isCorrect ? "✓ Correct" : "✗ Incorrect"}
+                        </p>
+                      </div>
+                      <span className="font-bold">
+                        {answer?.isCorrect ? "2" : "0"}/2
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     );
