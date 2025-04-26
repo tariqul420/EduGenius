@@ -28,11 +28,21 @@ export function GrokChat(props) {
     stop,
     isLoading,
     setMessages,
+    error,
   } = useChat({
     ...props,
     api: "/api/chat",
     body: {
       model: selectedModel,
+    },
+    onError: (err) => {
+      console.error("useChat error:", err);
+      // Add more detailed logging
+      console.error("Error details:", {
+        message: err.message,
+        cause: err.cause,
+        stack: err.stack,
+      });
     },
   });
 
@@ -70,6 +80,11 @@ export function GrokChat(props) {
           "Recommend real-world projects to apply what I’ve learned.",
         ]}
       />
+      {error && (
+        <p className="mt-2 text-red-500">
+          Error: {error.message || "An error occurred."}
+        </p>
+      )}
     </div>
   );
 }

@@ -20,9 +20,6 @@ export async function POST(req) {
     return result.toDataStreamResponse();
   } catch (error) {
     console.error("Error in /api/chat:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    throw new Error(error);
   }
 }
