@@ -4,9 +4,13 @@ import { studentAssignmentColumns } from "@/constant/columns";
 import { getAssignmentsForStudent } from "@/lib/actions/assignment.action";
 
 export default async function StudentAssignment({ searchParams }) {
-  const { pageSize, pageIndex } = await searchParams;
-  const { assignments, pagination } = await getAssignmentsForStudent();
-  // console.log("dbAssigments", assignments[0]);
+  const { pageSize, pageIndex, search } = await searchParams;
+
+  const { assignments, pagination } = await getAssignmentsForStudent({
+    limit: Number(pageSize || 10),
+    page: Number(pageIndex || 1),
+    search: search?.trim(),
+  });
 
   return (
     <section className="py-6">

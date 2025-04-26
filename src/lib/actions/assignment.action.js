@@ -490,11 +490,11 @@ export async function getAssignmentsForStudent({
       // Add fields to shape the output
       {
         $addFields: {
-          assigmentId: "$assignments._id",
-          assigmentTitle: "$assignments.title",
-          assigmentSlug: "$assignments.slug",
-          assigmentDeadline: "$assignments.deadline",
-          assignmetSubmission: "$assignments.submissions",
+          assignmentId: "$assignments._id",
+          assignmentTitle: "$assignments.title",
+          assignmentSlug: "$assignments.slug",
+          assignmentDeadline: "$assignments.deadline",
+          assignmentSubmission: "$assignments.submissions",
           totalMarks: "$assignments.totalMarks",
           passMarks: "$assignments.passMarks",
           courseId: "$course._id",
@@ -506,13 +506,13 @@ export async function getAssignmentsForStudent({
       // Project to include only necessary fields
       {
         $project: {
-          _id: "$assigmentId",
-          title: "$assigmentTitle",
-          deadline: "$assigmentDeadline",
+          _id: "$assignmentId",
+          title: "$assignmentTitle",
+          deadline: "$assignmentDeadline",
           totalMarks: "$totalMarks",
           passMarks: "$passMarks",
-          status: "$assignmetSubmission",
-          slug: "$assigmentSlug",
+          status: "$assignmentSubmission",
+          slug: "$assignmentSlug",
           course: {
             title: "$courseTitle",
             slug: "$courseSlug",
@@ -521,6 +521,7 @@ export async function getAssignmentsForStudent({
               name: "$categoryName",
             },
           },
+          createdAt: "$assignments.createdAt",
         },
       },
       // Sort by quiz title
@@ -551,15 +552,15 @@ export async function getAssignmentsForStudent({
       },
       {
         $lookup: {
-          from: "assigments",
+          from: "assignments",
           localField: "courses",
           foreignField: "course",
-          as: "assigments",
+          as: "assignments",
         },
       },
       {
         $unwind: {
-          path: "$assigments",
+          path: "$assignments",
         },
       },
       searchMatch,
@@ -568,8 +569,8 @@ export async function getAssignmentsForStudent({
       },
     ]);
 
-    const totalAssigments = totalCount?.total || 0;
-    const totalPages = Math.ceil(totalAssigments / limit);
+    const totalAssignments = totalCount?.total || 0;
+    const totalPages = Math.ceil(totalAssignments / limit);
 
     // Execute main aggregation
     const assignments = await Student.aggregate(aggregationPipeline);
@@ -580,7 +581,7 @@ export async function getAssignmentsForStudent({
         pagination: {
           currentPage: page,
           totalPages,
-          totalItems: totalAssigments,
+          totalItems: totalAssignments,
           hasNextPage: page < totalPages,
           hasPrevPage: page > 1,
         },
