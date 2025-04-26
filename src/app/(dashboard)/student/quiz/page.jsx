@@ -10,17 +10,6 @@ export default async function Quiz({ searchParams }) {
     page: Number(pageIndex || 1),
     search: search?.trim(),
   });
-  // const quizzes = [
-  //   {
-  //     id: 1,
-  //     title: "Web Developer",
-  //     course: "Complete Web Development",
-  //     startDate: "30 Dec",
-  //     totalQuiz: 10,
-  //     yourMark: 9,
-  //     status: "Not submit",
-  //   },
-  // ];
 
   return (
     <section className="py-6">

@@ -1,14 +1,15 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
+import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
 
 import dbConnect from "../dbConnect";
 import { objectId } from "../utils";
 
 import Quiz from "@/models/Quiz";
+import QuizSubmission from "@/models/QuizSubmission";
 import Student from "@/models/Student";
-
 export async function createQuiz({ courseId, data, path }) {
   try {
     await dbConnect();
@@ -132,7 +133,7 @@ export async function getQuizById(courseId) {
     throw new Error("Failed to fetch quiz");
   }
 }
-// get Quizzes by instructors
+// get Quizzes by instructors =================
 export async function getQuizzes({ page = 1, limit = 10, search = "" } = {}) {
   try {
     await dbConnect();
@@ -494,6 +495,7 @@ export async function getQuizzesForStudent({
     throw new Error("Failed to fetch quizzes for student: " + error.message);
   }
 }
+// get quizzes with questions for students Dashboard ========================
 export async function getQuizzesQuestionForStudent({
   page = 1,
   limit = 10,
@@ -689,5 +691,95 @@ export async function getQuizzesQuestionForStudent({
     throw new Error(
       "Failed to fetch quizzes with questions for student: " + error.message,
     );
+  }
+}
+
+export async function saveQuizResult({ quizId, data }) {
+  try {
+    await dbConnect();
+
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+    const userId = sessionClaims?.userId;
+
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    // Find the quiz and populate necessary data
+    const quiz = await Quiz.findById(quizId);
+    if (!quiz) {
+      throw new Error("Quiz not found");
+    }
+
+    // Prepare answers array
+    const answers = Object.entries(data.answers).map(
+      ([questionId, optionIds]) => ({
+        question: new mongoose.Types.ObjectId(questionId),
+        selectedOptions: optionIds.map((id) => new mongoose.Types.ObjectId(id)),
+      }),
+    );
+
+    // Create or update the quiz submission
+    const submission = await QuizSubmission.findOneAndUpdate(
+      {
+        student: new mongoose.Types.ObjectId(userId),
+        quiz: new mongoose.Types.ObjectId(quizId),
+      },
+      {
+        $set: {
+          course: quiz.course,
+          answers,
+          totalQuestions: quiz.questions.length,
+        },
+      },
+      {
+        new: true,
+        upsert: true,
+      },
+    );
+
+    return {
+      success: true,
+      message: "Quiz submitted successfully",
+      data: JSON.parse(
+        JSON.stringify({
+          submissionId: submission._id,
+          score: submission.score,
+          totalQuestions: submission.totalQuestions,
+          percentage: submission.percentage,
+        }),
+      ),
+    };
+  } catch (error) {
+    console.error("Error saving quiz result:", error);
+    throw new Error(error.message || "Failed to save quiz result");
+  }
+}
+// quiz.action.js
+export async function checkQuizSubmission(quizId) {
+  try {
+    await dbConnect();
+
+    // Get the current logged-in user
+    const { sessionClaims } = await auth();
+    const userId = sessionClaims?.userId;
+
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    const submission = await QuizSubmission.findOne({
+      student: new mongoose.Types.ObjectId(userId),
+      quiz: new mongoose.Types.ObjectId(quizId),
+    }).lean();
+
+    return {
+      hasSubmitted: !!submission,
+      submission: submission ? JSON.parse(JSON.stringify(submission)) : null,
+    };
+  } catch (error) {
+    console.error("Error checking quiz submission:", error);
+    throw new Error("Failed to check quiz submission status");
   }
 }
