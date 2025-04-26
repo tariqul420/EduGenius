@@ -1,6 +1,7 @@
 import ModulesList from "@/components/dashboard/student/ModuleList";
 import Player from "@/components/dashboard/student/Player";
 import QuizAssignment from "@/components/dashboard/student/QuizAssignment";
+import { getAssignmentByCourse } from "@/lib/actions/assignment.action";
 import { getModules } from "@/lib/actions/curriculum.action";
 
 export default async function CourseModulesPage({ params }) {
@@ -20,7 +21,9 @@ export default async function CourseModulesPage({ params }) {
     completedModules: 1,
     progress: 25,
   };
+
   const curriculum = await getModules({ slug });
+  const assignment = await getAssignmentByCourse(slug);
 
   return (
     <section className="py-6">
@@ -32,7 +35,7 @@ export default async function CourseModulesPage({ params }) {
               <h1 className="text-2xl font-bold">{course.title}</h1>
               <p className="text-muted-foreground">{course.description}</p>
             </div>
-            <QuizAssignment />
+            <QuizAssignment assignment={assignment} />
           </div>
           <div className="mb-8 lg:col-span-4">
             <ModulesList curriculum={curriculum} />

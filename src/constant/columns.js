@@ -17,6 +17,7 @@ import {
 import DeleteBlogModal from "@/components/dashboard/instructor/DeleteBlogModal";
 import TableContextMenu from "@/components/dashboard/instructor/TableContextMenu";
 import CertificatePDF from "@/components/dashboard/student/CertificatePDF";
+import QuizeModal from "@/components/dashboard/student/QuizeModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -28,7 +29,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import QuizeModal from "@/components/dashboard/student/QuizeModal";
 
 export const categoryColumns = [
   createDragColumn(),
@@ -722,7 +722,7 @@ export const studentAssignmentColumns = [
     header: "Start Date",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original?.createdAt || "Not Available"}
+        {format(new Date(row.original.createdAt), "PPP")}
       </Badge>
     ),
   },
@@ -747,8 +747,8 @@ export const studentAssignmentColumns = [
     ),
   },
   {
-    accessorKey: "myMarks",
-    header: "My Marks",
+    accessorKey: "passMarks",
+    header: "Pass Marks",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
         {row.original.passMarks}
