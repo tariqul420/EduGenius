@@ -10,6 +10,10 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import AIDescription from "./AIDescription";
+import AISheet from "./AISheet";
+import AiTitles from "./AiTitles";
+
 import CategoryForm from "@/components/shared/CategoryForm";
 import { Button } from "@/components/ui/button";
 import {
@@ -156,7 +160,12 @@ export default function CourseForm({ course }) {
           className="col-span-1 sm:col-span-2"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Course Title</FormLabel>
+              <div className="flex items-center justify-between">
+                <FormLabel>Course Title</FormLabel>
+                <AISheet value={field.value}>
+                  <AiTitles title={field.value} onSelect={field.onChange} />
+                </AISheet>
+              </div>
               <FormControl>
                 <Input placeholder="Enter course title" {...field} />
               </FormControl>
@@ -171,7 +180,9 @@ export default function CourseForm({ course }) {
           name="category"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Category</FormLabel>
+              <div className="flex items-center justify-between">
+                <FormLabel>Category</FormLabel>
+              </div>
               <FormControl>
                 <Select
                   onValueChange={field.onChange}
@@ -356,7 +367,17 @@ export default function CourseForm({ course }) {
           name="description"
           render={({ field }) => (
             <FormItem className="col-span-1 sm:col-span-2">
-              <FormLabel>Course Description</FormLabel>
+              <div className="flex items-center justify-between">
+                <FormLabel>Course Description</FormLabel>
+                <AISheet value={field.value}>
+                  <AIDescription
+                    title={form.getValues("title")}
+                    category={form.getValues("category")}
+                    level={form.getValues("level")}
+                    onSelect={field.onChange}
+                  />
+                </AISheet>
+              </div>
               <FormControl>
                 <Textarea
                   placeholder="Enter course description"
