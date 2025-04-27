@@ -31,7 +31,7 @@ export default function TextSeeMore({ description }) {
           onClick={handleSeeMore}
           className="text-dark-btn hover:underline"
         >
-          ... see more
+          show more
         </button>
       )}
       {lineCount >= estimatedLines && lineCount > 5 && (
@@ -39,7 +39,7 @@ export default function TextSeeMore({ description }) {
           onClick={() => setLineCount(5)}
           className="text-dark-btn ml-2 hover:underline"
         >
-          See less
+          Show less
         </button>
       )}
     </div>

@@ -3,7 +3,6 @@ import { format } from "date-fns";
 import {
   AlertCircleIcon,
   ClockIcon,
-  CodeIcon,
   FileTextIcon,
   GithubIcon,
   LockIcon,
@@ -115,68 +114,6 @@ export default async function AssignmentDetailsPage({ params }) {
             <TextSeeMore
               description={description || "No description provided"}
             />
-          </div>
-        </div>
-
-        {/* Technical Requirements */}
-        <div className="grid gap-4 @md:grid-cols-2">
-          {/* Required Features */}
-          <div className="text-dark-main dark:bg-dark-bg rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:text-white">
-            <div className="mb-4 flex items-center gap-3">
-              <div className="bg-dark-main/10 text-dark-main dark:bg-dark-main/20 flex h-10 w-10 items-center justify-center rounded-lg">
-                <CodeIcon className="h-5 w-5" />
-              </div>
-              <h2 className="text-xl font-semibold">Required Features</h2>
-            </div>
-            <ul className="space-y-3">
-              {[
-                "Form validation with React Hook Form",
-                "Context API for auth state management",
-                "Axios interceptors for JWT handling",
-                "Error boundaries for auth flows",
-                "Responsive design implementation",
-              ].map((feature, index) => (
-                <li key={index} className="flex items-start gap-2">
-                  <div className="bg-dark-main mt-1 h-2 w-2 rounded-full"></div>
-                  <span className="text-muted-foreground">{feature}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Evaluation Criteria */}
-          <div className="text-dark-main dark:bg-dark-bg rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:text-white">
-            <div className="mb-4 flex items-center gap-3">
-              <div className="bg-dark-main/10 text-dark-main dark:bg-dark-main/20 flex h-10 w-10 items-center justify-center rounded-lg">
-                <ShieldIcon className="h-5 w-5" />
-              </div>
-              <h2 className="text-xl font-semibold">Evaluation Criteria</h2>
-            </div>
-            <div className="space-y-4">
-              {[
-                { name: "Code organization", value: 30, color: "bg-dark-main" },
-                {
-                  name: "Security practices",
-                  value: 40,
-                  color: "bg-dark-main/80",
-                },
-                { name: "UI/UX", value: 20, color: "bg-dark-main/60" },
-                { name: "Documentation", value: 10, color: "bg-dark-main/40" },
-              ].map((item, index) => (
-                <div key={index}>
-                  <div className="mb-1 flex justify-between text-sm">
-                    <span>{item.name}</span>
-                    <span className="font-medium">{item.value}%</span>
-                  </div>
-                  <div className="h-2 w-full rounded-full bg-gray-200 dark:bg-gray-800">
-                    <div
-                      className={`h-full rounded-full ${item.color}`}
-                      style={{ width: `${item.value}%` }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
 
