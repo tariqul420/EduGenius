@@ -5,6 +5,7 @@ import DataTable from "@/components/dashboard/data-table";
 import { SectionCards } from "@/components/section-cards";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { instructorCourseColumns } from "@/constant/columns";
+import { generateMessage } from "@/lib/actions/ai.action";
 import { getCourseAdminInstructor } from "@/lib/actions/course.action";
 import { courseSellingData } from "@/lib/actions/stats.action";
 
@@ -28,6 +29,12 @@ export default async function Home({ searchParams }) {
   // const response = await generateQuiz(courses[0].category.name);
 
   // console.log("response", response);
+
+  const result = await generateMessage({
+    message: `Generate a quiz for the following topic: ${courses[0].category.name}`,
+  });
+
+  console.log("result", result);
 
   return (
     <SidebarInset>
