@@ -76,7 +76,10 @@ function Navbar() {
           <ul className="hidden space-x-6 lg:flex">
             {navLinks.map((link) => (
               <li key={link?.href}>
-                <Link href={link?.href} className={"group text-sm relative px-1"}>
+                <Link
+                  href={link?.href}
+                  className={"group relative px-1 text-sm"}
+                >
                   {link.label}
                   {isActive(link?.href) && (
                     <span className="absolute -bottom-0.5 left-0 h-[2.5px] w-full rounded-full bg-black dark:bg-white"></span>
@@ -95,7 +98,7 @@ function Navbar() {
           <SignedOut>
             <Link
               href="/sign-in"
-              className="bg-main hover:bg-dark-main hidden items-center rounded text-white px-3 py-[5px] shadow transition duration-200 lg:flex"
+              className="bg-main hover:bg-dark-main hidden items-center rounded px-3 py-[5px] text-white shadow transition duration-200 lg:flex"
             >
               <LogIn className="mr-1.5" size={18} />
               Login
@@ -131,7 +134,12 @@ function Navbar() {
               {/* Sheet Header */}
               <SheetHeader className="w-fit px-2">
                 <SheetTitle className="text-main dark:text-light-bg text-2xl font-medium">
-                  <Link href="/">EduGenius</Link>
+                  <Link href="/" className="flex items-center gap-2 text-3xl">
+                    <GraduationCap size={26} className="text-main" />
+                    <h2 className="text-2xl font-semibold">
+                      Edu<span className="text-main">Genius</span>
+                    </h2>
+                  </Link>
                 </SheetTitle>
               </SheetHeader>
               <hr />
