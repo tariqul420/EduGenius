@@ -8,9 +8,11 @@ export async function POST(req) {
   const { messages } = await req.json();
 
   const result = streamText({
-    model: xai("grok-2-1212"),
+    model: xai("grok-2-1212", { useSearchGrounding: true }),
     messages,
   });
 
-  return result.toDataStreamResponse();
+  return result.toDataStreamResponse({
+    sendSources: true,
+  });
 }
