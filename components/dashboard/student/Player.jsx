@@ -1,5 +1,6 @@
 "use client";
 
+import { VideoOff } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
@@ -91,15 +92,25 @@ export default function Player({ curriculum }) {
           }}
         />
       ) : (
-        <Card className="flex h-full flex-col justify-center">
-          <CardHeader>
-            <CardTitle>No Video Available</CardTitle>
+        <Card className="flex h-full flex-col justify-center p-8 text-center">
+          <CardHeader className="flex flex-col items-center">
+            <div className="rounded-full bg-gradient-to-l from-dark-bg to-dark-bg dark:from-dark-main dark:to-dark-btn/70 p-4">
+              <VideoOff className="h-10 w-10 text-light-bg dark:text-gray-400" />
+            </div>
+            <CardTitle className="text-2xl mt-2.5 font-bold">
+              No Video Available
+            </CardTitle>
           </CardHeader>
-          <CardContent>
-            <p>
-              No video is available for this lesson. Please check back later or
-              contact your instructor for assistance.
+          <CardContent className="px-0">
+            <p className="mx-auto max-w-lg text-gray-600 dark:text-gray-400">
+              We couldn&apos;t find any video content for this lesson.
+              Please check back later or reach out to your instructor for
+              assistance.
             </p>
+            {/* <Button variant="outline" className="mt-6">
+              <Mail className="mr-2 h-4 w-4" />
+              Contact Instructor
+            </Button> */}
           </CardContent>
         </Card>
       )}
