@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -39,6 +40,7 @@ const quizSubmissionSchema = z.object({
 });
 
 export default function QuizSubmission({ quizzes }) {
+  const pathname = usePathname();
   const [showDetails, setShowDetails] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [submissionData, setSubmissionData] = useState(null);
@@ -197,6 +199,7 @@ export default function QuizSubmission({ quizzes }) {
         data: {
           answers: data.answers,
         },
+        path: pathname,
       });
 
       if (result.success) {
@@ -210,7 +213,6 @@ export default function QuizSubmission({ quizzes }) {
       });
     }
   };
-
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-dark-main mb-8 text-3xl font-bold dark:text-white">
