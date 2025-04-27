@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import { toast } from "sonner";
 
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getLesson } from "@/lib/actions/curriculum.action";
 import { updateProgress } from "@/lib/actions/progress.action";
 import { formUrlQuery } from "@/lib/utils";
@@ -32,11 +33,6 @@ export default function Player({ curriculum }) {
     router.push(newUrl, { scroll: false });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // const onProgress = (progress) => {
-  //   if (!mounted) return;
-  //   // Handle progress tracking
-  // };
 
   const onEnded = async () => {
     if (!mounted || !activeLesson?._id) return;
@@ -77,7 +73,7 @@ export default function Player({ curriculum }) {
 
   return (
     <div className="player-wrapper relative aspect-video">
-      {videoUrl && (
+      {videoUrl ? (
         <ReactPlayer
           url={videoUrl}
           width="100%"
@@ -85,7 +81,6 @@ export default function Player({ curriculum }) {
           controls
           playing
           className="absolute top-0 left-0"
-          // onProgress={onProgress}
           onEnded={onEnded}
           config={{
             file: {
@@ -95,6 +90,18 @@ export default function Player({ curriculum }) {
             },
           }}
         />
+      ) : (
+        <Card className="flex h-full flex-col justify-center">
+          <CardHeader>
+            <CardTitle>No Video Available</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p>
+              No video is available for this lesson. Please check back later or
+              contact your instructor for assistance.
+            </p>
+          </CardContent>
+        </Card>
       )}
     </div>
   );
