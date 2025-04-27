@@ -13,10 +13,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+// import { transcribeAudio } from "@/lib/utils/audio";
 
-const MODELS = [{ id: "grok-3", name: "Grok 3" }];
+const MODELS = [
+  { id: "llama-3.3-70b-versatile", name: "Llama 3.3 70B" },
+  { id: "deepseek-r1-distill-llama-70b", name: "Deepseek R1 70B" },
+];
 
-export function GrokChat(props) {
+export function GrokChat({ initialMessages }) {
   const [selectedModel, setSelectedModel] = useState(MODELS[0].id);
 
   const {
@@ -28,21 +32,11 @@ export function GrokChat(props) {
     stop,
     isLoading,
     setMessages,
-    error,
   } = useChat({
-    ...props,
+    initialMessages,
     api: "/api/chat",
     body: {
       model: selectedModel,
-    },
-    onError: (err) => {
-      console.error("useChat error:", err);
-      // Add more detailed logging
-      console.error("Error details:", {
-        message: err.message,
-        cause: err.cause,
-        stack: err.stack,
-      });
     },
   });
 
@@ -64,7 +58,7 @@ export function GrokChat(props) {
       </div>
 
       <Chat
-        className="grow overflow-hidden"
+        className="grow"
         messages={messages}
         handleSubmit={handleSubmit}
         input={input}
@@ -73,18 +67,13 @@ export function GrokChat(props) {
         stop={stop}
         append={append}
         setMessages={setMessages}
+        // transcribeAudio={transcribeAudio}
         suggestions={[
-          "Explain the concept of machine learning in simple terms for beginners.",
-          "Recommend advanced exercises to master data structures and algorithms.",
-          "Suggest effective strategies to prepare for my upcoming exams.",
-          "Recommend real-world projects to apply what I’ve learned.",
+          "What is the weather in San Francisco?",
+          "Explain step-by-step how to solve this math problem: If x² + 6x + 9 = 25, what is x?",
+          "Design a simple algorithm to find the longest palindrome in a string.",
         ]}
       />
-      {error && (
-        <p className="mt-2 text-red-500">
-          Error: {error.message || "An error occurred."}
-        </p>
-      )}
     </div>
   );
 }
