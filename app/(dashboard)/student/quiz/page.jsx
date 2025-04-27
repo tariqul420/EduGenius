@@ -9,8 +9,8 @@ export default async function Quiz({ searchParams }) {
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
     search: search?.trim(),
-  });
-
+  }); 
+  // console.log("quifgdfgdfgzzes", quizzes.hasSubmitted);
   return (
     <section className="py-6">
       <div className="@container/main flex flex-1 flex-col gap-2 px-4 lg:px-6">

@@ -13,8 +13,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-export default function QuizModal({ quizeId, slug }) {
-  const score = 16; // Replace with actual score
+export default function QuizModal({ quizeId, hasSubmitted, slug }) {
+  const score = 16;
   const total = 20;
   const percentage = (score / total) * 100;
   const strokeDash = (percentage / 100) * 251;
@@ -33,8 +33,6 @@ export default function QuizModal({ quizeId, slug }) {
     feedback = "Solid understanding, but there's room for improvement.";
   }
 
-  const isSubmitted = true;
-
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -43,7 +41,7 @@ export default function QuizModal({ quizeId, slug }) {
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md">
-        {!isSubmitted ? (
+        {hasSubmitted ? (
           <>
             <DialogHeader>
               <DialogTitle className="text-center text-2xl">
