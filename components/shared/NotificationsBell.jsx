@@ -29,7 +29,7 @@ export default async function NotificationsBell() {
     <Popover>
       <PopoverTrigger className="relative flex cursor-pointer items-center gap-2 rounded-full border p-2 text-3xl shadow">
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-red-500" />
+          <span className="absolute top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-dark-btn" />
         )}
         <Bell size={16} />
       </PopoverTrigger>
