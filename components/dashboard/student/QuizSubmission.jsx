@@ -19,24 +19,17 @@ import {
 } from "@/components/ui/form";
 import { checkQuizSubmission, saveQuizResult } from "@/lib/actions/quiz.action";
 
-// Define form schema with Zod validation
 const quizSubmissionSchema = z.object({
-  answers: z
-    .record(
-      z.string(), // question ID as key
-      z.array(z.string()), // array of selected option IDs
-    )
-    .refine(
-      (answers) => {
-        // Get all question IDs from the form
-        const questionIds = Object.keys(answers);
-        return questionIds.every((id) => answers[id].length > 0);
-      },
-      {
-        message: "Please answer all questions",
-        path: ["root"],
-      },
-    ),
+  answers: z.record(z.string(), z.array(z.string())).refine(
+    (answers) => {
+      const questionIds = Object.keys(answers);
+      return questionIds.every((id) => answers[id].length > 0);
+    },
+    {
+      message: "Please answer all questions",
+      path: ["root"],
+    },
+  ),
 });
 
 export default function QuizSubmission({ quizzes }) {
@@ -51,11 +44,11 @@ export default function QuizSubmission({ quizzes }) {
     },
   });
 
-  // Calculate total questions
   const totalQuestions = quizzes.reduce(
     (total, quiz) => total + (quiz.questions?.length || 0),
     0,
   );
+
   useEffect(() => {
     const checkSubmission = async () => {
       try {
@@ -69,6 +62,7 @@ export default function QuizSubmission({ quizzes }) {
 
     checkSubmission();
   }, [quizzes]);
+
   if (hasSubmitted) {
     const percentage = Math.round(submissionData.percentage);
     const correctCount = submissionData.score;
@@ -143,13 +137,17 @@ export default function QuizSubmission({ quizzes }) {
             {showDetails ? "Hide Details" : "View Question Details"}
           </Button>
 
-          {/* Detailed Results (Optional) */}
+          {/* Detailed Results */}
           {showDetails && (
             <div className="mt-4 space-y-4">
               {quizzes[0].questions.map((question, index) => {
                 const answer = submissionData.answers.find(
                   (a) => a.question.toString() === question._id.toString(),
                 );
+                const correctOptions = question.options.filter(
+                  (opt) => opt.isCorrect,
+                );
+
                 return (
                   <div
                     key={question._id}
@@ -167,9 +165,32 @@ export default function QuizSubmission({ quizzes }) {
                         <p className="text-muted-foreground mt-1 text-sm">
                           {answer?.isCorrect ? "✓ Correct" : "✗ Incorrect"}
                         </p>
+                        <div className="mt-2">
+                          <p className="text-sm font-medium">
+                            Correct Answers:
+                          </p>
+                          <ul className="ml-4 list-disc text-sm text-green-600 dark:text-green-300">
+                            {correctOptions.map((opt) => (
+                              <li key={opt._id}>{opt.option}</li>
+                            ))}
+                          </ul>
+                        </div>
+                        {!answer?.isCorrect && (
+                          <div className="mt-2">
+                            <p className="text-sm font-medium">Your Answers:</p>
+                            <ul className="ml-4 list-disc text-sm text-red-600 dark:text-red-300">
+                              {answer?.selectedOptions.map((optId) => {
+                                const opt = question.options.find(
+                                  (o) => o._id.toString() === optId.toString(),
+                                );
+                                return <li key={optId}>{opt?.option}</li>;
+                              })}
+                            </ul>
+                          </div>
+                        )}
                       </div>
                       <span className="font-bold">
-                        {answer?.isCorrect ? "2" : "0"}/2
+                        {answer?.isCorrect ? "1" : "0"}/1
                       </span>
                     </div>
                   </div>
@@ -195,7 +216,7 @@ export default function QuizSubmission({ quizzes }) {
 
     try {
       const result = await saveQuizResult({
-        quizId: quizzes[0]._id, // Assuming one quiz for simplicity
+        quizId: quizzes[0]._id,
         data: {
           answers: data.answers,
         },
@@ -206,6 +227,8 @@ export default function QuizSubmission({ quizzes }) {
         toast.success(result.message, {
           description: `Score: ${result.data.score}/${result.data.totalQuestions} (${Math.round(result.data.percentage)}%)`,
         });
+        setHasSubmitted(true);
+        setSubmissionData(result.data);
       }
     } catch (error) {
       toast.error("Submission failed", {
@@ -213,12 +236,12 @@ export default function QuizSubmission({ quizzes }) {
       });
     }
   };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-dark-main mb-8 text-3xl font-bold dark:text-white">
         Available Quizzes
       </h1>
-
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           {quizzes.map((quiz) => (
