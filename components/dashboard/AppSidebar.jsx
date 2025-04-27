@@ -37,6 +37,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 // Map of icon names to their corresponding components
@@ -59,7 +60,7 @@ const iconMap = {
 
 export function AppSidebar({ role, menu = [] }) {
   const pathname = usePathname();
-
+  const { toggleSidebar } = useSidebar();
   // Function to determine if a menu item is active
   const isActive = (url) => {
     if (!url) return false;
@@ -73,7 +74,7 @@ export function AppSidebar({ role, menu = [] }) {
 
   return (
     <Sidebar>
-      <SidebarHeader className="bg-white dark:bg-dark-bg">
+      <SidebarHeader className="dark:bg-dark-bg bg-white">
         <Link href="/" className="flex items-center gap-2 text-3xl">
           <GraduationCap size={26} className="text-main" />
           <h2 className="text-2xl font-semibold">
@@ -81,7 +82,7 @@ export function AppSidebar({ role, menu = [] }) {
           </h2>
         </Link>
       </SidebarHeader>
-      <SidebarContent className="bg-white dark:bg-dark-bg">
+      <SidebarContent className="dark:bg-dark-bg bg-white">
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -99,7 +100,15 @@ export function AppSidebar({ role, menu = [] }) {
                       }`}
                       asChild
                     >
-                      <Link href={item?.url || "#"}>
+                      <Link
+                        onClick={() => {
+                          if (window.innerWidth < 768) {
+                            toggleSidebar();
+                          }
+                        }}
+                        href={item?.url || "#"}
+                        className="" 
+                      >
                         {IconComponent ? <IconComponent /> : null}
                         <span>{item.title}</span>
                       </Link>
