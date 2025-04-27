@@ -17,7 +17,7 @@ import {
 import DeleteBlogModal from "@/components/dashboard/instructor/DeleteBlogModal";
 import TableContextMenu from "@/components/dashboard/instructor/TableContextMenu";
 import CertificatePDF from "@/components/dashboard/student/CertificatePDF";
-import QuizeModal from "@/components/dashboard/student/QuizeModal";
+import QuizModal from "@/components/dashboard/student/QuizeModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -867,8 +867,8 @@ export const studentQuizColumns = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem asChild>
-                <QuizeModal
-                  quizeId={row.original?._id}
+                <QuizModal
+                  quizId={row.original?._id}
                   hasSubmitted={row.original?.hasSubmitted}
                   slug={row.original?.course.slug}
                 />

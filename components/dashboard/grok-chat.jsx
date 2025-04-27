@@ -15,10 +15,7 @@ import {
 import { cn } from "@/lib/utils";
 // import { transcribeAudio } from "@/lib/utils/audio";
 
-const MODELS = [
-  { id: "llama-3.3-70b-versatile", name: "Llama 3.3 70B" },
-  { id: "deepseek-r1-distill-llama-70b", name: "Deepseek R1 70B" },
-];
+const MODELS = [{ id: "grok-3", name: "Grok 3" }];
 
 export function GrokChat({ initialMessages }) {
   const [selectedModel, setSelectedModel] = useState(MODELS[0].id);
