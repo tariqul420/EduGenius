@@ -17,15 +17,7 @@ const assignmentSchema = new mongoose.Schema(
     }, // Instructor ID
     totalMarks: { type: Number, required: true }, // Total marks for the assignment
     passMarks: { type: Number }, // Marks required to pass
-    submissions: [
-      {
-        student: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Student ID
-        submissionDate: { type: Date, default: Date.now }, // Submission date
-        fileUrl: { type: String }, // File URL (if applicable)
-        grade: { type: Number }, // Assignment grade
-        feedback: { type: String }, // Instructor feedback
-      },
-    ],
+    submissions: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true },
 );

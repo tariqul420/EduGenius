@@ -22,6 +22,7 @@ export default async function AssignmentDetailsPage({ params }) {
   const studentId = sessionClaims?.userId;
 
   const {
+    _id,
     title,
     deadline,
     description,
@@ -153,7 +154,7 @@ export default async function AssignmentDetailsPage({ params }) {
             </div>
           </div>
         ) : (
-          <AssignmentSubmitForm />
+          <AssignmentSubmitForm assignment={_id} course={course?._id} />
         )}
       </div>
     </section>
