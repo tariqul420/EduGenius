@@ -1,21 +1,15 @@
-import { format } from "date-fns"; // For formatting the deadline date
+import Link from "next/link";
 
-import AssignmentSubmitForm from "./AssignmentSubmitForm";
-
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export default function QuizAssignment({ assignment }) {
+export default function QuizAssignment({ assignment, studentId, slug }) {
+  // Check if the student has a submission
+  const hasSubmission = assignment?.submissions?.some(
+    (submission) => submission.studentId === studentId,
+  );
+
   return (
     <Tabs defaultValue="quiz" className="mt-8 w-full">
       <TabsList className="bg-light-bg dark:bg-dark-hover w-full rounded px-1.5 py-5 shadow-sm">
@@ -39,43 +33,50 @@ export default function QuizAssignment({ assignment }) {
       {/* Assignment Section */}
       <TabsContent value="assignment" className="mt-6">
         <div className="mx-auto max-w-2xl">
-          <h2 className="mb-4 text-2xl font-bold">{assignment.title}</h2>
-          <p className="mb-4">
-            <strong>Course:</strong> {assignment.course.title}
-          </p>
-          <p className="mb-4">
-            <strong>Instructor:</strong> {assignment.instructor.firstName}{" "}
-            {assignment.instructor.lastName}
-          </p>
-          <p className="mb-4">
-            <strong>Deadline:</strong>{" "}
-            {format(new Date(assignment.deadline), "PPP 'at' p")}
-          </p>
-          <p className="mb-4">
-            <strong>Total Marks:</strong> {assignment.totalMarks} |{" "}
-            <strong>Pass Marks:</strong> {assignment.passMarks}
-          </p>
-          <div className="mb-6">
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="outline">View Description</Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent className="max-h-[80vh] w-full overflow-x-auto rounded-lg p-6 shadow-xl md:min-w-2xl">
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Assignment Description</AlertDialogTitle>
-                </AlertDialogHeader>
-                <AlertDialogDescription className="dark:text-light-theme text-dark-input whitespace-pre-wrap">
-                  {assignment?.description}
-                </AlertDialogDescription>
-                <AlertDialogFooter>
-                  <AlertDialogAction>Close</AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </div>
-
-          {/* Assignment Submission Form */}
-          <AssignmentSubmitForm />
+          {/* Check if no assignment exists */}
+          {!assignment ? (
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>No Assignment Available</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>
+                  No assignment is available at the moment. Please check back
+                  later or contact your instructor.
+                </p>
+              </CardContent>
+            </Card>
+          ) : (
+            <>
+              {/* Conditional Rendering Based on Submission */}
+              {hasSubmission ? (
+                <Button asChild variant="default">
+                  <Link
+                    href={`/student/assignment/${assignment?.course?.slug}`}
+                  >
+                    View Marks and Details
+                  </Link>
+                </Button>
+              ) : (
+                <Card className="mb-6">
+                  <CardHeader>
+                    <CardTitle>No Submission Yet</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="mb-4">
+                      You haven&apos;t submitted this assignment yet. Start your
+                      assignment now to complete it before the deadline!
+                    </p>
+                    <Button asChild>
+                      <Link href={`/student/assignment/${slug}`}>
+                        Start Assignment
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              )}
+            </>
+          )}
         </div>
       </TabsContent>
     </Tabs>
