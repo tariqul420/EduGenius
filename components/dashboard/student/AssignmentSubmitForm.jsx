@@ -2,8 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FileTextIcon } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -15,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { studentSubmitAssignment } from "@/lib/actions/assignment.action";
 
 // Define Zod schema
 const formSchema = z.object({
@@ -25,7 +28,9 @@ const formSchema = z.object({
     .nonempty({ message: "Content is required." }),
 });
 
-export default function AssignmentSubmitForm() {
+export default function AssignmentSubmitForm({ assignment, course }) {
+  const pathname = usePathname();
+
   // Initialize the form with react-hook-form and Zod
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -41,14 +46,30 @@ export default function AssignmentSubmitForm() {
   // Handle form submission
   const onSubmit = async (data) => {
     try {
-      // Simulate API call
-      // console.log("Form Data:", data?.content);
-      // alert("Assignment submitted successfully!");
-      form.reset(); // Reset form after successful submission
-      setCharCount(0); // Reset character count
+      const submittedData = {
+        content: data.content,
+        assignment,
+        course,
+      };
+      toast.promise(
+        studentSubmitAssignment({
+          data: submittedData,
+          path: pathname,
+        }),
+        {
+          loading: "Saving information...",
+          success: () => {
+            return "Information saved successfully!";
+          },
+          error: (err) => {
+            throw new Error("Error saving information. Please try again.", err);
+          },
+        },
+      );
+      form.reset();
+      setCharCount(0);
     } catch (error) {
       console.error("Submission error:", error);
-      // alert("Failed to submit assignment. Please try again.");
     }
   };
 
@@ -56,7 +77,7 @@ export default function AssignmentSubmitForm() {
   const handleContentChange = (e, onChange) => {
     const { value } = e.target;
     setCharCount(value.length);
-    onChange(e); // Trigger react-hook-form's onChange
+    onChange(e);
   };
 
   return (
