@@ -1,3 +1,5 @@
+import { auth } from "@clerk/nextjs/server";
+
 import ModulesList from "@/components/dashboard/student/ModuleList";
 import Player from "@/components/dashboard/student/Player";
 import QuizAssignment from "@/components/dashboard/student/QuizAssignment";
@@ -6,6 +8,8 @@ import { getModules } from "@/lib/actions/curriculum.action";
 
 export default async function CourseModulesPage({ params }) {
   const { slug } = await params;
+  const { sessionClaims } = await auth();
+  const studentId = sessionClaims?.userId;
 
   const course = {
     id: "course-001",
@@ -35,7 +39,7 @@ export default async function CourseModulesPage({ params }) {
               <h1 className="text-2xl font-bold">{course.title}</h1>
               <p className="text-muted-foreground">{course.description}</p>
             </div>
-            <QuizAssignment assignment={assignment} />
+            <QuizAssignment assignment={assignment} studentId={studentId} slug={slug} />
           </div>
           <div className="mb-8 lg:col-span-4">
             <ModulesList curriculum={curriculum} />

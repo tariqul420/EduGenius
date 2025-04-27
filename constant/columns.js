@@ -756,16 +756,6 @@ export const studentAssignmentColumns = [
     ),
   },
   {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.status.length > 0 || "Not Submitted"}
-      </Badge>
-    ),
-  },
-  // ❎❎❎❎❎ Action not Full Functionality Please fix it ❎❎❎❎❎
-  {
     id: "actions",
     header: "Actions",
     cell: ({ row }) => (
@@ -877,7 +867,10 @@ export const studentQuizColumns = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem asChild>
-                <QuizeModal quizeId={row.original?._id} slug={row.original?.course.slug} />
+                <QuizeModal
+                  quizeId={row.original?._id}
+                  slug={row.original?.course.slug}
+                />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
