@@ -27,7 +27,7 @@ const BecomeInstructor = () => {
     },
   ];
   return (
-    <section className="dark:to-dark-theme overflow-hidden bg-gradient-to-t px-2 pt-20 pb-16 md:px-5 dark:from-dark-bg">
+    <section className="dark:to-dark-theme dark:from-dark-theme overflow-hidden bg-gradient-to-t px-2 pt-20 pb-16 md:px-5">
       <div className="mx-auto lg:max-w-6xl">
         <div className="grid grid-cols-12 items-center">
           {/* Content */}
@@ -54,7 +54,7 @@ const BecomeInstructor = () => {
                 <ArrowRight className="h-4 w-4" />
               </button>
 
-              <button className="bg-white hover:bg-light-bg cursor-pointer rounded border px-3 py-2.5 text-black duration-200 md:px-6">
+              <button className="hover:bg-light-bg cursor-pointer rounded border bg-white px-3 py-2.5 text-black duration-200 md:px-6">
                 Learn More
               </button>
             </div>
