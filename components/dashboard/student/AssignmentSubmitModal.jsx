@@ -13,11 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-export default function AssignmentSubmitModal({
-  assignmentId,
-  hasSubmitted,
-  slug,
-}) {
+export default function AssignmentSubmitModal({ hasSubmitted, slug }) {
   const score = 16;
   const total = 20;
   const percentage = (score / total) * 100;
@@ -102,33 +98,8 @@ export default function AssignmentSubmitModal({
                   {feedback}
                 </p>
               </div>
-
-              {/* Breakdown */}
-              <div className="w-full border-t pt-4">
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-green-500"></span>
-                    <span>Earned: {score}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-red-500"></span>
-                    <span>Missed: {total - score}</span>
-                  </div>
-                </div>
-              </div>
             </div>
             <DialogFooter className="gap-2 sm:justify-center">
-              <Button
-                className="bg-main hover:bg-dark-main rounded-full px-6 text-white"
-                type="button"
-                asChild
-              >
-                <Link
-                  href={`/student/courses/${slug}/${assignmentId}/feedback`}
-                >
-                  Review Feedback
-                </Link>
-              </Button>
               <DialogClose asChild>
                 <Button
                   type="button"
