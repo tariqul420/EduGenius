@@ -1,4 +1,5 @@
 import { IconBrandAppstore, IconBrandGooglePlay } from "@tabler/icons-react";
+import Image from "next/image";
 import Link from "next/link";
 
 import EduLogo from "./EduLogo";
@@ -29,7 +30,10 @@ const Footer = () => {
                 placeholder="Your Email"
                 className="w-full px-2 outline-none"
               />
-              <button className="bg-main cursor-pointer rounded-tr-md px-5 py-3 text-white">
+              <button
+                style={{ backgroundImage: "url('/star-blaze.gif')" }}
+                className="bg-main cursor-pointer rounded-tr-md px-5 py-3 text-white"
+              >
                 Subscribe
               </button>
             </div>
@@ -55,11 +59,19 @@ const Footer = () => {
                   Google Play Store
                 </Link>
                 <Link
+                  style={{ backgroundImage: "url('/star-blaze.gif')" }}
                   href="https://www.apple.com/app-store/"
-                  className="bg-main hover:bg-dark-main dark:bg-dark-hover dark:hover:bg-dark-bg flex items-center justify-center gap-2 rounded-md border px-4 py-2 text-white transition-colors"
+                  className="bg-main hover:bg-dark-main dark:bg-dark-bg dark:hover:bg-dark-hover relative flex items-center justify-center gap-2 rounded-md border px-4 py-2 text-white transition-colors"
                 >
                   <IconBrandAppstore className="dark:text-main" size={18} />
                   Apple App Store
+                  <Image
+                    className="absolute right-0 bottom-0 left-0 mx-auto"
+                    src="/star-blaze.png"
+                    alt="btnBg"
+                    width={100}
+                    height={100}
+                  />
                 </Link>
               </div>
             </div>

@@ -24,10 +24,21 @@ function HeroSection() {
         ></Image>
         {/* Text Content */}
         <div className="z-[5] text-center lg:text-left">
-          <div className="dark:text-light-bg to-light-theme relative mx-auto w-fit rounded-md border bg-gradient-to-b from-white px-3 py-2 text-sm shadow lg:mx-0 dark:from-[#17122dcc] dark:to-[#17122d5f]">
+          <div
+            // style={{ backgroundImage: "url('/star-blaze.gif')" }}
+            className="dark:text-light-bg to-light-theme relative mx-auto w-fit rounded-md border bg-gradient-to-b from-white px-3 py-2 text-sm shadow lg:mx-0 dark:from-[#17122dcc] dark:to-[#17122d5f]"
+          >
             #1 Platform for Online Learning
+            <Image
+              className="absolute right-0 bottom-0 left-0 mx-auto"
+              src="/star-blaze.png"
+              alt="btnBg"
+              width={100}
+              height={100}
+            />
             <BorderBeam colorFrom="#512feb" colorTo="#ed187bda" size={70} />
           </div>
+        
           <h2 className="py-2 text-5xl leading-13 font-bold md:py-5 md:leading-16 lg:text-6xl">
             Enroll &{" "}
             <span className="from-main to-dark-btn relative -top-1 overflow-hidden bg-gradient-to-r bg-clip-text text-transparent md:top-0">
@@ -53,7 +64,8 @@ function HeroSection() {
               href="/sign-in"
               className="hover:bg-light-bg flex cursor-pointer items-center gap-2 rounded border bg-white px-4 py-2.5 text-black shadow duration-200 md:px-6"
             >
-              <LinkIcon className="animate-spin duration-[3s]" size={18}/> Join Us
+              <LinkIcon className="animate-spin duration-[3s]" size={18} /> Join
+              Us
             </Link>
           </div>
         </div>
