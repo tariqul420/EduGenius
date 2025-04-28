@@ -10,8 +10,10 @@ const TopCourses = async ({ courses, categories }) => {
     <section className="py-8 md:py-14">
       <div className="container mx-auto px-2 md:px-5 lg:max-w-6xl">
         <Heading
-          title={"Our Top Courses"}
-          subTitle={"We make learning convenient, affordable, and fun!"}
+          badge={"Top Courses"}
+          title={"Master Digital Skills"}
+          subTitle={`Become proficient in web development & graphic design
+video editing and digital marketing courses`}
         />
 
         {/* Category Buttons */}
@@ -19,7 +21,7 @@ const TopCourses = async ({ courses, categories }) => {
 
         {/* Course Cards */}
         {courses?.length > 0 ? (
-          <div className="mt-6 px-3 sm:px-0 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+          <div className="mt-6 grid grid-cols-1 gap-4 px-3 sm:px-0 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
             {courses.map((course, index) => (
               <div key={index} className="flex flex-col">
                 <CourseCard

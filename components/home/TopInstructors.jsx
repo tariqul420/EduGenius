@@ -9,9 +9,10 @@ export default function TopInstructors({ bestInstructors }) {
         <div className="container mx-auto py-8 max-lg:px-4 lg:max-w-6xl">
           {/* Heading */}
           <Heading
-            title={"Top Rated Instructor"}
+            badge={"Pro Mentors"}
+            title={"Learn From the Best"}
             subTitle={
-              "The cost of receiving higher education in the United States has  skyrocketed to impossible."
+              "Hand-picked instructors with proven results\nGet personalized feedback on your projects"
             }
           />
 

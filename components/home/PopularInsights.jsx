@@ -8,9 +8,10 @@ const PopularInsights = async ({ blogs }) => {
       <div className="container mx-auto mt-10 px-2 md:px-5 lg:max-w-6xl">
         {/* Heading Section */}
         <Heading
+          badge={"Trending Now"}
           title={"Popular Insights"}
           subTitle={
-            "Discover insights through the latest analysis to enhance your knowledge from our expert contributors."
+            "Stay ahead with cutting-edge industry analysis\nLearn from leading experts in tech and design"
           }
         />
 
