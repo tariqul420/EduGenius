@@ -832,15 +832,6 @@ export const studentQuizColumns = [
     ),
   },
   {
-    accessorKey: "myMark",
-    header: "My Mark",
-    cell: ({ row }) => (
-      <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original?.myMark ? row.original?.myMark : "Not Submitted"}
-      </Badge>
-    ),
-  },
-  {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => (

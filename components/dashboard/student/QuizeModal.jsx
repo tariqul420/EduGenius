@@ -14,8 +14,6 @@ import {
 } from "@/components/ui/dialog";
 
 export default function QuizModal({ quiz }) {
-  console.log(quiz);
-
   const percentage = (quiz?.score / quiz?.totalQuestions) * 100;
   const strokeDash = (percentage / 100) * 251;
 
