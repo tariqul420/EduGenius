@@ -80,7 +80,7 @@ export function ChartAreaInteractive({ data = [] }) {
           </span>
           <span className="@[540px]/card:hidden">Last 3 months</span>
         </CardDescription>
-        <CardAction>
+        {/* <CardAction>
           <ToggleGroup
             type="single"
             value={timeRange}
@@ -112,7 +112,7 @@ export function ChartAreaInteractive({ data = [] }) {
               </SelectItem>
             </SelectContent>
           </Select>
-        </CardAction>
+        </CardAction> */}
       </CardHeader>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer
