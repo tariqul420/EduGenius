@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -62,7 +63,7 @@ export default function QuizSubmission({ quiz }) {
   }
 
   if (quiz?.hasSubmitted) {
-    const percentage = Math.round(submissionData?.percentage);
+    const percentage = quiz?.percentage.toFixed(2);
     const correctCount = submissionData?.score;
     const totalCount = submissionData?.totalQuestions;
 
@@ -87,7 +88,7 @@ export default function QuizSubmission({ quiz }) {
               ></div>
             </div>
             <div className="mt-2 flex justify-between text-sm text-gray-500 dark:text-gray-400">
-              <span>0%</span>
+              <span>{percentage}%</span>
               <span>100%</span>
             </div>
           </div>
@@ -99,7 +100,7 @@ export default function QuizSubmission({ quiz }) {
                 Correct
               </p>
               <p className="text-2xl font-bold text-green-600 dark:text-green-300">
-                {correctCount}
+                {quiz?.score}
               </p>
             </div>
             <div className="rounded-lg bg-red-50 p-4 dark:bg-red-900/20">
@@ -121,7 +122,7 @@ export default function QuizSubmission({ quiz }) {
             <div className="flex justify-between">
               <span className="text-muted-foreground">Submitted On</span>
               <span className="font-medium">
-                {new Date(submissionData?.submittedAt).toLocaleString()}
+                {format(new Date(quiz.createdAt), "MMMM d, yyyy h:mm a")}
               </span>
             </div>
           </div>
@@ -212,15 +213,20 @@ export default function QuizSubmission({ quiz }) {
     }
 
     try {
-      await saveQuizResult({
+      const result = await saveQuizResult({
         quizId: quiz._id,
-        quizAnswers: data.answers,
+        data: {
+          answers: data.answers,
+        },
         path: pathname,
       });
 
-      toast.success("Quiz submitted successfully", {
-        description: "Your answers have been recorded.",
-      });
+      if (result.success) {
+        setSubmissionData(result.data);
+        toast.success("Quiz submitted successfully", {
+          description: "Your answers have been recorded.",
+        });
+      }
     } catch (error) {
       toast.error("Submission failed", {
         description: error.message,
