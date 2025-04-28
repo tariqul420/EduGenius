@@ -64,8 +64,6 @@ export default function QuizSubmission({ quiz }) {
 
   if (quiz?.hasSubmitted) {
     const percentage = quiz?.percentage.toFixed(2);
-    const correctCount = submissionData?.score;
-    const totalCount = submissionData?.totalQuestions;
 
     return (
       <div className="container mx-auto px-4 py-8">
@@ -108,7 +106,7 @@ export default function QuizSubmission({ quiz }) {
                 Incorrect
               </p>
               <p className="text-2xl font-bold text-red-600 dark:text-red-300">
-                {totalCount - correctCount}
+                {Number(quiz?.totalQuestions) - Number(quiz?.score)}
               </p>
             </div>
           </div>
@@ -117,7 +115,7 @@ export default function QuizSubmission({ quiz }) {
           <div className="mt-6 space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-muted-foreground">Total Questions</span>
-              <span className="font-medium">{totalCount}</span>
+              <span className="font-medium">{quiz?.totalQuestions}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Submitted On</span>
