@@ -730,9 +730,7 @@ export const studentAssignmentColumns = [
     header: "Deadline",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {new Date(row.original.deadline)
-          .toLocaleDateString("en-US", { day: "numeric", month: "long" })
-          .replace(/(\w+) (\d+)/, "$2 $1")}
+        {format(new Date(row.original?.deadline), "PPP")}
       </Badge>
     ),
   },
@@ -768,11 +766,7 @@ export const studentAssignmentColumns = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem asChild>
-              <AssignmentSubmitModal
-                assignmentIdId={row.original?._id}
-                hasSubmitted={row.original?.hasSubmitted}
-                slug={row.original?.course.slug}
-              />
+              <AssignmentSubmitModal assignment={row.original} />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

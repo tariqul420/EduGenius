@@ -52,7 +52,7 @@ export default function QuizModal({ quiz }) {
                 <svg className="h-full w-full" viewBox="0 0 100 100">
                   {/* Background circle */}
                   <circle
-                    className="text-gray-200 dark:text-gray-700"
+                    className="text-main dark:text-dark-500"
                     strokeWidth="8"
                     stroke="currentColor"
                     fill="transparent"
@@ -62,7 +62,7 @@ export default function QuizModal({ quiz }) {
                   />
                   {/* Progress circle with reversed color */}
                   <circle
-                    className="text-main dark:text-dark-500"
+                    className="text-gray-200 dark:text-gray-700"
                     strokeWidth="8"
                     strokeLinecap="round"
                     stroke="currentColor"
