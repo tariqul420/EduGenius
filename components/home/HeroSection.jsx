@@ -13,7 +13,7 @@ function HeroSection() {
       <div className="absolute h-[calc(100%-40px)] w-full">
         <ParticlesDemo />
       </div>
-      <div className="relative container mx-auto flex h-full flex-col items-center justify-between overflow-hidden px-2 py-12 md:gap-5 md:px-5 lg:max-w-6xl lg:flex-row">
+      <div className="relative container mx-auto flex h-full flex-col items-center justify-between overflow-hidden px-2 py-5 md:gap-5 md:px-5 lg:max-w-6xl lg:flex-row">
         <Image
           style={{ animationDuration: "20s" }}
           className="absolute w-full animate-spin object-cover md:max-w-[1000]"

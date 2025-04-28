@@ -23,6 +23,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense } from "react";
 
+import EduLogo from "../shared/EduLogo";
+
 import AdditionalInfoForm from "./instructor/AdditionalInfoForm";
 import BecomeInstructorForm from "./student/BecomeInstructorForm";
 
@@ -75,12 +77,7 @@ export function AppSidebar({ role, menu = [] }) {
   return (
     <Sidebar>
       <SidebarHeader className="dark:bg-dark-bg bg-white">
-        <Link href="/" className="flex items-center gap-2 text-3xl">
-          <GraduationCap size={26} className="text-main" />
-          <h2 className="text-2xl font-semibold">
-            Edu<span className="text-main">Genius</span>
-          </h2>
-        </Link>
+        <EduLogo />
       </SidebarHeader>
       <SidebarContent className="dark:bg-dark-bg bg-white">
         <SidebarGroup>
@@ -107,7 +104,7 @@ export function AppSidebar({ role, menu = [] }) {
                           }
                         }}
                         href={item?.url || "#"}
-                        className="" 
+                        className=""
                       >
                         {IconComponent ? <IconComponent /> : null}
                         <span>{item.title}</span>

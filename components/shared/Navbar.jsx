@@ -64,7 +64,7 @@ function Navbar() {
     <nav
       className={`dark:from-dark-bg/20 dark:to-dark-bg/20 sticky top-0 z-[20] bg-gradient-to-r from-white to-white p-4 text-black shadow-sm backdrop-blur dark:text-white ${showNavbar ? "translate-y-0" : "-translate-y-full"} transition-transform duration-300`}
     >
-      <div className="container mx-auto flex items-center justify-between ps-2 md:ps-5 lg:max-w-6xl">
+      <div className="container mx-auto flex items-center justify-between md:ps-5 lg:max-w-6xl">
         {/* Logo */}
         <EduLogo />
 
