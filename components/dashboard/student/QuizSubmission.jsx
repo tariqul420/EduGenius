@@ -138,7 +138,7 @@ export default function QuizSubmission({ quiz }) {
           {showDetails && (
             <div className="mt-4 space-y-4">
               {quiz.questions.map((question, index) => {
-                const answer = submissionData.answers.find(
+                const answer = submissionData?.answers?.find(
                   (a) => a.question.toString() === question._id.toString(),
                 );
                 const correctOptions = question.options.filter(
@@ -177,7 +177,7 @@ export default function QuizSubmission({ quiz }) {
                             <p className="text-sm font-medium">Your Answers:</p>
                             <ul className="ml-4 list-disc text-sm text-red-600 dark:text-red-300">
                               {answer?.selectedOptions.map((optId) => {
-                                const opt = question.options.find(
+                                const opt = question?.options?.find(
                                   (o) => o._id.toString() === optId.toString(),
                                 );
                                 return <li key={optId}>{opt?.option}</li>;
