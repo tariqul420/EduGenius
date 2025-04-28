@@ -13,24 +13,24 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-export default function QuizModal({ quiz }) {
+export default function AssignmentSubmitModal({ hasSubmitted, slug }) {
   const score = 16;
   const total = 20;
   const percentage = (score / total) * 100;
   const strokeDash = (percentage / 100) * 251;
 
-  let label = "Needs Practice";
+  let label = "Needs Improvement";
   let icon = <Wrench className="h-5 w-5 text-yellow-500" />;
-  let feedback = "Keep practicing to improve your skills!";
+  let feedback = "Review the requirements and try to enhance your submission.";
 
   if (score >= 17) {
-    label = "Excellent!";
+    label = "Excellent Work!";
     icon = <Trophy className="h-5 w-5 text-green-500" />;
-    feedback = "Outstanding performance! You've mastered this material.";
+    feedback = "Exceptional effort! Your submission meets all expectations.";
   } else if (score >= 13) {
-    label = "Good Job";
+    label = "Good Effort";
     icon = <Award className="h-5 w-5 text-blue-500" />;
-    feedback = "Solid understanding, but there's room for improvement.";
+    feedback = "Well done, but there’s room to polish your work.";
   }
 
   return (
@@ -41,18 +41,17 @@ export default function QuizModal({ quiz }) {
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md">
-        {quiz?.hasSubmitted ? (
+        {hasSubmitted ? (
           <>
             <DialogHeader>
               <DialogTitle className="text-center text-2xl">
-                Quiz Results
+                Assignment Results
               </DialogTitle>
             </DialogHeader>
             <div className="my-4 flex flex-col items-center gap-6">
               {/* Score Circle */}
               <div className="relative h-40 w-40">
                 <svg className="h-full w-full" viewBox="0 0 100 100">
-                  {/* Background circle */}
                   <circle
                     className="text-main dark:text-dark-500"
                     strokeWidth="8"
@@ -62,7 +61,6 @@ export default function QuizModal({ quiz }) {
                     cx="50"
                     cy="50"
                   />
-                  {/* Progress circle with reversed color */}
                   <circle
                     className="text-gray-200 dark:text-gray-700"
                     strokeWidth="8"
@@ -85,7 +83,7 @@ export default function QuizModal({ quiz }) {
                     {score}/{total}
                   </span>
                   <span className="text-muted-foreground text-sm">
-                    {Math.round(percentage)}% Correct
+                    {Math.round(percentage)}% Grade
                   </span>
                 </div>
               </div>
@@ -100,22 +98,8 @@ export default function QuizModal({ quiz }) {
                   {feedback}
                 </p>
               </div>
-
-              {/* Breakdown */}
-              <div className="w-full border-t pt-4">
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-green-500"></span>
-                    <span>Correct: {score}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-red-500"></span>
-                    <span>Incorrect: {total - score}</span>
-                  </div>
-                </div>
-              </div>
             </div>
-            <DialogFooter className="sm:justify-center">
+            <DialogFooter className="gap-2 sm:justify-center">
               <DialogClose asChild>
                 <Button
                   type="button"
@@ -132,26 +116,28 @@ export default function QuizModal({ quiz }) {
             <DialogHeader>
               <DialogTitle className="dark:text-dark-btn flex items-center gap-2">
                 <AlertCircle className="h-5 w-5" />
-                Quiz Instructions
+                Assignment Instructions
               </DialogTitle>
             </DialogHeader>
 
             <div className="bg-light-bg dark:bg-dark-bg my-4 rounded-lg p-4">
               <h4 className="text-foreground mb-2 font-medium">
-                Before you start:
+                Before You Submit:
               </h4>
               <ul className="text-muted-foreground space-y-2 text-sm">
                 <li className="flex items-start gap-2">
                   <span className="mt-1">•</span>
-                  <span>Ensure you have a stable internet connection</span>
+                  <span>
+                    Follow the assignment guidelines and rubric carefully.
+                  </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-1">•</span>
-                  <span>Find a quiet place with no distractions</span>
+                  <span>Ensure your submission is in the correct format.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-1">•</span>
-                  <span>Have any allowed materials ready</span>
+                  <span>Submit before the deadline to avoid penalties.</span>
                 </li>
               </ul>
             </div>
@@ -162,8 +148,8 @@ export default function QuizModal({ quiz }) {
                 type="button"
                 asChild
               >
-                <Link href={`/student/quiz/${quiz?.course?.slug}`}>
-                  Start Quiz Now
+                <Link href={`/student/assignment/${slug}`}>
+                  Submit Assignment
                 </Link>
               </Button>
               <DialogClose asChild>

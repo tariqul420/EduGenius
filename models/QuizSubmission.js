@@ -39,31 +39,12 @@ const quizSubmissionSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    totalQuestions: {
-      type: Number,
-      required: true,
-    },
     percentage: {
       type: Number,
       default: 0,
     },
-    submittedAt: {
-      type: Date,
-      default: Date.now,
-    },
   },
-  {
-    timestamps: true,
-    toJSON: {
-      virtuals: true,
-      transform: (doc, ret) => {
-        ret.id = ret._id;
-        delete ret._id;
-        delete ret.__v;
-        return ret;
-      },
-    },
-  },
+  { timestamps: true },
 );
 
 // Calculate score before saving

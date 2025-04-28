@@ -1,11 +1,9 @@
 "use client";
 
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import { IconDotsVertical } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { Monitor, MonitorPlay, MoreHorizontal } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 import BecomeInstructorInfoModal from "@/components/dashboard/admin/BecomeInstructorInfoModal";
 import { EditCategoryModal } from "@/components/dashboard/admin/EditCategoryModal";
@@ -16,6 +14,7 @@ import {
 } from "@/components/dashboard/data-table";
 import DeleteBlogModal from "@/components/dashboard/instructor/DeleteBlogModal";
 import TableContextMenu from "@/components/dashboard/instructor/TableContextMenu";
+import AssignmentSubmitModal from "@/components/dashboard/student/AssignmentSubmitModal";
 import CertificatePDF from "@/components/dashboard/student/CertificatePDF";
 import QuizModal from "@/components/dashboard/student/QuizeModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -759,27 +758,25 @@ export const studentAssignmentColumns = [
     id: "actions",
     header: "Actions",
     cell: ({ row }) => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            className="data-[state=open]:bg-muted hover:bg-muted/50 flex size-8 p-0"
-            size="icon"
-          >
-            <IconDotsVertical />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="center" className="w-32">
-          <DropdownMenuItem asChild>
-            <Link
-              href={`/student/assignment/${row.original.course.slug}`}
-              className="flex w-full items-center gap-2 px-2 py-1.5 text-sm"
-            >
-              Details
-            </Link>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <div className="flex justify-end">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Actions</span>
+              <MoreHorizontal />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem asChild>
+              <AssignmentSubmitModal
+                assignmentIdId={row.original?._id}
+                hasSubmitted={row.original?.hasSubmitted}
+                slug={row.original?.course.slug}
+              />
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     ),
   },
 ];
@@ -867,11 +864,7 @@ export const studentQuizColumns = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem asChild>
-                <QuizModal
-                  quizId={row.original?._id}
-                  hasSubmitted={row.original?.hasSubmitted}
-                  slug={row.original?.course.slug}
-                />
+                <QuizModal quiz={row.original} />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

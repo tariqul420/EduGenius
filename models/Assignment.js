@@ -17,7 +17,6 @@ const assignmentSchema = new mongoose.Schema(
     }, // Instructor ID
     totalMarks: { type: Number, required: true }, // Total marks for the assignment
     passMarks: { type: Number }, // Marks required to pass
-    submissions: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true },
 );
