@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -17,7 +17,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { checkQuizSubmission, saveQuizResult } from "@/lib/actions/quiz.action";
+import { saveQuizResult } from "@/lib/actions/quiz.action";
 
 const quizSubmissionSchema = z.object({
   answers: z.record(z.string(), z.array(z.string())).refine(
@@ -32,11 +32,13 @@ const quizSubmissionSchema = z.object({
   ),
 });
 
-export default function QuizSubmission({ quizzes }) {
+export default function QuizSubmission({ quiz }) {
   const pathname = usePathname();
   const [showDetails, setShowDetails] = useState(false);
-  const [hasSubmitted, setHasSubmitted] = useState(false);
+  console.log(quiz);
+
   const [submissionData, setSubmissionData] = useState(null);
+
   const form = useForm({
     resolver: zodResolver(quizSubmissionSchema),
     defaultValues: {
@@ -44,29 +46,25 @@ export default function QuizSubmission({ quizzes }) {
     },
   });
 
-  const totalQuestions = quizzes.reduce(
-    (total, quiz) => total + (quiz.questions?.length || 0),
-    0,
-  );
+  // Calculate total questions from the single quiz
+  const totalQuestions = quiz?.questions?.length || 0;
 
-  useEffect(() => {
-    const checkSubmission = async () => {
-      try {
-        const result = await checkQuizSubmission(quizzes[0]._id);
-        setHasSubmitted(result.hasSubmitted);
-        setSubmissionData(result.submission);
-      } catch (error) {
-        console.error("Error checking submission:", error);
-      }
-    };
+  // Handle case when quiz is empty or invalid
+  if (!quiz || !quiz._id || !quiz.questions) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-dark-main mb-8 text-3xl font-bold dark:text-white">
+          Quiz Not Found
+        </h1>
+        <p className="text-muted-foreground">No quiz data available.</p>
+      </div>
+    );
+  }
 
-    checkSubmission();
-  }, [quizzes]);
-
-  if (hasSubmitted) {
-    const percentage = Math.round(submissionData.percentage);
-    const correctCount = submissionData.score;
-    const totalCount = submissionData.totalQuestions;
+  if (quiz?.hasSubmitted) {
+    const percentage = Math.round(submissionData?.percentage);
+    const correctCount = submissionData?.score;
+    const totalCount = submissionData?.totalQuestions;
 
     return (
       <div className="container mx-auto px-4 py-8">
@@ -74,7 +72,7 @@ export default function QuizSubmission({ quizzes }) {
           Quiz Results
         </h1>
         <div className="dark:bg-dark-bg rounded-lg bg-white p-6 shadow-md">
-          <h2 className="mb-6 text-xl font-semibold">{quizzes[0].title}</h2>
+          <h2 className="mb-6 text-xl font-semibold">{quiz.title}</h2>
 
           {/* Progress Bar */}
           <div className="mb-6">
@@ -123,7 +121,7 @@ export default function QuizSubmission({ quizzes }) {
             <div className="flex justify-between">
               <span className="text-muted-foreground">Submitted On</span>
               <span className="font-medium">
-                {new Date(submissionData.submittedAt).toLocaleString()}
+                {new Date(submissionData?.submittedAt).toLocaleString()}
               </span>
             </div>
           </div>
@@ -140,7 +138,7 @@ export default function QuizSubmission({ quizzes }) {
           {/* Detailed Results */}
           {showDetails && (
             <div className="mt-4 space-y-4">
-              {quizzes[0].questions.map((question, index) => {
+              {quiz.questions.map((question, index) => {
                 const answer = submissionData.answers.find(
                   (a) => a.question.toString() === question._id.toString(),
                 );
@@ -207,29 +205,22 @@ export default function QuizSubmission({ quizzes }) {
     const answeredQuestions = Object.keys(data.answers).length;
 
     if (answeredQuestions !== totalQuestions) {
-      toast.error(
-        `Please answer all questions (${answeredQuestions}/${totalQuestions} answered)`,
-        { description: "You must complete all quizzes before submitting." },
-      );
+      toast.error("Please answer all questions  answered)", {
+        description: "You must complete all questions before submitting.",
+      });
       return;
     }
 
     try {
-      const result = await saveQuizResult({
-        quizId: quizzes[0]._id,
-        data: {
-          answers: data.answers,
-        },
+      await saveQuizResult({
+        quizId: quiz._id,
+        quizAnswers: data.answers,
         path: pathname,
       });
 
-      if (result.success) {
-        toast.success(result.message, {
-          description: `Score: ${result.data.score}/${result.data.totalQuestions} (${Math.round(result.data.percentage)}%)`,
-        });
-        setHasSubmitted(true);
-        setSubmissionData(result.data);
-      }
+      toast.success("Quiz submitted successfully", {
+        description: "Your answers have been recorded.",
+      });
     } catch (error) {
       toast.error("Submission failed", {
         description: error.message,
@@ -240,83 +231,78 @@ export default function QuizSubmission({ quizzes }) {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-dark-main mb-8 text-3xl font-bold dark:text-white">
-        Available Quizzes
+        Available Quiz
       </h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          {quizzes.map((quiz) => (
-            <div
-              key={quiz._id}
-              className="border-border dark:border-dark-border dark:bg-dark-bg rounded-2xl border bg-white p-6 shadow-md"
-            >
-              <div className="border-border mb-4 border-b pb-4">
-                <h2 className="text-dark-main text-xl font-semibold dark:text-white">
-                  {quiz.title}
-                </h2>
-                <p className="text-muted-foreground text-sm">
-                  Course:{" "}
-                  <span className="font-medium">{quiz.course.title}</span> |
-                  Questions:{" "}
-                  <span className="font-medium">
-                    {quiz.questions?.length || 0}
-                  </span>
-                </p>
-              </div>
-
-              {quiz.questions?.map((question) => (
-                <FormField
-                  key={question._id}
-                  control={form.control}
-                  name={`answers.${question._id}`}
-                  render={() => (
-                    <FormItem className="border-border dark:bg-dark-foreground dark:border-dark-border mb-6 space-y-3 rounded-xl border bg-gray-50 p-4 dark:bg-transparent">
-                      <FormLabel className="text-dark-main text-base font-semibold dark:text-white">
-                        {question.question}
-                      </FormLabel>
-                      <div className="space-y-2">
-                        {question.options?.map((option) => (
-                          <FormField
-                            key={option._id}
-                            control={form.control}
-                            name={`answers.${question._id}`}
-                            render={({ field }) => (
-                              <FormItem className="flex items-center space-y-0 space-x-3">
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value?.includes(option._id)}
-                                    onCheckedChange={(checked) => {
-                                      const currentValues = field.value || [];
-                                      return checked
-                                        ? field.onChange([
-                                            ...currentValues,
-                                            option._id,
-                                          ])
-                                        : field.onChange(
-                                            currentValues.filter(
-                                              (id) => id !== option._id,
-                                            ),
-                                          );
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormLabel className="text-muted-foreground font-normal">
-                                  {option.option}
-                                </FormLabel>
-                              </FormItem>
-                            )}
-                          />
-                        ))}
-                      </div>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              ))}
+          <div className="border-border dark:border-dark-border dark:bg-dark-bg rounded-2xl border bg-white p-6 shadow-md">
+            <div className="border-border mb-4 border-b pb-4">
+              <h2 className="text-dark-main text-xl font-semibold dark:text-white">
+                {quiz.title}
+              </h2>
+              <p className="text-muted-foreground text-sm">
+                Course: <span className="font-medium">{quiz.course.title}</span>{" "}
+                | Questions:{" "}
+                <span className="font-medium">{totalQuestions}</span>
+              </p>
             </div>
-          ))}
+
+            {quiz.questions?.map((question) => (
+              <FormField
+                key={question._id}
+                control={form.control}
+                name={`answers.${question._id}`}
+                render={() => (
+                  <FormItem className="border-border dark:bg-dark-foreground dark:border-dark-border mb-6 space-y-3 rounded-xl border bg-gray-50 p-4 dark:bg-transparent">
+                    <FormLabel className="text-dark-main text-base font-semibold dark:text-white">
+                      {question.question}
+                    </FormLabel>
+                    <div className="space-y-2">
+                      {question.options?.map((option) => (
+                        <FormField
+                          key={option._id}
+                          control={form.control}
+                          name={`answers.${question._id}`}
+                          render={({ field }) => (
+                            <FormItem className="flex items-center space-y-0 space-x-3">
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value?.includes(option._id)}
+                                  onCheckedChange={(checked) => {
+                                    const currentValues = field.value || [];
+                                    return checked
+                                      ? field.onChange([
+                                          ...currentValues,
+                                          option._id,
+                                        ])
+                                      : field.onChange(
+                                          currentValues.filter(
+                                            (id) => id !== option._id,
+                                          ),
+                                        );
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel className="text-muted-foreground font-normal">
+                                {option.option}
+                              </FormLabel>
+                            </FormItem>
+                          )}
+                        />
+                      ))}
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ))}
+          </div>
 
           <div className="mt-8 flex justify-end">
-            <Button type="submit" className="bg-main hover:bg-main-dark">
+            <Button
+              type="submit"
+              className="bg-main hover:bg-main-dark text-white"
+            >
               Submit Answers
             </Button>
           </div>

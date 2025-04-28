@@ -13,7 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-export default function QuizModal({ quizId, hasSubmitted, slug }) {
+export default function QuizModal({ quiz }) {
   const score = 16;
   const total = 20;
   const percentage = (score / total) * 100;
@@ -41,7 +41,7 @@ export default function QuizModal({ quizId, hasSubmitted, slug }) {
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md">
-        {hasSubmitted ? (
+        {quiz?.hasSubmitted ? (
           <>
             <DialogHeader>
               <DialogTitle className="text-center text-2xl">
@@ -162,7 +162,7 @@ export default function QuizModal({ quizId, hasSubmitted, slug }) {
                 type="button"
                 asChild
               >
-                <Link href={`/student/courses/${slug}/${quizId}`}>
+                <Link href={`/student/quiz/${quiz?.course?.slug}`}>
                   Start Quiz Now
                 </Link>
               </Button>
