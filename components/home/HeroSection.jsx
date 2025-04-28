@@ -38,7 +38,7 @@ function HeroSection() {
             />
             <BorderBeam colorFrom="#512feb" colorTo="#ed187bda" size={70} />
           </div>
-        
+
           <h2 className="py-2 text-5xl leading-13 font-bold md:py-5 md:leading-16 lg:text-6xl">
             Enroll &{" "}
             <span className="from-main to-dark-btn relative -top-1 overflow-hidden bg-gradient-to-r bg-clip-text text-transparent md:top-0">
@@ -55,6 +55,7 @@ function HeroSection() {
           </p>
           <div className="mt-5 mb-5 flex items-center justify-center gap-4 sm:flex-row lg:justify-start">
             <Link
+              style={{ backgroundImage: "url('/star-blaze.gif')" }}
               href="/courses"
               className="border-green bg-main hover:bg-dark-main hover:text-medium-bg flex cursor-pointer items-center gap-2 rounded border px-4 py-2.5 text-white duration-200 md:px-6"
             >
