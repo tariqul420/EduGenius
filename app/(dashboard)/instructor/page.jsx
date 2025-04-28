@@ -36,8 +36,8 @@ export default async function Home({ searchParams }) {
         <div className="@container/main flex flex-1 flex-col gap-2 px-4 lg:px-6">
           <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
             <SectionCards />
-            <AICourseReportCard report={report} />
             <ChartAreaInteractive data={data} />
+            <AICourseReportCard report={report} />
             <DataTable
               pageIndex={Number(pageIndex || "1")}
               pageSize={Number(pageSize || "10")}

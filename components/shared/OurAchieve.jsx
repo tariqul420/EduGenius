@@ -1,8 +1,6 @@
 import { Rocket, ShieldUser, Users, Video } from "lucide-react";
 import Image from "next/image";
 
-import Heading from "@/components/shared/Heading";
-
 const data = [
   {
     icon: ShieldUser,
@@ -31,14 +29,14 @@ function OurAchieve() {
     <section className="dark:from-dark-bg dark:to-dark-theme bg-gradient-to-b">
       <div className="container mx-auto mb-16 flex flex-col gap-8 px-2 md:px-5 lg:max-w-6xl lg:flex-row lg:items-center">
         {/* Text Content */}
-        <div className="flex-1 space-y-2 md:space-y-6 text-center lg:text-left">
+        <div className="flex-1 space-y-2 text-center md:space-y-6 lg:text-left">
           <h2 className="text-3xl font-bold lg:text-4xl">Our Achievement</h2>
           <p className="mx-auto max-w-lg text-sm text-gray-600 lg:mx-0 lg:text-base dark:text-gray-200">
             Your achievement is considered as our achievement. Whatever you
             learn from us, even if it’s a little – we will be proud to be a part
             of your journey.
           </p>
-          <div className="grid grid-cols-2 gap-3 md:gap-5 mt-8 sm:mt-4 lg:gap-8">
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:mt-4 md:gap-5 lg:gap-8">
             {data?.map((item, index) => {
               const IconComponent = item.icon;
               return (
