@@ -64,7 +64,7 @@ function OurAchieve() {
         <div className="mx-auto mt-5 grid w-full grid-cols-2 gap-5 px-3 sm:px-0 lg:w-[600px]">
           <div className="relative col-span-1 h-[150px] md:h-[180px]">
             <Image
-              src="/our-achievements-1.avif"
+              src="/our-achievements-1.png"
               alt="Hero Image"
               fill
               className="h-full w-full rounded-lg object-cover"
@@ -83,7 +83,7 @@ function OurAchieve() {
               src="/our-achievements-3.jpg"
               alt="Hero Image"
               fill
-              className="h-full w-full rounded-lg object-cover"
+              className="h-full w-full rounded-lg object-fill sm:object-cover"
             />
           </div>
         </div>
