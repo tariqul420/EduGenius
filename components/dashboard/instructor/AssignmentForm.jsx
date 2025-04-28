@@ -259,7 +259,16 @@ export default function AssignmentForm({ assignment, courseId }) {
           name="description"
           render={({ field }) => (
             <FormItem className="col-span-1 sm:col-span-2">
-              <FormLabel>Assignment Description</FormLabel>
+              <div className="flex items-center justify-between">
+                <FormLabel>Assignment Description</FormLabel>
+                {/* <AISheet value={field.value}>
+                  <AiAssDetails desc={field.value}   category={assignment?.title}
+                  title={assignment?.title}
+                  category={assignment?.title}
+                  level={assignment?.title}                  
+ onSelect={field.onChange} />
+                </AISheet> */}
+              </div>
               <FormControl>
                 <Textarea
                   placeholder="Enter course description"
