@@ -845,7 +845,7 @@ export const studentQuizColumns = [
     header: "Status",
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original?.status ? row.original?.status : "Not Submitted"}
+        {row.original?.hasSubmitted ? "Submitted" : "Not Submitted"}
       </Badge>
     ),
   },
