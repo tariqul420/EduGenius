@@ -1,10 +1,12 @@
 "use client";
 
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
-import { AlignLeft, GraduationCap, LogIn, X } from "lucide-react";
+import { AlignLeft, LogIn, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
+
+import EduLogo from "./EduLogo";
 
 import ThemeBtn from "@/components/shared/ThemeBtn";
 import {
@@ -62,14 +64,9 @@ function Navbar() {
     <nav
       className={`dark:from-dark-bg/20 dark:to-dark-bg/20 sticky top-0 z-[20] bg-gradient-to-r from-white to-white p-4 text-black shadow-sm backdrop-blur dark:text-white ${showNavbar ? "translate-y-0" : "-translate-y-full"} transition-transform duration-300`}
     >
-      <div className="container mx-auto flex items-center justify-between lg:max-w-6xl">
+      <div className="container mx-auto flex items-center justify-between ps-2 md:ps-5 lg:max-w-6xl">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 text-3xl">
-          <GraduationCap size={26} className="text-main" />
-          <h2 className="text-2xl font-semibold">
-            Edu<span className="text-main">Genius</span>
-          </h2>
-        </Link>
+        <EduLogo />
 
         {/* Right Side */}
         <div className="flex items-center space-x-6">
@@ -133,13 +130,8 @@ function Navbar() {
 
               {/* Sheet Header */}
               <SheetHeader className="w-fit px-2">
-                <SheetTitle className="text-main dark:text-light-bg text-2xl font-medium">
-                  <Link href="/" className="flex items-center gap-2 text-3xl">
-                    <GraduationCap size={26} className="text-main" />
-                    <h2 className="text-2xl font-semibold">
-                      Edu<span className="text-main">Genius</span>
-                    </h2>
-                  </Link>
+                <SheetTitle className="dark:text-light-bg text-2xl font-medium">
+                  <EduLogo />
                 </SheetTitle>
               </SheetHeader>
               <hr />
