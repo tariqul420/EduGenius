@@ -44,8 +44,11 @@ function Testimonial() {
       <section className="container mx-auto py-10 max-lg:px-4 lg:max-w-6xl">
         {/* Heading */}
         <Heading
-          title="Testimonial"
-          subTitle="We value our students and whatever they say about us, is our achievement."
+          badge={"Student Voices"}
+          title={"What Our Learners Say"}
+          subTitle={
+            "Real success stories from our community\nTheir achievements are our proudest milestones"
+          }
         />
 
         <div className="relative">
