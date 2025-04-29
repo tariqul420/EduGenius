@@ -1,4 +1,4 @@
-import { GraduationCap } from "lucide-react";
+import Image from "next/image";
 
 const EducationLoading = () => {
   return (
@@ -8,7 +8,12 @@ const EducationLoading = () => {
         <div className="relative mx-auto h-24 w-24">
           <div className="border-t-main absolute inset-0 animate-spin rounded-full border-4 border-gray-300"></div>
           <div className="absolute inset-0 flex animate-pulse items-center justify-center">
-            <GraduationCap className="text-main h-12 w-12" />
+            <Image
+              src="/Edu-logo.png"
+              alt="EduGenius Logo"
+              width={40}
+              height={40}
+            />
           </div>
         </div>
 

@@ -13,7 +13,7 @@ const Footer = () => {
           {/* EduGenius & Description */}
           <div className="lg:w-1/2">
             <EduLogo />
-            <p className="mt-2 text-center lg:mt-0 lg:pr-36 lg:text-left">
+            <p className="mt-2 lg:mt-0 md:pr-36">
               We are a forward-thinking software company dedicated to crafting
               digital experiences that seamlessly blend creativity with
               cutting-edge technology.
@@ -44,7 +44,7 @@ const Footer = () => {
           <div className="">
             {/* Download app */}
             <div className="mb-10">
-              <h3 className="mb-3 text-lg font-bold md:text-xl">
+              <h3 className="text-main dark:text-sub-main mb-3 text-lg font-bold md:text-xl">
                 Download App
               </h3>
               <p className="mb-4 text-gray-600 dark:text-gray-300">
@@ -76,48 +76,50 @@ const Footer = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-between gap-3 sm:gap-7 lg:flex-row lg:gap-32">
+          <div className="flex flex-wrap justify-between gap-3 sm:gap-7 lg:flex-row lg:gap-32">
             {/* Different types of links */}
             <div className="flex flex-col">
-              <h2 className="mb-3 text-lg font-medium md:text-xl">About</h2>
+              <h2 className="dark:text-sub-main text-main mb-1.5 text-lg font-medium md:mb-3 md:text-xl">
+                About
+              </h2>
               <Link
-                className="hover:text-main mb-1 cursor-pointer dark:hover:text-gray-300"
+                className="hover:text-main mb-1 cursor-pointer text-sm sm:text-base dark:hover:text-gray-300"
                 href="/about-us"
               >
                 About Us
               </Link>
               <Link
-                className="hover:text-main mb-1 cursor-pointer dark:hover:text-gray-300"
+                className="hover:text-main mb-1 cursor-pointer text-sm sm:text-base dark:hover:text-gray-300"
                 href="/contact-us"
               >
                 Contact Us
               </Link>
               <Link
-                className="hover:text-main mb-1 cursor-pointer dark:hover:text-gray-300"
+                className="hover:text-main mb-1 cursor-pointer text-sm sm:text-base dark:hover:text-gray-300"
                 href="/faq"
               >
                 Faq
               </Link>
             </div>
             <div className="flex flex-col">
-              <h2 className="mb-3 text-lg font-medium md:text-xl">
+              <h2 className="dark:text-sub-main text-main mb-1.5 text-lg font-medium md:mb-3 md:text-xl">
                 Legal & Accessibility
               </h2>
               <Link
-                className="hover:text-main mb-1 cursor-pointer dark:hover:text-gray-300"
+                className="hover:text-main mb-1 cursor-pointer text-sm sm:text-base dark:hover:text-gray-300"
                 href="/privacy-policys"
               >
                 Privacy policy
               </Link>
               <Link
-                className="hover:text-main mb-1 cursor-pointer dark:hover:text-gray-300"
+                className="hover:text-main mb-1 cursor-pointer text-sm sm:text-base dark:hover:text-gray-300"
                 href="/terms"
               >
                 Terms
               </Link>
             </div>
             <div className="flex flex-col">
-              <h2 className="mb-3 text-lg font-medium md:text-xl">
+              <h2 className="dark:text-sub-main text-main mb-1.5 text-lg font-medium md:mb-3 md:text-xl">
                 Quick Links
               </h2>
               <Link
