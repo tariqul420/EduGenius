@@ -95,7 +95,7 @@ function Navbar() {
           <SignedOut>
             <Link
               href="/sign-in"
-              className="bg-main hover:bg-dark-main hidden items-center rounded px-3 py-[5px] text-white shadow transition duration-200 lg:flex"
+              className="bg-main dark:bg-sub-main hover:bg-dark-main hidden items-center rounded px-3 py-[5px] text-white shadow transition duration-200 lg:flex"
             >
               <LogIn className="mr-1.5" size={18} />
               Login
@@ -164,7 +164,7 @@ function Navbar() {
                 <SheetClose asChild>
                   <Link
                     href="/sign-in"
-                    className="bg-main ml-2 hover:bg-medium-bg mt-3 flex w-fit items-center rounded py-2 pr-6 pl-1.5 transition duration-200 hover:text-gray-800"
+                    className="bg-main dark:bg-sub-main ml-2 hover:bg-medium-bg mt-3 flex w-fit items-center rounded py-2 pr-6 pl-1.5 transition duration-200 hover:text-gray-800"
                   >
                     <LogIn className="mr-1.5" size={18} />
                     Login

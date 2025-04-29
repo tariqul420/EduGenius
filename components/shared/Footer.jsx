@@ -44,7 +44,7 @@ const Footer = () => {
           <div className="">
             {/* Download app */}
             <div className="mb-10">
-              <h3 className="mb-3 text-lg font-bold md:text-xl text-main">
+              <h3 className="text-main dark:text-sub-main mb-3 text-lg font-bold md:text-xl">
                 Download App
               </h3>
               <p className="mb-4 text-gray-600 dark:text-gray-300">
@@ -76,10 +76,10 @@ const Footer = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-between gap-3 sm:gap-7 lg:flex-row lg:gap-32">
+          <div className="flex flex-wrap justify-between gap-3 sm:gap-7 lg:flex-row lg:gap-32">
             {/* Different types of links */}
             <div className="flex flex-col">
-              <h2 className="text-main mb-3 text-lg font-medium md:text-xl">
+              <h2 className="dark:text-sub-main text-main mb-1.5 text-lg font-medium md:mb-3 md:text-xl">
                 About
               </h2>
               <Link
@@ -102,24 +102,24 @@ const Footer = () => {
               </Link>
             </div>
             <div className="flex flex-col">
-              <h2 className="mb-3 text-lg font-medium md:text-xl text-main">
+              <h2 className="dark:text-sub-main text-main mb-1.5 text-lg font-medium md:mb-3 md:text-xl">
                 Legal & Accessibility
               </h2>
               <Link
-                className="hover:text-main mb-1 text-sm sm:text-base cursor-pointer dark:hover:text-gray-300"
+                className="hover:text-main mb-1 cursor-pointer text-sm sm:text-base dark:hover:text-gray-300"
                 href="/privacy-policys"
               >
                 Privacy policy
               </Link>
               <Link
-                className="hover:text-main mb-1 text-sm sm:text-base cursor-pointer dark:hover:text-gray-300"
+                className="hover:text-main mb-1 cursor-pointer text-sm sm:text-base dark:hover:text-gray-300"
                 href="/terms"
               >
                 Terms
               </Link>
             </div>
             <div className="flex flex-col">
-              <h2 className="mb-3 text-lg  font-medium md:text-xl text-main">
+              <h2 className="dark:text-sub-main text-main mb-1.5 text-lg font-medium md:mb-3 md:text-xl">
                 Quick Links
               </h2>
               <Link
