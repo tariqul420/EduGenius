@@ -4,6 +4,7 @@ import ModulesList from "@/components/dashboard/student/ModuleList";
 import Player from "@/components/dashboard/student/Player";
 import QuizAssignment from "@/components/dashboard/student/QuizAssignment";
 import { getAssignmentByCourse } from "@/lib/actions/assignment.action";
+import { getCourseStudentBySlug } from "@/lib/actions/course.action";
 import { getModules } from "@/lib/actions/curriculum.action";
 
 export default async function CourseModulesPage({ params }) {
@@ -11,23 +12,11 @@ export default async function CourseModulesPage({ params }) {
   const { sessionClaims } = await auth();
   const studentId = sessionClaims?.userId;
 
-  const course = {
-    id: "course-001",
-    title: "Complete Web Development Bootcamp",
-    description: "Master web development from scratch to advanced concepts",
-    instructor: {
-      id: "ins-001",
-      name: "John Doe",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
-    },
-    thumbnail: "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2",
-    totalModules: 4,
-    completedModules: 1,
-    progress: 25,
-  };
-
   const curriculum = await getModules({ slug });
   const assignment = await getAssignmentByCourse(slug);
+  const course = await getCourseStudentBySlug(slug);
+
+  console.log(course);
 
   return (
     <section className="py-6">
@@ -36,10 +25,14 @@ export default async function CourseModulesPage({ params }) {
           <div className="lg:col-span-8">
             <Player curriculum={curriculum} />
             <div className="mt-4">
-              <h1 className="text-2xl font-bold">{course.title}</h1>
-              <p className="text-muted-foreground">{course.description}</p>
+              <h1 className="text-2xl font-bold">{course?.title}</h1>
+              <p className="text-muted-foreground">{course?.description}</p>
             </div>
-            <QuizAssignment assignment={assignment} studentId={studentId} slug={slug} />
+            <QuizAssignment
+              assignment={assignment}
+              studentId={studentId}
+              slug={slug}
+            />
           </div>
           <div className="mb-8 lg:col-span-4">
             <ModulesList curriculum={curriculum} />
