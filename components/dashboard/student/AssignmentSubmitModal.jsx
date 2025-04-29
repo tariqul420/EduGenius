@@ -1,5 +1,5 @@
 "use client";
-import { AlertCircle, Award, Trophy, Wrench } from "lucide-react";
+import { AlertCircle, Award, Clock, Trophy, Wrench } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,7 @@ import {
 export default function AssignmentSubmitModal({ assignment }) {
   // Initialize defaults
   let label = "Needs Improvement";
-  let icon = <Wrench className="h-5 w-5 text-yellow-500" />;
+  let icon = <Wrench className="text-main h-5 w-5" />;
   let feedback = "Review the requirements and try to enhance your submission.";
   let percentage = 0;
   let isPassing = false;
@@ -27,7 +27,7 @@ export default function AssignmentSubmitModal({ assignment }) {
     assignment?.totalMarks > 0
   ) {
     percentage = (assignment.mark / assignment.totalMarks) * 100;
-    isPassing = assignment.mark >= assignment.passMark;
+    isPassing = assignment.mark >= (assignment.passMark ?? 0);
 
     if (percentage >= 85) {
       label = "Excellent Work!";
@@ -55,7 +55,10 @@ export default function AssignmentSubmitModal({ assignment }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="w-full">
+        <Button
+          variant="outline"
+          className="border-main hover:bg-main w-full px-6 hover:text-white"
+        >
           Details
         </Button>
       </DialogTrigger>
@@ -115,6 +118,60 @@ export default function AssignmentSubmitModal({ assignment }) {
               </div>
             </div>
             <DialogFooter className="gap-2 sm:justify-center">
+              <Button
+                className="bg-main hover:bg-dark-main rounded-full px-6 text-white"
+                type="button"
+                asChild
+              >
+                <Link
+                  href={`/student/assignment/${
+                    assignment?.course?.slug ?? "#"
+                  }`}
+                >
+                  View Details
+                </Link>
+              </Button>
+              <DialogClose asChild>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  className="hover:bg-medium-bg dark:hover:bg-dark-bg rounded-full px-6"
+                >
+                  Close
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          </>
+        ) : assignment?.hasSubmitted ? (
+          <>
+            <DialogHeader>
+              <DialogTitle className="text-center text-2xl">
+                Submission Pending
+              </DialogTitle>
+            </DialogHeader>
+            <div className="my-4 flex flex-col items-center gap-6">
+              <Clock className="text-main h-12 w-12" />
+              <div className="space-y-2 text-center">
+                <p className="text-muted-foreground max-w-xs text-sm">
+                  Your assignment has been submitted and is awaiting grading.
+                  Check back later for your results.
+                </p>
+              </div>
+            </div>
+            <DialogFooter className="gap-2 sm:justify-center">
+              <Button
+                className="bg-main rounded-full px-6 text-white"
+                type="button"
+                asChild
+              >
+                <Link
+                  href={`/student/assignment/${
+                    assignment?.course?.slug ?? "#"
+                  }`}
+                >
+                  View Details
+                </Link>
+              </Button>
               <DialogClose asChild>
                 <Button
                   type="button"
@@ -159,11 +216,15 @@ export default function AssignmentSubmitModal({ assignment }) {
 
             <DialogFooter className="flex-col gap-2 sm:flex-row-reverse">
               <Button
-                className="bg-main hover:bg-dark-main rounded-full px-6 text-white"
+                className="bg-main rounded-full px-6 text-white"
                 type="button"
                 asChild
               >
-                <Link href={`/student/assignment/${assignment?.course?.slug}`}>
+                <Link
+                  href={`/student/assignment/${
+                    assignment?.course?.slug ?? "#"
+                  }`}
+                >
                   Submit Assignment
                 </Link>
               </Button>
