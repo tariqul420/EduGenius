@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react"; // Or any other icon library you prefer
 import Image from "next/image";
+import Link from "next/link";
 
 import { AvatarCircles } from "../magicui/avatar-circles";
 
@@ -49,14 +50,21 @@ const BecomeInstructor = () => {
             </p>
 
             <div className="flex gap-3 sm:gap-4">
-              <button className="border-green bg-main hover:bg-dark-main hover:text-medium-bg flex cursor-pointer items-center gap-2 rounded border px-3 py-2.5 text-white duration-200 md:px-6">
+              <Link
+                href="/instructors"
+                style={{ backgroundImage: "url('/star-blaze.gif')" }}
+                className="border-green bg-main hover:bg-dark-main hover:text-medium-bg flex cursor-pointer items-center gap-2 rounded border px-3 py-2.5 text-white duration-200 md:px-6"
+              >
                 Start Teaching Today
                 <ArrowRight className="h-4 w-4" />
-              </button>
+              </Link>
 
-              <button className="hover:bg-light-bg cursor-pointer rounded border bg-white px-3 py-2.5 text-black duration-200 md:px-6">
-                Learn More
-              </button>
+              <Link
+                href="/about-us"
+                className="hover:bg-light-bg flex cursor-pointer items-center gap-2 rounded border bg-white px-4 py-2.5 text-black shadow duration-200 md:px-6"
+              >
+                Learn more
+              </Link>
             </div>
 
             <div className="mt-5 flex items-center gap-2 text-sm">

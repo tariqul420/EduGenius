@@ -48,11 +48,12 @@ export default function QuizModal({ quiz }) {
             </DialogHeader>
             <div className="my-4 flex flex-col items-center gap-6">
               {/* Score Circle */}
+              {/* Score Circle */}
               <div className="relative h-40 w-40">
                 <svg className="h-full w-full" viewBox="0 0 100 100">
-                  {/* Background circle */}
+                  {/* Full colored background circle */}
                   <circle
-                    className="text-main dark:text-dark-500"
+                    className="text-dark-btn"
                     strokeWidth="8"
                     stroke="currentColor"
                     fill="transparent"
@@ -60,9 +61,9 @@ export default function QuizModal({ quiz }) {
                     cx="50"
                     cy="50"
                   />
-                  {/* Progress circle with reversed color */}
+                  {/* Gray progress indicator on top */}
                   <circle
-                    className="text-gray-200 dark:text-gray-700"
+                    className="text-main"
                     strokeWidth="8"
                     strokeLinecap="round"
                     stroke="currentColor"
@@ -73,7 +74,7 @@ export default function QuizModal({ quiz }) {
                     strokeDasharray={`${strokeDash} 251`}
                     transform="rotate(-90 50 50)"
                     style={{
-                      strokeDashoffset: 251,
+                      strokeDashoffset: 0, // Changed from 251 to 0 to make it draw from the opposite side
                       animationFillMode: "forwards",
                     }}
                   />
@@ -102,7 +103,7 @@ export default function QuizModal({ quiz }) {
               {/* Breakdown */}
               <div className="mx-auto w-11/12 border-t pt-4">
                 <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-green-500"></span>
                     <span>Correct: {quiz?.score}</span>
                   </div>
@@ -118,7 +119,7 @@ export default function QuizModal({ quiz }) {
                 <Button
                   type="button"
                   variant="secondary"
-                  className="hover:bg-medium-bg dark:hover:bg-dark-bg rounded-full px-6"
+                  className="bg-medium-bg dark:bg-dark-bg hover:bg-light-bg dark:hover:bg-dark-hover rounded-full px-12"
                 >
                   Close
                 </Button>
