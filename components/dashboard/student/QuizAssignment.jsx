@@ -4,12 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export default function QuizAssignment({ assignment, studentId, slug }) {
-  // Check if the student has a submission
-  const hasSubmission = assignment?.submissions?.some(
-    (submission) => submission.studentId === studentId,
-  );
-
+export default function QuizAssignment({ course, slug }) {
   return (
     <Tabs defaultValue="quiz" className="mt-8 w-full">
       <TabsList className="bg-light-bg dark:bg-dark-hover w-full rounded px-1.5 py-5 shadow-sm">
@@ -28,48 +23,109 @@ export default function QuizAssignment({ assignment, studentId, slug }) {
       </TabsList>
       {/* Quiz Section */}
       <TabsContent value="quiz" className="mt-6">
-        Quizzes
-      </TabsContent>
-      {/* Assignment Section */}
-      <TabsContent value="assignment" className="mt-6">
         <div className="mx-auto max-w-2xl">
-          {/* Check if no assignment exists */}
-          {!assignment ? (
+          {/* Check if no quiz exists */}
+          {!course?.hasQuiz ? (
             <Card className="mb-6">
               <CardHeader>
-                <CardTitle>No Assignment Available</CardTitle>
+                <CardTitle>No Quiz Available</CardTitle>
               </CardHeader>
               <CardContent>
                 <p>
-                  No assignment is available at the moment. Please check back
-                  later or contact your instructor.
+                  There are no quizzes available for this course at the moment.
+                  Check back later or contact your instructor.
                 </p>
               </CardContent>
             </Card>
           ) : (
             <>
               {/* Conditional Rendering Based on Submission */}
-              {hasSubmission ? (
-                <Button asChild variant="default">
-                  <Link
-                    href={`/student/assignment/${assignment?.course?.slug}`}
-                  >
-                    View Marks and Details
-                  </Link>
-                </Button>
-              ) : (
+              {course?.hasQuizSubmitted ? (
                 <Card className="mb-6">
                   <CardHeader>
-                    <CardTitle>No Submission Yet</CardTitle>
+                    <CardTitle>Quiz Submitted</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="mb-4">
-                      You haven&apos;t submitted this assignment yet. Start your
-                      assignment now to complete it before the deadline!
+                      You have submitted the quiz. View your grade and feedback
+                      below.
+                    </p>
+                    <Button asChild>
+                      <Link href={`/student/quiz/${slug}`}>
+                        View Grade and Feedback
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              ) : (
+                <Card className="mb-6">
+                  <CardHeader>
+                    <CardTitle>Quiz Not Started</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="mb-4">
+                      You haven&apos;t started this quiz yet. Start now to
+                      complete it before the deadline!
+                    </p>
+                    <Button asChild>
+                      <Link href={`/student/quiz/${slug}`}>Start Quiz</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              )}
+            </>
+          )}
+        </div>
+      </TabsContent>
+      {/* Assignment Section */}
+      <TabsContent value="assignment" className="mt-6">
+        <div className="mx-auto max-w-2xl">
+          {/* Check if no assignment exists */}
+          {!course?.hasAssignment ? (
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Assignment Unavailable</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>
+                  No assignment is currently available. Please try again later
+                  or reach out to your instructor.
+                </p>
+              </CardContent>
+            </Card>
+          ) : (
+            <>
+              {/* Conditional Rendering Based on Submission */}
+              {course?.hasAssignmentSubmitted ? (
+                <Card className="mb-6">
+                  <CardHeader>
+                    <CardTitle>Submission Pending</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="mb-4">
+                      You have not yet submitted this assignment. Begin working
+                      on it now to meet the deadline!
                     </p>
                     <Button asChild>
                       <Link href={`/student/assignment/${slug}`}>
-                        Start Assignment
+                        View Grade and Details
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              ) : (
+                <Card className="mb-6">
+                  <CardHeader>
+                    <CardTitle>Submission Pending</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="mb-4">
+                      You have not yet submitted this assignment. Begin working
+                      on it now to meet the deadline!
+                    </p>
+                    <Button asChild>
+                      <Link href={`/student/assignment/${slug}`}>
+                        Begin Assignment
                       </Link>
                     </Button>
                   </CardContent>

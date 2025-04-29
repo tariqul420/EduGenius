@@ -1,19 +1,13 @@
-import { auth } from "@clerk/nextjs/server";
-
 import ModulesList from "@/components/dashboard/student/ModuleList";
 import Player from "@/components/dashboard/student/Player";
 import QuizAssignment from "@/components/dashboard/student/QuizAssignment";
-import { getAssignmentByCourse } from "@/lib/actions/assignment.action";
+import TextSeeMore from "@/components/shared/text-see-more";
 import { getCourseStudentBySlug } from "@/lib/actions/course.action";
 import { getModules } from "@/lib/actions/curriculum.action";
 
 export default async function CourseModulesPage({ params }) {
   const { slug } = await params;
-  const { sessionClaims } = await auth();
-  const studentId = sessionClaims?.userId;
-
   const curriculum = await getModules({ slug });
-  const assignment = await getAssignmentByCourse(slug);
   const course = await getCourseStudentBySlug(slug);
 
   console.log(course);
@@ -26,13 +20,9 @@ export default async function CourseModulesPage({ params }) {
             <Player curriculum={curriculum} />
             <div className="mt-4">
               <h1 className="text-2xl font-bold">{course?.title}</h1>
-              <p className="text-muted-foreground">{course?.description}</p>
+              <TextSeeMore description={course?.description} />
             </div>
-            <QuizAssignment
-              assignment={assignment}
-              studentId={studentId}
-              slug={slug}
-            />
+            <QuizAssignment slug={slug} course={course} />
           </div>
           <div className="mb-8 lg:col-span-4">
             <ModulesList curriculum={curriculum} />
