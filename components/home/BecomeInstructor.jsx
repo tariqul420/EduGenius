@@ -29,7 +29,7 @@ const BecomeInstructor = () => {
     },
   ];
   return (
-    <section className="dark:to-dark-theme dark:from-dark-theme overflow-hidden bg-gradient-to-t px-5 pt-20 pb-10">
+    <section className="dark:to-dark-theme dark:from-dark-theme overflow-hidden bg-gradient-to-t px-2 md:px-5 pt-20 pb-10">
       <div className="container mx-auto lg:max-w-6xl">
         <div className="grid grid-cols-12 items-center">
           {/* Text Content */}
@@ -49,7 +49,7 @@ const BecomeInstructor = () => {
               make a real difference—one course at a time.
             </p>
 
-            <div className="flex gap-3 sm:gap-4">
+            <div className="flex gap-2.5 sm:gap-4">
               <Link
                 href="/instructors"
                 style={{ backgroundImage: "url('/star-blaze.gif')" }}
