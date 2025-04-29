@@ -11,42 +11,42 @@ const BecomeInstructor = () => {
       profileUrl: "https://github.com/dillionverma",
     },
     {
-      imageUrl: "https://avatars.githubusercontent.com/u/20110627",
+      imageUrl: "https://images.unsplash.com/photo-1633332755192-727a05c4013d",
       profileUrl: "https://github.com/tomonarifeehan",
     },
     {
-      imageUrl: "https://avatars.githubusercontent.com/u/106103625",
+      imageUrl: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61",
       profileUrl: "https://github.com/BankkRoll",
     },
     {
-      imageUrl: "https://avatars.githubusercontent.com/u/59228569",
+      imageUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgU8N0KsTxNyQZ8JNCeB1ckHusRLI1FUpqiA&s",
       profileUrl: "https://github.com/safethecode",
     },
     {
-      imageUrl: "https://avatars.githubusercontent.com/u/59442788",
+      imageUrl: "https://images.unsplash.com/photo-1564564244660-5d73c057f2d2",
       profileUrl: "https://github.com/sanjay-mali",
     },
   ];
   return (
-    <section className="dark:to-dark-theme dark:from-dark-theme overflow-hidden bg-gradient-to-t px-2 pt-20 pb-16 md:px-5">
-      <div className="mx-auto lg:max-w-6xl">
+    <section className="dark:to-dark-theme dark:from-dark-theme overflow-hidden bg-gradient-to-t px-5 pt-20 pb-10">
+      <div className="container mx-auto lg:max-w-6xl">
         <div className="grid grid-cols-12 items-center">
-          {/* Content */}
+          {/* Text Content */}
           <div className="col-span-12 md:col-span-7">
             <div>
-              <h2 className="mb-2 text-4xl font-medium">
-                Share Your Knowledge
+              <h2 className="mb-2 text-4xl font-semibold">
+                Share Your Expertise with the World
               </h2>
               <p className="dark:text-light-bg">
-                Become a part of our growing community of expert instructors and
-                share your knowledge with learners around the world. Inspire,
-                teach, and make a difference—one course at a time.
+                Join our vibrant community of passionate instructors. Whether
+                you&apos;re a seasoned expert or just getting started, you can teach
+                what you love and impact learners globally.
               </p>
             </div>
             <p className="dark:text-medium-bg my-4 text-lg">
-              Teach what you love and inspire the next generation of learners.
-              Earn while sharing your expertise with our global student
-              community.
+              Inspire the next generation. Earn as you share your skills and
+              make a real difference—one course at a time.
             </p>
 
             <div className="flex gap-3 sm:gap-4">
@@ -72,25 +72,27 @@ const BecomeInstructor = () => {
               <span>Join 5,000+ instructors worldwide</span>
             </div>
           </div>
-          {/* Image */}
-          <div className="relative col-span-12 mt-8 md:col-span-5">
+
+          {/* Image Content */}
+          <div className="relative col-span-12 mt-10 flex items-center justify-center md:col-span-5">
+            {/* Gradient image behind instructor */}
             <Image
-              style={{ animationDuration: "30s" }}
-              className="absolute -top-[50px] left-0 z-[1] w-full min-w-[500px] animate-spin"
-              width={100}
-              height={100}
-              alt="Hero_Gradient"
+              className="animate-spin  absolute top-0 left-1/2 z-0 w-full max-w-[500px] -translate-x-1/2"
               src="/Hero-gradient-2.png"
+              alt="Hero Gradient"
+              width={500}
+              height={500}
+              style={{ animationDuration: "30s" }}
             />
-            <div>
-              <Image
-                src="/images/instructor.png"
-                alt="Instructor teaching online"
-                width={180}
-                height={180}
-                className="z-[2] mx-auto w-full max-w-[300px] transition-transform duration-500 hover:scale-105"
-              />
-            </div>
+
+            {/* Instructor image */}
+            <Image
+              src="/images/instructor.png"
+              alt="Instructor teaching online"
+              width={300}
+              height={300}
+              className="relative z-10 mx-auto w-full max-w-[300px] transition-transform duration-500 hover:scale-105"
+            />
           </div>
         </div>
       </div>
