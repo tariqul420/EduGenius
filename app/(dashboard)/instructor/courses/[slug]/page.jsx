@@ -77,11 +77,11 @@ export default async function EditCourse({ params }) {
               </TabsList>
 
               <TabsContent value="quiz">
-                <QuizForm quiz={quiz} courseId={course._id} />
+                <QuizForm quiz={quiz} course={course} />
               </TabsContent>
 
               <TabsContent value="assignment">
-                <AssignmentForm assignment={assignment} courseId={course._id} />
+                <AssignmentForm assignment={assignment} course={course} />
               </TabsContent>
             </Tabs>
           </div>
