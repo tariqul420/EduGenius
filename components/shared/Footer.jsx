@@ -13,7 +13,7 @@ const Footer = () => {
           {/* EduGenius & Description */}
           <div className="lg:w-1/2">
             <EduLogo />
-            <p className="mt-2 text-center lg:mt-0 lg:pr-36 lg:text-left">
+            <p className="mt-2 lg:mt-0 md:pr-36">
               We are a forward-thinking software company dedicated to crafting
               digital experiences that seamlessly blend creativity with
               cutting-edge technology.
