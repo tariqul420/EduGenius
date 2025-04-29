@@ -49,34 +49,34 @@
 // }
 
 // app/api/chat/route.js
-import { google } from "@ai-sdk/google";
-import { streamText } from "ai";
+// import { google } from "@ai-sdk/google";
+// import { streamText } from "ai";
 
-// Allow streaming responses up to 30 seconds
-export const maxDuration = 30;
+// // Allow streaming responses up to 30 seconds
+// export const maxDuration = 30;
 
-export async function POST(req) {
-  try {
-    const { messages } = await req.json();
+// export async function POST(req) {
+//   try {
+//     const { messages } = await req.json();
 
-    // Use the google model with streamText for proper streaming
-    const result = streamText({
-      model: google("gemini-2.0-flash-001", { useSearchGrounding: true }),
-      messages,
-    });
+//     // Use the google model with streamText for proper streaming
+//     const result = streamText({
+//       model: google("gemini-2.0-flash-001", { useSearchGrounding: true }),
+//       messages,
+//     });
 
-    // Return the streaming response in the format expected by useChat
-    return result.toDataStreamResponse({
-      sendSources: true,
-    });
-  } catch (error) {
-    console.error("Error generating message:", error);
-    return new Response(
-      JSON.stringify({ error: "Failed to generate message" }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
-  }
-}
+//     // Return the streaming response in the format expected by useChat
+//     return result.toDataStreamResponse({
+//       sendSources: true,
+//     });
+//   } catch (error) {
+//     console.error("Error generating message:", error);
+//     return new Response(
+//       JSON.stringify({ error: "Failed to generate message" }),
+//       {
+//         status: 500,
+//         headers: { "Content-Type": "application/json" },
+//       },
+//     );
+//   }
+// }
