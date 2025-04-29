@@ -18,6 +18,14 @@ export default async function EditCourse({ params }) {
   const quiz = await getQuizById(course._id);
   const assignment = await getAssignmentById(course._id);
 
+  // const result = await generateQuizzes({
+  //   title: course.title,
+  //   description: course.description,
+  //   category: course.category,
+  //   level: course.level,
+  // });
+  // console.log(result);
+
   return (
     <>
       <section>

@@ -7,6 +7,9 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import AIQuiz from "./AIQuiz";
+import AISheet from "./AISheet";
+
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -129,7 +132,18 @@ export default function QuizForm({ quiz, course }) {
           name="title"
           render={({ field }) => (
             <FormItem className="col-span-2">
-              <FormLabel>Quiz Title</FormLabel>
+              <div className="flex items-center justify-between">
+                <FormLabel>Quiz Title</FormLabel>
+                <AISheet value={field.value}>
+                  <AIQuiz
+                    title={course.title}
+                    desc={course.description}
+                    category={course.category}
+                    level={course.level}
+                    onSelect={append}
+                  />
+                </AISheet>
+              </div>
               <FormControl>
                 <Input
                   placeholder="Enter quiz title"
