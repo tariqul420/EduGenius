@@ -57,7 +57,7 @@ export default function AssignmentSubmitModal({ assignment }) {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="border-main w-full px-6 text-white"
+          className="text-black w-full px-6 dark:text-white"
         >
           Details
         </Button>
