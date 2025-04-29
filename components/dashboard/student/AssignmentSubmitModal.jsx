@@ -57,7 +57,7 @@ export default function AssignmentSubmitModal({ assignment }) {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="border-main hover:bg-main w-full px-6 hover:text-white"
+          className="border-main w-full px-6 text-white"
         >
           Details
         </Button>
@@ -75,7 +75,7 @@ export default function AssignmentSubmitModal({ assignment }) {
               <div className="relative h-40 w-40">
                 <svg className="h-full w-full" viewBox="0 0 100 100">
                   <circle
-                    className="text-main dark:text-dark-500"
+                    className="text-main"
                     strokeWidth="8"
                     stroke="currentColor"
                     fill="transparent"
@@ -97,7 +97,7 @@ export default function AssignmentSubmitModal({ assignment }) {
                   />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
-                  <span className="text-dark-main text-3xl font-bold dark:text-white">
+                  <span className="text-dark-main text-3xl font-bold">
                     {assignment?.mark ?? 0}/{assignment?.totalMarks ?? 0}
                   </span>
                   <span className="text-muted-foreground text-sm">
@@ -119,7 +119,7 @@ export default function AssignmentSubmitModal({ assignment }) {
             </div>
             <DialogFooter className="gap-2 sm:justify-center">
               <Button
-                className="bg-main hover:bg-dark-main rounded-full px-6 text-white"
+                className="bg-main dark:bg-dark-main rounded-full px-6 text-white"
                 type="button"
                 asChild
               >
@@ -135,7 +135,7 @@ export default function AssignmentSubmitModal({ assignment }) {
                 <Button
                   type="button"
                   variant="secondary"
-                  className="hover:bg-medium-bg dark:hover:bg-dark-bg rounded-full px-6"
+                  className="rounded-full px-6"
                 >
                   Close
                 </Button>
@@ -192,7 +192,7 @@ export default function AssignmentSubmitModal({ assignment }) {
               </DialogTitle>
             </DialogHeader>
 
-            <div className="bg-light-bg dark:bg-dark-bg my-4 rounded-lg p-4">
+            <div className="my-4 rounded-lg p-4">
               <h4 className="text-foreground mb-2 font-medium">
                 Before You Submit:
               </h4>
