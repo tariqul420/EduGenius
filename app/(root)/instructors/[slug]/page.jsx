@@ -22,15 +22,15 @@ export default async function Instructor({ params }) {
   return (
     <section>
       <div className="container mx-auto px-4 py-10 lg:max-w-6xl">
-        <div className="mx-auto grid w-fit grid-cols-1 gap-4 overflow-hidden rounded-2xl bg-white shadow-md sm:mx-0 lg:grid-cols-3 dark:bg-black">
+        <div className="mx-auto grid w-fit grid-cols-1 justify-center p-4 md:p-0 items-center gap-4 overflow-hidden rounded-2xl bg-white shadow-md sm:mx-0 md:grid-cols-3 dark:bg-dark-theme border">
           {/* Profile Picture */}
-          <div className="dark:bg-dark-bg w-fit bg-gray-50 p-2.5">
+          <div className="dark:bg-dark-bg w-fit mx-auto md:mx-0 bg-gray-50 p-2.5">
             <Image
               src={instructorId?.profilePicture}
               alt={`${instructorId?.firstName} ${instructorId?.lastName}`}
               width={250}
               height={250}
-              className="rounded-xl object-cover"
+              className="rounded-xl object-cover mx-auto"
             />
           </div>
           {/* instructorId? Info */}
