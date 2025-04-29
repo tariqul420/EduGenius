@@ -14,20 +14,18 @@ import {
 } from "@/components/ui/dialog";
 
 export default function QuizModal({ quiz }) {
-  const score = 16;
-  const total = 20;
-  const percentage = (score / total) * 100;
+  const percentage = (quiz?.score / quiz?.totalQuestions) * 100;
   const strokeDash = (percentage / 100) * 251;
 
   let label = "Needs Practice";
   let icon = <Wrench className="h-5 w-5 text-yellow-500" />;
   let feedback = "Keep practicing to improve your skills!";
 
-  if (score >= 17) {
+  if (quiz?.score >= 17) {
     label = "Excellent!";
     icon = <Trophy className="h-5 w-5 text-green-500" />;
     feedback = "Outstanding performance! You've mastered this material.";
-  } else if (score >= 13) {
+  } else if (quiz?.score >= 13) {
     label = "Good Job";
     icon = <Award className="h-5 w-5 text-blue-500" />;
     feedback = "Solid understanding, but there's room for improvement.";
@@ -83,7 +81,7 @@ export default function QuizModal({ quiz }) {
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
                   <span className="text-dark-main text-3xl font-bold dark:text-white">
-                    {score}/{total}
+                    {quiz?.score}/{quiz?.totalQuestions}
                   </span>
                   <span className="text-muted-foreground text-sm">
                     {Math.round(percentage)}% Correct
@@ -103,15 +101,15 @@ export default function QuizModal({ quiz }) {
               </div>
 
               {/* Breakdown */}
-              <div className="w-full border-t pt-4">
+              <div className="mx-auto w-11/12 border-t pt-4">
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div className="flex items-center justify-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-green-500"></span>
-                    <span>Correct: {score}</span>
+                    <span>Correct: {quiz?.score}</span>
                   </div>
-                  <div className="flex items-center justify-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-dark-btn"></span>
-                    <span>Incorrect: {total - score}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-red-500"></span>
+                    <span>Incorrect: {quiz?.totalQuestions - quiz?.score}</span>
                   </div>
                 </div>
               </div>

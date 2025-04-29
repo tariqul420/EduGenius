@@ -29,10 +29,6 @@ const assignmentSubmissionSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    submissionDate: {
-      type: Date,
-      default: Date.now,
-    },
   },
   { timestamps: true },
 );
