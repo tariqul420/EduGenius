@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-use-before-define */
 import React, { Suspense } from "react";
 import Markdown from "react-markdown";

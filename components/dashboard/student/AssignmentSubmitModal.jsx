@@ -13,24 +13,43 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-export default function AssignmentSubmitModal({ hasSubmitted, slug }) {
-  const score = 16;
-  const total = 20;
-  const percentage = (score / total) * 100;
-  const strokeDash = (percentage / 100) * 251;
-
+export default function AssignmentSubmitModal({ assignment }) {
+  // Initialize defaults
   let label = "Needs Improvement";
   let icon = <Wrench className="h-5 w-5 text-yellow-500" />;
   let feedback = "Review the requirements and try to enhance your submission.";
+  let percentage = 0;
+  let isPassing = false;
 
-  if (score >= 17) {
-    label = "Excellent Work!";
-    icon = <Trophy className="h-5 w-5 text-green-500" />;
-    feedback = "Exceptional effort! Your submission meets all expectations.";
-  } else if (score >= 13) {
-    label = "Good Effort";
-    icon = <Award className="h-5 w-5 text-blue-500" />;
-    feedback = "Well done, but there’s room to polish your work.";
+  if (
+    assignment?.hasSubmitted &&
+    assignment?.mark !== null &&
+    assignment?.totalMarks > 0
+  ) {
+    percentage = (assignment.mark / assignment.totalMarks) * 100;
+    isPassing = assignment.mark >= assignment.passMark;
+
+    if (percentage >= 85) {
+      label = "Excellent Work!";
+      icon = <Trophy className="h-5 w-5 text-green-500" />;
+      feedback = `Exceptional effort! Your submission meets all expectations. ${
+        isPassing
+          ? "You passed!"
+          : "However, you did not meet the passing mark."
+      }`;
+    } else if (percentage >= 65) {
+      label = "Good Effort";
+      icon = <Award className="h-5 w-5 text-blue-500" />;
+      feedback = `Well done, but there’s room to polish your work. ${
+        isPassing ? "You passed!" : "You did not meet the passing mark."
+      }`;
+    } else {
+      label = "Needs Improvement";
+      icon = <Wrench className="h-5 w-5 text-yellow-500" />;
+      feedback = `Review the requirements and try to enhance your submission. ${
+        isPassing ? "You passed!" : "You did not meet the passing mark."
+      }`;
+    }
   }
 
   return (
@@ -41,7 +60,7 @@ export default function AssignmentSubmitModal({ hasSubmitted, slug }) {
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md">
-        {hasSubmitted ? (
+        {assignment?.hasSubmitted && assignment?.mark > 0 ? (
           <>
             <DialogHeader>
               <DialogTitle className="text-center text-2xl">
@@ -62,28 +81,24 @@ export default function AssignmentSubmitModal({ hasSubmitted, slug }) {
                     cy="50"
                   />
                   <circle
-                    className="text-gray-200 dark:text-gray-700"
+                    className="text-green-500"
                     strokeWidth="8"
-                    strokeLinecap="round"
                     stroke="currentColor"
                     fill="transparent"
                     r="40"
                     cx="50"
                     cy="50"
-                    strokeDasharray={`${strokeDash} 251`}
+                    strokeDasharray={`${(percentage / 100) * 251.2} 251.2`}
+                    strokeDashoffset="0"
                     transform="rotate(-90 50 50)"
-                    style={{
-                      strokeDashoffset: 251,
-                      animationFillMode: "forwards",
-                    }}
                   />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
                   <span className="text-dark-main text-3xl font-bold dark:text-white">
-                    {score}/{total}
+                    {assignment?.mark ?? 0}/{assignment?.totalMarks ?? 0}
                   </span>
                   <span className="text-muted-foreground text-sm">
-                    {Math.round(percentage)}% Grade
+                    {percentage.toFixed(1)}%
                   </span>
                 </div>
               </div>
@@ -148,7 +163,7 @@ export default function AssignmentSubmitModal({ hasSubmitted, slug }) {
                 type="button"
                 asChild
               >
-                <Link href={`/student/assignment/${slug}`}>
+                <Link href={`/student/assignment/${assignment?.course?.slug}`}>
                   Submit Assignment
                 </Link>
               </Button>

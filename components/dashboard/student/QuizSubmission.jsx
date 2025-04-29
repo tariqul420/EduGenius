@@ -305,7 +305,7 @@ export default function QuizSubmission({ quiz }) {
           <div className="mt-8 flex justify-end">
             <Button
               type="submit"
-              className="bg-main hover:bg-main-dark text-white"
+              className="bg-main hover:bg-main-dark cursor-pointer text-white"
             >
               Submit Answers
             </Button>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 "use client";
 import { ArrowDown, ThumbsDown, ThumbsUp } from "lucide-react";
