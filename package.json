@@ -10,7 +10,7 @@
     "fix": "next lint --fix"
   },
   "dependencies": {
-    "@ai-sdk/google": "^1.2.13",
+    "@ai-sdk/google": "^1.2.14",
     "@ai-sdk/react": "^1.2.9",
     "@ai-sdk/xai": "^1.2.15",
     "@clerk/nextjs": "^6.16.0",
