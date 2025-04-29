@@ -1,14 +1,19 @@
-import { GraduationCap } from "lucide-react";
+import Image from "next/image";
 
 const EducationLoading = () => {
   return (
     <div className="flex min-h-screen w-full items-center justify-center">
-      <div className="space-y-6 text-center px-2">
+      <div className="space-y-6 px-2 text-center">
         {/* Animated Spinner with Educational Icons */}
         <div className="relative mx-auto h-24 w-24">
           <div className="border-t-main absolute inset-0 animate-spin rounded-full border-4 border-gray-300"></div>
           <div className="absolute inset-0 flex animate-pulse items-center justify-center">
-            <GraduationCap className="text-main h-12 w-12" />
+            <Image
+              src="/Edu-logo.png"
+              alt="EduGenius Logo"
+              width={28}
+              height={28}
+            />
           </div>
         </div>
 

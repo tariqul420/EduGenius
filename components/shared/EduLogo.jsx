@@ -12,7 +12,7 @@ export default function EduLogo() {
           height={28}
         />
         <h2 className="text-2xl font-semibold">
-          Edu<span className="text-main">Genius</span>
+          Edu<span className="dark:text-sub-main text-main">Genius</span>
         </h2>
       </Link>
     </>
