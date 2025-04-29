@@ -33,7 +33,7 @@ export default function AiTitles({ title, onSelect }) {
   return (
     <div className="w-full">
       {loading && (
-        <div className="text-muted-foreground flex items-center gap-2">
+        <div className="text-muted-foreground flex justify-center items-center gap-2">
           <SparkleIcon className="h-4 w-4 animate-pulse" />
           Generating suggestions...
         </div>

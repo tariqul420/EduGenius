@@ -7,6 +7,9 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import AISheet from "./AISheet";
+import AiAssDetails from "./AiAssDetails";
+
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -56,7 +59,8 @@ const formSchema = z.object({
     .positive({ message: "Total marks must be a positive number." })
     .optional(), // Make it optional
 });
-export default function AssignmentForm({ assignment, courseId }) {
+
+export default function AssignmentForm({ assignment, course }) {
   const pathname = usePathname();
   // 1. Define your form.
   const form = useForm({
@@ -100,7 +104,7 @@ export default function AssignmentForm({ assignment, courseId }) {
     } else {
       toast.promise(
         createAssignment({
-          courseId,
+          courseId: course._id,
           data: values,
           path: pathname,
         }),
@@ -261,13 +265,15 @@ export default function AssignmentForm({ assignment, courseId }) {
             <FormItem className="col-span-1 sm:col-span-2">
               <div className="flex items-center justify-between">
                 <FormLabel>Assignment Description</FormLabel>
-                {/* <AISheet value={field.value}>
-                  <AiAssDetails desc={field.value}   category={assignment?.title}
-                  title={assignment?.title}
-                  category={assignment?.title}
-                  level={assignment?.title}                  
- onSelect={field.onChange} />
-                </AISheet> */}
+                <AISheet value={field.value}>
+                  <AiAssDetails
+                    desc={field.value}
+                    category={course?.category}
+                    title={course?.title}
+                    level={course?.level}
+                    onSelect={field.onChange}
+                  />
+                </AISheet>
               </div>
               <FormControl>
                 <Textarea

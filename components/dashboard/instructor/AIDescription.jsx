@@ -45,7 +45,7 @@ export default function AIDescription({ title, category, level, onSelect }) {
         </div>
       )}
 
-      {suggestions.map((suggestion, index) => (
+      {suggestions && suggestions.map((suggestion, index) => (
         <div
           key={index}
           className="bg-card hover:bg-accent rounded-lg border p-4"

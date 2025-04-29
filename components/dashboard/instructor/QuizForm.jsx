@@ -52,7 +52,7 @@ const formSchema = z.object({
   ),
 });
 
-export default function QuizForm({ quiz, courseId }) {
+export default function QuizForm({ quiz, course }) {
   const pathname = usePathname();
   // 1. Define your form.
   const form = useForm({
@@ -98,7 +98,7 @@ export default function QuizForm({ quiz, courseId }) {
     } else {
       toast.promise(
         createQuiz({
-          courseId,
+          courseId: course._id,
           data: values,
           path: pathname,
         }),

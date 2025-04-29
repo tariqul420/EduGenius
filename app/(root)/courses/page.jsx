@@ -28,11 +28,13 @@ export default async function Course({ searchParams }) {
     <section className="py-5">
       <div className="container mx-auto px-2 md:px-5 lg:max-w-6xl">
         {/* Filter Bar */}
-        <FilterBar total={total} courses={courses} categories={categories} />
+        <div className="bg-white dark:bg-black">
+          <FilterBar total={total} courses={courses} categories={categories} />
+        </div>
         {/* Courses Content Section */}
         <div className="mt-6 flex justify-between gap-5 md:mt-8">
           <CoursesContent courses={courses} hasNextPage={hasNextPage} />
-          <div className="courses-filter hidden min-w-[250px] rounded px-4 py-1.5 shadow-md lg:block">
+          <div className="courses-filter hidden min-w-[250px] rounded-md bg-white px-4 py-4 shadow-md lg:block dark:bg-black">
             <FilterItem categories={categories} />
           </div>
         </div>
