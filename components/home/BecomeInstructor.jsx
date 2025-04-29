@@ -59,12 +59,12 @@ const BecomeInstructor = () => {
                 <ArrowRight className="h-4 w-4" />
               </Link>
 
-              <Link
+              {/* <Link
                 href="/about-us"
                 className="hover:bg-light-bg flex cursor-pointer items-center gap-2 rounded border bg-white px-4 py-2.5 text-black shadow duration-200 md:px-6"
               >
                 Learn more
-              </Link>
+              </Link> */}
             </div>
 
             <div className="mt-5 flex items-center gap-2 text-sm">
