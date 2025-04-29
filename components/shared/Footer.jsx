@@ -44,7 +44,7 @@ const Footer = () => {
           <div className="">
             {/* Download app */}
             <div className="mb-10">
-              <h3 className="mb-3 text-lg font-bold md:text-xl">
+              <h3 className="mb-3 text-lg font-bold md:text-xl text-main">
                 Download App
               </h3>
               <p className="mb-4 text-gray-600 dark:text-gray-300">
@@ -79,45 +79,47 @@ const Footer = () => {
           <div className="flex justify-between gap-3 sm:gap-7 lg:flex-row lg:gap-32">
             {/* Different types of links */}
             <div className="flex flex-col">
-              <h2 className="mb-3 text-lg font-medium md:text-xl">About</h2>
+              <h2 className="text-main mb-3 text-lg font-medium md:text-xl">
+                About
+              </h2>
               <Link
-                className="hover:text-main mb-1 cursor-pointer dark:hover:text-gray-300"
+                className="hover:text-main mb-1 cursor-pointer text-sm sm:text-base dark:hover:text-gray-300"
                 href="/about-us"
               >
                 About Us
               </Link>
               <Link
-                className="hover:text-main mb-1 cursor-pointer dark:hover:text-gray-300"
+                className="hover:text-main mb-1 cursor-pointer text-sm sm:text-base dark:hover:text-gray-300"
                 href="/contact-us"
               >
                 Contact Us
               </Link>
               <Link
-                className="hover:text-main mb-1 cursor-pointer dark:hover:text-gray-300"
+                className="hover:text-main mb-1 cursor-pointer text-sm sm:text-base dark:hover:text-gray-300"
                 href="/faq"
               >
                 Faq
               </Link>
             </div>
             <div className="flex flex-col">
-              <h2 className="mb-3 text-lg font-medium md:text-xl">
+              <h2 className="mb-3 text-lg font-medium md:text-xl text-main">
                 Legal & Accessibility
               </h2>
               <Link
-                className="hover:text-main mb-1 cursor-pointer dark:hover:text-gray-300"
+                className="hover:text-main mb-1 text-sm sm:text-base cursor-pointer dark:hover:text-gray-300"
                 href="/privacy-policys"
               >
                 Privacy policy
               </Link>
               <Link
-                className="hover:text-main mb-1 cursor-pointer dark:hover:text-gray-300"
+                className="hover:text-main mb-1 text-sm sm:text-base cursor-pointer dark:hover:text-gray-300"
                 href="/terms"
               >
                 Terms
               </Link>
             </div>
             <div className="flex flex-col">
-              <h2 className="mb-3 text-lg font-medium md:text-xl">
+              <h2 className="mb-3 text-lg  font-medium md:text-xl text-main">
                 Quick Links
               </h2>
               <Link
