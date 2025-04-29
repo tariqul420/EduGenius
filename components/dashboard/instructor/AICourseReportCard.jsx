@@ -59,7 +59,7 @@ export default function AICourseReportCard({ report }) {
             </h3>
           </div>
           <ul className="flex-1 space-y-3">
-            {topCourses.map((course, idx) => (
+            {topCourses && topCourses?.map((course, idx) => (
               <li key={idx} className="flex items-center gap-2">
                 <Badge
                   variant="success"
@@ -88,17 +88,20 @@ export default function AICourseReportCard({ report }) {
             </h3>
           </div>
           <ul className="flex-1 space-y-3">
-            {improvements.map((item, idx) => (
-              <li key={idx} className="flex items-center gap-2">
-                <Badge
-                  variant="warning"
-                  className="bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-200"
-                >
-                  !
-                </Badge>
-                <span className="text-gray-600 dark:text-gray-300">{item}</span>
-              </li>
-            ))}
+            {improvements &&
+              improvements?.map((item, idx) => (
+                <li key={idx} className="flex items-center gap-2">
+                  <Badge
+                    variant="warning"
+                    className="bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-200"
+                  >
+                    !
+                  </Badge>
+                  <span className="text-gray-600 dark:text-gray-300">
+                    {item}
+                  </span>
+                </li>
+              ))}
           </ul>
         </Card>
       </div>
