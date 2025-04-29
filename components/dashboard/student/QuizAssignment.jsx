@@ -96,15 +96,15 @@ export default function QuizAssignment({ course, slug }) {
           ) : (
             <>
               {/* Conditional Rendering Based on Submission */}
-              {course?.hasAssignmentSubmitted ? (
+              {course?.hasAssignmentSubmitted && course?.assignmentMark > 0 ? (
                 <Card className="mb-6">
                   <CardHeader>
-                    <CardTitle>Submission Pending</CardTitle>
+                    <CardTitle>Assignment Submitted</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="mb-4">
-                      You have not yet submitted this assignment. Begin working
-                      on it now to meet the deadline!
+                      Your assignment has been submitted and graded. View your
+                      grade and details below.
                     </p>
                     <Button asChild>
                       <Link href={`/student/assignment/${slug}`}>
