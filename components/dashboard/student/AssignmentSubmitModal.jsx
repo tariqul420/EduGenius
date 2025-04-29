@@ -160,7 +160,7 @@ export default function AssignmentSubmitModal({ assignment }) {
             </div>
             <DialogFooter className="gap-2 sm:justify-center">
               <Button
-                className="bg-main rounded-full px-6 text-white"
+                className="bg-main hover:bg-dark-main dark:hover:bg-dark-bg rounded-full px-6 text-white"
                 type="button"
                 asChild
               >
@@ -216,7 +216,7 @@ export default function AssignmentSubmitModal({ assignment }) {
 
             <DialogFooter className="flex-col gap-2 sm:flex-row-reverse">
               <Button
-                className="bg-main rounded-full px-6 text-white"
+                className="bg-main hover:bg-dark-main dark:hover:bg-dark-bg rounded-full px-6 text-white"
                 type="button"
                 asChild
               >

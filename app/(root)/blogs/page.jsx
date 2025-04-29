@@ -51,7 +51,7 @@ const BlogPage = async ({ searchParams }) => {
           </div>
 
           {/* Sidebar (Categories) */}
-          <div className="courses-filter col-span-3 hidden rounded px-4 py-1.5 shadow-md lg:block">
+          <div className="courses-filter dark:bg-black col-span-3 hidden rounded-md bg-white px-4 py-1.5 shadow-md lg:block">
             <FilterItem categories={categories} />
           </div>
         </div>
