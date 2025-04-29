@@ -1,11 +1,9 @@
-import { auth } from "@clerk/nextjs/server";
 import { format } from "date-fns";
 import {
-  AlertCircleIcon,
   ClockIcon,
   FileTextIcon,
-  GithubIcon,
   LockIcon,
+  MessageSquareIcon,
   ShieldIcon,
   UserIcon,
 } from "lucide-react";
@@ -13,13 +11,11 @@ import {
 import AssignmentSubmitForm from "@/components/dashboard/student/AssignmentSubmitForm";
 import TextSeeMore from "@/components/shared/text-see-more";
 import { Badge } from "@/components/ui/badge";
-import { getAssignmentByCourse } from "@/lib/actions/assignment.action";
+import { getAssignmentForCourseSlug } from "@/lib/actions/assignment.action";
 
 export default async function AssignmentDetailsPage({ params }) {
   const { slug } = await params;
-  const assignment = await getAssignmentByCourse(slug);
-  const { sessionClaims } = await auth();
-  const studentId = sessionClaims?.userId;
+  const assignment = await getAssignmentForCourseSlug(slug);
 
   const {
     _id,
@@ -31,13 +27,11 @@ export default async function AssignmentDetailsPage({ params }) {
     totalMarks,
     passMarks,
     createdAt,
-    submissions,
+    hasSubmitted,
+    content,
+    mark,
+    feedback,
   } = assignment || {};
-
-  // Check if the student has a submission
-  const hasSubmission = submissions?.some(
-    (submission) => submission.studentId === studentId,
-  );
 
   return (
     <section className="py-6">
@@ -108,7 +102,8 @@ export default async function AssignmentDetailsPage({ params }) {
                   Implementation guidelines and requirements
                 </p>
                 <p className="text-muted-foreground mt-1 text-xs">
-                  Created: {format(new Date(createdAt), "PPP")}{" "}
+                  Created:{" "}
+                  {createdAt ? format(new Date(createdAt), "PPP") : "N/A"}
                 </p>
               </div>
             </div>
@@ -119,38 +114,71 @@ export default async function AssignmentDetailsPage({ params }) {
         </div>
 
         {/* Conditional Rendering: Submission Info or Submission Form */}
-        {hasSubmission ? (
+        {hasSubmitted ? (
           <div className="text-dark-main dark:bg-dark-bg rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:text-white">
             <h2 className="mb-4 text-xl font-semibold">Your Submission</h2>
             <div className="space-y-4">
-              <div className="flex items-center gap-4 rounded-lg bg-white p-3 shadow-sm dark:bg-gray-900">
-                <div className="bg-dark-main/10 text-dark-main justify12-center flex h-10 w-10 items-center rounded-lg">
-                  <GithubIcon className="h-5 w-5" />
+              {/* Submission Content */}
+              <div className="rounded-lg bg-white p-3 shadow-sm dark:bg-gray-900">
+                <div className="mb-2 flex items-center gap-3">
+                  <div className="bg-dark-main/10 text-dark-main flex h-10 w-10 items-center justify-center rounded-lg">
+                    <FileTextIcon className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-lg font-medium">Submitted Work</h3>
                 </div>
-                <div>
-                  <p className="text-muted-foreground text-sm">
-                    GitHub Repository
-                  </p>
-                  <a
-                    href="#"
-                    className="hover:text-dark-main font-medium hover:underline"
-                  >
-                    github.com/your-repo/auth-system
-                  </a>
-                </div>
+                <TextSeeMore
+                  description={content || "No submission content provided"}
+                />
               </div>
-              <div className="flex items-center gap-4 rounded-lg bg-white p-3 shadow-sm dark:bg-gray-900">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-yellow-500/10 text-yellow-500">
-                  <AlertCircleIcon className="h-5 w-5" />
+
+              {/* Status or Result */}
+              {mark > 0 ? (
+                <>
+                  <div className="flex items-center gap-4 rounded-lg bg-white p-3 shadow-sm dark:bg-gray-900">
+                    <div
+                      className={`flex h-10 w-10 items-center justify-center rounded-lg ${mark >= passMarks ? "bg-green-500/10 text-green-500" : "bg-red-500/10 text-red-500"}`}
+                    >
+                      <ShieldIcon className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="text-muted-foreground text-sm">Result</p>
+                      <p className="font-medium">
+                        Score: {mark}/{totalMarks} (
+                        {((mark / totalMarks) * 100).toFixed(1)}%)
+                      </p>
+                      <p className="text-muted-foreground text-xs">
+                        {mark >= passMarks ? "Passed" : "Did not pass"}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="rounded-lg bg-white p-3 shadow-sm dark:bg-gray-900">
+                    <div className="mb-2 flex items-center gap-3">
+                      <div className="bg-dark-main/10 text-dark-main flex h-10 w-10 items-center justify-center rounded-lg">
+                        <MessageSquareIcon className="h-5 w-5" />
+                      </div>
+                      <h3 className="text-lg font-medium">
+                        Instructor Feedback
+                      </h3>
+                    </div>
+                    <TextSeeMore
+                      description={feedback || "No feedback provided"}
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className="flex items-center gap-4 rounded-lg bg-white p-3 shadow-sm dark:bg-gray-900">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-yellow-500/10 text-yellow-500">
+                    <ClockIcon className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground text-sm">Status</p>
+                    <p className="font-medium">Your assignment is pending</p>
+                    <p className="text-muted-foreground text-xs">
+                      Check back later for grading results
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-muted-foreground text-sm">Status</p>
-                  <p className="font-medium">Grading in progress</p>
-                  <p className="text-muted-foreground text-xs">
-                    Estimated completion: 48 hours
-                  </p>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         ) : (
