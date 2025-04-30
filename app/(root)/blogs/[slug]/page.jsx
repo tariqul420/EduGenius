@@ -16,6 +16,7 @@ import InsightsCard from "@/components/home/InsightsCard";
 import CommentCard from "@/components/shared/CommentCard";
 import InfiniteScroll from "@/components/shared/InfiniteScroll";
 import { SendComment } from "@/components/shared/SendComment";
+import TextSeeMore from "@/components/shared/text-see-more";
 import { getBlogBySlug, getBlogs } from "@/lib/actions/blog.action";
 import { getCommentsByBlogId } from "@/lib/actions/comment.action";
 
@@ -122,12 +123,7 @@ const BlogDetails = async ({ params, searchParams }) => {
             </div>
 
             {/* Blog Content with improved typography */}
-            <div
-              className="prose prose-lg dark:text-medium-bg mb-12 max-w-none text-gray-700"
-              dangerouslySetInnerHTML={{ __html: content }}
-            >
-              {/* Your content will be rendered here */}
-            </div>
+            <TextSeeMore description={content} />
 
             {/* Author Info Section with better design */}
             <Link href={`/instructors/${author?.slug}`}>

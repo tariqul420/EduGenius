@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import InfiniteScroll from "../shared/InfiniteScroll";
+import TextSeeMore from "../shared/text-see-more";
 
 import ReviewCard from "./ReviewCard";
 
@@ -63,9 +64,7 @@ export default async function CoursesTab({ course, page }) {
           <div>
             <div className="dark:bg-dark-bg bg-light-bg rounded-lg border p-6 px-2.5 shadow-md">
               <h1 className="text-2xl font-bold">{category.name}</h1>
-              <p className="mt-2 text-lg text-gray-700 dark:text-gray-300">
-                {description}
-              </p>
+              <TextSeeMore description={description} />
               <div className="mt-6 grid grid-cols-1 gap-x-8 gap-y-2 text-base text-gray-700 md:grid-cols-2 dark:text-gray-300">
                 <p className="flex items-center gap-2">
                   <BookOpen size={18} className="text-main-500" />
