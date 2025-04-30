@@ -119,7 +119,7 @@ export default async function AssignmentDetailsPage({ params }) {
             <h2 className="mb-4 text-xl font-semibold">Your Submission</h2>
             <div className="space-y-4">
               {/* Submission Content */}
-              <div className="rounded-lg bg-white p-3 shadow-sm dark:bg-gray-900">
+              <div className="dark:bg-dark-hover rounded-lg bg-white p-3 shadow-sm">
                 <div className="mb-2 flex items-center gap-3">
                   <div className="bg-dark-main/10 text-dark-main flex h-10 w-10 items-center justify-center rounded-lg">
                     <FileTextIcon className="h-5 w-5" />
@@ -134,7 +134,7 @@ export default async function AssignmentDetailsPage({ params }) {
               {/* Status or Result */}
               {mark > 0 ? (
                 <>
-                  <div className="flex items-center gap-4 rounded-lg bg-white p-3 shadow-sm dark:bg-gray-900">
+                  <div className="dark:bg-dark-hover flex items-center gap-4 rounded-lg bg-white p-3 shadow-sm">
                     <div
                       className={`flex h-10 w-10 items-center justify-center rounded-lg ${mark >= passMarks ? "bg-green-500/10 text-green-500" : "bg-red-500/10 text-red-500"}`}
                     >
@@ -151,7 +151,7 @@ export default async function AssignmentDetailsPage({ params }) {
                       </p>
                     </div>
                   </div>
-                  <div className="rounded-lg bg-white p-3 shadow-sm dark:bg-gray-900">
+                  <div className="dark:bg-dark-hover rounded-lg bg-white p-3 shadow-sm">
                     <div className="mb-2 flex items-center gap-3">
                       <div className="bg-dark-main/10 text-dark-main flex h-10 w-10 items-center justify-center rounded-lg">
                         <MessageSquareIcon className="h-5 w-5" />
@@ -166,7 +166,7 @@ export default async function AssignmentDetailsPage({ params }) {
                   </div>
                 </>
               ) : (
-                <div className="flex items-center gap-4 rounded-lg bg-white p-3 shadow-sm dark:bg-gray-900">
+                <div className="dark:bg-dark-hover flex items-center gap-4 rounded-lg bg-white p-3 shadow-sm">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-yellow-500/10 text-yellow-500">
                     <ClockIcon className="h-5 w-5" />
                   </div>
