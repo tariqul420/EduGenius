@@ -73,7 +73,7 @@ export default function QuizModal({ quiz }) {
                     strokeDasharray={`${strokeDash} 251`}
                     transform="rotate(-90 50 50)"
                     style={{
-                      strokeDashoffset: 0, // Changed from 251 to 0 to make it draw from the opposite side
+                      strokeDashoffset: 0,
                       animationFillMode: "forwards",
                     }}
                   />
@@ -114,18 +114,21 @@ export default function QuizModal({ quiz }) {
               </div>
             </div>
 
-            <DialogFooter className={"flex items-center !justify-center"}>
-              <Link
-                href={`/student/quiz/${quiz?.course?.slug}`}
-                className="bg-medium-bg dark:bg-dark-bg hover:bg-light-bg dark:hover:bg-dark-hover rounded-full px-12 py-2"
+            <DialogFooter className="gap-2 sm:justify-center">
+              <Button
+                className="bg-main dark:bg-dark-main rounded-full px-6 text-white"
+                type="button"
+                asChild
               >
-                Show Details
-              </Link>
+                <Link href={`/student/quiz/${quiz?.course?.slug ?? "#"}`}>
+                  View Details
+                </Link>
+              </Button>
               <DialogClose asChild>
                 <Button
                   type="button"
                   variant="secondary"
-                  className="bg-medium-bg dark:bg-dark-bg hover:bg-light-bg dark:hover:bg-dark-hover rounded-full px-12"
+                  className="rounded-full px-6"
                 >
                   Close
                 </Button>

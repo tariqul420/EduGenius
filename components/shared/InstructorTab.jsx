@@ -56,7 +56,9 @@ export default function InstructorTab({ instructor }) {
       </TabsContent>
       {/* course =================== */}
       <TabsContent value="course" className="mt-6">
-        {courses.length === 0 ? (
+        {!courses ||
+        courses.length === 0 ||
+        courses.every((course) => !course.title || !course.slug) ? (
           <div className="dark:bg-dark-bg bg-light-bg mx-auto w-full max-w-lg rounded-lg border p-6 text-center shadow dark:border-t-[3px] dark:border-b-0 dark:text-gray-300">
             <h3 className="text-main dark:text-main-dark mb-2 text-xl font-semibold">
               No Courses Available
@@ -67,31 +69,33 @@ export default function InstructorTab({ instructor }) {
           </div>
         ) : (
           <div className="grid gap-6 md:grid-cols-2">
-            {courses?.map((course, inx) => (
-              <Link
-                href={`/courses/${course?.slug}`}
-                key={inx}
-                className="dark:bg-dark-bg bg-light-bg rounded-lg border p-6 shadow transition-all hover:shadow-md dark:border-t-[3px] dark:border-b-0"
-              >
-                <h3 className="text-main dark:text-main-dark mb-3 text-lg font-semibold">
-                  {course?.title}
-                </h3>
-                <p className="line-clamp-2 text-gray-600 dark:text-gray-400">
-                  {course?.description} ...
-                </p>
-                <div className="mt-4 flex items-center justify-between">
-                  <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                      {course?.students?.length || 0} Students
-                    </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                      {course?.lessonCount || 0} Lesson
-                    </span>
+            {courses
+              .filter((course) => course.title && course.slug)
+              .map((course, inx) => (
+                <Link
+                  href={`/courses/${course.slug}`}
+                  key={inx}
+                  className="dark:bg-dark-bg bg-light-bg rounded-lg border p-6 shadow transition-all hover:shadow-md dark:border-t-[3px] dark:border-b-0"
+                >
+                  <h3 className="text-main dark:text-main-dark mb-3 text-lg font-semibold">
+                    {course.title}
+                  </h3>
+                  <p className="line-clamp-2 text-gray-600 dark:text-gray-400">
+                    {course.description || "No description available"} ...
+                  </p>
+                  <div className="mt-4 flex items-center justify-between">
+                    <div className="flex flex-wrap gap-2">
+                      <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                        {course.students?.length || 0} Students
+                      </span>
+                      <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                        {course.lessonCount || 0} Lesson
+                      </span>
+                    </div>
+                    <AvgRating avgRating={course.avgRating || 0} />
                   </div>
-                  <AvgRating avgRating={course?.avgRating || 0} />
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
           </div>
         )}
       </TabsContent>

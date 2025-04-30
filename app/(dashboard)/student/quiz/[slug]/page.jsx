@@ -1,5 +1,3 @@
-// app/quiz-submission/page.jsx
-
 import QuizSubmission from "@/components/dashboard/student/QuizSubmission";
 import { getQuizForCourseSlug } from "@/lib/actions/quiz.action";
 

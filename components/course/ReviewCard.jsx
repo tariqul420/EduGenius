@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import Image from "next/image";
 
 import AvgRating from "../shared/AvgRating";
+import TextSeeMore from "../shared/text-see-more";
 
 export default function ReviewCard({ review }) {
   const studentReviewDate = format(
@@ -30,11 +31,9 @@ export default function ReviewCard({ review }) {
             <p className="text-sm">
               {review?.createdAt !== review?.updatedAt && "(edited) |"}
             </p>
-              <AvgRating className='-mt-4' avgRating={review?.rating} />
+            <AvgRating className="-mt-4" avgRating={review?.rating} />
           </div>
-          <p className="dark:text-light-bg mt-1 text-sm break-words text-gray-700 sm:text-base">
-            {review?.review}
-          </p>
+          <TextSeeMore description={review?.review} />
         </div>
       </div>
     </div>

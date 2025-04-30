@@ -13,8 +13,9 @@ export default function InstructorCard({ instructor }) {
         src={instructorId?.profilePicture}
         alt={instructorId?.firstName}
         width={150}
-        height={100}
-        className="mx-auto h-fit max-w-[350px] rounded-lg object-cover max-sm:w-full"
+        height={150}
+        className="mx-auto h-[150px] max-w-[350px] rounded-lg object-cover max-sm:w-full"
+        loading="lazy"
       />
       <div className="flex flex-wrap justify-between gap-4 sm:block">
         <div>
