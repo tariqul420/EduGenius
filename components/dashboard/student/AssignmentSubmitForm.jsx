@@ -81,7 +81,7 @@ export default function AssignmentSubmitForm({ assignment, course }) {
   };
 
   return (
-    <div className="text-dark-main dark:bg-dark-bg rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:text-white">
+    <div className="dark:bg-dark-hover rounded-xl border bg-white p-6">
       <div className="mb-6 flex items-center gap-3">
         <div className="bg-dark-main/10 text-dark-main dark:bg-dark-main/20 flex h-10 w-10 items-center justify-center rounded-lg">
           <FileTextIcon className="h-5 w-5" />
