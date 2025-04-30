@@ -57,7 +57,7 @@ export default function AssignmentSubmitModal({ assignment }) {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="text-black w-full px-6 dark:text-white"
+          className="w-full px-6 text-black dark:text-white"
         >
           Details
         </Button>
@@ -97,7 +97,7 @@ export default function AssignmentSubmitModal({ assignment }) {
                   />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
-                  <span className="text-dark-main text-3xl font-bold">
+                  <span className="text-dark-main text-3xl font-bold dark:text-white">
                     {assignment?.mark ?? 0}/{assignment?.totalMarks ?? 0}
                   </span>
                   <span className="text-muted-foreground text-sm">

@@ -36,7 +36,6 @@ const quizSubmissionSchema = z.object({
 export default function QuizSubmission({ quiz }) {
   const pathname = usePathname();
   const [showDetails, setShowDetails] = useState(false);
-  console.log(quiz);
 
   const [submissionData, setSubmissionData] = useState(null);
 
