@@ -48,7 +48,6 @@ export default function QuizModal({ quiz }) {
             </DialogHeader>
             <div className="my-4 flex flex-col items-center gap-6">
               {/* Score Circle */}
-              {/* Score Circle */}
               <div className="relative h-40 w-40">
                 <svg className="h-full w-full" viewBox="0 0 100 100">
                   {/* Full colored background circle */}
@@ -114,7 +113,14 @@ export default function QuizModal({ quiz }) {
                 </div>
               </div>
             </div>
-            <DialogFooter className="sm:justify-center">
+
+            <DialogFooter className={"flex items-center !justify-center"}>
+              <Link
+                href={`/student/quiz/${quiz?.course?.slug}`}
+                className="bg-medium-bg dark:bg-dark-bg hover:bg-light-bg dark:hover:bg-dark-hover rounded-full px-12 py-2"
+              >
+                Show Details
+              </Link>
               <DialogClose asChild>
                 <Button
                   type="button"

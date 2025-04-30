@@ -20,6 +20,7 @@ export default async function Home({ searchParams }) {
   }
 
   const { courses, pagination } = await getCourseAdminInstructor({
+    instructor: true,
     limit: Number(pageSize || 10),
     page: Number(pageIndex || 1),
     search: search?.trim(),
