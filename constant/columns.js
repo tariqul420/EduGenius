@@ -584,7 +584,6 @@ export const studentCertificateColumns = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() =>
                   navigator.clipboard.writeText(category?.certificateId)

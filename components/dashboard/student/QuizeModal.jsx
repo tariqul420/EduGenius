@@ -73,7 +73,7 @@ export default function QuizModal({ quiz }) {
                     strokeDasharray={`${strokeDash} 251`}
                     transform="rotate(-90 50 50)"
                     style={{
-                      strokeDashoffset: 0, // Changed from 251 to 0 to make it draw from the opposite side
+                      strokeDashoffset: 0,
                       animationFillMode: "forwards",
                     }}
                   />

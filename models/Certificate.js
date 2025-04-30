@@ -23,8 +23,8 @@ certificateSchema.pre("save", async function (next) {
 
     // Keep generating until we find a unique ID
     while (!isUnique) {
-      // Generate a random 5-digit number (10000 to 99999)
-      const randomNum = Math.floor(10000000000 + Math.random() * 90000000000);
+      // Generate a random 11-digit number (10000000000 to 99999)
+      const randomNum = Math.floor(10000000000 + Math.random() * 99999999999);
       newCertificateId = `${prefix}${randomNum}`;
 
       // Check if this ID already exists in the database
