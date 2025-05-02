@@ -22,7 +22,6 @@ export default async function Layout({ children }) {
         <nav className="dark:from-dark-bg dark:to-dark-bg sticky top-0 z-[20] flex w-full items-center justify-between gap-4 bg-gradient-to-r from-white to-white px-4 py-3 text-black shadow-sm dark:text-white">
           <SidebarTrigger className="cursor-pointer" />
           <div className="flex items-center gap-4">
-            {/* <AiSidebar /> */}
             <ThemeBtn />
             <NotificationsBell />
           </div>
