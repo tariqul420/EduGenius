@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import CoursesTab from "../../../../components/course/CoursesTab";
 
+import CourseVideo from "@/components/course/course-video";
 import PaymentModal from "@/components/payment/PaymentModal";
 import CourseCard from "@/components/shared/CourseCard";
 import { getCourseBySlug, getCourses } from "@/lib/actions/course.action";
@@ -47,7 +48,7 @@ const CourseDetails = async ({ params, searchParams }) => {
     relatedCourses = popularCourses;
   }
 
-  const { thumbnail, instructor } = course;
+  const { instructor } = course;
   return (
     <>
       <section className="px-2 py-10 md:px-5 dark:bg-black">
@@ -56,25 +57,8 @@ const CourseDetails = async ({ params, searchParams }) => {
           <div className="col-span-12 mx-auto h-fit rounded-lg md:w-7/8 lg:col-span-8 lg:w-full">
             {/* Course Details Card */}
             <div className="dark:bg-dark-bg bg-light-bg rounded-lg border p-6 px-2.5 shadow-md">
-              <iframe
-                className="h-[230px] w-full rounded-lg md:h-[300px] lg:h-[350px]"
-                thumbnail={thumbnail}
-                width="100"
-                height="100"
-                src="https://www.youtube.com/embed/bJzb-RuUcMU?si=pYoWj-NuXih5al6T"
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                frameBorder="0"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              ></iframe>
-              {/* <Image
-                src={thumbnail}
-                alt={category?.name}
-                width={600}
-                height={500}
-                className="h-[300px] w-full rounded object-cover"
-              /> */}
+              <CourseVideo course={course} />
+
               <div className="flex items-center justify-between">
                 <Link
                   href={"/courses"}
