@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 
 import { ChartAreaInteractive } from "@/components/dashboard/chart-area-interactive";
 import DataTable from "@/components/dashboard/data-table";
-import AICourseReportCard from "@/components/dashboard/instructor/AICourseReportCard";
+import AICourseReportCard from "@/components/dashboard/instructor/ai-course-report-card";
 import { InstructorStats } from "@/components/dashboard/instructor/instructor-stats";
 import { instructorCourseColumns } from "@/components/dashboard/table-columns";
 import { SidebarInset } from "@/components/ui/sidebar";

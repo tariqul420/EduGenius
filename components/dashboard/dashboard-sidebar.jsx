@@ -25,7 +25,7 @@ import { Suspense } from "react";
 
 import EduLogo from "../shared/EduLogo";
 
-import AdditionalInfoForm from "./instructor/AdditionalInfoForm";
+import AdditionalInfoForm from "./instructor/additional-info-form";
 import BecomeInstructorForm from "./student/BecomeInstructorForm";
 
 import {

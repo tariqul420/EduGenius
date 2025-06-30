@@ -10,9 +10,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import AIDescription from "./AIDescription";
-import AISheet from "./AISheet";
-import AiTitles from "./AiTitles";
+import AIDescription from "./ai-description";
+import AISheet from "./ai-sheet";
+import AiTitles from "./ai-titles";
 
 import CategoryForm from "@/components/shared/CategoryForm";
 import { Button } from "@/components/ui/button";

@@ -12,8 +12,8 @@ import {
   createDragColumn,
   createSelectionColumn,
 } from "@/components/dashboard/data-table";
-import DeleteBlogModal from "@/components/dashboard/instructor/DeleteBlogModal";
-import TableContextMenu from "@/components/dashboard/instructor/TableContextMenu";
+import DeleteBlogModal from "@/components/dashboard/instructor/delete-blog-modal";
+import TableContextMenu from "@/components/dashboard/instructor/table-context-menu";
 import AssignmentSubmitModal from "@/components/dashboard/student/AssignmentSubmitModal";
 import CertificatePDF from "@/components/dashboard/student/CertificatePDF";
 import QuizModal from "@/components/dashboard/student/QuizeModal";

@@ -1,4 +1,4 @@
-import BlogForm from "./BlogForm";
+import BlogForm from "./blog-form";
 
 export default function AddBlog({ userId, categories, pathname }) {
   return (

@@ -4,7 +4,7 @@ import { MoreVertical, PenTool, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import BlogForm from "./BlogForm";
+import BlogForm from "./blog-form";
 
 import {
   AlertDialog,
