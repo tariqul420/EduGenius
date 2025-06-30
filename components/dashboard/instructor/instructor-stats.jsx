@@ -16,7 +16,7 @@ import {
   getTotalStudentStats,
 } from "@/lib/actions/stats.action";
 
-export async function SectionCards() {
+export async function InstructorStats() {
   const revenueStats = await getRevenueStats();
   const studentsStats = await getTotalStudentStats();
   const enrolmentStats = await getTotalEnrolmentStats();
