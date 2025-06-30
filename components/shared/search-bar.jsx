@@ -1,12 +1,16 @@
 "use client";
 
-import { Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
+import { Input } from "../ui/input";
 
-export default function SearchInput() {
+import { cn, formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
+
+export default function SearchBar({
+  placeholder = "Search by Title",
+  className,
+}) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
@@ -34,15 +38,14 @@ export default function SearchInput() {
   }, [searchQuery, searchParams, router]);
 
   return (
-    <div className="search-bar flex items-center gap-1 rounded border border-gray-300 px-2 py-1 dark:border-gray-800">
-      <input
+    <div className="bg-light flex items-center gap-2 overflow-hidden rounded-md dark:bg-transparent">
+      <Input
         type="text"
+        placeholder={placeholder}
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="w-full outline-none sm:min-w-[220px]"
-        placeholder="Search by Category"
+        className={cn(className)}
       />
-      <Search className="dark:text-gray-400" size="18" />
     </div>
   );
 }

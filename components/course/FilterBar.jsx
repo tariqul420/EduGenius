@@ -2,7 +2,7 @@
 import { LayoutGrid, LayoutList, TableOfContents } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import SearchInput from "../shared/SearchInput";
+import SearchInput from "../shared/search-bar";
 import {
   Select,
   SelectContent,
@@ -45,7 +45,7 @@ const FilterBar = ({ courses, total, categories }) => {
   }
 
   return (
-    <div className="filter-bar dark:text-light-bg container mx-auto my-3 flex min-h-[60px] flex-col justify-between rounded border from-white to-white dark:from-black dark:to-black px-2 py-4 shadow-md md:flex-row lg:max-w-6xl dark:bg-gradient-to-b dark:shadow-zinc-900">
+    <div className="filter-bar dark:text-light-bg container mx-auto my-3 flex min-h-[60px] flex-col justify-between rounded border from-white to-white px-2 py-4 shadow-md md:flex-row lg:max-w-6xl dark:bg-gradient-to-b dark:from-black dark:to-black dark:shadow-zinc-900">
       <div className="left-content order-2 mt-5 flex items-center gap-4 text-2xl md:order-1 md:mt-0">
         <Sheet>
           <SheetTrigger>
