@@ -21,6 +21,7 @@ export default async function Assignment({ searchParams }) {
           data={assignments || []}
           columns={instructorAssignmentColumns || []}
           uniqueIdProperty="_id"
+          enableRowSelection={false}
         />
       </div>
     </section>

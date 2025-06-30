@@ -21,6 +21,7 @@ export default async function Quiz({ searchParams }) {
           data={quizzes || []}
           columns={instructorQuizColumns || []}
           uniqueIdProperty="_id"
+          enableRowSelection={false}
         />
       </div>
     </section>
