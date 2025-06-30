@@ -10,9 +10,9 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 
-import FilterItem from "@/components/blogs/FilterItem";
+import BlogFilterItem from "@/components/blogs/blog-filter-item";
 
-const FilterBar = ({ blogs, total, categories }) => {
+const BlogFilterBar = ({ blogs, total, categories }) => {
   return (
     <>
       <div className="filter-bar items-left container mx-auto my-3 flex min-h-[60px] flex-col justify-between rounded-md border bg-white px-2 py-4 shadow-md md:flex-row lg:max-w-6xl dark:border-gray-800 dark:bg-black dark:text-gray-400">
@@ -28,7 +28,7 @@ const FilterBar = ({ blogs, total, categories }) => {
               <SheetHeader>
                 <SheetTitle>Filter Options Of Courses</SheetTitle>
               </SheetHeader>
-              <FilterItem categories={categories} />
+              <BlogFilterItem categories={categories} />
             </SheetContent>
           </Sheet>
           <p className="text-sm">
@@ -45,4 +45,4 @@ const FilterBar = ({ blogs, total, categories }) => {
   );
 };
 
-export default FilterBar;
+export default BlogFilterBar;

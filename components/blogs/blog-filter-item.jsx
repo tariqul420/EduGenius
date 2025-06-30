@@ -1,6 +1,6 @@
 import CheckCategory from "@/components/shared/CheckCategory";
 
-export function FilterItem({ categories }) {
+export function BlogFilterItem({ categories }) {
   return (
     <>
       <div className="category-filter">
@@ -19,4 +19,4 @@ export function FilterItem({ categories }) {
   );
 }
 
-export default FilterItem;
+export default BlogFilterItem;
