@@ -394,12 +394,16 @@ export const instructorStudentColumns = [
     header: "Phone",
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge
-          variant="outline"
-          className="text-muted-foreground rounded px-1.5 py-1"
-        >
-          {row.original.phone}
-        </Badge>
+        {row.original.phone ? (
+          <Badge
+            variant="outline"
+            className="text-muted-foreground rounded px-1.5 py-1"
+          >
+            {row.original.phone}
+          </Badge>
+        ) : (
+          <p>Not provided</p>
+        )}
       </div>
     ),
   },
@@ -409,12 +413,16 @@ export const instructorStudentColumns = [
 
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge
-          variant="outline"
-          className="text-muted-foreground rounded px-1.5 py-1"
-        >
-          {row.original.address}
-        </Badge>
+        {row.original.address ? (
+          <Badge
+            variant="outline"
+            className="text-muted-foreground rounded px-1.5 py-1"
+          >
+            {row.original.address}
+          </Badge>
+        ) : (
+          <p>Not provided</p>
+        )}
       </div>
     ),
   },

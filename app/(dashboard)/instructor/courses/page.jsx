@@ -30,6 +30,10 @@ export default async function Courses({ searchParams }) {
           data={courses || []}
           columns={instructorCourseColumns || []}
           uniqueIdProperty="_id"
+          actionLink={{
+            href: "/instructor/courses/add-course",
+            label: "Add Course",
+          }}
         />
       </div>
     </section>

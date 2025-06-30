@@ -30,6 +30,7 @@ export default async function Student({ searchParams }) {
           data={students || []}
           columns={instructorStudentColumns || []}
           uniqueIdProperty="studentId"
+          enableRowSelection={false}
         />
       </div>
     </section>
