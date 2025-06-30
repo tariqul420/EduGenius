@@ -1,5 +1,5 @@
 import DataTable from "@/components/dashboard/data-table";
-import { studentPaymentHistoryColumns } from "@/constant/columns";
+import { studentPaymentHistoryColumns } from "@/components/dashboard/table-columns";
 import { getPaymentHistory } from "@/lib/actions/payment.action";
 
 export default async function PaymentHistory({ searchParams }) {

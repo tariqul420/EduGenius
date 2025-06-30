@@ -1,6 +1,6 @@
 import DataTable from "@/components/dashboard/data-table";
 import AssignmentStats from "@/components/dashboard/student/AssignmentStats";
-import { studentAssignmentColumns } from "@/constant/columns";
+import { studentAssignmentColumns } from "@/components/dashboard/table-columns";
 import { getAssignmentsForStudent } from "@/lib/actions/assignment.action";
 
 export default async function StudentAssignment({ searchParams }) {

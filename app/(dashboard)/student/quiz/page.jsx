@@ -1,5 +1,5 @@
 import DataTable from "@/components/dashboard/data-table";
-import { studentQuizColumns } from "@/constant/columns";
+import { studentQuizColumns } from "@/components/dashboard/table-columns";
 import { getQuizzesForStudent } from "@/lib/actions/quiz.action";
 
 export default async function Quiz({ searchParams }) {

@@ -3,8 +3,8 @@ import { Suspense } from "react";
 import DataTable from "@/components/dashboard/data-table";
 import AIRecommendations from "@/components/dashboard/student/AIRecommendations";
 import StudentDashboard from "@/components/dashboard/student/DashboardStats";
+import { studentCertificateColumns } from "@/components/dashboard/table-columns";
 import { Skeleton } from "@/components/ui/skeleton";
-import { studentCertificateColumns } from "@/constant/columns";
 import { getCertificateByStudent } from "@/lib/actions/certificate.action";
 import { getStudentDashboardStats } from "@/lib/actions/stats.action";
 

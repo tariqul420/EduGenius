@@ -1,5 +1,5 @@
 import DataTable from "@/components/dashboard/data-table";
-import { adminStudentColumns } from "@/constant/columns";
+import { adminStudentColumns } from "@/components/dashboard/table-columns";
 import { getStudents } from "@/lib/actions/student.action";
 
 export default async function AdminStudents({ searchParams }) {

@@ -1,8 +1,8 @@
 import { AdminStats } from "@/components/dashboard/admin/AdminStats";
 import { ChartAreaInteractive } from "@/components/dashboard/chart-area-interactive";
 import DataTable from "@/components/dashboard/data-table";
+import { adminInstructorColumns } from "@/components/dashboard/table-columns";
 import { SidebarInset } from "@/components/ui/sidebar";
-import { adminInstructorColumns } from "@/constant/columns";
 import { getInstructorByAdmin } from "@/lib/actions/instructor.action";
 import { courseSellingData } from "@/lib/actions/stats.action";
 

@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 
 import DataTable from "@/components/dashboard/data-table";
 import BlogForm from "@/components/dashboard/instructor/BlogForm";
-import { blogColumns } from "@/constant/columns";
+import { blogColumns } from "@/components/dashboard/table-columns";
 import { getBlogsByInstructor } from "@/lib/actions/blog.action";
 import { getCategory } from "@/lib/actions/category.action";
 
