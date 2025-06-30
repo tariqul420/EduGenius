@@ -13,7 +13,7 @@ import Link from "next/link";
 import InfiniteScroll from "../shared/InfiniteScroll";
 import TextSeeMore from "../shared/text-see-more";
 
-import ReviewCard from "./ReviewCard";
+import ReviewCard from "./review-card";
 
 import AvgRating from "@/components/shared/AvgRating";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

@@ -1,4 +1,4 @@
-import { AdminStats } from "@/components/dashboard/admin/AdminStats";
+import { AdminStats } from "@/components/dashboard/admin/admin-stats";
 import { ChartAreaInteractive } from "@/components/dashboard/chart-area-interactive";
 import DataTable from "@/components/dashboard/data-table";
 import { adminInstructorColumns } from "@/components/dashboard/table-columns";

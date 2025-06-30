@@ -5,9 +5,9 @@ import { format } from "date-fns";
 import { Monitor, MonitorPlay, MoreHorizontal } from "lucide-react";
 import Image from "next/image";
 
-import BecomeInstructorInfoModal from "@/components/dashboard/admin/BecomeInstructorInfoModal";
-import { EditCategoryModal } from "@/components/dashboard/admin/EditCategoryModal";
-import TerminateInstructor from "@/components/dashboard/admin/TerminateInstructor";
+import BecomeInstructorInfoModal from "@/components/dashboard/admin/become-instructor-info-modal";
+import { EditCategoryModal } from "@/components/dashboard/admin/edit-category-modal";
+import TerminateInstructor from "@/components/dashboard/admin/terminate-instructor";
 import {
   createDragColumn,
   createSelectionColumn,

@@ -2,7 +2,7 @@ import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 
-import CoursesTab from "../../../../components/course/CoursesTab";
+import CoursesTab from "../../../../components/course/course-tab";
 
 import CourseVideo from "@/components/course/course-video";
 import PaymentModal from "@/components/payment/payment-modal";

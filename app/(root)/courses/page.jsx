@@ -1,6 +1,6 @@
-import CoursesContent from "@/components/course/CoursesContent";
-import FilterBar from "@/components/course/FilterBar";
-import FilterItem from "@/components/course/FilterItem";
+import CoursesContent from "@/components/course/course-content";
+import CourseFilterBar from "@/components/course/course-filter-bar";
+import CourseFilterItem from "@/components/course/course-filter-item";
 import { getCategory } from "@/lib/actions/category.action";
 import { getCourses } from "@/lib/actions/course.action";
 
@@ -29,13 +29,17 @@ export default async function Course({ searchParams }) {
       <div className="container mx-auto px-2 md:px-5 lg:max-w-6xl">
         {/* Filter Bar */}
         <div className="bg-white dark:bg-black">
-          <FilterBar total={total} courses={courses} categories={categories} />
+          <CourseFilterBar
+            total={total}
+            courses={courses}
+            categories={categories}
+          />
         </div>
         {/* Courses Content Section */}
         <div className="mt-6 flex justify-between gap-5 md:mt-8">
           <CoursesContent courses={courses} hasNextPage={hasNextPage} />
           <div className="courses-filter hidden min-w-[250px] rounded-md bg-white px-4 py-4 shadow-md lg:block dark:bg-black">
-            <FilterItem categories={categories} />
+            <CourseFilterItem categories={categories} />
           </div>
         </div>
       </div>

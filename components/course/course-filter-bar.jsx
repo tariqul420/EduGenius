@@ -18,11 +18,11 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 
-import FilterItem from "@/components/course/FilterItem";
+import CourseFilterItem from "@/components/course/course-filter-item";
 import useProvider from "@/hooks/useProvider";
 import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 
-const FilterBar = ({ courses, total, categories }) => {
+const CourseFilterBar = ({ courses, total, categories }) => {
   const { setIsGridCol } = useProvider();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -58,7 +58,7 @@ const FilterBar = ({ courses, total, categories }) => {
             <SheetHeader>
               <SheetTitle>Filter Options Of Courses</SheetTitle>
             </SheetHeader>
-            <FilterItem categories={categories} />
+            <CourseFilterItem categories={categories} />
           </SheetContent>
         </Sheet>
 
@@ -99,4 +99,4 @@ const FilterBar = ({ courses, total, categories }) => {
   );
 };
 
-export default FilterBar;
+export default CourseFilterBar;
