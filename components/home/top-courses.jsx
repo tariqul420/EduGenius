@@ -1,6 +1,6 @@
 import CourseCard from "../shared/CourseCard";
 
-import TopCoursesBtn from "./TopCoursesBtn";
+import TopCoursesBtn from "./top-courses-btn";
 
 import Heading from "@/components/shared/Heading";
 import NoResult from "@/components/shared/NoResult";

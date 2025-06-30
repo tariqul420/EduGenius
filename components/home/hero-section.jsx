@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { BorderBeam } from "../magicui/border-beam";
 
-import { ParticlesDemo } from "./HeroPerticals";
+import { ParticlesDemo } from "./hero-perticals";
 // import { AuroraText } from "../magicui/aurora-text";
 
 function HeroSection() {

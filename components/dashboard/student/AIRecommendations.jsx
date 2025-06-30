@@ -3,7 +3,7 @@
 import { Sparkle } from "lucide-react"; // Using Sparkle icon from lucide-react
 import { useEffect, useState } from "react";
 
-import SparkleIcon from "@/components/icons/SparkleIcon"; // Assuming this is a custom icon
+import SparkleIcon from "@/components/icons/sparkle-icon"; // Assuming this is a custom icon
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";

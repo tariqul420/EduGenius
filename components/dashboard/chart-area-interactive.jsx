@@ -4,7 +4,17 @@ import * as React from "react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+
+import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -33,7 +43,7 @@ const chartConfig = {
   },
   revenue: {
     label: "Total Revenue",
-    color: "#10B981", // New color for revenue (emerald green)
+    color: "#10B981",
   },
 };
 
@@ -71,7 +81,7 @@ export function ChartAreaInteractive({ data = [] }) {
           </span>
           <span className="@[540px]/card:hidden">Last 3 months</span>
         </CardDescription>
-        {/* <CardAction>
+        <CardAction>
           <ToggleGroup
             type="single"
             value={timeRange}
@@ -103,7 +113,7 @@ export function ChartAreaInteractive({ data = [] }) {
               </SelectItem>
             </SelectContent>
           </Select>
-        </CardAction> */}
+        </CardAction>
       </CardHeader>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer

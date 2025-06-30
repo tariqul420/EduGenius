@@ -1,6 +1,6 @@
 import FilterBar from "@/components/blogs/FilterBar";
 import FilterItem from "@/components/blogs/FilterItem";
-import InsightsCard from "@/components/home/InsightsCard";
+import InsightsCard from "@/components/home/insights-card";
 import InfiniteScroll from "@/components/shared/InfiniteScroll";
 import NoResult from "@/components/shared/NoResult";
 import { getBlogs } from "@/lib/actions/blog.action";
@@ -51,7 +51,7 @@ const BlogPage = async ({ searchParams }) => {
           </div>
 
           {/* Sidebar (Categories) */}
-          <div className="courses-filter dark:bg-black col-span-3 hidden rounded-md bg-white px-4 py-1.5 shadow-md lg:block">
+          <div className="courses-filter col-span-3 hidden rounded-md bg-white px-4 py-1.5 shadow-md lg:block dark:bg-black">
             <FilterItem categories={categories} />
           </div>
         </div>

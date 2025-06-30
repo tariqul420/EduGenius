@@ -5,7 +5,7 @@ import Link from "next/link";
 import CoursesTab from "../../../../components/course/CoursesTab";
 
 import CourseVideo from "@/components/course/course-video";
-import PaymentModal from "@/components/payment/PaymentModal";
+import PaymentModal from "@/components/payment/payment-modal";
 import CourseCard from "@/components/shared/CourseCard";
 import { getCourseBySlug, getCourses } from "@/lib/actions/course.action";
 

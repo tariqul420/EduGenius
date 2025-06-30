@@ -1,5 +1,5 @@
-import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { AdminStats } from "@/components/dashboard/admin/AdminStats";
+import { ChartAreaInteractive } from "@/components/dashboard/chart-area-interactive";
 import DataTable from "@/components/dashboard/data-table";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { adminInstructorColumns } from "@/constant/columns";

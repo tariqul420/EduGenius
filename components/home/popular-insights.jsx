@@ -1,4 +1,4 @@
-import InsightsCard from "./InsightsCard";
+import InsightsCard from "./insights-card";
 
 import Heading from "@/components/shared/Heading";
 

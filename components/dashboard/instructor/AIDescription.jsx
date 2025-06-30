@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import SparkleIcon from "@/components/icons/SparkleIcon";
+import SparkleIcon from "@/components/icons/sparkle-icon";
 import { Button } from "@/components/ui/button";
 import { getDescriptionRecommendations } from "@/lib/actions/ai.action";
 
@@ -45,24 +45,25 @@ export default function AIDescription({ title, category, level, onSelect }) {
         </div>
       )}
 
-      {suggestions && suggestions.map((suggestion, index) => (
-        <div
-          key={index}
-          className="bg-card hover:bg-accent rounded-lg border p-4"
-        >
-          <div className="mb-2 flex items-start justify-between">
-            <SparkleIcon className="text-primary mt-1 h-4 w-4" />
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onSelect?.(suggestion.value)}
-            >
-              Use This
-            </Button>
+      {suggestions &&
+        suggestions.map((suggestion, index) => (
+          <div
+            key={index}
+            className="bg-card hover:bg-accent rounded-lg border p-4"
+          >
+            <div className="mb-2 flex items-start justify-between">
+              <SparkleIcon className="text-primary mt-1 h-4 w-4" />
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => onSelect?.(suggestion.value)}
+              >
+                Use This
+              </Button>
+            </div>
+            <p className="text-sm whitespace-pre-line">{suggestion.value}</p>
           </div>
-          <p className="text-sm whitespace-pre-line">{suggestion.value}</p>
-        </div>
-      ))}
+        ))}
     </div>
   );
 }

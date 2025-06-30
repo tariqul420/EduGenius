@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import SparkleIcon from "@/components/icons/SparkleIcon";
+import SparkleIcon from "@/components/icons/sparkle-icon";
 import { Button } from "@/components/ui/button";
 import { getAssignmentDescriptionRecommendations } from "@/lib/actions/ai.action";
 

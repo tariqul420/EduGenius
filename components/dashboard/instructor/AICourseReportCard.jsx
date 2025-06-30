@@ -1,6 +1,6 @@
 import { AlertCircle, Rocket, Share2, TrendingUp } from "lucide-react";
 
-import SparkleIcon from "@/components/icons/SparkleIcon";
+import SparkleIcon from "@/components/icons/sparkle-icon";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 
@@ -59,19 +59,20 @@ export default function AICourseReportCard({ report }) {
             </h3>
           </div>
           <ul className="flex-1 space-y-3">
-            {topCourses && topCourses?.map((course, idx) => (
-              <li key={idx} className="flex items-center gap-2">
-                <Badge
-                  variant="success"
-                  className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200"
-                >
-                  #{idx + 1}
-                </Badge>
-                <span className="text-gray-600 dark:text-gray-300">
-                  {course}
-                </span>
-              </li>
-            ))}
+            {topCourses &&
+              topCourses?.map((course, idx) => (
+                <li key={idx} className="flex items-center gap-2">
+                  <Badge
+                    variant="success"
+                    className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200"
+                  >
+                    #{idx + 1}
+                  </Badge>
+                  <span className="text-gray-600 dark:text-gray-300">
+                    {course}
+                  </span>
+                </li>
+              ))}
           </ul>
         </Card>
 

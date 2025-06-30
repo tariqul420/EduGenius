@@ -4,7 +4,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
 import { useState } from "react";
 
-import CheckOutForm from "./CheckOutForm";
+import CheckOutForm from "./check-out-form";
 
 import {
   AlertDialog,

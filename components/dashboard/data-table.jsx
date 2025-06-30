@@ -36,8 +36,8 @@ import React from "react";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
 
-import DataTableColumnSelector from "@/components/shared/DataTableColumnSelector";
-import DataTableFooter from "@/components/shared/DataTableFooter";
+import DataTableColumnSelector from "@/components/dashboard/data-table-column-selector";
+import DataTableFooter from "@/components/dashboard/data-table-footer";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -236,7 +236,7 @@ export default function DataTable({
                 <span>Add course</span>
               </Link>
             ) : null}
-            <div className="dark:bg-transparent rounded-md flex items-center gap-2 overflow-hidden bg-white">
+            <div className="flex items-center gap-2 overflow-hidden rounded-md bg-white dark:bg-transparent">
               <Input
                 type="text"
                 value={searchQuery}
@@ -305,13 +305,13 @@ export default function DataTable({
             </Table>
           </DndContext>
         </div>
- 
-          <DataTableFooter
-            table={table}
-            pageIndex={pagination.pageIndex}
-            pageSize={pageSize}
-            total={total}
-          />
+
+        <DataTableFooter
+          table={table}
+          pageIndex={pagination.pageIndex}
+          pageSize={pageSize}
+          total={total}
+        />
       </TabsContent>
     </Tabs>
   );

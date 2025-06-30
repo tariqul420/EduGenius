@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 
-import { ChartAreaInteractive } from "@/components/chart-area-interactive";
+import { ChartAreaInteractive } from "@/components/dashboard/chart-area-interactive";
 import DataTable from "@/components/dashboard/data-table";
 import AICourseReportCard from "@/components/dashboard/instructor/AICourseReportCard";
 import { SectionCards } from "@/components/section-cards";

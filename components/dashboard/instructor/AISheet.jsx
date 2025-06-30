@@ -1,4 +1,4 @@
-import SparkleIcon from "@/components/icons/SparkleIcon";
+import SparkleIcon from "@/components/icons/sparkle-icon";
 import {
   Sheet,
   SheetContent,

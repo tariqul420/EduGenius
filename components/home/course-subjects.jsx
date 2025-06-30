@@ -1,5 +1,5 @@
-import OrbitingCircle from "./OrbitingCircle";
-import VerticalMarquee from "./VerticalMarquee";
+import OrbitingCircle from "./orbiting-circle";
+import VerticalMarquee from "./vertical-marquee";
 
 import Heading from "@/components/shared/Heading";
 

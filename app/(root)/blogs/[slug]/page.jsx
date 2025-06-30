@@ -12,7 +12,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-import InsightsCard from "@/components/home/InsightsCard";
+import InsightsCard from "@/components/home/insights-card";
 import CommentCard from "@/components/shared/CommentCard";
 import InfiniteScroll from "@/components/shared/InfiniteScroll";
 import { SendComment } from "@/components/shared/SendComment";
