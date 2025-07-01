@@ -2,7 +2,7 @@ import { Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { ReviewModal } from "./ReviewModal";
+import { ReviewModal } from "./review-modal";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -39,7 +39,7 @@ export default async function CourseCard({ course }) {
             sizes="100vw"
           />
           <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <div className="bg-gradient-to-l shadow-2xl from-dark-main to-dark-btn/90">
+            <div className="from-dark-main to-dark-btn/90 bg-gradient-to-l shadow-2xl">
               <Play className="m-1 h-8 w-8 rounded-full text-white shadow-md" />
             </div>
           </div>

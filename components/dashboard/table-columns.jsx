@@ -14,9 +14,9 @@ import {
 } from "@/components/dashboard/data-table";
 import DeleteBlogModal from "@/components/dashboard/instructor/delete-blog-modal";
 import TableContextMenu from "@/components/dashboard/instructor/table-context-menu";
-import AssignmentSubmitModal from "@/components/dashboard/student/AssignmentSubmitModal";
-import CertificatePDF from "@/components/dashboard/student/CertificatePDF";
-import QuizModal from "@/components/dashboard/student/QuizeModal";
+import AssignmentSubmitModal from "@/components/dashboard/student/assignment-submit-modal";
+import CertificatePDF from "@/components/dashboard/student/certificate-pdf";
+import QuizModal from "@/components/dashboard/student/quize-modal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

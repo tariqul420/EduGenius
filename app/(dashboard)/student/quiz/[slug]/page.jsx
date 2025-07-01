@@ -1,4 +1,4 @@
-import QuizSubmission from "@/components/dashboard/student/QuizSubmission";
+import QuizSubmission from "@/components/dashboard/student/quiz-submission";
 import { getQuizForCourseSlug } from "@/lib/actions/quiz.action";
 
 export default async function QuizSubmissionPage({ params }) {

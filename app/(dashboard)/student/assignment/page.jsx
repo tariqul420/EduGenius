@@ -1,5 +1,5 @@
 import DataTable from "@/components/dashboard/data-table";
-import AssignmentStats from "@/components/dashboard/student/AssignmentStats";
+import AssignmentStats from "@/components/dashboard/student/assignment-stats";
 import { studentAssignmentColumns } from "@/components/dashboard/table-columns";
 import { getAssignmentsForStudent } from "@/lib/actions/assignment.action";
 
