@@ -1,16 +1,16 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
 
-import Assignment from "./Assignment";
-import Certificate from "./Certificate";
-import Instructor from "./Instructor";
-import Lesson from "./Lesson";
-import Module from "./Module";
-import Payment from "./Payment";
-import Progress from "./Progress";
-import Quiz from "./Quiz";
-import Rating from "./Review";
-import Student from "./Student";
+import Assignment from "./assignment.model";
+import Certificate from "./certificate.model";
+import Instructor from "./instructor.model";
+import Lesson from "./lesson.model";
+import Module from "./module.model";
+import Payment from "./payment.model";
+import Progress from "./progress.model";
+import Quiz from "./quiz.model";
+import Rating from "./review.model";
+import Student from "./student.model";
 
 const courseSchema = new mongoose.Schema(
   {

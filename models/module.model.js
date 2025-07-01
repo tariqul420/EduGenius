@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
 
-import Lesson from "./Lesson";
+import Lesson from "./lesson.model";
 
 const moduleSchema = new mongoose.Schema(
   {

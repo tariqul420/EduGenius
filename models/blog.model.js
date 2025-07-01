@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
 
-import Category from "./Category";
-import User from "./User";
+import Category from "./category.model";
+import User from "./user.model";
 
 const blogSchema = new mongoose.Schema(
   {

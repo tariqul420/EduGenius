@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import Course from "./Course";
+import Course from "./course.model";
 
 const reviewSchema = new mongoose.Schema(
   {

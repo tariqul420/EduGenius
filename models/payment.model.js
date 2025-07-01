@@ -1,12 +1,12 @@
 /* eslint-disable no-shadow */
 import mongoose from "mongoose";
 
-import Course from "./Course";
-import Instructor from "./Instructor";
-import Notification from "./Notification";
-import Progress from "./Progress";
-import Student from "./Student";
-import User from "./User";
+import Course from "./course.model";
+import Instructor from "./instructor.model";
+import Notification from "./notification.model";
+import Progress from "./progress.model";
+import Student from "./student.model";
+import User from "./user.model";
 
 const paymentSchema = new mongoose.Schema(
   {
