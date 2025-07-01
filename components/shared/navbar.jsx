@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/sheet";
 
 function Navbar() {
-  const { isSignedIn } = useUser();
+  const { isSignedIn, user } = useUser();
   const pathname = usePathname();
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -57,7 +57,7 @@ function Navbar() {
     { href: "/blogs", label: "Blog" },
     { href: "/courses", label: "Courses" },
     { href: "/instructors", label: "Instructors" },
-    isSignedIn && { href: "/student", label: "Dashboard" },
+    isSignedIn && { href: `/${user?.publicMetadata.role}`, label: "Dashboard" },
   ].filter(Boolean);
 
   return (
