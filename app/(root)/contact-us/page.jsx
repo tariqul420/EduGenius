@@ -32,7 +32,7 @@ const ContactPage = () => {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (_data) => {
     toast.success("Your message has been sent!");
     form.reset();
   };
