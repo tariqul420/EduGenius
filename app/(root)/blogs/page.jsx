@@ -1,8 +1,8 @@
 import BlogFilterBar from "@/components/blogs/blog-filter-bar";
 import BlogFilterItem from "@/components/blogs/blog-filter-item";
 import InsightsCard from "@/components/home/insights-card";
-import InfiniteScroll from "@/components/shared/InfiniteScroll";
-import NoResult from "@/components/shared/NoResult";
+import InfiniteScroll from "@/components/shared/infinite-scroll";
+import NoResult from "@/components/shared/no-result";
 import { getBlogs } from "@/lib/actions/blog.action";
 import { getCategory } from "@/lib/actions/category.action";
 

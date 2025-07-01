@@ -1,9 +1,9 @@
-import CourseCard from "../shared/CourseCard";
+import CourseCard from "../shared/course-card";
 
 import TopCoursesBtn from "./top-courses-btn";
 
-import Heading from "@/components/shared/Heading";
-import NoResult from "@/components/shared/NoResult";
+import Heading from "@/components/shared/heading";
+import NoResult from "@/components/shared/no-result";
 
 const TopCourses = async ({ courses, categories }) => {
   return (

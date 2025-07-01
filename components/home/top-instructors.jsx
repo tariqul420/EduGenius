@@ -1,6 +1,6 @@
-import SlidePrViewSlider from "../shared/SlidePerViewSlider";
+import SlidePrViewSlider from "../shared/slide-per-view-slider";
 
-import Heading from "@/components/shared/Heading";
+import Heading from "@/components/shared/heading";
 
 export default function TopInstructors({ bestInstructors }) {
   return (

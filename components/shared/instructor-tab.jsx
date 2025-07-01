@@ -3,8 +3,8 @@
 import { Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 
-import AvgRating from "./AvgRating";
-import InstructorContactForm from "./InstructorContactForm";
+import AvgRating from "./avg-rating";
+import InstructorContactForm from "./instructor-contact-form";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 

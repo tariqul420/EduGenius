@@ -1,7 +1,7 @@
 "use client";
-import CourseCard from "../shared/CourseCard";
-import InfiniteScroll from "../shared/InfiniteScroll";
-import EmptyPage from "../shared/NoResult";
+import CourseCard from "../shared/course-card";
+import InfiniteScroll from "../shared/infinite-scroll";
+import EmptyPage from "../shared/no-result";
 
 import useProvider from "@/hooks/useProvider";
 

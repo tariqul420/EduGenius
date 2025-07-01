@@ -1,6 +1,6 @@
 import InsightsCard from "./insights-card";
 
-import Heading from "@/components/shared/Heading";
+import Heading from "@/components/shared/heading";
 
 const PopularInsights = async ({ blogs }) => {
   return (

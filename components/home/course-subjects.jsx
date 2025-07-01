@@ -1,7 +1,7 @@
 import OrbitingCircle from "./orbiting-circle";
 import VerticalMarquee from "./vertical-marquee";
 
-import Heading from "@/components/shared/Heading";
+import Heading from "@/components/shared/heading";
 
 const CourseSubjects = () => {
   return (

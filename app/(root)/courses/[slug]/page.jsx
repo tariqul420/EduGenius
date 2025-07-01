@@ -6,7 +6,7 @@ import CoursesTab from "../../../../components/course/course-tab";
 
 import CourseVideo from "@/components/course/course-video";
 import PaymentModal from "@/components/payment/payment-modal";
-import CourseCard from "@/components/shared/CourseCard";
+import CourseCard from "@/components/shared/course-card";
 import { getCourseBySlug, getCourses } from "@/lib/actions/course.action";
 
 const CourseDetails = async ({ params, searchParams }) => {

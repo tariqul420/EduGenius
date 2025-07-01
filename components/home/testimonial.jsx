@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import Heading from "@/components/shared/Heading";
+import Heading from "@/components/shared/heading";
 
 const users = [
   {

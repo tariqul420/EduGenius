@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 
 import CourseCard from "@/components/dashboard/student/course-card";
-import NoResult from "@/components/shared/NoResult";
+import NoResult from "@/components/shared/no-result";
 import { getCourseForEnrollStudent } from "@/lib/actions/course.action";
 
 export default async function StudentCourse() {

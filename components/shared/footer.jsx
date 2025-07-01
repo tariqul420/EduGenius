@@ -2,7 +2,7 @@ import { IconBrandAppstore, IconBrandGooglePlay } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import EduLogo from "./EduLogo";
+import EduLogo from "./edu-logo";
 
 const Footer = () => {
   return (

@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import Image from "next/image";
 
-import AvgRating from "../shared/AvgRating";
+import AvgRating from "../shared/avg-rating";
 import TextSeeMore from "../shared/text-see-more";
 
 export default function ReviewCard({ review }) {

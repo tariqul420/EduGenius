@@ -10,12 +10,12 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-import InfiniteScroll from "../shared/InfiniteScroll";
+import InfiniteScroll from "../shared/infinite-scroll";
 import TextSeeMore from "../shared/text-see-more";
 
 import ReviewCard from "./review-card";
 
-import AvgRating from "@/components/shared/AvgRating";
+import AvgRating from "@/components/shared/avg-rating";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getSingleCourseReview } from "@/lib/actions/review.action";
 

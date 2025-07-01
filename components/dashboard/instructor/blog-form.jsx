@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { createBlog, updateBlog } from "@/lib/actions/blog.action";
-import ImageUploadCloud from "@/lib/ImageUploadCloud";
+import ImageUploadCloud from "@/lib/image-upload-cloud";
 
 // Define the schema using Zod
 const blogSchema = z.object({

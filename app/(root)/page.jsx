@@ -6,7 +6,7 @@ import Testimonial from "@/components/home/testimonial";
 import TopCourses from "@/components/home/top-courses";
 import TopInstructors from "@/components/home/top-instructors";
 import TotalCourse from "@/components/home/total-course";
-import OurAchieve from "@/components/shared/OurAchieve";
+import OurAchieve from "@/components/shared/our-achieve";
 import { getBlogs } from "@/lib/actions/blog.action";
 import { getCategory } from "@/lib/actions/category.action";
 import { getCourses } from "@/lib/actions/course.action";

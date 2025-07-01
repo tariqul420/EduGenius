@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
-import EduLogo from "./EduLogo";
+import EduLogo from "./edu-logo";
 
 import ThemeBtn from "@/components/shared/ThemeBtn";
 import {
@@ -164,7 +164,7 @@ function Navbar() {
                 <SheetClose asChild>
                   <Link
                     href="/sign-in"
-                    className="bg-main dark:bg-sub-main ml-2 hover:bg-medium-bg mt-3 flex w-fit items-center rounded py-2 pr-6 pl-1.5 transition duration-200 hover:text-gray-800"
+                    className="bg-main dark:bg-sub-main hover:bg-medium-bg mt-3 ml-2 flex w-fit items-center rounded py-2 pr-6 pl-1.5 transition duration-200 hover:text-gray-800"
                   >
                     <LogIn className="mr-1.5" size={18} />
                     Login

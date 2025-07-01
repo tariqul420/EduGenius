@@ -23,7 +23,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense } from "react";
 
-import EduLogo from "../shared/EduLogo";
+import EduLogo from "../shared/edu-logo";
 
 import AdditionalInfoForm from "./instructor/additional-info-form";
 import BecomeInstructorForm from "./student/become-instructor-form";

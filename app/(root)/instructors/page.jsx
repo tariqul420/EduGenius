@@ -1,6 +1,6 @@
-import InstructorCard from "@/components/shared/InstructorCard";
-import LoadMore from "@/components/shared/LoadMore";
-import SlidePrViewSlider from "@/components/shared/SlidePerViewSlider";
+import InstructorCard from "@/components/shared/instructor-card";
+import LoadMore from "@/components/shared/load-more";
+import SlidePrViewSlider from "@/components/shared/slide-per-view-slider";
 import { getInstructors } from "@/lib/actions/instructor.action";
 
 export default async function Instructors({ searchParams }) {

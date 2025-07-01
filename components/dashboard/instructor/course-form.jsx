@@ -14,7 +14,7 @@ import AIDescription from "./ai-description";
 import AISheet from "./ai-sheet";
 import AiTitles from "./ai-titles";
 
-import CategoryForm from "@/components/shared/CategoryForm";
+import CategoryForm from "@/components/shared/category-form";
 import { Button } from "@/components/ui/button";
 import {
   Form,

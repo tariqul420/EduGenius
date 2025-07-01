@@ -1,4 +1,4 @@
-import CheckCategory from "@/components/shared/CheckCategory";
+import CheckCategory from "@/components/shared/check-category";
 
 export function BlogFilterItem({ categories }) {
   return (
