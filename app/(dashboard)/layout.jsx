@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 
-import { AppSidebar } from "@/components/dashboard/AppSidebar";
-import NotificationsBell from "@/components/shared/NotificationsBell";
+import { AppSidebar } from "@/components/dashboard/dashboard-sidebar";
+import NotificationsBell from "@/components/shared/notifications-bell";
 import ThemeBtn from "@/components/shared/ThemeBtn";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { sidebar } from "@/constant";

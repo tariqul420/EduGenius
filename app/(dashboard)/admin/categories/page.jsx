@@ -1,5 +1,5 @@
 import DataTable from "@/components/dashboard/data-table";
-import { categoryColumns } from "@/constant/columns";
+import { categoryColumns } from "@/components/dashboard/table-columns";
 import { getCategories } from "@/lib/actions/category.action";
 
 export default async function AdminCategory({ searchParams }) {

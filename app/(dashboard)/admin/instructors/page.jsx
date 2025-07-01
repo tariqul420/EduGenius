@@ -1,5 +1,5 @@
 import DataTable from "@/components/dashboard/data-table";
-import { adminInstructorColumns } from "@/constant/columns";
+import { adminInstructorColumns } from "@/components/dashboard/table-columns";
 import { getInstructorByAdmin } from "@/lib/actions/instructor.action";
 
 export default async function AdminInstructors({ searchParams }) {

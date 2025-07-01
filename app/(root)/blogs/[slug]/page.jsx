@@ -12,10 +12,10 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-import InsightsCard from "@/components/home/InsightsCard";
-import CommentCard from "@/components/shared/CommentCard";
-import InfiniteScroll from "@/components/shared/InfiniteScroll";
-import { SendComment } from "@/components/shared/SendComment";
+import InsightsCard from "@/components/home/insights-card";
+import CommentCard from "@/components/shared/comment-card";
+import InfiniteScroll from "@/components/shared/infinite-scroll";
+import { SendComment } from "@/components/shared/send-comment";
 import TextSeeMore from "@/components/shared/text-see-more";
 import { getBlogBySlug, getBlogs } from "@/lib/actions/blog.action";
 import { getCommentsByBlogId } from "@/lib/actions/comment.action";

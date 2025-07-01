@@ -1,6 +1,6 @@
-import ModulesList from "@/components/dashboard/student/ModuleList";
-import Player from "@/components/dashboard/student/Player";
-import QuizAssignment from "@/components/dashboard/student/QuizAssignment";
+import ModulesList from "@/components/dashboard/student/module-list";
+import Player from "@/components/dashboard/student/player";
+import QuizAssignment from "@/components/dashboard/student/quiz-assignment";
 import TextSeeMore from "@/components/shared/text-see-more";
 import { getCourseStudentBySlug } from "@/lib/actions/course.action";
 import { getModules } from "@/lib/actions/curriculum.action";

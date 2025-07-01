@@ -8,8 +8,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
-import AvgRating from "@/components/shared/AvgRating";
-import InstructorTab from "@/components/shared/InstructorTab";
+import AvgRating from "@/components/shared/avg-rating";
+import InstructorTab from "@/components/shared/instructor-tab";
 import { getInstructorBySlug } from "@/lib/actions/instructor.action";
 
 export default async function Instructor({ params }) {

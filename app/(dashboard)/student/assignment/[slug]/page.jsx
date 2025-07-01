@@ -8,7 +8,7 @@ import {
   UserIcon,
 } from "lucide-react";
 
-import AssignmentSubmitForm from "@/components/dashboard/student/AssignmentSubmitForm";
+import AssignmentSubmitForm from "@/components/dashboard/student/assignment-submit-form";
 import TextSeeMore from "@/components/shared/text-see-more";
 import { Badge } from "@/components/ui/badge";
 import { getAssignmentForCourseSlug } from "@/lib/actions/assignment.action";

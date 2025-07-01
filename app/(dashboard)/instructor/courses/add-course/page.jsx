@@ -1,4 +1,4 @@
-import CourseForm from "@/components/dashboard/instructor/CourseForm";
+import CourseForm from "@/components/dashboard/instructor/course-form";
 
 export default function AddCourse() {
   return (

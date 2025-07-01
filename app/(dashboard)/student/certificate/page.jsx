@@ -1,5 +1,5 @@
 import DataTable from "@/components/dashboard/data-table";
-import { studentCertificateColumns } from "@/constant/columns";
+import { studentCertificateColumns } from "@/components/dashboard/table-columns";
 import { getCertificateByStudent } from "@/lib/actions/certificate.action";
 
 export default async function StudentCertificate({ searchParams }) {

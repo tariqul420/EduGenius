@@ -1,11 +1,11 @@
 import { auth } from "@clerk/nextjs/server";
 
-import { ChartAreaInteractive } from "@/components/chart-area-interactive";
+import { ChartAreaInteractive } from "@/components/dashboard/chart-area-interactive";
 import DataTable from "@/components/dashboard/data-table";
-import AICourseReportCard from "@/components/dashboard/instructor/AICourseReportCard";
-import { SectionCards } from "@/components/section-cards";
+import AICourseReportCard from "@/components/dashboard/instructor/ai-course-report-card";
+import { InstructorStats } from "@/components/dashboard/instructor/instructor-stats";
+import { instructorCourseColumns } from "@/components/dashboard/table-columns";
 import { SidebarInset } from "@/components/ui/sidebar";
-import { instructorCourseColumns } from "@/constant/columns";
 import { generateInstructorCoursesReport } from "@/lib/actions/ai.action";
 import { getCourseAdminInstructor } from "@/lib/actions/course.action";
 import { courseSellingData } from "@/lib/actions/stats.action";
@@ -36,7 +36,7 @@ export default async function Home({ searchParams }) {
       <div className="flex flex-1 flex-col">
         <div className="@container/main flex flex-1 flex-col gap-2 px-4 lg:px-6">
           <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-            <SectionCards />
+            <InstructorStats />
             <ChartAreaInteractive data={data} />
             <AICourseReportCard report={report} />
             <DataTable
