@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 
 import DataTable from "@/components/dashboard/data-table";
-import { adminCourseColumns } from "@/constant/columns";
+import { adminCourseColumns } from "@/components/dashboard/table-columns";
 import { getCourseAdminInstructor } from "@/lib/actions/course.action";
 
 export default async function Courses({ searchParams }) {

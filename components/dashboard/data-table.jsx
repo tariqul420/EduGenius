@@ -30,16 +30,26 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import React from "react";
+import { toast } from "sonner";
 
+import SearchBar from "../shared/search-bar";
 import { Checkbox } from "../ui/checkbox";
-import { Input } from "../ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 
-import DataTableColumnSelector from "@/components/shared/DataTableColumnSelector";
-import DataTableFooter from "@/components/shared/DataTableFooter";
+import DataTableColumnSelector from "./data-table-column-selector";
+import DataTableFooter from "./data-table-footer";
+
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import {
   Table,
   TableBody,
@@ -49,9 +59,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 
-// Create a separate component for the drag handle
 function DragHandle({ id }) {
   const { attributes, listeners } = useSortable({
     id,
@@ -71,9 +79,9 @@ function DragHandle({ id }) {
   );
 }
 
-// Pass uniqueIdProperty directly to DraggableRow
 function DraggableRow({ row, uniqueIdProperty }) {
-  const id = row.original[uniqueIdProperty];
+  const id =
+    row.original[uniqueIdProperty] || row.original._id || row.original.id;
 
   const { transform, transition, setNodeRef, isDragging } = useSortable({
     id,
@@ -108,20 +116,19 @@ export default function DataTable({
   uniqueIdProperty = "_id",
   defaultSort = [],
   enableRowSelection = true,
+  onDeleteMany,
+  actionLink,
 }) {
-  // States for table functionality
   const [data, setData] = React.useState(initialData);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState({});
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [sorting, setSorting] = React.useState(defaultSort);
+  const searchParams = useSearchParams();
   const [pagination, setPagination] = React.useState({
     pageIndex: pageIndex ? pageIndex - 1 : 0,
-    pageSize,
+    pageSize: Number(searchParams.get("pageSize")) || pageSize,
   });
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const [searchQuery, setSearchQuery] = React.useState("");
 
   const sortableId = React.useId();
   const sensors = useSensors(
@@ -130,18 +137,19 @@ export default function DataTable({
     useSensor(KeyboardSensor, {}),
   );
 
-  // Store uniqueIdProperty in a ref to avoid it being undefined during renders
   const uniqueIdRef = React.useRef(uniqueIdProperty);
   uniqueIdRef.current = uniqueIdProperty;
 
-  // Generate draggable IDs
   const dataIds = React.useMemo(() => {
-    // Add safety checks
     if (!data || !Array.isArray(data)) return [];
-    return data.map((item) => item?.[uniqueIdRef.current]).filter(Boolean);
+    return data
+      .map((item) => {
+        const id = item[uniqueIdRef.current] || item._id || item.id;
+        return id;
+      })
+      .filter(Boolean);
   }, [data]);
 
-  // Set up table
   const table = useReactTable({
     data,
     columns,
@@ -153,7 +161,7 @@ export default function DataTable({
       pagination,
     },
     getRowId: (row) => {
-      const id = row[uniqueIdRef.current];
+      const id = row[uniqueIdRef.current] || row._id || row.id;
       return id ? id.toString() : "";
     },
     enableRowSelection,
@@ -170,7 +178,6 @@ export default function DataTable({
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
-  // Handle drag and drop reordering
   function handleDragEnd(event) {
     const { active, over } = event;
     if (active && over && active.id !== over.id) {
@@ -185,74 +192,103 @@ export default function DataTable({
     }
   }
 
-  // Update data when initialData changes
   React.useEffect(() => {
     setData(initialData || []);
   }, [initialData]);
 
   React.useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      let newUrl = "";
+    const urlPageSize = Number(searchParams.get("pageSize"));
+    if (urlPageSize) {
+      setPagination((prev) => ({
+        ...prev,
+        pageSize: urlPageSize,
+      }));
+    }
+  }, [searchParams, pageSize]);
 
-      if (searchQuery) {
-        newUrl = formUrlQuery({
-          params: searchParams.toString(),
-          key: "search",
-          value: searchQuery,
-        });
-      } else {
-        newUrl = removeKeysFromQuery({
-          params: searchParams.toString(),
-          keysToRemove: ["search"],
-        });
-      }
-      router.push(newUrl, { scroll: false });
-    }, 500);
+  const [selectedIds, setSelectedIds] = React.useState([]);
 
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchQuery, searchParams, router]);
+  React.useEffect(() => {
+    const selectedRows = table.getSelectedRowModel().rows;
+    const ids = selectedRows
+      .map((row) => row.original._id)
+      .filter((id) => typeof id === "string");
+    setSelectedIds(ids);
+  }, [rowSelection, table]);
 
-  const pathName = usePathname();
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+
+  const handleDeleteMany = async () => {
+    if (selectedIds.length === 0 || !onDeleteMany) return;
+
+    toast.promise(
+      onDeleteMany(selectedIds).then(() => {
+        table.resetRowSelection();
+        setIsDialogOpen(false);
+      }),
+      {
+        loading: "Deleting selected items...",
+        success: "Items deleted successfully",
+        error: "Failed to delete items",
+      },
+    );
+  };
 
   return (
     <Tabs
       defaultValue="outline"
       className="w-full flex-col justify-start gap-6 overflow-hidden"
     >
-      <div className="flex items-center justify-between">
-        <Label htmlFor="view-selector" className="sr-only">
-          View
-        </Label>
-        <div className="flex w-full items-center">
-          <div className="flex flex-wrap justify-center gap-4 sm:flex-row sm:items-center sm:justify-normal sm:gap-2">
-            <DataTableColumnSelector table={table} />
-            {pathName === "/instructor/courses" ||
-            pathName === "/instructor" ? (
-              <Link
-                href="/instructor/courses/add-course"
-                className="bg-background hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 flex h-8 items-center gap-1.5 rounded-md border px-3 text-sm font-medium shadow-xs has-[>svg]:px-2.5"
-              >
-                <IconPlus size={16} />
-                <span>Add course</span>
-              </Link>
-            ) : null}
-            <div className="dark:bg-transparent rounded-md flex items-center gap-2 overflow-hidden bg-white">
-              <Input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="focus:0 h-8 w-[200px] rounded-none border text-sm outline-none"
-                placeholder="Search by title or name"
-              />
-            </div>
-          </div>
-        </div>
+      <div className="flex flex-wrap justify-center gap-4 sm:flex-row sm:items-center sm:justify-normal sm:gap-2">
+        <DataTableColumnSelector table={table} />
+        {actionLink && (
+          <Link
+            href={actionLink.href}
+            className="bg-background hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 flex h-8 items-center gap-1.5 rounded-md border px-3 text-sm font-medium shadow-xs has-[>svg]:px-2.5"
+          >
+            <IconPlus size={16} />
+            <span>{actionLink.label}</span>
+          </Link>
+        )}
+        <SearchBar />
+        {onDeleteMany && selectedIds.length > 0 && (
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant="destructive" size="sm" className="h-8">
+                Delete ({selectedIds.length})
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Delete Selected Items</DialogTitle>
+                <DialogDescription>
+                  Are you sure you want to delete {selectedIds.length} selected
+                  item{selectedIds.length > 1 ? "s" : ""}? This action cannot be
+                  undone and will permanently remove the selected item
+                  {selectedIds.length > 1 ? "s" : ""} from the database.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={() => setIsDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button variant="destructive" onClick={handleDeleteMany}>
+                  Yes, Delete {selectedIds.length > 1 ? "All" : "It"}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
+
       <TabsContent
         value="outline"
         className="relative flex flex-col gap-4 overflow-auto rounded-lg"
       >
-        <div className="overflow-hidden rounded-lg border bg-white dark:bg-transparent">
+        <div className="bg-light overflow-hidden rounded-lg border dark:bg-transparent">
           <DndContext
             collisionDetection={closestCenter}
             modifiers={[restrictToVerticalAxis]}
@@ -305,32 +341,24 @@ export default function DataTable({
             </Table>
           </DndContext>
         </div>
- 
-          <DataTableFooter
-            table={table}
-            pageIndex={pagination.pageIndex}
-            pageSize={pageSize}
-            total={total}
-          />
+
+        <DataTableFooter table={table} pageSize={pageSize} total={total} />
       </TabsContent>
     </Tabs>
   );
 }
 
-// Helper function to create a drag column
 export function createDragColumn() {
   return {
     id: "drag",
     header: () => null,
     cell: ({ row }) => {
-      // Access the id directly from the row original data
-      const id = row.original._id || row.id;
+      const id = row.original._id || row.original.id || row.id;
       return <DragHandle id={id} />;
     },
   };
 }
 
-// Helper function to create a selection checkbox column
 export function createSelectionColumn() {
   return {
     id: "select",

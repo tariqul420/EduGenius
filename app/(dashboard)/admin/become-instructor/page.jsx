@@ -1,5 +1,5 @@
 import DataTable from "@/components/dashboard/data-table";
-import { becomeInstructorsColumns } from "@/constant/columns";
+import { becomeInstructorsColumns } from "@/components/dashboard/table-columns";
 import { getInstructorInfo } from "@/lib/actions/instructor.info.action";
 
 export default async function BecomeInstructor({ searchParams }) {

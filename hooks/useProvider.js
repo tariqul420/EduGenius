@@ -1,6 +1,6 @@
 const { useContext } = require("react");
 
-const { MyContext } = require("@/provider/ContextProvider");
+const { MyContext } = require("@/provider/context-provider");
 
 const useProvider = () => {
   return useContext(MyContext);

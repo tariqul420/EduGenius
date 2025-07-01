@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 
 import DataTable from "@/components/dashboard/data-table";
-import { instructorCourseColumns } from "@/constant/columns";
+import { instructorCourseColumns } from "@/components/dashboard/table-columns";
 import { getCourseAdminInstructor } from "@/lib/actions/course.action";
 
 export default async function Courses({ searchParams }) {
@@ -30,6 +30,10 @@ export default async function Courses({ searchParams }) {
           data={courses || []}
           columns={instructorCourseColumns || []}
           uniqueIdProperty="_id"
+          actionLink={{
+            href: "/instructor/courses/add-course",
+            label: "Add Course",
+          }}
         />
       </div>
     </section>

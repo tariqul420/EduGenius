@@ -1,5 +1,5 @@
 import DataTable from "@/components/dashboard/data-table";
-import { instructorAssignmentColumns } from "@/constant/columns";
+import { instructorAssignmentColumns } from "@/components/dashboard/table-columns";
 import { getAssignment } from "@/lib/actions/assignment.action";
 
 export default async function Assignment({ searchParams }) {
@@ -21,6 +21,7 @@ export default async function Assignment({ searchParams }) {
           data={assignments || []}
           columns={instructorAssignmentColumns || []}
           uniqueIdProperty="_id"
+          enableRowSelection={false}
         />
       </div>
     </section>

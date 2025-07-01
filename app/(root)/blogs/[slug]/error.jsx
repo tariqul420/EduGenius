@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-import ErrorMessage from "@/components/shared/ErrorMessage";
+import ErrorMessage from "@/components/shared/error-message";
 
 export default function Error({ error, reset }) {
   useEffect(() => {

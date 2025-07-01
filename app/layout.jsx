@@ -1,9 +1,9 @@
 import { Inter, Roboto } from "next/font/google";
 
-import ClientClerkProvider from "@/components/shared/ClientClerkProvider";
+import ClientClerkProvider from "@/components/shared/client-clerk-provider";
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import ToasterProvider from "@/components/shared/ToasterProvider";
-import ContextProvider from "@/provider/ContextProvider";
+import ContextProvider from "@/provider/context-provider";
 import "./globals.css";
 
 // Import Swiper styles

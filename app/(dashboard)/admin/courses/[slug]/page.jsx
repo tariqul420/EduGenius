@@ -1,7 +1,7 @@
-import AssignmentForm from "@/components/dashboard/instructor/AssignmentForm";
-import CourseForm from "@/components/dashboard/instructor/CourseForm";
-import ModuleForm from "@/components/dashboard/instructor/ModuleForm";
-import QuizForm from "@/components/dashboard/instructor/QuizForm";
+import AssignmentForm from "@/components/dashboard/instructor/assignment-form";
+import CourseForm from "@/components/dashboard/instructor/course-form";
+import ModuleForm from "@/components/dashboard/instructor/module-form";
+import QuizForm from "@/components/dashboard/instructor/quiz-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getAssignmentById } from "@/lib/actions/assignment.action";
 import {
